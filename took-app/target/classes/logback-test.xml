@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%p [%c] %L - %m %n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.usi.yyxt.dao" level="DEBUG" />
+    
+    <!-- 分页日志 -->
+    <logger name="com.github.miemiedev.mybatis.paginator" level="DEBUG" />
+	<logger name="org.springframework" level="warn" />
+	<logger name="org.mybatis" level="warn" />
+	
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
