@@ -1,4 +1,0 @@
-0:0:0:0:0:0:0:1 - - [26/May/2017:18:09:33 +0800] "GET /tookApp HTTP/1.1" 404 164 http-bio-9999-exec-1 60
-0:0:0:0:0:0:0:1 - - [26/May/2017:18:09:34 +0800] "GET /tookApp HTTP/1.1" 404 164 http-bio-9999-exec-3 3
-0:0:0:0:0:0:0:1 - - [26/May/2017:18:10:03 +0800] "GET /tookApp/test/test HTTP/1.1" 200 4 http-bio-9999-exec-4 24
-0:0:0:0:0:0:0:1 - - [26/May/2017:18:10:10 +0800] "GET /tookApp/a HTTP/1.1" 404 164 http-bio-9999-exec-6 3
