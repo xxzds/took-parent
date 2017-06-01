@@ -1,89 +1,139 @@
 package com.tooklili.util.result;
 
+import java.io.Serializable;
+
 /**
- * 返回的基础结果
- * @author shuai.ding
- *
- * @date 2017年2月3日下午5:08:18
+ * 类BaseResult.java的实现描述：接口返回的基础类，通过success判断本次调用在服务器端执行是否成功
  */
-public class BaseResult {
+@SuppressWarnings("unchecked")
+public class BaseResult implements Serializable {
 
-	/**
-	 * 状态码
-	 */
-	private Integer resultCode;
-	
-	/**
-	 * 错误信息
-	 */
-	private String resultMsg;
-	
-	/**
-	 * 分页信息
-	 */
-	private PageInfoModel pageInfo;
-	
-	
-	public BaseResult() {
-		this.resultCode=CommonResultCode.SUCCESS.getCode();
-		this.resultMsg=CommonResultCode.SUCCESS.getMessage();
-		this.pageInfo=null;
-	}
-	
-	/**
-	 * 设置错误信息
-	 * @param resultCode
-	 * @param resultMsg
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public <R extends BaseResult> R setErrorMessage(int resultCode, String resultMsg) {
-        this.resultCode = resultCode;
-        this.resultMsg = resultMsg;
-        return (R) this;
-    }
-	
-	@SuppressWarnings("unchecked")
-	public <R extends BaseResult> R setErrorMessage(CommonResultCode commonResultCode) {
-        this.resultCode = commonResultCode.getCode();
-        this.resultMsg = commonResultCode.getMessage();
-        return (R) this;
-    } 
-	
-	 @SuppressWarnings("unchecked")
-	public <R extends BaseResult> R setErrorMessage(CommonResultCode commonResultCode, Object... args) {
-        this.resultCode = commonResultCode.getCode();
-        this.resultMsg = String.format(commonResultCode.getMessage(), args);
-        return (R) this;
+    private static final long serialVersionUID = 7801949203978416054L;
+
+    public static final BaseResult SUCCESS = new BaseResult();
+
+    /**
+     * 标识本次调用是否返回
+     */
+    private boolean           success;
+
+    /**
+     * 本次调用返回code，一般为错误代码
+     */
+    private int               code;
+
+    /**
+     * 本次调用返回的消息，一般为错误消息
+     */
+    private String            message;
+
+    public BaseResult() {
+        this.code = CommonResultCode.SUCCESS.code;
+        this.success = true;
+        this.message = CommonResultCode.SUCCESS.message;
     }
 
+    /**
+     * 快速创建错误的BaseResult，如：
+     * 
+     * <pre>
+     * new BaseResult(CommonResultCode.DEFAULT_INTERNAL_ERROR)
+     * </pre>
+     */
+    public BaseResult(CommonResultCode rc, Object... args) {
+        setError(rc, args);
+    }
 
-	public Integer getResultCode() {
-		return resultCode;
-	}
+    /**
+     * 设置错误信息
+     *
+     * @param code
+     * @param message
+     */
+    public <R extends BaseResult> R setErrorMessage(int code, String message) {
+        this.code = code;
+        this.success = false;
+        this.message = message;
+        return (R) this;
+    }
+    
+    
+    /**
+     * 设置错误信息
+     * @param message
+     * @return
+     */
+    public <R extends BaseResult> R setErrorMessage(String message) {
+        this.success = false;
+        this.message = message;
+        return (R) this;
+    }
 
+    public <R extends BaseResult> R setErrorMessage(IErrorCode code, Object... args) {
+        this.code = code.getCode();
+        this.success = false;
+        this.message = String.format(code.getMessage(), args);
+        return (R) this;
+    }
 
-	public void setResultCode(Integer resultCode) {
-		this.resultCode = resultCode;
-	}
+    /**
+     * 设置错误信息
+     *
+     * @param rc
+     * @param args
+     * @return
+     * @see CommonResultCode
+     */
+    public <R extends BaseResult> R setError(IErrorCode errCode, Object... args) {
+        this.code = errCode.getCode();
+        this.success = false;
+        if (args == null || args.length == 0) {
+            this.message = errCode.getMessage();
+        } else {
+            this.message = String.format(errCode.getMessage(), args);
+        }
+        return (R) this;
+    }
 
+    /**
+     * @return the success
+     */
+    public boolean isSuccess() {
+        return success;
+    }
 
-	public String getResultMsg() {
-		return resultMsg;
-	}
+    /**
+     * @param success the success to set
+     */
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
 
+    /**
+     * @return the code
+     */
+    public int getCode() {
+        return code;
+    }
 
-	public void setResultMsg(String resultMsg) {
-		this.resultMsg = resultMsg;
-	}
+    /**
+     * @param code the code to set
+     */
+    public void setCode(int code) {
+        this.code = code;
+    }
 
+    /**
+     * @return the message
+     */
+    public String getMessage() {
+        return message;
+    }
 
-	public PageInfoModel getPageInfo() {
-		return pageInfo;
-	}
-
-
-	public void setPageInfo(PageInfoModel pageInfo) {
-		this.pageInfo = pageInfo;
-	}
+    /**
+     * @param message the message to set
+     */
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }

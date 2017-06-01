@@ -5,18 +5,34 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 /**
- * @author shuai.ding
- * @date 2017年2月3日下午5:22:51
+ * 类ListResult.java的实现描述：返回批量查询的结果集的泛型实现
  */
 public class ListResult<T> extends BaseResult {
+    private static final long serialVersionUID = 5741020370203813418L;
 
-	private List<T> data = Lists.newArrayList();
+    private List<T>           data             = Lists.newArrayList();
 
-	public List<T> getData() {
-		return data;
-	}
+    /**
+     * 根据查询
+     */
+    private int               count;
 
-	public void setData(List<T> data) {
-		this.data = data;
-	}	
+    public List<T> getData() {
+        return data;
+    }
+
+    public void setData(List<T> data) {
+        this.data = data;
+        if (data != null) {
+            this.count = data.size();
+        }
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
 }

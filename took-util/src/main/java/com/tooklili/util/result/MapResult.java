@@ -1,21 +1,22 @@
 package com.tooklili.util.result;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
 
-/**
- * @author shuai.ding
- * @date 2017年2月3日下午5:23:19
- */
-public class MapResult<K,V> extends BaseResult{
-    private Map<K,V> data =Maps.newHashMap();
+import java.util.Map;
 
-	public Map<K, V> getData() {
-		return data;
-	}
 
-	public void setData(Map<K, V> data) {
-		this.data = data;
-	}
+public class MapResult<T, K> extends BaseResult {
+    private static final long serialVersionUID = -1044729443054115388L;
+
+    private Map<T, K> data = Maps.newHashMap();
+
+    public Map<T, K> getData() {
+        return data;
+    }
+
+    public void setData(Map<T, K> data) {
+        this.data = data;
+    }
+
+
 }

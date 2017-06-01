@@ -1,21 +1,34 @@
 package com.tooklili.util.result;
 
-/**
- * @author shuai.ding
- * @date 2017年2月3日下午5:22:03
- */
-public class PlainResult<T> extends BaseResult{
+public class PlainResult<T> extends BaseResult {
 
-	/**
-	 * 对象数据
-	 */
-	private T data;
+    private static final long serialVersionUID = -3767132392732612883L;
 
-	public T getData() {
-		return data;
-	}
+    /**
+     * 调用返回的数据
+     */
+    private T                 data;
 
-	public void setData(T data) {
-		this.data = data;
-	}
+    /**
+     * @return the data
+     */
+    public T getData() {
+        return data;
+    }
+
+    public PlainResult() {
+        super();
+    }
+
+    public PlainResult(T data) {
+        this.data = data;
+    }
+
+    /**
+     * @param data the data to set
+     */
+    public void setData(T data) {
+        this.data = data;
+    }
+
 }
