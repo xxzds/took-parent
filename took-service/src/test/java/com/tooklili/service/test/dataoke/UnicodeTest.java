@@ -37,11 +37,17 @@ public class UnicodeTest {
 	@Test
 	public void unicodeDecodeTest() {
 		// 在java中"\"是转义字符，所以防止转义，必须写成下面的形式
-		// String s = "\\\u0061\\u0041\\\u4f60\\\u597d\\\u0024\\\u006e\\\u0067\\\u006e\\\u0031";
+		// String s = "\\u0061\\u0041\\u4f60\\u597d\\u0024\\u006e\\u0067\\u006e\\u0031";
 		String s = "\\u5168\\u7ad9\\u63a5\\u53e3\\u5df2\\u5347\\u7ea7\\u4e3a\\u5206\\u9875\\u6a21\\u5f0f\\uff0c\\u6bcf\\u987550\\u6761\\u6570\\u636e\\uff0c\\u5206\\u9875\\u53c2\\u6570\\uff1a&page";
 		LOGGER.info("unicode码:{}",s);
 		String str = unicode2String(s);
 		LOGGER.info("转码后的字符串:{}",str);
+	}
+	
+	@Test
+	public void unicodeToOutTest(){
+		String s="\u4f60\u597d";
+		LOGGER.info("unicode字符串在java中输出会自动转化:{}",s);
 	}
 
 	

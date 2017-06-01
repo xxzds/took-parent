@@ -77,7 +77,7 @@ public class DataokeTest extends BaseTest{
 		if(result.isSuccess()){
 			String responseResult = result.getData();
 			DataokeRespModel dataokeRespModel = JSON.parseObject(responseResult, DataokeRespModel.class);
-			LOGGER.info(dataokeRespModel.getData().getApi_content());
+			LOGGER.info(dataokeRespModel.getData().getUpdate_content());
 		}
 	}
 }

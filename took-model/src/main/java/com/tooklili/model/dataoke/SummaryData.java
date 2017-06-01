@@ -19,7 +19,7 @@ public class SummaryData{
 	/**
 	 * 应用类型
 	 */
-	private String api_content;
+	private String update_content;
 
 	public String getApi_type() {
 		return api_type;
@@ -45,12 +45,12 @@ public class SummaryData{
 		this.total_num = total_num;
 	}
 
-	public String getApi_content() {
-		return api_content;
+	public String getUpdate_content() {
+		return update_content;
 	}
 
-	public void setApi_content(String api_content) {
-		this.api_content = api_content;
+	public void setUpdate_content(String update_content) {
+		this.update_content = update_content;
 	}
 }
 
