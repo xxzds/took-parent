@@ -9,11 +9,11 @@
 	<artifactId>took-app</artifactId>
 	<packaging>war</packaging>
 
-	<dependencies>
-		<!-- took-util -->
+	<dependencies>		
+		<!-- took-service -->
 		<dependency>
 			<groupId>com.tooklili</groupId>
-			<artifactId>took-util</artifactId>
+			<artifactId>took-service</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	
