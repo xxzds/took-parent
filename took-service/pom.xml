@@ -89,6 +89,13 @@
 				<version>1.7.2</version>
 			</dependency>
 			
+			<!-- 淘宝接口 -->
+			<dependency>
+			  <groupId>com.taobao</groupId>
+			  <artifactId>taobao-sdk-java-auto_1462616566587</artifactId>
+			  <version>20170601</version>
+			</dependency>
+			
 			<!-- LOGGING begin -->
 			<dependency>
 				<groupId>org.slf4j</groupId>

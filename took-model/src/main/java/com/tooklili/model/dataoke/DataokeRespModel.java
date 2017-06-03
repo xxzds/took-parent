@@ -1,5 +1,7 @@
 package com.tooklili.model.dataoke;
 
+import java.util.List;
+
 /**
  * 大淘客响应模型
  * @author shuai.ding
@@ -9,6 +11,8 @@ package com.tooklili.model.dataoke;
 public class DataokeRespModel {
 	 
 	private SummaryData data;
+	
+	private List<Goods> result;
 
 	public SummaryData getData() {
 		return data;
@@ -16,5 +20,13 @@ public class DataokeRespModel {
 
 	public void setData(SummaryData data) {
 		this.data = data;
+	}
+
+	public List<Goods> getResult() {
+		return result;
+	}
+
+	public void setResult(List<Goods> result) {
+		this.result = result;
 	}
 }

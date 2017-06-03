@@ -1,6 +1,7 @@
 package com.tooklili.service.test.dataoke;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -14,11 +15,10 @@ import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
 import com.tooklili.http.HttpCallService;
 import com.tooklili.model.dataoke.DataokeRespModel;
+import com.tooklili.model.dataoke.Goods;
 import com.tooklili.service.test.BaseTest;
 import com.tooklili.util.HttpClientUtil;
 import com.tooklili.util.result.PlainResult;
-
-import ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy;
 
 /**
  * 大淘客接口测试
@@ -60,7 +60,7 @@ public class DataokeTest extends BaseTest{
         for (String cookieKey : responseCookies.keySet()) {
             cookieStr += cookieKey + "=" + responseCookies.get(cookieKey) + ";";
         } 
-        String content = HttpClientUtil.get("http://www.dataoke.com/dtpwd?gid=12311550", cookieStr);
+        String content = HttpClientUtil.get("http://www.dataoke.com/dtpwd?gid=69036167", cookieStr);
         LOGGER.info(content);
 	}
 	
@@ -78,6 +78,12 @@ public class DataokeTest extends BaseTest{
 			String responseResult = result.getData();
 			DataokeRespModel dataokeRespModel = JSON.parseObject(responseResult, DataokeRespModel.class);
 			LOGGER.info(dataokeRespModel.getData().getUpdate_content());
+			
+			List<Goods> list = dataokeRespModel.getResult();
+			
+			for(Goods goods:list){
+				LOGGER.info(goods.getQuan_link());
+			}
 		}
 	}
 }

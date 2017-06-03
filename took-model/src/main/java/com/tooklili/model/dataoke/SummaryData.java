@@ -1,15 +1,15 @@
 package com.tooklili.model.dataoke;
 
-public class SummaryData{
-	/**
-	 * 名称
-	 */
-	private String api_type;
-	
+public class SummaryData{	
 	/**
 	 * 更新时间
 	 */
 	private String update_time;
+	
+	/**
+	 * 更新内容
+	 */
+	private String update_content;
 	
 	/**
 	 * 返回结果总条数
@@ -17,9 +17,9 @@ public class SummaryData{
 	private String total_num;
 	
 	/**
-	 * 应用类型
+	 * 接口类型
 	 */
-	private String update_content;
+	private String api_type;
 
 	public String getApi_type() {
 		return api_type;
