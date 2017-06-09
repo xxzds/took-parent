@@ -13,6 +13,7 @@
 		<module>took-util</module>
 		<module>took-app</module>
 		<module>took-background</module>
+		<module>took-job-tooklili</module>
 	</modules>
 
 	<properties>
@@ -268,18 +269,7 @@
 			<version>1.9.2</version>
 		</dependency>
 
-		<!-- httpclient -->
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>${httpclient.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpmime</artifactId>
-			<version>${httpclient.version}</version>
-		</dependency>
+		
 
 		<!-- guava工具 -->
 		<dependency>
@@ -287,16 +277,12 @@
 			<artifactId>guava</artifactId>
 			<version>19.0</version>
 		</dependency>
-
-		<dependency>
-			<groupId>com.xuxueli</groupId>
-			<artifactId>xxl-job-core</artifactId>
-			<version>1.7.2</version>
-		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
+			
+			<!-- 指定jdk版本 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -304,6 +290,17 @@
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
+				</configuration>
+			</plugin>
+			
+			<!-- 解决maven test命令时console出现中文乱码 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.12.4</version>
+				<configuration>
+					<forkMode>once</forkMode><!--默认，可以不配置-->
+ 					<argLine>-Dfile.encoding=UTF-8</argLine> 
 				</configuration>
 			</plugin>
 		</plugins>
