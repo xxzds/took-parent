@@ -27,8 +27,10 @@
                             <constructor-arg index="1" value="*"/>
                             <constructor-arg index="2" value="UTF-8"/>
                         </bean>
-                    </list>
+                    </list>               
                 </property>
+                 <!-- 不在http头部中设置Accept-Charset，减少流量 -->
+                <property name="writeAcceptCharset" value="false" />
             </bean>
 
             <!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->

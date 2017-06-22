@@ -49,6 +49,16 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
+	<!-- 公共设置 -->
+	<filter>
+		<filter-name>commonSetFilter</filter-name>
+		<filter-class>com.tooklili.app.web.filter.CommonSetFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>commonSetFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
 	<!-- springmvc servlet -->
 	<servlet>
 		<description>spring mvc servlet</description>

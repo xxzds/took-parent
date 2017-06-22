@@ -26,7 +26,7 @@ public class TbkServiceTest extends BaseTest{
 	@Test
 	public void getItemTest() throws ApiException{
 		TbkItemGetRequest req=new TbkItemGetRequest();
-		req.setQ("红酒");
+		req.setQ("衬衫");
 		TbkItemGetResponse rsp = tbkService.getItem(req);
 		logger.info(rsp.getBody());
 	}
