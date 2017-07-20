@@ -61,6 +61,41 @@ public class HttpClientUtil {
 		}		
 		return content;
 	}
+	
+	public static String post(String url,Map<String, String> params, String cookies){
+		String content=null;
+		// 创建默认的httpclient实例
+		CloseableHttpClient httpclient = HttpClients.createDefault();
+		// 创建httppost
+		HttpPost httpPost = new HttpPost(url);
+		
+		//设置cookies
+		if(StringUtils.isNotEmpty(cookies)){
+			httpPost.setHeader("Cookie", cookies);
+		}
+		
+		// 创建参数
+		List<NameValuePair> paramsList = new ArrayList<NameValuePair>();
+		if (params != null) {
+			for (Entry<String, String> param : params.entrySet()) {
+				paramsList.add(new BasicNameValuePair(param.getKey(), param.getValue()));
+			}
+		}
+		
+		try{
+			// 执行post请求
+			CloseableHttpResponse response = httpclient.execute(httpPost);
+			//返回内容
+			HttpEntity entity = response.getEntity();
+			if (entity != null) {
+				content =EntityUtils.toString(entity, "UTF-8");				 
+			}
+	
+		}catch(IOException e){
+			LOGGER.error("exception",e);
+		}		
+		return content;
+	}
 
 	public static Map<String, String> getCookiesByGet(String url){
 		Map<String, String> cookies = Maps.newHashMap();
