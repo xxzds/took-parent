@@ -72,7 +72,7 @@ public class HttpClientUtil {
 		//设置cookies
 		if(StringUtils.isNotEmpty(cookies)){
 			httpPost.setHeader("Cookie", cookies);
-		}
+		}	
 		
 		// 创建参数
 		List<NameValuePair> paramsList = new ArrayList<NameValuePair>();
@@ -83,6 +83,9 @@ public class HttpClientUtil {
 		}
 		
 		try{
+			//设置编码格式，防止乱码
+			UrlEncodedFormEntity uefEntity = new UrlEncodedFormEntity(paramsList, "UTF-8");
+			httpPost.setEntity(uefEntity);
 			// 执行post请求
 			CloseableHttpResponse response = httpclient.execute(httpPost);
 			//返回内容

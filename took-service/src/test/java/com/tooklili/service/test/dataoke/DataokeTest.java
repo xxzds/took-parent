@@ -46,7 +46,7 @@ public class DataokeTest extends BaseTest{
 		Map<String, String> cookies = HttpClientUtil.getCookiesByGet("http://www.dataoke.com/loginApi");
 		String token = cookies.get("token");
 		String random = cookies.get("random");
-		LOGGER.info("token={};andom={}",token,random);
+		LOGGER.info("token={};random={}",token,random);
 		
 		//2、登录
 		String cookies1= "token="+token+";random="+random;

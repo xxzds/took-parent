@@ -42,8 +42,8 @@ public class UpdateCacheJobHandler extends IJobHandler{
 		//3、清除过期商品
 		String clearItemUrl="http://admin.tooklili.com/index.php?m=items&a=clear";
 		Map<String, String> requestParams2 = Maps.newHashMap();
-		requestParams.put("isok", "1");
-		requestParams.put("action","outtime");		
+		requestParams2.put("isok", "1");
+		requestParams2.put("action","outtime");
 		String content1 = HttpClientUtil.post(clearItemUrl, requestParams2, cookies.toString());
 		LOGGER.info("清除过期商品，返回的内容：{}",content1);
 		
