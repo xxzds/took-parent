@@ -22,7 +22,7 @@ public class PropertiesUtil {
 	
 	public static final Logger LOGGER = LoggerFactory.getLogger(PropertiesUtil.class);
 	
-	private static Map<String, PropertiesUtil> resoures = Maps.newHashMap();
+	private static Map<String, PropertiesUtil> resoures = Maps.newConcurrentMap();
 	
 	private Properties properties=new Properties();
 	
@@ -57,7 +57,7 @@ public class PropertiesUtil {
 	
 	
 	public String getValue(String key){		
-		String value=null;
+		String value="";
 		try {
 			//解决中文乱码问题
 			 value = new String(properties.getProperty(key).getBytes("ISO-8859-1"), "UTF-8");		
@@ -66,14 +66,6 @@ public class PropertiesUtil {
 		}catch(Exception e){
 			LOGGER.error("get key["+key+"] value exception",e);
 		}
-		if (value == null) {
-			return "";
-		}
 		return value;
 	}
-	
-	public static void main(String[] args) {
-		System.out.println(PropertiesUtil.getInstance("mail.properties").getValue("mail.from.alias"));
-	}
-	
 }
