@@ -7,38 +7,38 @@ public class PageResult<T> extends BaseResult {
 
     private static final long serialVersionUID = 1453224020829563569L;
 
-    private int               totalCount;
-    private int               pageSize;
-    private int               currentPage;
+    private Long               totalCount;
+    private Long               pageSize;
+    private Long               currentPage;
     
     private List<T>           data             = Lists.newArrayList();
 
-    public PageResult(int currentPage, int pageSize) {
+    public PageResult(Long currentPage, Long pageSize) {
         this.currentPage = currentPage;
         this.pageSize = pageSize;
     }
 
-    public int getTotalCount() {
+    public Long getTotalCount() {
         return totalCount;
     }
 
-    public void setTotalCount(int totalCount) {
+    public void setTotalCount(Long totalCount) {
         this.totalCount = totalCount;
     }
 
-    public int getPageSize() {
+    public Long getPageSize() {
         return pageSize;
     }
 
-    public void setPageSize(int pageSize) {
+    public void setPageSize(Long pageSize) {
         this.pageSize = pageSize;
     }
 
-    public int getCurrentPage() {
+    public Long getCurrentPage() {
         return currentPage;
     }
 
-    public void setCurrentPage(int currentPage) {
+    public void setCurrentPage(Long currentPage) {
         this.currentPage = currentPage;
     }
 

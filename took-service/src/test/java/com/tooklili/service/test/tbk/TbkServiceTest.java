@@ -32,7 +32,7 @@ import com.taobao.api.response.TbkShopRecommendGetResponse;
 import com.taobao.api.response.TbkSpreadGetResponse;
 import com.taobao.api.response.TbkUatmEventGetResponse;
 import com.taobao.api.response.TbkUatmFavoritesGetResponse;
-import com.tooklili.service.tbk.TbkService;
+import com.tooklili.service.api.tbk.TbkApiService;
 import com.tooklili.service.test.BaseTest;
 import com.tooklili.util.JsonFormatTool;
 
@@ -45,7 +45,7 @@ import com.tooklili.util.JsonFormatTool;
 public class TbkServiceTest extends BaseTest{
 
 	@Resource
-	private TbkService tbkService;
+	private TbkApiService tbkService;
 	
 	/**
 	 * 淘宝客商品查询

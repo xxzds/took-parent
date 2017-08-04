@@ -3,8 +3,6 @@ package com.tooklili.app.web.controller.tbk;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,7 +11,10 @@ import com.taobao.api.ApiException;
 import com.taobao.api.request.TbkItemGetRequest;
 import com.taobao.api.response.TbkItemGetResponse;
 import com.tooklili.app.web.util.AppUtil;
+import com.tooklili.service.api.tbk.TbkApiService;
 import com.tooklili.service.tbk.TbkService;
+import com.tooklili.util.result.PageResult;
+import com.tooklili.vo.tbk.TbkItemReqVo;
 
 /**
  * 淘宝客控制器
@@ -24,14 +25,15 @@ import com.tooklili.service.tbk.TbkService;
 @Controller
 @RequestMapping("/tbk")
 public class TaoBaoKeController {
-	private static final Logger LOGGER =LoggerFactory.getLogger(TaoBaoKeController.class);
+	@Resource
+	private TbkApiService tbkApiService;
+	
 	@Resource
 	private TbkService tbkService;
 
 	@RequestMapping("/getItem")
 	@ResponseBody
 	public Object getItem(String searchName) throws ApiException{
-		LOGGER.info("getItem请求参数：{}",searchName);
 		TbkItemGetRequest req=new TbkItemGetRequest();
 		if(StringUtils.isNotEmpty(searchName)){
 			req.setQ(searchName);
@@ -39,7 +41,16 @@ public class TaoBaoKeController {
 			req.setQ("红酒");
 		}
 	
-		TbkItemGetResponse rsp = tbkService.getItem(req);
+		TbkItemGetResponse rsp = tbkApiService.getItem(req);
 		return AppUtil.conversionJsonp(rsp.getBody());
+	}
+	
+	
+	@RequestMapping("/getItems")
+	@ResponseBody
+	public PageResult<TbkItemReqVo> getItems(TbkItemReqVo tbkItemReqVo){
+		
+		PageResult<TbkItemReqVo> result = tbkService.getItems(tbkItemReqVo);
+		return result;
 	}
 }
