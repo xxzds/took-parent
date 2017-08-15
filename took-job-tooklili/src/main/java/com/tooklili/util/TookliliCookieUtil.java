@@ -11,7 +11,7 @@ import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
 
 /**
- * 
+ * 获取登录cookie的工具类
  * @author shuai.ding
  * @date 2017年8月15日下午2:56:32
  */
