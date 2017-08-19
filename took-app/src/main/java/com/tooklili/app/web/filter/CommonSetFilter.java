@@ -41,6 +41,14 @@ public class CommonSetFilter implements Filter{
 		Map<String, String[]> nameValue = httpServletRequest.getParameterMap();		
 		LOGGER.info("\r\n请求地址:{}\r\n参数:{}",httpServletRequest.getRequestURL(),JSON.toJSONString(nameValue));
 		
+		
+		//request response 是通过ThreadLocal分发的，一个线程绑定一对，session和客户端的cookid有关，不同的cookid对应一个session。
+//		LOGGER.info("ServletRequest HASHCODE:{}",request.hashCode());
+//		LOGGER.info("ServletRequest HASHCODE:{}",response.hashCode());		
+//		LOGGER.info("HttpServletRequest HASHCODE:{}",httpServletRequest.hashCode());
+//		LOGGER.info("HttpServletResponse HASHCODE:{}",httpServletResponse.hashCode());
+//		LOGGER.info("SESSION HASHCODE:{}",httpServletRequest.getSession());
+		
 				
 		//解决跨域问题		
 		// 指定允许其他域名访问 

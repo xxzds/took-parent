@@ -8,9 +8,12 @@
 			">
 
 	<!--自动扫描含有@Service将其注入为bean -->
-	<context:component-scan base-package="com.tooklili.service" />	
+	<context:component-scan base-package="com.tooklili.service.biz" />	
 
 
 	<!-- 组件 -->
 	<import resource="spring-service-component.xml"/>
+	
+	<!-- aop -->
+	<import resource="spring-service-aop.xml"/>
 </beans>

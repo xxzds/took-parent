@@ -1,4 +1,4 @@
-package com.tooklili.service.api.tbk;
+package com.tooklili.service.biz.api.tbk;
 
 import java.util.List;
 
@@ -59,7 +59,7 @@ public class TbkApiService {
 	 */
 	public TbkItemGetResponse getItem(TbkItemGetRequest req) throws ApiException{
 		TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
-		req.setFields("num_iid,title,pict_url,small_images,reserve_price,zk_final_price,user_type,provcity,item_url,seller_id,volume,nick");
+		req.setFields("num_iid,title,pict_url,small_images,reserve_price,zk_final_price,user_type,provcity,item_url,seller_id,volume,nick,click_url");
 		TbkItemGetResponse rsp = client.execute(req);
 		return rsp;
 	}

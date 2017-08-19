@@ -32,7 +32,7 @@ import com.taobao.api.response.TbkShopRecommendGetResponse;
 import com.taobao.api.response.TbkSpreadGetResponse;
 import com.taobao.api.response.TbkUatmEventGetResponse;
 import com.taobao.api.response.TbkUatmFavoritesGetResponse;
-import com.tooklili.service.api.tbk.TbkApiService;
+import com.tooklili.service.biz.api.tbk.TbkApiService;
 import com.tooklili.service.test.BaseTest;
 import com.tooklili.util.JsonFormatTool;
 
@@ -42,10 +42,10 @@ import com.tooklili.util.JsonFormatTool;
  *
  * @date 2017年6月3日下午5:01:53
  */
-public class TbkServiceTest extends BaseTest{
+public class TbkApiServiceTest extends BaseTest{
 
 	@Resource
-	private TbkApiService tbkService;
+	private TbkApiService tbkApiService;
 	
 	/**
 	 * 淘宝客商品查询
@@ -58,7 +58,7 @@ public class TbkServiceTest extends BaseTest{
 			req.setPageNo(1L);
 			req.setPageSize(10L);
 			req.setQ("衬衫");
-			TbkItemGetResponse rsp = tbkService.getItem(req);			
+			TbkItemGetResponse rsp = tbkApiService.getItem(req);			
 			logger.info(JsonFormatTool.formatJson(JSON.toJSONString(rsp.getResults())));			
 			logger.info("总个数:"+rsp.getTotalResults());
 		} catch (ApiException e) {
@@ -76,7 +76,7 @@ public class TbkServiceTest extends BaseTest{
 		try{
 			TbkItemRecommendGetRequest req = new TbkItemRecommendGetRequest();
 			req.setNumIid(547392707209L);
-			TbkItemRecommendGetResponse rsp = tbkService.getRecommendItem(req);
+			TbkItemRecommendGetResponse rsp = tbkApiService.getRecommendItem(req);
 			logger.info(JsonFormatTool.formatJson(JSON.toJSONString(rsp.getResults())));
 		}catch(ApiException e){
 			logger.error("exception",e);
@@ -93,7 +93,7 @@ public class TbkServiceTest extends BaseTest{
 		try{
 			TbkItemInfoGetRequest req = new TbkItemInfoGetRequest();
 			req.setNumIids("527247846041");
-			TbkItemInfoGetResponse rsp = tbkService.getInfo(req);
+			TbkItemInfoGetResponse rsp = tbkApiService.getInfo(req);
 			logger.info(rsp.getBody());
 		}catch(ApiException e){
 			logger.error("exception",e);
@@ -111,7 +111,7 @@ public class TbkServiceTest extends BaseTest{
 			TbkShopGetRequest req = new TbkShopGetRequest();
 			req.setQ("女装");
 			
-			TbkShopGetResponse rsp = tbkService.getShop(req);
+			TbkShopGetResponse rsp = tbkApiService.getShop(req);
 			logger.info(JsonFormatTool.formatJson(JSON.toJSONString(rsp.getResults())));
 			logger.info("总个数:"+rsp.getTotalResults());
 		}catch(ApiException e){
@@ -128,7 +128,7 @@ public class TbkServiceTest extends BaseTest{
 		try{
 			TbkShopRecommendGetRequest req = new TbkShopRecommendGetRequest();
 			req.setUserId(1092431738L);
-			TbkShopRecommendGetResponse rsp = tbkService.getRecommendShop(req);
+			TbkShopRecommendGetResponse rsp = tbkApiService.getRecommendShop(req);
 			logger.info(JsonFormatTool.formatJson(JSON.toJSONString(rsp.getResults())));
 		}catch(ApiException e){
 			logger.error("exception",e);
@@ -143,7 +143,7 @@ public class TbkServiceTest extends BaseTest{
 	public void getEventUatmTest(){
 		try{
 			TbkUatmEventGetRequest req = new TbkUatmEventGetRequest();
-			TbkUatmEventGetResponse rsp = tbkService.getEventUatm(req);
+			TbkUatmEventGetResponse rsp = tbkApiService.getEventUatm(req);
 			logger.info(JsonFormatTool.formatJson(JSON.toJSONString(rsp.getResults())));
 			logger.info("总个数:"+rsp.getTotalResults());
 		}catch(ApiException e){
@@ -159,7 +159,7 @@ public class TbkServiceTest extends BaseTest{
 	public void getFavoritesUatmTest(){
 		try{
 			TbkUatmFavoritesGetRequest req = new TbkUatmFavoritesGetRequest();
-			TbkUatmFavoritesGetResponse rsp = tbkService.getFavoritesUatm(req);
+			TbkUatmFavoritesGetResponse rsp = tbkApiService.getFavoritesUatm(req);
 			logger.info(JsonFormatTool.formatJson(JSON.toJSONString(rsp.getResults())));
 			logger.info("总个数:"+rsp.getTotalResults());
 		}catch(ApiException e){
@@ -178,7 +178,7 @@ public class TbkServiceTest extends BaseTest{
 			req.setAdzoneId(68664126L);
 			req.setStartTime(StringUtils.parseDateTime("2017-07-21 09:00:00"));
 			req.setEndTime(StringUtils.parseDateTime("2017-08-09 16:00:00"));
-			TbkJuTqgGetResponse rsp = tbkService.getTqgJu(req);
+			TbkJuTqgGetResponse rsp = tbkApiService.getTqgJu(req);
 			logger.info(rsp.getBody());
 			logger.info(JsonFormatTool.formatJson(JSON.toJSONString(rsp.getResults())));
 			logger.info("总个数:"+rsp.getTotalResults());
@@ -197,9 +197,9 @@ public class TbkServiceTest extends BaseTest{
 		try{
 			List<TbkSpreadRequest> list = new ArrayList<TbkSpreadRequest>();
 			TbkSpreadRequest obj3 = new TbkSpreadRequest();
-			obj3.setUrl("http://temai.taobao.com");
+			obj3.setUrl("http://item.taobao.com/item.htm?id=548090168967");
 			list.add(obj3);			
-			TbkSpreadGetResponse rsp = tbkService.getSpread(list);
+			TbkSpreadGetResponse rsp = tbkApiService.getSpread(list);
 			logger.info(JsonFormatTool.formatJson(JSON.toJSONString(rsp.getResults())));
 			logger.info("总个数:"+rsp.getTotalResults());
 		}catch(ApiException e){
@@ -219,7 +219,7 @@ public class TbkServiceTest extends BaseTest{
 			topItemQuery.setPageSize(20L);
 			topItemQuery.setPid("120259453_19682654_68664126");
 			topItemQuery.setWord("电风扇");
-			JuItemsSearchResponse rsp = tbkService.searchItemsJu(topItemQuery);
+			JuItemsSearchResponse rsp = tbkApiService.searchItemsJu(topItemQuery);
 			logger.info(JsonFormatTool.formatJson(JSON.toJSONString(rsp.getResult())));
 		}catch(ApiException e){
 			logger.error("exception",e);
@@ -236,7 +236,7 @@ public class TbkServiceTest extends BaseTest{
 			TbkDgItemCouponGetRequest req = new TbkDgItemCouponGetRequest();
 			req.setAdzoneId(68664126L);
 			req.setQ("手机");
-			TbkDgItemCouponGetResponse rsp = tbkService.getCouponItem(req);
+			TbkDgItemCouponGetResponse rsp = tbkApiService.getCouponItem(req);
 			logger.info(JsonFormatTool.formatJson(JSON.toJSONString(rsp.getResults())));
 			logger.info("总个数:"+rsp.getTotalResults());
 		}catch(ApiException e){

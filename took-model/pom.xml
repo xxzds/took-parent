@@ -1,9 +1,19 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.tooklili</groupId>
-    <artifactId>took-parent</artifactId>
-    <version>0.0.1</version>
-  </parent>
-  <artifactId>took-model</artifactId>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.tooklili</groupId>
+		<artifactId>took-parent</artifactId>
+		<version>0.0.1</version>
+	</parent>
+	<artifactId>took-model</artifactId>
+
+	<dependencies>
+		<!-- 淘宝接口 -->
+		<dependency>
+			<groupId>com.taobao</groupId>
+			<artifactId>taobao-sdk-java-auto_1462616566587</artifactId>
+			<version>20170721</version>
+		</dependency>
+	</dependencies>
 </project>
