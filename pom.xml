@@ -3,17 +3,17 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.tooklili</groupId>
 	<artifactId>took-parent</artifactId>
-	<version>0.0.1</version>
+	<version>1.0.0</version>
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>took-dao</module>
+<!-- 		<module>took-dao</module> -->
 		<module>took-service</module>
 		<module>took-model</module>
 		<module>took-util</module>
 		<module>took-app</module>
-		<module>took-background</module>
-		<module>took-job-tooklili</module>
+<!-- 		<module>took-background</module> -->
+<!-- 		<module>took-job-tooklili</module> -->
 	</modules>
 
 	<properties>
