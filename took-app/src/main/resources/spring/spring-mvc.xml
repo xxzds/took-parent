@@ -79,5 +79,5 @@
 	</bean>
 	
 	<!-- 自定义异常处理器  -->
-<!-- 	<bean id="exceptionHandler" class="com.tooklili.app.web.exception.MyExceptionHandler"/> -->
+	<bean id="exceptionHandler" class="com.tooklili.app.web.exception.MyExceptionHandler"/>
 </beans>
