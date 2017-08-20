@@ -1,5 +1,9 @@
 package com.tooklili.convert.tbk;
 
+import java.text.DecimalFormat;
+
+import org.apache.commons.lang.StringUtils;
+
 import com.taobao.api.domain.NTbkItem;
 import com.taobao.api.request.TbkItemGetRequest;
 import com.tooklili.vo.tbk.TbkItemReqVo;
@@ -20,7 +24,9 @@ public class TbkItemConverter {
 		tbkItemGetRequest.setQ(tbkItemReqVo.getItemName());
 		tbkItemGetRequest.setCat(tbkItemReqVo.getItemCate());
 		tbkItemGetRequest.setPageNo(tbkItemReqVo.getPageNo());
-		tbkItemGetRequest.setPageSize(tbkItemReqVo.getPageSize());		
+		tbkItemGetRequest.setPageSize(tbkItemReqVo.getPageSize());
+		//按销量排序
+		tbkItemGetRequest.setSort("total_sales");
 		return tbkItemGetRequest;
 	}
 	
@@ -31,8 +37,29 @@ public class TbkItemConverter {
 		TbkItemRespVo tbkItemRespVo = new TbkItemRespVo();
 		tbkItemRespVo.setNumIid(nTbkItem.getNumIid());
 		tbkItemRespVo.setItemUrl(nTbkItem.getItemUrl());
-		tbkItemRespVo.setClickUrl(nTbkItem.getClickUrl());
+		tbkItemRespVo.setPictUrl(nTbkItem.getPictUrl());
+		tbkItemRespVo.setSmallImages(nTbkItem.getSmallImages());
+		tbkItemRespVo.setTitle(nTbkItem.getTitle());
+		tbkItemRespVo.setZkFinalPrice(nTbkItem.getZkFinalPrice());
+		tbkItemRespVo.setReservePrice(nTbkItem.getReservePrice());
 		
+		//销量格式化，大于10000，格式化成xx.x万
+		Long volume = nTbkItem.getVolume();
+		if(volume != null){
+			if(volume>10000){
+				tbkItemRespVo.setVolume(new DecimalFormat("#.#").format(volume / 10000.0)+"万");				
+			}else{
+				tbkItemRespVo.setVolume(String.valueOf(volume));
+			}			
+		}
+		
+		//折扣率
+		if(StringUtils.isNotEmpty(nTbkItem.getReservePrice()) && StringUtils.isNotEmpty(nTbkItem.getZkFinalPrice())){
+			double reservePrice = Double.parseDouble(nTbkItem.getReservePrice());
+			double zkFinalPrice = Double.parseDouble(nTbkItem.getZkFinalPrice());		
+			//小数最多显示一位
+			tbkItemRespVo.setDiscountRate(new DecimalFormat("#.#").format((zkFinalPrice / reservePrice ) * 10));
+		}
 		return tbkItemRespVo;
 	}
 }

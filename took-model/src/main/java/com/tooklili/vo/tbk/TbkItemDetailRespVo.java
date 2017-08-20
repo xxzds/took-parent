@@ -3,11 +3,12 @@ package com.tooklili.vo.tbk;
 import java.util.List;
 
 /**
- * 淘宝客商品响应模型
+ * 商品详情
  * @author shuai.ding
- * @date 2017年8月4日下午5:23:54
+ *
+ * @date 2017年8月20日上午11:20:05
  */
-public class TbkItemRespVo {
+public class TbkItemDetailRespVo {
 	/**
 	 * 商品ID
 	 */

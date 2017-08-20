@@ -94,7 +94,7 @@ public class TbkApiServiceTest extends BaseTest{
 			TbkItemInfoGetRequest req = new TbkItemInfoGetRequest();
 			req.setNumIids("527247846041");
 			TbkItemInfoGetResponse rsp = tbkApiService.getInfo(req);
-			logger.info(rsp.getBody());
+			logger.info(JsonFormatTool.formatJson(rsp.getBody()));
 		}catch(ApiException e){
 			logger.error("exception",e);
 		}

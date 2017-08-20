@@ -88,7 +88,7 @@ public class TbkApiService {
 	 */
 	public TbkItemInfoGetResponse getInfo(TbkItemInfoGetRequest req) throws ApiException{
 		TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
-		req.setFields("num_iid,title,pict_url,small_images,reserve_price,zk_final_price,user_type,provcity,item_url");
+		req.setFields("num_iid,title,pict_url,small_images,reserve_price,zk_final_price,user_type,provcity,item_url,seller_id,volume,nick,click_url");
 		TbkItemInfoGetResponse rsp = client.execute(req);
 		return rsp;
 	}

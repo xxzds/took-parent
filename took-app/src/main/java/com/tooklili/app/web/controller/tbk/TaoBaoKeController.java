@@ -10,13 +10,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.taobao.api.ApiException;
+import com.taobao.api.request.TbkDgItemCouponGetRequest;
 import com.taobao.api.request.TbkItemGetRequest;
 import com.taobao.api.response.TbkItemGetResponse;
+import com.taobao.api.response.TbkDgItemCouponGetResponse.TbkCoupon;
 import com.tooklili.app.web.util.AppUtil;
 import com.tooklili.service.biz.api.tbk.TbkApiService;
 import com.tooklili.service.biz.tbk.TbkService;
 import com.tooklili.util.PropertiesUtil;
 import com.tooklili.util.result.PageResult;
+import com.tooklili.util.result.PlainResult;
+import com.tooklili.vo.tbk.TbkItemDetailRespVo;
 import com.tooklili.vo.tbk.TbkItemReqVo;
 import com.tooklili.vo.tbk.TbkItemRespVo;
 
@@ -59,15 +63,60 @@ public class TaoBaoKeController {
 	@RequestMapping("/getItems")
 	@ResponseBody
 	public PageResult<TbkItemRespVo> getItems(TbkItemReqVo tbkItemReqVo) throws ApiException{
-		
 		PageResult<TbkItemRespVo> result = tbkService.getItems(tbkItemReqVo);
 		return result;
 	}
 	
+	
+	/**
+	 * 通过商品id，查询商品信息
+	 * @author shuai.ding
+	 * @param numIid
+	 * @return
+	 * @throws ApiException
+	 */
+	@RequestMapping("/getItemDetail/{numIid}")
+	@ResponseBody
+	public PlainResult<TbkItemDetailRespVo> getItemDetail(@PathVariable String numIid) throws ApiException{
+		if(StringUtils.isEmpty(numIid)){
+			return new PlainResult<TbkItemDetailRespVo>().setErrorMessage("商品id不能为空");
+		}
+		
+		PlainResult<TbkItemDetailRespVo> result = tbkService.getItemDetail(numIid);
+		return result;
+	}
+	/**
+	 * 通过商品id,转化淘宝客的商品链接
+	 * @author shuai.ding
+	 * @param itemId
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("/tojump/{itemId}")
 	public String jumpToTaobao(@PathVariable String itemId,Model model){
 		model.addAttribute("itemId", itemId);
 		model.addAttribute("pid", PropertiesUtil.getInstance("tbk.properties").getValue("tbk.pid"));
 		return "tbk/jumpToTb";
+	}
+	
+	/**
+	 * 获取好券清单列表
+	 * @author shuai.ding
+	 * @param q              查询词
+	 * @param pageNo         当前页
+	 * @param pageSize       页面大小
+	 * @return
+	 * @throws ApiException
+	 */
+	@RequestMapping("/getCouponItems")
+	@ResponseBody
+	public PageResult<TbkCoupon> getCouponItems(String q,Long pageNo,Long pageSize) throws ApiException{
+		TbkDgItemCouponGetRequest req = new TbkDgItemCouponGetRequest();
+		req.setQ(q);
+		req.setPageNo(pageNo);
+		req.setPageSize(pageSize);
+		PageResult<TbkCoupon> result = tbkService.getCouponItems(req);
+		return result;
+		
 	}
 }

@@ -33,7 +33,7 @@
 		})(window, document);
 	</script>
 	<script language="javascript">
-		var itemUrl = 'http://detail.tmall.com/item.htm?id=';
+		var itemUrl = 'http://detail.tmall.com/item.htm?id=${itemId}';
 		var url = '';
 		var timer;
 		function get_et() {
