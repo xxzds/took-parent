@@ -1,0 +1,38 @@
+.west {
+	width: 150px;
+	padding: 10px;
+}
+.north {
+	background: #0259A6 url("../images/north.jpg") no-repeat;
+	height: 70px;
+}
+.north .right{
+	position: absolute;
+	right: 5px;
+	bottom:10px;
+	color: white;
+}
+.north .right a{
+	color: white;
+	text-decoration:none;
+}
+
+.btnok:hover{
+	background-color: blue;
+	text-decoration:none;
+}
+.btnok{
+	width:60px;
+	height: 28px;
+	line-height: 28px;
+	display: inline-block;
+	text-align: center;
+	cursor:pointer;
+/*     background-color:#98cc4d; */
+	color: white;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-ms-border-radius: 4px;
+	-o-border-radius: 4px;
+	-webkit-border-radius: 4px;
+}

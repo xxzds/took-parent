@@ -15,6 +15,7 @@ import com.tooklili.util.result.BaseResult;
 import com.tooklili.util.result.CommonResultCode;
 import com.tooklili.util.result.IErrorCode;
 import com.tooklili.util.result.ListResult;
+import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;
 
 /**
@@ -91,6 +92,8 @@ public class ExceptionHandleAspect {
                 result = new ListResult();
             } else if(BaseResult.class.equals(returnType)){
                 result = new BaseResult();
+            }else if(PageResult.class.equals(returnType)){
+            	result = new PageResult();
             }else{
             	//如果返回值不是返回值不是BaseResult自己或父类，返回null
             	return null;

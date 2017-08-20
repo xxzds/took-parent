@@ -12,6 +12,8 @@ public class PageResult<T> extends BaseResult {
     private Long               currentPage;
     
     private List<T>           data             = Lists.newArrayList();
+    
+    public PageResult(){}
 
     public PageResult(Long currentPage, Long pageSize) {
         this.currentPage = currentPage;
