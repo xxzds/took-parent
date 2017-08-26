@@ -8,6 +8,13 @@
   <artifactId>took-service</artifactId>
   
   <dependencies>
+  		<!-- took-dao -->
+		<dependency>
+			<groupId>com.tooklili</groupId>
+			<artifactId>took-dao</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+  
   		<!-- took-util -->
 		<dependency>
 			<groupId>com.tooklili</groupId>
@@ -95,33 +102,5 @@
 			  <artifactId>taobao-sdk-java-auto_1462616566587</artifactId>
 			  <version>20170721</version>
 			</dependency>
-			
-			<!-- LOGGING begin -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-			</dependency>
-
-			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-classic</artifactId>
-			</dependency>
-
-			<!--代码直接调用log4j会被桥接到slf4j -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>log4j-over-slf4j</artifactId>
-			</dependency>
-			<!--代码直接调用common-logging会被桥接到slf4j -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>jcl-over-slf4j</artifactId>
-			</dependency>
-			<!--代码直接调用java.util.logging会被桥接到slf4j -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>jul-to-slf4j</artifactId>
-			</dependency>
-			<!-- LOGGING end -->
   </dependencies>
 </project>

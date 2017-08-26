@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tooklili.dao.intf.admin.SysMenuDao">
+
+	<resultMap id="BaseResultMap" type="com.tooklili.model.admin.SysMenu">
+			<result column="id" property="id" jdbcType="DECIMAL" />
+			<result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+			<result column="menu_identify" property="menuIdentify" jdbcType="VARCHAR" />
+			<result column="menu_url" property="menuUrl" jdbcType="VARCHAR" />
+			<result column="menu_parent_id" property="menuParentId" jdbcType="DECIMAL" />
+			<result column="menu_icon" property="menuIcon" jdbcType="VARCHAR" />
+			<result column="menu_sort" property="menuSort" jdbcType="DECIMAL" />
+			<result column="menu_visible" property="menuVisible" jdbcType="DECIMAL" />
+			<result column="menu_remark" property="menuRemark" jdbcType="VARCHAR" />
+			<result column="create_time" property="createTime" jdbcType="DATE" />
+			<result column="modify_time" property="modifyTime" jdbcType="DATE" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+			id,
+			menu_name,
+			menu_identify,
+			menu_url,
+			menu_parent_id,
+			menu_icon,
+			menu_sort,
+			menu_visible,
+			menu_remark,
+			create_time,
+			modify_time
+	</sql>
+
+	<sql id="conditions_sysMenu">
+		<where>
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="menuName != null">
+				and menu_name = #{menuName}
+			</if>
+			<if test="menuIdentify != null">
+				and menu_identify = #{menuIdentify}
+			</if>
+			<if test="menuUrl != null">
+				and menu_url = #{menuUrl}
+			</if>
+			<if test="menuParentId != null">
+				and menu_parent_id = #{menuParentId}
+			</if>
+			<if test="menuIcon != null">
+				and menu_icon = #{menuIcon}
+			</if>
+			<if test="menuSort != null">
+				and menu_sort = #{menuSort}
+			</if>
+			<if test="menuVisible != null">
+				and menu_visible = #{menuVisible}
+			</if>
+			<if test="menuRemark != null">
+				and menu_remark = #{menuRemark}
+			</if>
+			<if test="createTime != null">
+				and create_time = #{createTime}
+			</if>
+			<if test="modifyTime != null">
+				and modify_time = #{modifyTime}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select 
+		<include refid="Base_Column_List" />
+		from sys_menu
+		<where>
+			  and id=#{id}
+		</where>
+	</select>
+	
+	<select id="find" resultMap="BaseResultMap" parameterType="com.tooklili.model.admin.SysMenu">
+		select 
+		<include refid="Base_Column_List" />
+		from sys_menu
+		<include refid="conditions_sysMenu" />
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+		delete from sys_menu
+		<where>
+			  and id=#{id}
+		</where>
+	</delete>
+	
+	<delete id="batchDeleteByIds" parameterType="java.lang.String">
+		delete from sys_menu
+		<where>
+			  and id in 
+			  <foreach collection="array" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</where>
+	</delete>
+
+	<insert id="insert" parameterType="com.tooklili.model.admin.SysMenu" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_menu
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			id,
+			menu_name,
+			menu_identify,
+			menu_url,
+			menu_parent_id,
+			menu_icon,
+			menu_sort,
+			menu_visible,
+			menu_remark,
+			create_time,
+			modify_time,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{id},
+			#{menuName},
+			#{menuIdentify},
+			#{menuUrl},
+			#{menuParentId},
+			#{menuIcon},
+			#{menuSort},
+			#{menuVisible},
+			#{menuRemark},
+			#{createTime},
+			#{modifyTime},
+		</trim>
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.tooklili.model.admin.SysMenu" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_menu
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="menuName != null">menu_name,</if>
+			<if test="menuIdentify != null">menu_identify,</if>
+			<if test="menuUrl != null">menu_url,</if>
+			<if test="menuParentId != null">menu_parent_id,</if>
+			<if test="menuIcon != null">menu_icon,</if>
+			<if test="menuSort != null">menu_sort,</if>
+			<if test="menuVisible != null">menu_visible,</if>
+			<if test="menuRemark != null">menu_remark,</if>
+			<if test="createTime != null">create_time,</if>
+			<if test="modifyTime != null">modify_time,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="menuName != null">#{menuName},</if>
+			<if test="menuIdentify != null">#{menuIdentify},</if>
+			<if test="menuUrl != null">#{menuUrl},</if>
+			<if test="menuParentId != null">#{menuParentId},</if>
+			<if test="menuIcon != null">#{menuIcon},</if>
+			<if test="menuSort != null">#{menuSort},</if>
+			<if test="menuVisible != null">#{menuVisible},</if>
+			<if test="menuRemark != null">#{menuRemark},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="modifyTime != null">#{modifyTime},</if>
+		</trim>
+	</insert>
+
+	<update id="updateById" parameterType="com.tooklili.model.admin.SysMenu">
+		update sys_menu
+		<set>
+			menu_name=#{menuName},
+			menu_identify=#{menuIdentify},
+			menu_url=#{menuUrl},
+			menu_parent_id=#{menuParentId},
+			menu_icon=#{menuIcon},
+			menu_sort=#{menuSort},
+			menu_visible=#{menuVisible},
+			menu_remark=#{menuRemark},
+			create_time=#{createTime},
+			modify_time=#{modifyTime},
+		</set>
+		<where>
+			  and id=#{id}
+		</where>
+	</update>
+
+	
+	<update id="updateByIdSelective" parameterType="com.tooklili.model.admin.SysMenu">
+		update sys_menu
+		<set>
+			<if test="menuName != null">menu_name=#{menuName},</if>
+			<if test="menuIdentify != null">menu_identify=#{menuIdentify},</if>
+			<if test="menuUrl != null">menu_url=#{menuUrl},</if>
+			<if test="menuParentId != null">menu_parent_id=#{menuParentId},</if>
+			<if test="menuIcon != null">menu_icon=#{menuIcon},</if>
+			<if test="menuSort != null">menu_sort=#{menuSort},</if>
+			<if test="menuVisible != null">menu_visible=#{menuVisible},</if>
+			<if test="menuRemark != null">menu_remark=#{menuRemark},</if>
+			<if test="createTime != null">create_time=#{createTime},</if>
+			<if test="modifyTime != null">modify_time=#{modifyTime},</if>
+		</set>
+		<where>
+			  and id=#{id}
+		</where>
+	</update>
+	
+</mapper>

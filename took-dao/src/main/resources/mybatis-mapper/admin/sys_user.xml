@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tooklili.dao.intf.admin.SysUserDao">
+
+	<resultMap id="BaseResultMap" type="com.tooklili.model.admin.SysUser">
+			<id column="id" property="id" jdbcType="INTEGER" />
+			<result column="user_name" property="userName" jdbcType="VARCHAR" />
+			<result column="user_password" property="userPassword" jdbcType="VARCHAR" />
+			<result column="user_salt" property="userSalt" jdbcType="VARCHAR" />
+			<result column="user_create_time" property="userCreateTime" jdbcType="DATE" />
+			<result column="user_status" property="userStatus" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id,user_name,user_password,user_salt,user_create_time,user_status
+	</sql>
+
+	<sql id="conditions_sysUser">
+		<where>
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="userName != null">
+				and user_name = #{userName}
+			</if>
+			<if test="userPassword != null">
+				and user_password = #{userPassword}
+			</if>
+			<if test="userSalt != null">
+				and user_salt = #{userSalt}
+			</if>
+			<if test="userCreateTime != null">
+				and user_create_time = #{userCreateTime}
+			</if>
+			<if test="userStatus != null">
+				and status = #{status}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select 
+		<include refid="Base_Column_List" />
+		from sys_user
+		<where>
+			  and id=#{id}
+		</where>
+	</select>
+	
+	<select id="find" resultMap="BaseResultMap" parameterType="com.tooklili.model.admin.SysUser">
+		select 
+		<include refid="Base_Column_List" />
+		from sys_user
+		<include refid="conditions_sysUser" />
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+		delete from sys_user
+		<where>
+			  and id=#{id}
+		</where>
+	</delete>
+	
+	<delete id="batchDeleteByIds" parameterType="java.lang.String">
+		delete from sys_user
+		<where>
+			and id in
+			<foreach collection="array" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</where>
+	</delete>
+
+	<insert id="insert" parameterType="com.tooklili.model.admin.SysUser" useGeneratedKeys="true" keyProperty="id" >
+		insert into sys_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			id,
+			user_name,
+			user_password,
+			user_salt,
+			user_create_time,
+			user_status
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{id},
+			#{userName},
+			#{userPassword},
+			#{userSalt},
+			#{userCreateTime},
+			#{userStatus}
+		</trim>
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.tooklili.model.admin.SysUser" useGeneratedKeys="true" keyProperty="id" >
+		insert into sys_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="userName != null">user_name,</if>
+			<if test="userPassword != null">user_password,</if>
+			<if test="userSalt != null">user_salt,</if>
+			<if test="userCreateTime != null">user_create_time,</if>
+			<if test="userStatus != null">user_status,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="userName != null">#{userName},</if>
+			<if test="userPassword != null">#{userPassword},</if>
+			<if test="userSalt != null">#{userSalt},</if>
+			<if test="userCreateTime != null">#{userCreateTime},</if>
+			<if test="userStatus != null">#{status},</if>
+		</trim>
+	</insert>
+
+	<update id="updateById" parameterType="com.tooklili.model.admin.SysUser">
+		update sys_user
+		<set>
+			user_name=#{userName},
+			user_password=#{userPassword},
+			user_salt=#{userSalt},
+			user_create_time=#{userCreateTime},
+			user_status=#{userStatus}
+		</set>
+		<where>
+			  and id=#{id}
+		</where>
+	</update>
+
+	
+
+	<update id="updateByIdSelective" parameterType="com.tooklili.model.admin.SysUser">
+		update sys_user
+		<set>
+			<if test="userName != null">user_name=#{userName},
+			</if>
+			<if test="userPassword != null">user_password=#{userPassword},
+			</if>
+			<if test="userSalt != null">user_salt=#{userSalt},
+			</if>
+			<if test="userCreateTime != null">user_create_time=#{userCreateTime},
+			</if>
+			<if test="userStatus != null">user_status=#{userStatus},
+			</if>
+		</set>
+		<where>
+			  and id=#{id}
+		</where>
+	</update>
+</mapper>
