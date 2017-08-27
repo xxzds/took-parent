@@ -2,6 +2,11 @@ package com.tooklili.model.admin.leftMenu;
 
 import java.util.Comparator;
 
+/**
+ * 菜单排序，同一层级下的节点，按降序排列
+ * @author shuai.ding
+ * @date 2017年8月27日下午3:33:44
+ */
 public class MenuNodeComparator implements Comparator<MenuNode>{
 
 	@Override

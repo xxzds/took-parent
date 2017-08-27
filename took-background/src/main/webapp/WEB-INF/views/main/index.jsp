@@ -5,16 +5,9 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>主页</title>
+	<jsp:include page="../common/comm.jsp"></jsp:include> 
 	<link rel="stylesheet" type="text/css" href="${ctx}/static/css/main.css">
-	<link rel="stylesheet" type="text/css" href="${ctx}/static/plugins/easyui/themes/default/easyui.css">
-	<link rel="stylesheet" type="text/css" href="${ctx}/static/plugins/easyui/themes/icon.css">
-	<script type="text/javascript" src="${ctx}/static/plugins/jquery.min.js"></script>
-	<script type="text/javascript" src="${ctx}/static/plugins/easyui/jquery.easyui.min.js"></script>
-	
 	<script type="text/javascript" src="${ctx}/static/js/main.js"></script>
-	<script type="text/javascript">
-		var ctx='${ctx}';
-	</script>
 </head>
 <body class="easyui-layout"> 
     <div data-options="region:'north'" class="north">

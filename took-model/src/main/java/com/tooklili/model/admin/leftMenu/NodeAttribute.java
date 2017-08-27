@@ -20,6 +20,11 @@ public class NodeAttribute {
 	 * 序号
 	 */
 	private Integer sortnum;
+	
+	/**
+	 * 是否是叶子节点
+	 */
+	private Boolean isLeaf;
 
 	public String getUrl() {
 		return url;
@@ -43,5 +48,13 @@ public class NodeAttribute {
 
 	public void setSortnum(Integer sortnum) {
 		this.sortnum = sortnum;
+	}
+
+	public Boolean getIsLeaf() {
+		return isLeaf;
+	}
+
+	public void setIsLeaf(Boolean isLeaf) {
+		this.isLeaf = isLeaf;
 	}
 }

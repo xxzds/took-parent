@@ -74,10 +74,20 @@ public class MenuNode {
 				children.add(menuNode);
 			}
 		}
+		//排序
 		 Collections.sort(children, new MenuNodeComparator());
-		 root.setChildren(children);		 
+		 root.setChildren(children);
+		 
 		 //移除
 		 list.removeAll(children);
+		 
+		 //是否是叶子节点
+		 if(children.size()==0){
+			 root.getAttributes().setIsLeaf(true);
+		 }else{
+			 root.getAttributes().setIsLeaf(false);
+		 }
+		 
 		 for(MenuNode item:children){
 			 recursiveBuild(item, list);
 		 }
@@ -139,5 +149,22 @@ public class MenuNode {
 
 	public void setChildren(List<MenuNode> children) {
 		this.children = children;
+	}
+	
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+	
+	/**
+	 * 重写equals方法，当两个对象的id相等，就返回true
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof MenuNode){
+			MenuNode menuNode = (MenuNode)obj;
+			return menuNode.getId() == this.getId();
+		}	
+		return false;
 	}
 }

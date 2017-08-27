@@ -2,18 +2,19 @@ $(function(){
 	// 实例化树形菜单
 	$("#tree").tree({
 		url : ctx + '/getMenu',
-		// data:treeData,
 		lines : true,
 		onClick : function(node) {
-			open(node.id, node.text);
+			//是叶子节点才能打开tab页
+			if(node.attributes.isLeaf){
+				open(ctx+node.attributes.url, node.text);
+			}	
 		}
 	});
 	// 在右边center区域打开菜单，新增tab
-	function open(id, title) {
+	function open(url, title) {
 		if ($('#tabs').tabs('exists', title)) {
 			$('#tabs').tabs('select', title);
 		} else {
-			var url = ctx + "/do/to/" + id;
 			$('#tabs').tabs('add',
 					{
 						iconCls : 'icon-tip',

@@ -6,7 +6,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.tooklili.dao" level="DEBUG" />
+    <logger name="com.tooklili.dao.intf" level="DEBUG" />
     
     <!-- 分页日志 -->
     <logger name="com.github.miemiedev.mybatis.paginator" level="DEBUG" />

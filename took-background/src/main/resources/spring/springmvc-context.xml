@@ -9,7 +9,7 @@
 		http://www.springframework.org/schema/mvc 
 		http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		">
-
+		
 	<mvc:annotation-driven>
 		<mvc:message-converters register-defaults="true">
             <!-- StringHttpMessageConverter编码为UTF-8，防止乱码 -->
@@ -79,5 +79,5 @@
 	</bean>
 	
 	<!-- 自定义异常处理器  -->
-	<bean id="exceptionHandler" class="com.tooklili.admin.web.exception.MyExceptionHandler"/>
+	<bean id="exceptionHandler" class="com.tooklili.admin.web.resolver.MyExceptionHandler"/>
 </beans>

@@ -1,14 +1,18 @@
 package com.tooklili.admin.web.controller.main;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
-import org.apache.commons.io.FileUtils;
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.tooklili.model.admin.leftMenu.MenuNode;
+import com.tooklili.service.biz.intf.admin.system.MenuService;
 
 /**
  * 主页控制器
@@ -18,22 +22,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class MainController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MainController.class);
+	
+	@Resource
+	private MenuService menuService;
 
 	@RequestMapping("/")
 	public String main() {
 		return "main/index";
 	}
-
+	
 	
 	@RequestMapping("/getMenu")
 	@ResponseBody
-	public String getMenu() throws IOException{
+	public List<MenuNode> getMenu() throws IOException{
 		
-		String pathStr = MainController.class.getClassLoader().getResource("json/menu.json").getFile();
-		String content=FileUtils.readFileToString(new File(pathStr), "utf-8");
-		LOGGER.info(content.split("\r\n").length+"");
+		List<MenuNode> result = menuService.getMenu();
 		
-		return content;
+		return result;
 
 	}
 }

@@ -94,3 +94,17 @@
 .icon-large-chart{
 	background:url('icons/large_chart.png') no-repeat center center;
 }
+
+/************************自定义**************************/
+.icon-appliction-double{
+	background:url('icons/16/application_double.png') no-repeat center center;
+}
+.icon-book-open{
+	background:url('icons/16/book_open.png') no-repeat center center;
+}
+.icon-book-open-mark{
+	background:url('icons/16/book_open_mark.png') no-repeat center center;
+}
+.icon-application-view-columns{
+	background:url('icons/16/application_view_columns.png') no-repeat center center;
+}

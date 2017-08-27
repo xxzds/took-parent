@@ -1,4 +1,4 @@
-package com.tooklili.admin.web.exception;
+package com.tooklili.admin.web.resolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
