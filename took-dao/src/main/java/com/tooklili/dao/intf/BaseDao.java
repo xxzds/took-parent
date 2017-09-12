@@ -1,4 +1,4 @@
-package com.tooklili.dao;
+package com.tooklili.dao.intf;
 
 import java.util.List;
 

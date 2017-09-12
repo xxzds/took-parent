@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @date 2017年5月31日下午4:39:40
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:spring/spring-dao.xml" })
+@ContextConfiguration(locations = { "classpath:spring/spring-dao-test.xml" })
 @Ignore
 public class BaseTest  {
     public static final Logger logger = LoggerFactory.getLogger(BaseTest.class);

@@ -33,7 +33,7 @@ public class UserController extends BaseController{
 		}	
 		
 		
-		return "sytem/user";
+		return "system/user";
     }
 
 }

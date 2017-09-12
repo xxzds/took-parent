@@ -11,7 +11,7 @@
     </settings>
     <plugins>
         <plugin interceptor="com.github.miemiedev.mybatis.paginator.OffsetLimitInterceptor">
-            <property name="dialectClass" value="com.github.miemiedev.mybatis.paginator.dialect.OracleDialect"/>
+            <property name="dialectClass" value="com.github.miemiedev.mybatis.paginator.dialect.MySQLDialect"/>
         </plugin>
     </plugins>
 </configuration>

@@ -1,6 +1,6 @@
 package com.tooklili.dao.intf.admin;
 
-import com.tooklili.dao.BaseDao;
+import com.tooklili.dao.intf.BaseDao;
 import com.tooklili.model.admin.SysUser;
 
 /**

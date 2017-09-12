@@ -33,7 +33,7 @@
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis-spring</artifactId>
-		</dependency>
+ 		</dependency>
 
 		<!-- mysql连接 -->
 		<dependency>
@@ -72,7 +72,12 @@
 			<artifactId>spring-context</artifactId>
 		</dependency>
 		
-		<!-- 单体测试用到的类 start -->
+		<!-- 单体测试用到的类 end -->
+		
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+		</dependency>
 
 	</dependencies>
 </project>

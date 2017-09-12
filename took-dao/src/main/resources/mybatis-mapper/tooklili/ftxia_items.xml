@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tooklili.dao.intf.tooklili.ItemDao">
+
+<select id="queryItems" resultType="com.tooklili.model.tooklili.Item">
+	select id,
+	cate_id as cardId,
+	num_iid as numIid,
+	title,
+	intro,
+	pic_url as picUrl,
+	price,
+	quan,
+	quanurl as quanUrl
+	from ftxia_items
+	where isq=1
+	and coupon_end_time >= UNIX_TIMESTAMP(now())
+	limit 1,10
+</select>
+
+
+</mapper>

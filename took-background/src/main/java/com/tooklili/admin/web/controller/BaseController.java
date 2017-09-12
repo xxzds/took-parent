@@ -1,6 +1,7 @@
 package com.tooklili.admin.web.controller;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.ui.Model;
 
 import com.tooklili.admin.web.permission.PermissionList;
 
@@ -20,4 +21,11 @@ public class BaseController {
 			permissionList = PermissionList.newPermissionList(resourceIdentity);
 		}
 	}
+	
+	 /**
+     * 设置通用数据
+     * @param model
+     */
+    protected void setCommonData(Model model) {
+    }
 }

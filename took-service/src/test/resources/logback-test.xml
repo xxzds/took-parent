@@ -13,7 +13,7 @@
 	<logger name="org.springframework" level="warn" />
 	<logger name="org.mybatis" level="warn" />
 	
-    <root level="INFO">
+    <root level="info">
         <appender-ref ref="STDOUT"/>
     </root>
 </configuration>
