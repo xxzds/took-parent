@@ -10,6 +10,13 @@
 	<packaging>war</packaging>
 
 	<dependencies>
+		<!-- took-dao -->
+		<dependency>
+			<groupId>com.tooklili</groupId>
+			<artifactId>took-dao</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	
 		<!-- took-util -->
 		<dependency>
 			<groupId>com.tooklili</groupId>
@@ -26,7 +33,7 @@
 		
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
+			<artifactId>spring-web</artifactId>
 		</dependency>
 		
 		<!-- quartz -->
@@ -34,6 +41,25 @@
 		    <groupId>org.quartz-scheduler</groupId>
 		    <artifactId>quartz</artifactId>
 		    <version>2.2.3</version>
+		</dependency>
+		
+		<!-- redis -->
+		<dependency>
+		    <groupId>redis.clients</groupId>
+		    <artifactId>jedis</artifactId>
+		    <version>2.9.0</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework.data</groupId>
+		    <artifactId>spring-data-redis</artifactId>
+		    <version>1.6.2.RELEASE</version>
+		    <exclusions>
+		    	<exclusion>
+		    		<artifactId>spring-aop</artifactId>
+		    		<groupId>org.springframework</groupId>
+		    	</exclusion>
+		    </exclusions>
 		</dependency>
 				
 		<!-- test启动spring容器时用到 -->

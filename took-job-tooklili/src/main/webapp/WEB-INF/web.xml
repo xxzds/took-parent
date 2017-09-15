@@ -9,7 +9,6 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			classpath:spring/spring-service.xml
-<!-- 			,classpath*:xxl-job/applicationcontext-*.xml -->
 		</param-value>
 	</context-param>
 	
