@@ -36,7 +36,7 @@ public class RedisTest extends BaseTest{
 	@Test
 	public void setItemsToRedis(){
 		try{
-			final List<Item> items = itemDao.queryItems();
+			final List<Item> items = itemDao.queryItems(35);
 			
 			redisTemplate.execute(new RedisCallback<Long>() {
 				@Override

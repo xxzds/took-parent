@@ -1,11 +1,11 @@
-package com.tooklili.quartzTask;
+package com.tooklili.task;
 
 import javax.annotation.Resource;
 
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.tooklili.http.HttpCallService;
+import com.tooklili.util.PropertiesUtil;
 
 /**
  * 更新优惠券
@@ -13,13 +13,16 @@ import com.tooklili.http.HttpCallService;
  * @date 2017年7月20日下午3:12:34
  */
 @Service
-public class UpdateCouponsJob {
+public class UpdateCouponsJob extends BaseJob{
 	
 	@Resource
 	private HttpCallService httpCallService;
 
+	public UpdateCouponsJob() {
+		this.setCorn(PropertiesUtil.getInstance("system.properties").getValue("update_coupons_cron"));
+	}
 	
-	@Scheduled(cron = "0 0/5 * * * ?")
+	@Override
 	public void execute(){		
 		httpCallService.httpGet("http://www.tooklili.com?m=huameiquancaiji");				
 	}

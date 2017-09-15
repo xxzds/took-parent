@@ -1,12 +1,12 @@
-package com.tooklili.quartzTask;
+package com.tooklili.task;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.tooklili.util.ClearCacheUtil;
 import com.tooklili.util.HttpClientUtil;
+import com.tooklili.util.PropertiesUtil;
 import com.tooklili.util.TookliliCookieUtil;
 
 /**
@@ -15,10 +15,14 @@ import com.tooklili.util.TookliliCookieUtil;
  * @date 2017年8月15日下午10:10:51
  */
 @Service
-public class CollectItemsJob{
+public class CollectItemsJob extends BaseJob{
 	private static final Logger LOGGER = LoggerFactory.getLogger(CollectItemsJob.class);
+	
+	public CollectItemsJob() {
+		this.setCorn(PropertiesUtil.getInstance("system.properties").getValue("collect_item_cron"));
+	}
 
-	@Scheduled(cron = "0 0 1 * * ?")
+	@Override
 	public void execute(){
 		try{
 			//女装-上衣
@@ -88,5 +92,4 @@ public class CollectItemsJob{
 			Thread.sleep(100);
 		}
 	}
-
 }

@@ -1,15 +1,15 @@
-package com.tooklili.quartzTask;
+package com.tooklili.task;
 
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Maps;
 import com.tooklili.util.ClearCacheUtil;
 import com.tooklili.util.HttpClientUtil;
+import com.tooklili.util.PropertiesUtil;
 import com.tooklili.util.TookliliCookieUtil;
 /**
  * 清除过期商品
@@ -17,10 +17,14 @@ import com.tooklili.util.TookliliCookieUtil;
  * @date 2017年7月20日下午3:59:49
  */
 @Service
-public class ClearExpiredItemsJob{
+public class ClearExpiredItemsJob extends BaseJob{
 	private static final Logger LOGGER = LoggerFactory.getLogger(ClearExpiredItemsJob.class);
+	
+	public ClearExpiredItemsJob() {
+		this.setCorn(PropertiesUtil.getInstance("system.properties").getValue("clear_expired_item_cron"));
+	}
 
-	@Scheduled(cron = "59 59 11,23 * * ?")  
+	@Override
 	public void execute(){
 		
 		//1.获取cookies
@@ -37,5 +41,4 @@ public class ClearExpiredItemsJob{
 		//3、更新缓存
 		ClearCacheUtil.clearCache();
 	}
-
 }

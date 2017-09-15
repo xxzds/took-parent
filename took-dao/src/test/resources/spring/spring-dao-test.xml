@@ -17,7 +17,7 @@
 	<context:property-placeholder location="classpath:jdbc.properties"/>
 		
 	<!-- 启动对@Aspectj的支持 true为cglib，false为jdk代理，为true的话，会导致拦截不了mybatis的mapper -->
-	<aop:aspectj-autoproxy proxy-target-class="false"/>
+<!-- 	<aop:aspectj-autoproxy proxy-target-class="false"/> -->
 	
 	<import resource="classpath:spring/spring-dao.xml"/>	
 </beans>

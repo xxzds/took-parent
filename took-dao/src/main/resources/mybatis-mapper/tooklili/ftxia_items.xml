@@ -13,9 +13,13 @@
 	quan,
 	quanurl as quanUrl
 	from ftxia_items
-	where isq=1
-	and coupon_end_time >= UNIX_TIMESTAMP(now())
-	limit 1,10
+	<where>
+		isq=1
+		and coupon_end_time >= UNIX_TIMESTAMP(now())
+		<if test="cateId!=null and cateId!=0">
+			and cate_id=#{cateId}
+		</if>
+	</where>	
 </select>
 
 
