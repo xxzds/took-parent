@@ -17,14 +17,17 @@ public class UpdateCouponsJob extends BaseJob{
 	
 	@Resource
 	private HttpCallService httpCallService;
-
+	
+	private PropertiesUtil propertiesUtil = PropertiesUtil.getInstance("system.properties");
+	private String tookliliPrefixUrl=propertiesUtil.getValue("tooklili_prefix_url");
+	
 	public UpdateCouponsJob() {
-		this.setCorn(PropertiesUtil.getInstance("system.properties").getValue("update_coupons_cron"));
+		this.setCorn(propertiesUtil.getValue("update_coupons_cron"));
 	}
 	
 	@Override
 	public void execute(){		
-		httpCallService.httpGet("http://www.tooklili.com?m=huameiquancaiji");				
+		httpCallService.httpGet(tookliliPrefixUrl+"?m=huameiquancaiji&a=index");				
 	}
 
 }

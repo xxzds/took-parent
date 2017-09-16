@@ -20,8 +20,11 @@ import com.tooklili.util.TookliliCookieUtil;
 public class ClearExpiredItemsJob extends BaseJob{
 	private static final Logger LOGGER = LoggerFactory.getLogger(ClearExpiredItemsJob.class);
 	
+	private PropertiesUtil propertiesUtil = PropertiesUtil.getInstance("system.properties");
+	private String tookliliPrefixUrl=propertiesUtil.getValue("tooklili_prefix_url");
+	
 	public ClearExpiredItemsJob() {
-		this.setCorn(PropertiesUtil.getInstance("system.properties").getValue("clear_expired_item_cron"));
+		this.setCorn(propertiesUtil.getValue("clear_expired_item_cron"));
 	}
 
 	@Override
@@ -31,7 +34,7 @@ public class ClearExpiredItemsJob extends BaseJob{
 		String cookies = TookliliCookieUtil.getLoginCookies();
 			
 		//2、清除过期商品
-		String clearItemUrl="http://admin.tooklili.com/index.php?m=items&a=clear";
+		String clearItemUrl=tookliliPrefixUrl+"/index.php?m=items&a=clear";
 		Map<String, String> requestParams = Maps.newHashMap();
 		requestParams.put("isok", "1");
 		requestParams.put("action","outtime");

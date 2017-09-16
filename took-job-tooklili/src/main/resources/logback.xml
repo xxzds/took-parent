@@ -5,6 +5,11 @@
             <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger -%msg%n</pattern>
         </encoder>
     </appender>
+    
+     <logger name="com.tooklili.dao.intf" level="DEBUG" />
+    
+    <!-- 分页日志 -->
+    <logger name="com.github.miemiedev.mybatis.paginator" level="DEBUG" />
 	
     <root level="INFO">
         <appender-ref ref="STDOUT"/>

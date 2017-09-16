@@ -3,15 +3,21 @@
 <mapper namespace="com.tooklili.dao.intf.tooklili.ItemDao">
 
 <select id="queryItems" resultType="com.tooklili.model.tooklili.Item">
-	select id,
+	select 
+	id,
 	cate_id as cardId,
 	num_iid as numIid,
 	title,
-	intro,
 	pic_url as picUrl,
 	price,
+	coupon_price as couponPrice,
 	quan,
-	quanurl as quanUrl
+	Quan_surplus as quanSurplus,
+	Quan_receive as quanReceive,
+	volume,
+	quanurl as quanUrl,
+	from_unixtime(coupon_start_time,'%Y-%m-%d %H:%i:%s') as couponStartTime,
+	from_unixtime(coupon_end_time,'%Y-%m-%d %H:%i:%s') as couponEndTime
 	from ftxia_items
 	<where>
 		isq=1
@@ -19,7 +25,8 @@
 		<if test="cateId!=null and cateId!=0">
 			and cate_id=#{cateId}
 		</if>
-	</where>	
+	</where>
+	ORDER BY id DESC	
 </select>
 
 

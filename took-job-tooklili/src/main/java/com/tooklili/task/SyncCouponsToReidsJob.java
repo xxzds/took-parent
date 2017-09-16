@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.tooklili.dao.intf.tooklili.ItemDao;
+import com.tooklili.enums.tooklili.ItemCateEnum;
 import com.tooklili.model.tooklili.Item;
 import com.tooklili.util.PropertiesUtil;
 
@@ -71,40 +72,14 @@ public class SyncCouponsToReidsJob extends BaseJob{
 					byte[] bytes =stringRedisSerializer.serialize(JSON.toJSONString(item));
 					list.add(bytes);
 				}
-				return connection.lPush(stringRedisSerializer.serialize(itemCateEnum.getName()), list.toArray(new byte[list.size()][]));
+				byte[] key = stringRedisSerializer.serialize(itemCateEnum.getName());
+				//清除缓存数据
+				connection.del(key);
+				
+				return connection.lPush(key, list.toArray(new byte[list.size()][]));
 			}
 		});
 	}
 	
-	/**
-	 * 商品分类枚举类
-	 * @author shuai.ding
-	 * @date 2017年9月15日下午2:10:09
-	 */
-	private enum ItemCateEnum{
-		CONSTUME(35,"服装"),
-		MONTHER_BOBY(36,"母婴"),
-		COSMETICS(37,"化妆品"),
-		OCCUPY_HOME(38,"居家"),
-		SHOE_BAG_ACCESSORIES(39,"鞋包配饰"),
-		GASTRONOMY(40,"美食"),
-		PRODUCT_STYLE_CAR(41,"文体车品"),
-		DIGITAL_HOME_APPLIANCES(42,"数码家电");
-		
-		private Integer code;
-		private String name;
-		
-		private ItemCateEnum(Integer code,String name) {
-			this.code = code;
-			this.name = name;
-		}
-
-		public Integer getCode() {
-			return code;
-		}
-
-		public String getName() {
-			return name;
-		}
-	}
+	
 }

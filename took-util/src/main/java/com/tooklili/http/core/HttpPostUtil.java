@@ -45,7 +45,7 @@ public class HttpPostUtil {
         CloseableHttpClient httpclient = HttpClientFactory.getCloseableHttpClient();
         try {
             HttpUriRequest request = buildUriPostRequest(requestUri, params);
-            
+            log.info("请求地址：{}",requestUri);
             return httpclient.execute(request, responseHandler);
         } catch (Exception e) {
         	log.error("post request exception", e);

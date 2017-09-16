@@ -38,7 +38,7 @@ public class HttpGetUtil {
         CloseableHttpClient httpclient = HttpClientFactory.getCloseableHttpClient();
         try {
             HttpGet httpget = new HttpGet(requestUri);
-
+            log.info("请求地址：{}",requestUri);
             return httpclient.execute(httpget, responseHandler);
         } catch (Exception e) {
         	log.error("httpGet exception",e);

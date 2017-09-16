@@ -70,7 +70,7 @@ public class HttpUrlConnectionUtil {
 			conn.setDoOutput(true);
 			conn.setRequestMethod(HTTP_METHOD.POST);
 			conn.setRequestProperty(HTTP_CONTENT_TYPE.HEAD_KEY, HTTP_CONTENT_TYPE.JSON);
-
+			logger.info("请求地址：{}",urlStr);
 			out = conn.getOutputStream();
 			//参数
 			if(param!=null && !"".equals(param)){

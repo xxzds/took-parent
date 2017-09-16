@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
 import com.taobao.api.ApiException;
-import com.tooklili.service.biz.tbk.TbkService;
+import com.tooklili.service.biz.api.tbk.TbkService;
 import com.tooklili.service.test.BaseTest;
 import com.tooklili.util.JsonFormatTool;
 import com.tooklili.util.result.PageResult;
