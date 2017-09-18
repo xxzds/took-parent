@@ -1,5 +1,6 @@
 package com.tooklili.task;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -76,6 +77,9 @@ public class SyncCouponsToReidsJob extends BaseJob{
 				//清除缓存数据
 				connection.del(key);
 				
+				//此处说明一下，lpush插入的数据，会直接将数据放到集合的头部，故此处需要将集合的顺序倒置一下				
+				//逆序排列
+				Collections.reverse(list);
 				return connection.lPush(key, list.toArray(new byte[list.size()][]));
 			}
 		});

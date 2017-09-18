@@ -11,11 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.taobao.api.ApiException;
 import com.taobao.api.request.TbkDgItemCouponGetRequest;
-import com.taobao.api.request.TbkItemGetRequest;
 import com.taobao.api.response.TbkDgItemCouponGetResponse.TbkCoupon;
-import com.taobao.api.response.TbkItemGetResponse;
-import com.tooklili.app.web.util.AppUtil;
-import com.tooklili.service.biz.api.tbk.TbkApiService;
 import com.tooklili.service.biz.api.tbk.TbkService;
 import com.tooklili.util.PropertiesUtil;
 import com.tooklili.util.result.PageResult;
@@ -33,27 +29,10 @@ import com.tooklili.vo.tbk.TbkItemRespVo;
 @Controller
 @RequestMapping("/tbk")
 public class TaoBaoKeController {
-	@Resource
-	private TbkApiService tbkApiService;
 	
 	@Resource
 	private TbkService tbkService;
-
-	@RequestMapping("/getItem")
-	@ResponseBody
-	public Object getItem(String searchName) throws ApiException{
-		TbkItemGetRequest req=new TbkItemGetRequest();
-		if(StringUtils.isNotEmpty(searchName)){
-			req.setQ(searchName);
-		}else{
-			req.setQ("红酒");
-		}
-	
-		TbkItemGetResponse rsp = tbkApiService.getItem(req);
-		return AppUtil.conversionJsonp(rsp.getBody());
-	}
-	
-	
+		
 	/**
 	 * 查询商品列表
 	 * @param tbkItemReqVo
@@ -116,7 +95,21 @@ public class TaoBaoKeController {
 		req.setPageNo(pageNo);
 		req.setPageSize(pageSize);
 		PageResult<TbkCoupon> result = tbkService.getCouponItems(req);
+		return result;		
+	}
+	
+	/**
+	 * 获取淘口令
+	 * @author shuai.ding
+	 * @param text       口令弹框内容
+	 * @param url        口令跳转目标页
+	 * @return
+	 * @throws ApiException
+	 */
+	@RequestMapping("/getTPwd")
+	@ResponseBody
+	public PlainResult<String> getTPwd(String text,String url) throws ApiException{
+		PlainResult<String> result = tbkService.createTpwd(text, url);
 		return result;
-		
 	}
 }

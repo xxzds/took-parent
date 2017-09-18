@@ -5,6 +5,8 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Function;
@@ -13,13 +15,14 @@ import com.taobao.api.ApiException;
 import com.taobao.api.domain.NTbkItem;
 import com.taobao.api.request.TbkDgItemCouponGetRequest;
 import com.taobao.api.request.TbkItemInfoGetRequest;
+import com.taobao.api.request.TbkTpwdCreateRequest;
 import com.taobao.api.response.TbkDgItemCouponGetResponse;
 import com.taobao.api.response.TbkDgItemCouponGetResponse.TbkCoupon;
 import com.taobao.api.response.TbkItemGetResponse;
 import com.taobao.api.response.TbkItemInfoGetResponse;
+import com.taobao.api.response.TbkTpwdCreateResponse;
 import com.tooklili.convert.tbk.TbkItemConverter;
 import com.tooklili.convert.tbk.TbkItemDetailConverter;
-import com.tooklili.service.biz.api.tbk.TbkApiService;
 import com.tooklili.util.PropertiesUtil;
 import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;
@@ -36,6 +39,7 @@ import com.tooklili.vo.tbk.TbkItemRespVo;
  */
 @Service
 public class TbkService {
+	private static final Logger LOGGER = LoggerFactory.getLogger(TbkService.class);
 	
 	@Resource
 	private TbkApiService tbkApiService;
@@ -121,5 +125,40 @@ public class TbkService {
 		result.setTotalCount(tbkDgItemCouponGetResponse.getTotalResults());
 		result.setData(tbkDgItemCouponGetResponse.getResults());
 		return result;
+	}
+	
+	/**
+	 * 获取淘口令
+	 * @author shuai.ding
+	 * @param text   口令弹框内容
+	 * @param url    口令跳转目标页
+	 * @return
+	 * @throws ApiException 
+	 */
+	public PlainResult<String> createTpwd(String text,String url) throws ApiException{
+		PlainResult<String> result = new PlainResult<String>();
+		
+		if(StringUtils.isEmpty(text)){
+			return result.setErrorMessage("口令弹框内容不能为空");
+		}
+		if(text.length()<5){
+			return result.setErrorMessage("口令弹框内容不能少于5个字符 ");
+		}
+		if(StringUtils.isEmpty(url)){
+			return result.setErrorMessage("口令跳转目标页不能为空");
+		}
+		
+		TbkTpwdCreateRequest req = new TbkTpwdCreateRequest();
+		req.setText(text);
+		req.setUrl(url);
+		TbkTpwdCreateResponse rsp = tbkApiService.createTpwd(req);
+		
+		if(StringUtils.isNotEmpty(rsp.getErrorCode())){
+			LOGGER.info("调用获取淘口令接口失败，失败原因：{}",rsp.getSubMsg());
+			return result.setErrorMessage(rsp.getSubMsg());
+		}		
+		result.setData(rsp.getData().getModel());
+		return result;
+		
 	}
 }

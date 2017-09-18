@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
-
 import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
 import com.taobao.api.ApiException;
 import com.taobao.api.internal.util.StringUtils;
+import com.taobao.api.request.JuItemsSearchRequest.TopItemQuery;
 import com.taobao.api.request.TbkDgItemCouponGetRequest;
 import com.taobao.api.request.TbkItemGetRequest;
 import com.taobao.api.request.TbkItemInfoGetRequest;
@@ -18,9 +18,9 @@ import com.taobao.api.request.TbkJuTqgGetRequest;
 import com.taobao.api.request.TbkShopGetRequest;
 import com.taobao.api.request.TbkShopRecommendGetRequest;
 import com.taobao.api.request.TbkSpreadGetRequest.TbkSpreadRequest;
+import com.taobao.api.request.TbkTpwdCreateRequest;
 import com.taobao.api.request.TbkUatmEventGetRequest;
 import com.taobao.api.request.TbkUatmFavoritesGetRequest;
-import com.taobao.api.request.JuItemsSearchRequest.TopItemQuery;
 import com.taobao.api.response.JuItemsSearchResponse;
 import com.taobao.api.response.TbkDgItemCouponGetResponse;
 import com.taobao.api.response.TbkItemGetResponse;
@@ -30,6 +30,7 @@ import com.taobao.api.response.TbkJuTqgGetResponse;
 import com.taobao.api.response.TbkShopGetResponse;
 import com.taobao.api.response.TbkShopRecommendGetResponse;
 import com.taobao.api.response.TbkSpreadGetResponse;
+import com.taobao.api.response.TbkTpwdCreateResponse;
 import com.taobao.api.response.TbkUatmEventGetResponse;
 import com.taobao.api.response.TbkUatmFavoritesGetResponse;
 import com.tooklili.service.biz.api.tbk.TbkApiService;
@@ -239,6 +240,29 @@ public class TbkApiServiceTest extends BaseTest{
 			TbkDgItemCouponGetResponse rsp = tbkApiService.getCouponItem(req);
 			logger.info(JsonFormatTool.formatJson(JSON.toJSONString(rsp.getResults())));
 			logger.info("总个数:"+rsp.getTotalResults());
+		}catch(ApiException e){
+			logger.error("exception",e);
+		}
+	}
+	
+	/**
+	 * 淘宝客淘口令
+	 * @author shuai.ding
+	 */
+	@Test
+	public void createTpwdTest(){
+		try{
+			TbkTpwdCreateRequest req = new TbkTpwdCreateRequest();
+			//粘贴淘口令，到淘宝app中，弹出层提示信息
+			req.setText("歌兔呢 ");
+			req.setUrl("https://uland.taobao.com/coupon/edetail?activityId=779e7c90a5d146bca4cbd0482538b0fb&pid=mm_120259453_19682654_69036167&itemId=556837356380&src=cd_cdll");			
+			TbkTpwdCreateResponse rsp = tbkApiService.createTpwd(req);
+			
+			if(StringUtils.areNotEmpty(rsp.getErrorCode())){
+				logger.info(rsp.getSubMsg());
+			}else{
+				logger.info(JsonFormatTool.formatJson(JSON.toJSONString(rsp.getData())));
+			}
 		}catch(ApiException e){
 			logger.error("exception",e);
 		}

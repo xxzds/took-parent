@@ -11,9 +11,9 @@
 	<dependencies>
 		<!-- 淘宝接口 -->
 		<dependency>
-			<groupId>com.taobao</groupId>
-			<artifactId>taobao-sdk-java-auto_1462616566587</artifactId>
-			<version>20170721</version>
+		  <groupId>com.taobao</groupId>
+		  <artifactId>taobao-sdk-java-auto_1462616566587</artifactId>
+		  <version>20170918</version>
 		</dependency>
 	</dependencies>
 </project>

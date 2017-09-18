@@ -75,6 +75,16 @@ public class Item {
 	 * 结束时间
 	 */
 	private String couponEndTime;
+	
+	/**
+	 * 添加时间
+	 */
+	private String addTime;
+	
+	/**
+	 * 商品类别(B、天猫 C、淘宝)
+	 */
+	private String shopType;
 
 	public Long getId() {
 		return id;
@@ -186,5 +196,21 @@ public class Item {
 
 	public void setCouponEndTime(String couponEndTime) {
 		this.couponEndTime = couponEndTime;
+	}
+
+	public String getAddTime() {
+		return addTime;
+	}
+
+	public void setAddTime(String addTime) {
+		this.addTime = addTime;
+	}
+
+	public String getShopType() {
+		return shopType;
+	}
+
+	public void setShopType(String shopType) {
+		this.shopType = shopType;
 	}
 }

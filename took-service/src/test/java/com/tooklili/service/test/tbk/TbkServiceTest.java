@@ -10,6 +10,8 @@ import com.tooklili.service.biz.api.tbk.TbkService;
 import com.tooklili.service.test.BaseTest;
 import com.tooklili.util.JsonFormatTool;
 import com.tooklili.util.result.PageResult;
+import com.tooklili.util.result.PlainResult;
+import com.tooklili.vo.tbk.TbkItemDetailRespVo;
 import com.tooklili.vo.tbk.TbkItemReqVo;
 import com.tooklili.vo.tbk.TbkItemRespVo;
 
@@ -36,6 +38,20 @@ public class TbkServiceTest extends BaseTest{
 			PageResult<TbkItemRespVo> result = tbkService.getItems(tbkItemReqVo);
 			logger.info(JsonFormatTool.formatJson(JSON.toJSONString(result.getData())));
 		} catch (ApiException e) {
+			logger.error("exception",e);
+		}
+	}
+	
+	/**
+	 * 通过商品id，查询商品信息
+	 * @author shuai.ding
+	 */
+	@Test
+	public void getItemDetail(){
+		try{
+			PlainResult<TbkItemDetailRespVo> result = tbkService.getItemDetail("556837356380");
+			logger.info(JsonFormatTool.formatJson(JSON.toJSONString(result.getData())));
+		}catch(Exception e){
 			logger.error("exception",e);
 		}
 	}

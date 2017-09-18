@@ -9,6 +9,7 @@ import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.TaobaoClient;
 import com.taobao.api.request.JuItemsSearchRequest;
 import com.taobao.api.request.JuItemsSearchRequest.TopItemQuery;
+import com.taobao.api.request.TbkCouponGetRequest;
 import com.taobao.api.request.TbkDgItemCouponGetRequest;
 import com.taobao.api.request.TbkItemGetRequest;
 import com.taobao.api.request.TbkItemInfoGetRequest;
@@ -22,7 +23,9 @@ import com.taobao.api.request.TbkUatmEventItemGetRequest;
 import com.taobao.api.request.TbkUatmFavoritesGetRequest;
 import com.taobao.api.request.TbkUatmFavoritesItemGetRequest;
 import com.taobao.api.request.TbkSpreadGetRequest.TbkSpreadRequest;
+import com.taobao.api.request.TbkTpwdCreateRequest;
 import com.taobao.api.response.JuItemsSearchResponse;
+import com.taobao.api.response.TbkCouponGetResponse;
 import com.taobao.api.response.TbkDgItemCouponGetResponse;
 import com.taobao.api.response.TbkItemGetResponse;
 import com.taobao.api.response.TbkItemInfoGetResponse;
@@ -31,6 +34,7 @@ import com.taobao.api.response.TbkJuTqgGetResponse;
 import com.taobao.api.response.TbkShopGetResponse;
 import com.taobao.api.response.TbkShopRecommendGetResponse;
 import com.taobao.api.response.TbkSpreadGetResponse;
+import com.taobao.api.response.TbkTpwdCreateResponse;
 import com.taobao.api.response.TbkUatmEventGetResponse;
 import com.taobao.api.response.TbkUatmEventItemGetResponse;
 import com.taobao.api.response.TbkUatmFavoritesGetResponse;
@@ -235,6 +239,33 @@ public class TbkApiService {
 	public TbkDgItemCouponGetResponse getCouponItem(TbkDgItemCouponGetRequest req) throws ApiException{
 		TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
 		TbkDgItemCouponGetResponse rsp = client.execute(req);
+		return rsp;
+	}
+	
+	/**
+	 * 阿里妈妈推广券信息查询
+	 * @author shuai.ding
+	 * @param req
+	 * @return
+	 * @throws ApiException
+	 */
+	public TbkCouponGetResponse getCoupon(TbkCouponGetRequest req) throws ApiException{
+		TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
+		TbkCouponGetResponse rsp = client.execute(req);
+		return rsp;
+	}
+	
+	/**
+	 * 淘宝客淘口令
+	 * 提供淘客生成淘口令接口，淘客提交口令内容、logo、url等参数，生成淘口令关键key如：￥SADadW￥，后续进行文案包装组装用于传播
+	 * @author shuai.ding
+	 * @param req
+	 * @return
+	 * @throws ApiException
+	 */
+	public TbkTpwdCreateResponse createTpwd(TbkTpwdCreateRequest req) throws ApiException{
+		TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
+		TbkTpwdCreateResponse rsp = client.execute(req);
 		return rsp;
 	}
 }
