@@ -23,4 +23,10 @@ public class ItemDaoTest extends BaseTest{
 			logger.info(JSON.toJSONString(item));
 		}
 	}
+	
+	@Test
+	public void queryItemByIdTest(){
+		Item item = itemDao.queryItemById(156801L);
+		logger.info(JSON.toJSONString(item));
+	}
 }

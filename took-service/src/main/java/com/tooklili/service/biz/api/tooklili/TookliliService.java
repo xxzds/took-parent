@@ -15,9 +15,11 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.tooklili.dao.intf.tooklili.ItemDao;
 import com.tooklili.enums.tooklili.ItemCateEnum;
 import com.tooklili.model.tooklili.Item;
 import com.tooklili.util.result.PageResult;
+import com.tooklili.util.result.PlainResult;
 
 /**
  * 从redis缓存中取优惠券商品
@@ -29,6 +31,9 @@ public class TookliliService {
 	
 	@Resource
 	private RedisTemplate<?, ?> redisTemplate;
+	
+	@Resource
+	private ItemDao itemDao;
 	
 	private  static StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
 
@@ -86,5 +91,20 @@ public class TookliliService {
 			}
 			
 		});
+	}
+	
+	/**
+	 * 通过主键id查询商品
+	 * @param id
+	 * @return
+	 */
+	public PlainResult<Item> queryItemById(Long id){
+		PlainResult<Item> result = new PlainResult<Item>();
+		if(id==null){
+			return result.setErrorMessage("参数id不能为空");
+		}		
+		Item item = itemDao.queryItemById(id);
+		result.setData(item);		
+		return result;
 	}
 }

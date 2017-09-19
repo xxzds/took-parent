@@ -3,12 +3,14 @@ package com.tooklili.app.web.controller.tooklili;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tooklili.model.tooklili.Item;
 import com.tooklili.service.biz.api.tooklili.TookliliService;
 import com.tooklili.util.result.PageResult;
+import com.tooklili.util.result.PlainResult;
 
 /**
  * tooklili控制器
@@ -25,6 +27,12 @@ public class TookliliController {
 	@ResponseBody
 	public PageResult<Item> queryCouponItemsByCateId(Integer cateId,Long currentPage,Long pageSize){
 		return tookliliService.queryCouponItemsByCateId(cateId, currentPage, pageSize);
+	}
+	
+	@RequestMapping("/getitem/{id}")
+	@ResponseBody
+	public PlainResult<Item> queryItemById(@PathVariable Long id){
+		return tookliliService.queryItemById(id);
 	}
 
 }

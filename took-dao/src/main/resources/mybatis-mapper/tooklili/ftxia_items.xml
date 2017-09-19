@@ -31,5 +31,27 @@
 	ORDER BY add_time DESC	
 </select>
 
+<select id="queryItemById" resultType="com.tooklili.model.tooklili.Item">
+	select 
+	id,
+	cate_id as cardId,
+	num_iid as numIid,
+	title,
+	pic_url as picUrl,
+	price,
+	coupon_price as couponPrice,
+	quan,
+	Quan_surplus as quanSurplus,
+	Quan_receive as quanReceive,
+	volume,
+	quanurl as quanUrl,
+	shop_type as shopType,
+	from_unixtime(coupon_start_time,'%Y-%m-%d %H:%i:%s') as couponStartTime,
+	from_unixtime(coupon_end_time,'%Y-%m-%d %H:%i:%s') as couponEndTime,
+	from_unixtime(add_time,'%Y-%m-%d %H:%i:%s') as addTime
+	from ftxia_items
+	where id=#{id}
+</select>
+
 
 </mapper>

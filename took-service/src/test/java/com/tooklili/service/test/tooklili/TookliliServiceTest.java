@@ -10,6 +10,7 @@ import com.tooklili.service.biz.api.tooklili.TookliliService;
 import com.tooklili.service.test.BaseTest;
 import com.tooklili.util.JsonFormatTool;
 import com.tooklili.util.result.PageResult;
+import com.tooklili.util.result.PlainResult;
 
 /**
  * 
@@ -24,6 +25,12 @@ public class TookliliServiceTest extends BaseTest{
 	@Test
 	public void queryCouponItemsByCateId(){
 		PageResult<Item> result =  tookliliService.queryCouponItemsByCateId(35, 2L, 1069L);		
+		logger.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
+	}
+	
+	@Test
+	public void queryItemByIdTest(){
+		PlainResult<Item> result = tookliliService.queryItemById(156801L);
 		logger.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
 	}
 }
