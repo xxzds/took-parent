@@ -18,11 +18,10 @@ import com.tooklili.util.TookliliCookieUtil;
 public class CollectItemsJob extends BaseJob{
 	private static final Logger LOGGER = LoggerFactory.getLogger(CollectItemsJob.class);
 	
-	private PropertiesUtil propertiesUtil = PropertiesUtil.getInstance("system.properties");
-	private String tookliliPrefixUrl=propertiesUtil.getValue("tooklili_prefix_url");
+	private String tookliliPrefixUrl="http://admin.tooklili.com";
 	
 	public CollectItemsJob() {
-		this.setCorn(propertiesUtil.getValue("collect_item_cron"));
+		this.setCorn(PropertiesUtil.getInstance("system.properties").getValue("collect_item_cron"));
 	}
 
 	@Override

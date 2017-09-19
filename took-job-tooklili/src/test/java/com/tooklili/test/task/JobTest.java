@@ -5,8 +5,10 @@ import javax.annotation.Resource;
 import org.junit.Test;
 
 import com.tooklili.task.ClearExpiredItemsJob;
+import com.tooklili.task.CollectItemsJob;
 import com.tooklili.task.SyncCouponsToReidsJob;
 import com.tooklili.test.BaseTest;
+import com.tooklili.util.TookliliCookieUtil;
 
 /**
  * @author shuai.ding
@@ -20,6 +22,14 @@ public class JobTest extends BaseTest{
 	@Resource
 	private ClearExpiredItemsJob clearExpiredItemsJob;
 	
+	@Resource
+	private CollectItemsJob collectItemsJob;
+	
+	@Test
+	public void getCookie(){
+		logger.info(TookliliCookieUtil.getLoginCookies());
+	}
+	
 	@Test
 	public void syncCouponsToReidsJobTest(){
 		syncCouponsToReidsJob.execute();
@@ -28,5 +38,10 @@ public class JobTest extends BaseTest{
 	@Test
 	public void ClearExpiredItemsJobTest(){
 		clearExpiredItemsJob.execute();
+	}
+	
+	@Test
+	public void collectItemsJobTest(){
+		collectItemsJob.execute();
 	}
 }

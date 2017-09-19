@@ -68,7 +68,7 @@ public class TookliliCookieUtil {
 			}
 			
 			// 1、登录，获取cookie
-			String url = "http://admin.tooklili.com:index.php?m=index&a=login";
+			String url = "http://admin.tooklili.com/index.php?m=index&a=login";
 			Map<String, String> requestParams = Maps.newHashMap();
 			requestParams.put("username", "admin");
 			requestParams.put("password", "123456");
