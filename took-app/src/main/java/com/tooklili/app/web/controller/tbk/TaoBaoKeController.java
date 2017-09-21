@@ -103,13 +103,14 @@ public class TaoBaoKeController {
 	 * @author shuai.ding
 	 * @param text       口令弹框内容
 	 * @param url        口令跳转目标页
+	 * @param logo        口令弹框logoURL 可选 如https://uland.taobao.com/
 	 * @return
 	 * @throws ApiException
 	 */
 	@RequestMapping("/getTPwd")
 	@ResponseBody
-	public PlainResult<String> getTPwd(String text,String url) throws ApiException{
-		PlainResult<String> result = tbkService.createTpwd(text, url);
+	public PlainResult<String> getTPwd(String text,String url,String logo) throws ApiException{
+		PlainResult<String> result = tbkService.createTpwd(text, url,logo);
 		return result;
 	}
 }

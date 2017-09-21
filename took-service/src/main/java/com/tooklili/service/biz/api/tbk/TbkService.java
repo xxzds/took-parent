@@ -132,10 +132,11 @@ public class TbkService {
 	 * @author shuai.ding
 	 * @param text   口令弹框内容
 	 * @param url    口令跳转目标页
+	 * @param logo   口令弹框logoURL 可选 如https://uland.taobao.com/
 	 * @return
 	 * @throws ApiException 
 	 */
-	public PlainResult<String> createTpwd(String text,String url) throws ApiException{
+	public PlainResult<String> createTpwd(String text,String url,String logo) throws ApiException{
 		PlainResult<String> result = new PlainResult<String>();
 		
 		if(StringUtils.isEmpty(text)){
@@ -147,10 +148,13 @@ public class TbkService {
 		if(StringUtils.isEmpty(url)){
 			return result.setErrorMessage("口令跳转目标页不能为空");
 		}
-		
+				
 		TbkTpwdCreateRequest req = new TbkTpwdCreateRequest();
 		req.setText(text);
 		req.setUrl(url);
+		if(StringUtils.isNotEmpty(logo)){
+			req.setLogo(logo);
+		}
 		TbkTpwdCreateResponse rsp = tbkApiService.createTpwd(req);
 		
 		if(StringUtils.isNotEmpty(rsp.getErrorCode())){
