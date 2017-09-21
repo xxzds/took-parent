@@ -16,7 +16,10 @@ import com.tooklili.util.result.CommonResultCode;
 
 /**
  * 自定义异常处理类
- * 
+ * 此方法只对在执行controller中的方法时，出现异常，才会执行，
+ * 如对数据绑定时的异常，不会捕获,报400，可由web.xml配置400状态跳转的页面。
+ * 全局异常处理，可参照这篇文章
+ * http://blog.csdn.net/shaokai132333/article/details/52712846
  * @author shuai.ding
  *
  * @date 2017年2月13日下午2:38:39
