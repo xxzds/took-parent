@@ -26,6 +26,10 @@ public interface HttpCallService {
 
     PlainResult<String> urlConnectionGet(String url, Map<String, String> params);
     
+    PlainResult<byte[]> urlConnectionGetReturnByte(String url);
+    
+    PlainResult<byte[]> urlConnectionGetReturnByte(String url, Map<String, String> params);
+    
     PlainResult<String> httpUpload(String requestUri,File file);
     
     PlainResult<String> httpUpload(String requestUri,File file,String fileName);

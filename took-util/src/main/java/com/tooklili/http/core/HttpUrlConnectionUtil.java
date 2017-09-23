@@ -1,11 +1,9 @@
 package com.tooklili.http.core;
 
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -13,6 +11,10 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.Map;
+
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * jdk自带，http请求封装
@@ -76,9 +78,7 @@ public class HttpUrlConnectionUtil {
 			if(param!=null && !"".equals(param)){
 				out.write(param.getBytes(UTF8));
 			}
-			
 			out.flush();
-
 			StringBuilder sb = new StringBuilder();
 			String line;
 
@@ -120,7 +120,6 @@ public class HttpUrlConnectionUtil {
 
 		HttpURLConnection conn = null;
 		BufferedReader in = null;
-		OutputStream out = null;
 
 		try {
 			StringBuilder urlParam = new StringBuilder();
@@ -160,6 +159,75 @@ public class HttpUrlConnectionUtil {
 			logger.error("[IOException]doGet: url[" + urlStr + "] msg=" + e.getMessage(),e);
 			throw e;
 		} finally {
+			IOUtils.closeQuietly(in);
+
+			if (conn != null) {
+				conn.disconnect();
+			}
+		}
+	}
+	
+	
+	/**
+	 * 通过http get请求，获取二进制数据
+	 * @author shuai.ding
+	 * @param urlStr
+	 * @param params
+	 * @param timeout
+	 * @return
+	 * @throws SocketTimeoutException
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 */
+	public static byte[] doGetReturnByte(String urlStr, Map<String, String> params,
+			int timeout) throws SocketTimeoutException, MalformedURLException,
+			IOException {
+
+		HttpURLConnection conn = null;
+		InputStream in = null;
+		ByteArrayOutputStream out = null;
+
+		try {
+			StringBuilder urlParam = new StringBuilder();
+			if (params != null) {
+				for (String key : params.keySet()) {
+					urlParam.append(urlParam.length() == 0 ? "?" : "&");
+					urlParam.append(key).append("=").append(params.get(key));
+				}
+			}
+
+			URL url = new URL(urlStr + urlParam.toString());
+			conn = (HttpURLConnection) url.openConnection();
+			conn.setConnectTimeout(timeout);
+			conn.setReadTimeout(timeout);
+			conn.setDoInput(true);
+			conn.setDoOutput(true);
+			conn.setRequestMethod(HTTP_METHOD.GET);
+			// 输入流  
+			in = conn.getInputStream();  
+			
+			
+			byte[] buf = new byte[1024];  
+			int length = 0;  
+		    out = new ByteArrayOutputStream();
+			while ((length = in.read(buf)) != -1) {  
+			    out.write(buf, 0, length);  
+			}  
+		    		    
+			return out.toByteArray();
+		} catch (SocketTimeoutException e) {
+			logger.error("[SocketTimeoutException]doGet: url[" + urlStr + "] timout:[" + timeout + "]  msg=" + e.getMessage());
+			throw e;
+		} catch (MalformedURLException e) {
+			logger.error("[MalformedURLException]doGet: url[" + urlStr + "] msg=" + e.getMessage());
+			throw e;
+		} catch (IOException e) {
+			logger.error("[IOException]doGet: url[" + urlStr + "] msg=" + e.getMessage());
+			throw e;
+		}catch(Exception e){
+			logger.error("[Exception]doGet: url[" + urlStr + "] msg=" + e.getMessage());
+			throw e;
+		}finally {
 			if (out != null) {
 				out.flush();
 			}

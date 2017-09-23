@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.http.client.ResponseHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.tooklili.http.core.HttpGetUtil;
 import com.tooklili.http.core.HttpPostUtil;
@@ -20,6 +22,7 @@ import com.tooklili.util.result.PlainResult;
  * @date 2016年7月20日下午2:33:05
  */
 public class HttpCallServiceImpl implements HttpCallService {
+	private static final Logger LOGGER = LoggerFactory.getLogger(HttpCallServiceImpl.class);
 
     private static final ResponseHandler<PlainResult<String>> defaultResponseHandler = new HttpResponseHandler();
 
@@ -63,8 +66,37 @@ public class HttpCallServiceImpl implements HttpCallService {
             result.setData(rt);
             return result;
         } catch (Exception e) {
+        	LOGGER.error("exception",e);
         	return result.setErrorMessage(e.getMessage());
         }
+    }
+    
+    @Override
+	public PlainResult<byte[]> urlConnectionGetReturnByte(String url){
+    	PlainResult<byte[]> result = new PlainResult<byte[]>();
+    	try{
+    		
+    		byte[] bytes = HttpUrlConnectionUtil.doGetReturnByte(url, null, 5000);
+    		result.setData(bytes);
+    		return result;
+    	}catch(Exception e){
+    		LOGGER.error("exception",e);
+        	return result.setErrorMessage(e.getMessage());
+    	}	
+    }
+    
+    @Override
+	public PlainResult<byte[]> urlConnectionGetReturnByte(String url, Map<String, String> params){
+    	PlainResult<byte[]> result = new PlainResult<byte[]>();
+    	try{
+    		
+    		byte[] bytes = HttpUrlConnectionUtil.doGetReturnByte(url, params, 5000);
+    		result.setData(bytes);
+    		return result;
+    	}catch(Exception e){
+    		LOGGER.error("exception",e);
+        	return result.setErrorMessage(e.getMessage());
+    	}	
     }
 
 	@Override

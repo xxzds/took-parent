@@ -15,6 +15,7 @@ import com.alibaba.fastjson.JSON;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.tooklili.dao.intf.tooklili.ItemDao;
+import com.tooklili.enums.tooklili.ItemCateEnum;
 import com.tooklili.model.tooklili.Item;
 import com.tooklili.service.test.BaseTest;
 
@@ -36,7 +37,9 @@ public class RedisTest extends BaseTest{
 	@Test
 	public void setItemsToRedis(){
 		try{
-			final List<Item> items = itemDao.queryItems(35);
+			
+			final ItemCateEnum constume = ItemCateEnum.CONSTUME;
+			final List<Item> items = itemDao.queryItems(constume.getCode());
 			
 			redisTemplate.execute(new RedisCallback<Long>() {
 				@Override
@@ -46,7 +49,7 @@ public class RedisTest extends BaseTest{
 						byte[] bytes =stringRedisSerializer.serialize(JSON.toJSONString(item));
 						list.add(bytes);
 					}
-					return connection.lPush(stringRedisSerializer.serialize("items"), list.toArray(new byte[list.size()][]));
+					return connection.lPush(stringRedisSerializer.serialize(constume.getName()), list.toArray(new byte[list.size()][]));
 				}
 			});
 		}catch(Exception e){
@@ -64,8 +67,9 @@ public class RedisTest extends BaseTest{
 			redisTemplate.execute(new RedisCallback<List<Item>>(){
 				@Override
 				public List<Item> doInRedis(RedisConnection connection) throws DataAccessException {
-					byte[] key = stringRedisSerializer.serialize("items");
+					byte[] key = stringRedisSerializer.serialize(ItemCateEnum.CONSTUME.getName());
 					List<byte[]> byteLists =  connection.lRange(key, 1, 10);
+//					List<byte[]> byteLists =  connection.lRange(key, 0, connection.lLen(key));
 					
 					List<Item> items = Lists.transform(byteLists, new Function<byte[], Item>() {
 

@@ -13,11 +13,18 @@ public class PageResult<T> extends BaseResult {
     
     private List<T>           data             = Lists.newArrayList();
     
-    public PageResult(){}
+    public PageResult(){
+    	this(null,null,null);
+    }
 
     public PageResult(Long currentPage, Long pageSize) {
+        this(currentPage,pageSize,null);
+    }
+    
+    public PageResult(Long currentPage, Long pageSize,Long totalCount) {
         this.currentPage = currentPage;
         this.pageSize = pageSize;
+        this.totalCount=totalCount;
     }
 
     public Long getTotalCount() {

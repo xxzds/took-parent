@@ -5,7 +5,7 @@
 <select id="queryItems" resultType="com.tooklili.model.tooklili.Item">
 	select 
 	id,
-	cate_id as cardId,
+	cate_id as cateId,
 	num_iid as numIid,
 	title,
 	pic_url as picUrl,
