@@ -1,5 +1,8 @@
 package com.tooklili.service.biz.api.quickResponseCode;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.codec.binary.Base64;
@@ -33,13 +36,14 @@ public class QuickResponseCodeService {
 	 * @author shuai.ding
 	 * @param url        需转成二维码的url地址
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 */
-	public PlainResult<String> getQrCodeBase64(String url){
+	public PlainResult<String> getQrCodeBase64(String url) throws UnsupportedEncodingException{
 		PlainResult<String> result = new PlainResult<String>();
 		if(StringUtils.isEmpty(url)){
 			return result.setErrorMessage("url不能为空");
 		}
-				
+		url=URLEncoder.encode(url, "utf-8");	
 		PlainResult<byte[]> responseResult =  httpCallService.urlConnectionGetReturnByte(urlPrfix+url);
 		if(!responseResult.isSuccess()){
 			LOGGER.info("调用地址【{}】失败，失败原因：{}",urlPrfix+url,responseResult.getMessage());
