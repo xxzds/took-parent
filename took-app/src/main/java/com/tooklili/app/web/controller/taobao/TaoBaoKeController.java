@@ -1,4 +1,4 @@
-package com.tooklili.app.web.controller.tbk;
+package com.tooklili.app.web.controller.taobao;
 
 import javax.annotation.Resource;
 
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.taobao.api.ApiException;
 import com.taobao.api.request.TbkDgItemCouponGetRequest;
 import com.taobao.api.response.TbkDgItemCouponGetResponse.TbkCoupon;
-import com.tooklili.service.biz.api.tbk.TbkService;
+import com.tooklili.service.biz.intf.taobao.TbkService;
 import com.tooklili.util.PropertiesUtil;
 import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;

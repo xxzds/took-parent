@@ -1,4 +1,4 @@
-package com.tooklili.service.biz.api.tbk;
+package com.tooklili.service.biz.impl.taobao;
 
 import java.util.List;
 
@@ -23,6 +23,8 @@ import com.taobao.api.response.TbkItemInfoGetResponse;
 import com.taobao.api.response.TbkTpwdCreateResponse;
 import com.tooklili.convert.tbk.TbkItemConverter;
 import com.tooklili.convert.tbk.TbkItemDetailConverter;
+import com.tooklili.service.biz.intf.taobao.TbkApiService;
+import com.tooklili.service.biz.intf.taobao.TbkService;
 import com.tooklili.util.PropertiesUtil;
 import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;
@@ -38,8 +40,8 @@ import com.tooklili.vo.tbk.TbkItemRespVo;
  * @date 2017年8月4日下午5:11:22
  */
 @Service
-public class TbkService {
-	private static final Logger LOGGER = LoggerFactory.getLogger(TbkService.class);
+public class TbkServiceImpl implements TbkService{
+	private static final Logger LOGGER = LoggerFactory.getLogger(TbkServiceImpl.class);
 	
 	@Resource
 	private TbkApiService tbkApiService;

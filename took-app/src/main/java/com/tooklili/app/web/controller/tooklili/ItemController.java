@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tooklili.model.tooklili.Item;
-import com.tooklili.service.biz.api.tooklili.TookliliService;
+import com.tooklili.service.biz.intf.tooklili.ItemService;
 import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;
 
@@ -18,21 +18,21 @@ import com.tooklili.util.result.PlainResult;
  * @date 2017年9月16日上午11:36:21
  */
 @Controller
-public class TookliliController {
+public class ItemController {	
 	
 	@Resource
-	private TookliliService tookliliService;
+	private ItemService itemService;
 	
 	@RequestMapping("/couponItems")
 	@ResponseBody
 	public PageResult<Item> queryCouponItemsByCateId(Integer cateId,Long currentPage,Long pageSize){
-		return tookliliService.queryCouponItemsByCateId(cateId, currentPage, pageSize);
+		return itemService.queryCouponItemsByCateId(cateId, currentPage, pageSize);
 	}
 	
 	@RequestMapping("/getitem/{id}")
 	@ResponseBody
 	public PlainResult<Item> queryItemById(@PathVariable Long id){
-		return tookliliService.queryItemById(id);
+		return itemService.queryItemById(id);
 	}
 
 }

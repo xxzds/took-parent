@@ -1,4 +1,4 @@
-package com.tooklili.service.biz.api.tbk;
+package com.tooklili.service.biz.impl.taobao;
 
 import java.util.List;
 
@@ -18,12 +18,12 @@ import com.taobao.api.request.TbkJuTqgGetRequest;
 import com.taobao.api.request.TbkShopGetRequest;
 import com.taobao.api.request.TbkShopRecommendGetRequest;
 import com.taobao.api.request.TbkSpreadGetRequest;
+import com.taobao.api.request.TbkSpreadGetRequest.TbkSpreadRequest;
+import com.taobao.api.request.TbkTpwdCreateRequest;
 import com.taobao.api.request.TbkUatmEventGetRequest;
 import com.taobao.api.request.TbkUatmEventItemGetRequest;
 import com.taobao.api.request.TbkUatmFavoritesGetRequest;
 import com.taobao.api.request.TbkUatmFavoritesItemGetRequest;
-import com.taobao.api.request.TbkSpreadGetRequest.TbkSpreadRequest;
-import com.taobao.api.request.TbkTpwdCreateRequest;
 import com.taobao.api.response.JuItemsSearchResponse;
 import com.taobao.api.response.TbkCouponGetResponse;
 import com.taobao.api.response.TbkDgItemCouponGetResponse;
@@ -39,7 +39,7 @@ import com.taobao.api.response.TbkUatmEventGetResponse;
 import com.taobao.api.response.TbkUatmEventItemGetResponse;
 import com.taobao.api.response.TbkUatmFavoritesGetResponse;
 import com.taobao.api.response.TbkUatmFavoritesItemGetResponse;
-import com.tooklili.util.PropertiesUtil;
+import com.tooklili.service.biz.intf.taobao.TbkApiService;
 
 /**
  * 淘宝客接口服务
@@ -48,12 +48,7 @@ import com.tooklili.util.PropertiesUtil;
  * @date 2017年6月3日下午4:45:45
  */
 @Service
-public class TbkApiService {
-	
-	private String url = PropertiesUtil.getInstance("tbk.properties").getValue("tbk.url");
-	private String appkey = PropertiesUtil.getInstance("tbk.properties").getValue("tbk.appkey");
-	private String secret = PropertiesUtil.getInstance("tbk.properties").getValue("tbk.secret");
-
+public class TbkApiServiceImpl implements TbkApiService{
 	/**
 	 * 淘宝客商品查询
 	 * @author shuai.ding

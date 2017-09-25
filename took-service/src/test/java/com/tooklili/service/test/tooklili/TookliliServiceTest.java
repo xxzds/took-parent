@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
 import com.tooklili.model.tooklili.Item;
-import com.tooklili.service.biz.api.tooklili.TookliliService;
+import com.tooklili.service.biz.impl.tooklili.ItemServiceImpl;
 import com.tooklili.service.test.BaseTest;
 import com.tooklili.util.JsonFormatTool;
 import com.tooklili.util.result.PageResult;
@@ -20,7 +20,7 @@ import com.tooklili.util.result.PlainResult;
 public class TookliliServiceTest extends BaseTest{
 
 	@Resource
-	private TookliliService tookliliService;
+	private ItemServiceImpl tookliliService;
 	
 	@Test
 	public void queryCouponItemsByCateId(){

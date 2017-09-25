@@ -1,4 +1,4 @@
-package com.tooklili.service.biz.api.quickResponseCode;
+package com.tooklili.service.biz.impl.qrcode;
 
 import javax.annotation.Resource;
 
@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.tooklili.http.HttpCallService;
+import com.tooklili.service.biz.intf.qrcode.QuickResponseCodeService;
 import com.tooklili.util.result.PlainResult;
 
 /**
@@ -17,17 +18,12 @@ import com.tooklili.util.result.PlainResult;
  * @date 2017年9月22日上午10:17:00
  */
 @Service
-public class QuickResponseCodeService {
+public class QuickResponseCodeServiceImpl implements QuickResponseCodeService{
 	private static final Logger LOGGER = LoggerFactory.getLogger(QuickResponseCodeService.class);
 	
 	@Resource
 	private HttpCallService httpCallService;
 	
-	/**
-	 * 获取二维码地址前缀
-	 */
-	private String urlPrfix ="http://qr.liantu.com/api.php?text=";
-
 	/**
 	 * 生成二维码base64字符串
 	 * @author shuai.ding

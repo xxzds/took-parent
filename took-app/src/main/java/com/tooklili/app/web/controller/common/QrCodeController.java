@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.tooklili.service.biz.api.quickResponseCode.QuickResponseCodeService;
+import com.tooklili.service.biz.intf.qrcode.QuickResponseCodeService;
 import com.tooklili.util.result.PlainResult;
 
 @Controller

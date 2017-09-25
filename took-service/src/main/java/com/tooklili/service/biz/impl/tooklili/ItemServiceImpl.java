@@ -1,4 +1,4 @@
-package com.tooklili.service.biz.api.tooklili;
+package com.tooklili.service.biz.impl.tooklili;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +18,7 @@ import com.google.common.collect.Lists;
 import com.tooklili.dao.intf.tooklili.ItemDao;
 import com.tooklili.enums.tooklili.ItemCateEnum;
 import com.tooklili.model.tooklili.Item;
+import com.tooklili.service.biz.intf.tooklili.ItemService;
 import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;
 
@@ -27,7 +28,7 @@ import com.tooklili.util.result.PlainResult;
  * @date 2017年9月16日上午10:45:49
  */
 @Service
-public class TookliliService {
+public class ItemServiceImpl implements ItemService{
 	
 	@Resource
 	private RedisTemplate<?, ?> redisTemplate;
