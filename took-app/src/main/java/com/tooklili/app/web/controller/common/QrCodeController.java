@@ -1,5 +1,7 @@
 package com.tooklili.app.web.controller.common;
 
+import java.io.UnsupportedEncodingException;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
@@ -20,10 +22,11 @@ public class QrCodeController {
 	 * @author shuai.ding
 	 * @param url
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping("/getQrCodeBase64")
 	@ResponseBody
-	public PlainResult<String> getQrCodeBase64(String url){		
+	public PlainResult<String> getQrCodeBase64(String url) throws UnsupportedEncodingException{		
 		PlainResult<String> result =  quickResponseCodeService.getQrCodeBase64(url);		
 		return result;
 	}

@@ -25,7 +25,7 @@ public class QuickResponseCodeServiceTest extends BaseTest{
 	@Test
 	public void getCodeTest(){
 		try{
-			PlainResult<String> result =quickResponseCodeService.getQrCodeBase64("http://www.baidu.com");
+			PlainResult<String> result =quickResponseCodeService.getQrCodeBase64("http://www.tooklili.com:81/took-app/itemDetail.html?numIid=541422273065&id=197189");
 			
 			logger.info(result.getData());
 		}catch(Exception e){
