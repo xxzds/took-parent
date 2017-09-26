@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tooklili.dao.intf.tooklili.ItemDao">
 
-<select id="queryItems" resultType="com.tooklili.model.tooklili.Item">
+<select id="queryItemsByCateId" resultType="com.tooklili.model.tooklili.Item">
 	select 
 	id,
 	cate_id as cateId,
@@ -19,7 +19,8 @@
 	shop_type as shopType,
 	from_unixtime(coupon_start_time,'%Y-%m-%d %H:%i:%s') as couponStartTime,
 	from_unixtime(coupon_end_time,'%Y-%m-%d %H:%i:%s') as couponEndTime,
-	from_unixtime(add_time,'%Y-%m-%d %H:%i:%s') as addTime
+	from_unixtime(add_time,'%Y-%m-%d %H:%i:%s') as addTime,
+	intro
 	from ftxia_items
 	<where>
 		isq=1
@@ -48,7 +49,8 @@
 	shop_type as shopType,
 	from_unixtime(coupon_start_time,'%Y-%m-%d %H:%i:%s') as couponStartTime,
 	from_unixtime(coupon_end_time,'%Y-%m-%d %H:%i:%s') as couponEndTime,
-	from_unixtime(add_time,'%Y-%m-%d %H:%i:%s') as addTime
+	from_unixtime(add_time,'%Y-%m-%d %H:%i:%s') as addTime,
+	intro
 	from ftxia_items
 	where id=#{id}
 </select>

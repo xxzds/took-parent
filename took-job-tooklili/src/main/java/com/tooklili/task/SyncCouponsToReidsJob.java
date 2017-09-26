@@ -63,7 +63,7 @@ public class SyncCouponsToReidsJob extends BaseJob{
 	 */
 	private Long saveToRedis(final ItemCateEnum itemCateEnum){
 		//从数据库中查询指定商品
-		final List<Item> items = itemDao.queryItems(itemCateEnum.getCode());
+		final List<Item> items = itemDao.queryItemsByCateId(itemCateEnum.getCode());
 		
 		return redisTemplate.execute(new RedisCallback<Long>() {
 			@Override

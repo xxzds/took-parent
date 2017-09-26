@@ -18,7 +18,7 @@ public class ItemDaoTest extends BaseTest{
 
 	@Test
 	public void queryItemsTest(){
-		List<Item> list =  itemDao.queryItems(35);
+		List<Item> list =  itemDao.queryItemsByCateId(35);
 		for(Item item:list){
 			logger.info(JSON.toJSONString(item));
 		}

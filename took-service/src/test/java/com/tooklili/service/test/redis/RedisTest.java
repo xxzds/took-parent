@@ -39,7 +39,7 @@ public class RedisTest extends BaseTest{
 		try{
 			
 			final ItemCateEnum constume = ItemCateEnum.CONSTUME;
-			final List<Item> items = itemDao.queryItems(constume.getCode());
+			final List<Item> items = itemDao.queryItemsByCateId(constume.getCode());
 			
 			redisTemplate.execute(new RedisCallback<Long>() {
 				@Override

@@ -1,5 +1,7 @@
 package com.tooklili.service.biz.intf.qrcode;
 
+import java.io.UnsupportedEncodingException;
+
 import com.tooklili.util.result.PlainResult;
 
 /**
@@ -18,7 +20,8 @@ public interface QuickResponseCodeService {
 	 * @author shuai.ding
 	 * @param url        需转成二维码的url地址
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 */
-	public PlainResult<String> getQrCodeBase64(String url);
+	public PlainResult<String> getQrCodeBase64(String url) throws UnsupportedEncodingException;
 	
 }

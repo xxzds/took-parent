@@ -18,7 +18,7 @@
 			<list>
 				<value>classpath:jdbc.properties</value>
 				<value>classpath:redis.properties</value>
-				<value>classpath:mongo.properties</value>
+<!-- 				<value>classpath:mongo.properties</value> -->
 <!-- 				<value>classpath*:xxl-job/xxl-job-executor.properties</value> -->
 			</list>
 		</property>
@@ -42,7 +42,7 @@
 	<import resource="spring-redis-config.xml"/>
 	
 	<!-- mongodb -->
-	<import resource="spring-mongodb-config.xml"/>
+<!-- 	<import resource="spring-mongodb-config.xml"/> -->
 	
 	<!-- xxl-job -->
 <!-- 	<import resource="../xxl-job/applicationcontext-xxl-job.xml"/> -->

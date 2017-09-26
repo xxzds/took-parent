@@ -51,7 +51,7 @@ public class MongodbTest extends BaseTest{
 	@Test
 	public void insertTest(){
 		try{
-			List<Item> list = itemDao.queryItems(null);
+			List<Item> list = itemDao.queryItemsByCateId(null);
 			mongoTemplate.insert(list, "test");			
 		}catch(Exception e){
 			logger.error("exception",e);

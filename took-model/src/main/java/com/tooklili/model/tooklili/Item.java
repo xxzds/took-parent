@@ -85,6 +85,11 @@ public class Item {
 	 * 商品类别(B、天猫 C、淘宝)
 	 */
 	private String shopType;
+	
+	/**
+	 * 商品简单描述
+	 */
+	private String intro;
 
 	public Long getId() {
 		return id;
@@ -212,5 +217,13 @@ public class Item {
 
 	public void setShopType(String shopType) {
 		this.shopType = shopType;
+	}
+
+	public String getIntro() {
+		return intro;
+	}
+
+	public void setIntro(String intro) {
+		this.intro = intro;
 	}
 }

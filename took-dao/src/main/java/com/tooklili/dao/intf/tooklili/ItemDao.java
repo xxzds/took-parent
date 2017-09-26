@@ -13,7 +13,9 @@ import com.tooklili.model.tooklili.Item;
  */
 public interface ItemDao {
 	
-	public List<Item> queryItems(@Param("cateId") Integer cateId);
+	public List<Item> queryItemsByCateId(@Param("cateId") Integer cateId);
+	
+//	public PageList<Item> queryItems(@Param("item")Item item,@Param("pageBounds")PageBounds pageBounds);
 	
 	public Item queryItemById(Long id);
 }

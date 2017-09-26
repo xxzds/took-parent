@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tooklili.service.biz.intf.taobao.TaobaoService;
 import com.tooklili.util.result.ListResult;
@@ -28,6 +29,7 @@ public class TaobaoController {
 	 * @throws UnsupportedEncodingException
 	 */
 	@RequestMapping("/taobao/getItemImages")
+	@ResponseBody
 	public ListResult<String> getItemImages(String numIid) throws UnsupportedEncodingException{
 		ListResult<String> result = taobaoService.getItemImages(numIid);		
 		return result;
