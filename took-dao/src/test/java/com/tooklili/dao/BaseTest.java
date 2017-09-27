@@ -1,4 +1,4 @@
-package com.tooklili.dao.test;
+package com.tooklili.dao;
 
 import org.junit.Ignore;
 import org.junit.runner.RunWith;

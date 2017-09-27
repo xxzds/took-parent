@@ -1,4 +1,4 @@
-package com.tooklili.dao.test.admin;
+package com.tooklili.dao.admin;
 
 import java.util.Date;
 import java.util.List;
@@ -8,8 +8,8 @@ import javax.annotation.Resource;
 import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
+import com.tooklili.dao.BaseTest;
 import com.tooklili.dao.intf.admin.SysUserDao;
-import com.tooklili.dao.test.BaseTest;
 import com.tooklili.model.admin.SysUser;
 
 /**

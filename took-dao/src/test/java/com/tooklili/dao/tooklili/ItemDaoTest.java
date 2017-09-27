@@ -1,4 +1,4 @@
-package com.tooklili.dao.test.tooklili;
+package com.tooklili.dao.tooklili;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import javax.annotation.Resource;
 import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
+import com.tooklili.dao.BaseTest;
 import com.tooklili.dao.intf.tooklili.ItemDao;
-import com.tooklili.dao.test.BaseTest;
 import com.tooklili.model.tooklili.Item;
 
 public class ItemDaoTest extends BaseTest{
