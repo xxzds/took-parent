@@ -1,4 +1,4 @@
-package com.tooklili.service.test.spring;
+package com.tooklili.service.spring;
 
 import org.junit.Test;
 import org.slf4j.Logger;

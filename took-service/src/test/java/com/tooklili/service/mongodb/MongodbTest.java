@@ -1,4 +1,4 @@
-package com.tooklili.service.test.mongodb;
+package com.tooklili.service.mongodb;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import com.alibaba.fastjson.JSON;
 import com.tooklili.dao.intf.tooklili.ItemDao;
 import com.tooklili.model.tooklili.Item;
-import com.tooklili.service.test.BaseTest;
+import com.tooklili.service.BaseTest;
 import com.tooklili.service.util.MongoPageable;
 import com.tooklili.util.JsonFormatTool;
 import com.tooklili.util.result.PageResult;

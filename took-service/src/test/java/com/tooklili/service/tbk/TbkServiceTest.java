@@ -1,4 +1,4 @@
-package com.tooklili.service.test.tbk;
+package com.tooklili.service.tbk;
 
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import com.taobao.api.ApiException;
 import com.tooklili.http.HttpCallService;
 import com.tooklili.model.taobao.ItemImageDetailModel;
 import com.tooklili.service.biz.intf.taobao.TbkService;
-import com.tooklili.service.test.BaseTest;
+import com.tooklili.service.BaseTest;
 import com.tooklili.util.JsonFormatTool;
 import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;

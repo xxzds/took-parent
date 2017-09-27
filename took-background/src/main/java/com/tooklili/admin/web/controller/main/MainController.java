@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,12 +19,11 @@ import com.tooklili.service.biz.intf.admin.system.MenuService;
  */
 @Controller
 public class MainController {
-	private static final Logger LOGGER = LoggerFactory.getLogger(MainController.class);
 	
 	@Resource
 	private MenuService menuService;
 
-	@RequestMapping("/")
+	@RequestMapping("/main")
 	public String main() {
 		return "main/index";
 	}

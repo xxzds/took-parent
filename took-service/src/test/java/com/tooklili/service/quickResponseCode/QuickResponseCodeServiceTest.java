@@ -1,4 +1,4 @@
-package com.tooklili.service.test.quickResponseCode;
+package com.tooklili.service.quickResponseCode;
 
 import javax.annotation.Resource;
 
@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import com.tooklili.http.HttpCallService;
 import com.tooklili.service.biz.intf.qrcode.QuickResponseCodeService;
-import com.tooklili.service.test.BaseTest;
+import com.tooklili.service.BaseTest;
 import com.tooklili.util.result.PlainResult;
 
 /**

@@ -1,4 +1,4 @@
-package com.tooklili.service.test.dataoke;
+package com.tooklili.service.dataoke;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,7 +16,7 @@ import com.google.common.collect.Maps;
 import com.tooklili.http.HttpCallService;
 import com.tooklili.model.dataoke.DataokeRespModel;
 import com.tooklili.model.dataoke.Goods;
-import com.tooklili.service.test.BaseTest;
+import com.tooklili.service.BaseTest;
 import com.tooklili.util.HttpClientUtil;
 import com.tooklili.util.result.PlainResult;
 

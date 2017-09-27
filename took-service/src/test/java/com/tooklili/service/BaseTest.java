@@ -1,4 +1,4 @@
-package com.tooklili.service.test;
+package com.tooklili.service;
 
 import org.junit.Ignore;
 import org.junit.runner.RunWith;

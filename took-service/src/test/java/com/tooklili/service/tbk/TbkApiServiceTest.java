@@ -1,4 +1,4 @@
-package com.tooklili.service.test.tbk;
+package com.tooklili.service.tbk;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,7 @@ import com.taobao.api.response.TbkTpwdCreateResponse;
 import com.taobao.api.response.TbkUatmEventGetResponse;
 import com.taobao.api.response.TbkUatmFavoritesGetResponse;
 import com.tooklili.service.biz.intf.taobao.TbkApiService;
-import com.tooklili.service.test.BaseTest;
+import com.tooklili.service.BaseTest;
 import com.tooklili.util.JsonFormatTool;
 
 /**

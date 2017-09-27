@@ -1,4 +1,4 @@
-package com.tooklili.service.test.tbk;
+package com.tooklili.service.tbk;
 
 public class TbkTest {
 	

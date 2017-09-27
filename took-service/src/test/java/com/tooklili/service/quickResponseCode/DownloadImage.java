@@ -1,4 +1,4 @@
-package com.tooklili.service.test.quickResponseCode;
+package com.tooklili.service.quickResponseCode;
 
 import java.io.File;
 import java.io.FileOutputStream;

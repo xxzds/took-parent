@@ -1,4 +1,4 @@
-package com.tooklili.service.test.admin.system;
+package com.tooklili.service.admin.system;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import org.junit.Test;
 import com.alibaba.fastjson.JSON;
 import com.tooklili.model.admin.leftMenu.MenuNode;
 import com.tooklili.service.biz.intf.admin.system.MenuService;
-import com.tooklili.service.test.BaseTest;
+import com.tooklili.service.BaseTest;
 import com.tooklili.util.JsonFormatTool;
 
 /**

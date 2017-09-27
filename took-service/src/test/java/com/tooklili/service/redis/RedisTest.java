@@ -1,4 +1,4 @@
-package com.tooklili.service.test.redis;
+package com.tooklili.service.redis;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import com.google.common.collect.Lists;
 import com.tooklili.dao.intf.tooklili.ItemDao;
 import com.tooklili.enums.tooklili.ItemCateEnum;
 import com.tooklili.model.tooklili.Item;
-import com.tooklili.service.test.BaseTest;
+import com.tooklili.service.BaseTest;
 
 /**
  * redis 操作测试

@@ -1,4 +1,4 @@
-package com.tooklili.service.test.dataoke;
+package com.tooklili.service.dataoke;
 
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package com.tooklili.service.test.tooklili;
+package com.tooklili.service.tooklili;
 
 import javax.annotation.Resource;
 
@@ -7,7 +7,7 @@ import org.junit.Test;
 import com.alibaba.fastjson.JSON;
 import com.tooklili.model.tooklili.Item;
 import com.tooklili.service.biz.impl.tooklili.ItemServiceImpl;
-import com.tooklili.service.test.BaseTest;
+import com.tooklili.service.BaseTest;
 import com.tooklili.util.JsonFormatTool;
 import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;

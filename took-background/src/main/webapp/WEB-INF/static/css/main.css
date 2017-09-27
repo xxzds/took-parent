@@ -3,7 +3,8 @@
 	padding: 10px;
 }
 .north {
-	background: #0259A6 url("../images/north.jpg") no-repeat;
+/* 	background: #0259A6 url("../images/north.jpg") no-repeat; */
+    background: #0259A6;
 	height: 70px;
 }
 .north .right{

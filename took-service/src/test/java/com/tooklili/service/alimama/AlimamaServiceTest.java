@@ -1,4 +1,4 @@
-package com.tooklili.service.test.alimama;
+	package com.tooklili.service.alimama;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import com.google.common.collect.Maps;
 import com.tooklili.http.HttpCallService;
-import com.tooklili.service.test.BaseTest;
+import com.tooklili.service.BaseTest;
 import com.tooklili.util.JsonFormatTool;
 import com.tooklili.util.result.PlainResult;
 
@@ -93,6 +93,7 @@ pvid:10_220.178.25.22_1773_1506419402203
 		params.put("q", "手机");
 		params.put("perPageSize","2");
 		params.put("dpyhq", "1");  //店铺优惠券
+		params.put("shopTag","yxjh,dpyhq");
 		
 		PlainResult<String> result = httpCallService.httpGet("https://pub.alimama.com/items/search.json",params);
 		
