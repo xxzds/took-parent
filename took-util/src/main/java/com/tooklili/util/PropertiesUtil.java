@@ -50,7 +50,8 @@ public class PropertiesUtil {
 		}
 		
 		if(resoures.get(path) ==null){
-			resoures.put(path, new PropertiesUtil(path));
+			//此处加上环境的路径
+			resoures.put(path, new PropertiesUtil(Config.ENV+"/"+path));
 		}
 		return resoures.get(path);
 	}

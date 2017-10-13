@@ -5,28 +5,10 @@
 			http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
 			http://www.springframework.org/schema/context
 			http://www.springframework.org/schema/context/spring-context-4.1.xsd
-			">
-			
-	<!-- Spring容器仅允许最多定义一个PropertyPlaceholderConfigurer(或<context:property-placeholder/>)，其余的会被Spring忽略掉。
-         Spring容器采用反射扫描的发现机制，在探测到Spring容器中有一个org.springframework.beans.factory.config.PropertyPlaceholderConfigurer的Bean
-                 就会停止对剩余PropertyPlaceholderConfigurer的扫描（Spring 3.1已经使用PropertySourcesPlaceholderConfigurer替代PropertyPlaceholderConfigurer了）。
-     -->
-	<!--引入配置属性文件 -->
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="fileEncoding" value="utf-8" />
-		<property name="locations">
-			<list>
-				<value>classpath:jdbc.properties</value>
-				<value>classpath:redis.properties</value>
-<!-- 				<value>classpath:mongo.properties</value> -->
-<!-- 				<value>classpath*:xxl-job/xxl-job-executor.properties</value> -->
-			</list>
-		</property>
-	</bean>
-			
+			">	
 	<!--自动扫描含有@Service将其注入为bean -->
 	<context:component-scan base-package="com.tooklili.service.biz">
-		<context:exclude-filter type="regex" expression="com.tooklili.service.biz.impl.admin.*" />
+<!-- 		<context:exclude-filter type="regex" expression="com.tooklili.service.biz.impl.admin.*" /> -->
 	</context:component-scan>	
 
 	<!-- dao -->
@@ -46,4 +28,40 @@
 	
 	<!-- xxl-job -->
 <!-- 	<import resource="../xxl-job/applicationcontext-xxl-job.xml"/> -->
+
+
+<!-- Spring容器仅允许最多定义一个PropertyPlaceholderConfigurer(或<context:property-placeholder/>)，其余的会被Spring忽略掉。
+         Spring容器采用反射扫描的发现机制，在探测到Spring容器中有一个org.springframework.beans.factory.config.PropertyPlaceholderConfigurer的Bean
+                 就会停止对剩余PropertyPlaceholderConfigurer的扫描（Spring 3.1已经使用PropertySourcesPlaceholderConfigurer替代PropertyPlaceholderConfigurer了）。
+     -->
+	<!--引入配置属性文件  profile的定义一定要在文档的最下边，否则会有异常 -->
+	<!-- 开发环境 -->
+	<beans profile="development">
+		<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+			<property name="fileEncoding" value="utf-8" />
+			<property name="locations">
+				<list>
+					<value>classpath:development/jdbc.properties</value>
+					<value>classpath:development/redis.properties</value>
+					<!-- <value>classpath:development/mongo.properties</value> -->
+					<!-- <value>classpath*:xxl-job/xxl-job-executor.properties</value> -->
+				</list>
+			</property>
+		</bean>
+	</beans>
+	
+	<!-- 生产环境 -->
+	<beans profile="production">
+		<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+			<property name="fileEncoding" value="utf-8" />
+			<property name="locations">
+				<list>
+					<value>classpath:production/jdbc.properties</value>
+					<value>classpath:production/redis.properties</value>
+					<!-- <value>classpath:production/mongo.properties</value> -->
+					<!-- <value>classpath*:xxl-job/xxl-job-executor.properties</value> -->
+				</list>
+			</property>
+		</bean>
+	</beans>
 </beans>
