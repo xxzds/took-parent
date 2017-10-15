@@ -1,0 +1,23 @@
+shopTag:商品标签
+b2c 天猫旗舰店
+yxjh 包含营销计划
+dpyhq 包含店铺优惠券
+
+hPayRate30  月成交转化率高于行业均值（选中为1）
+dpyhq 包含店铺优惠券（选中为1）
+b2c 天猫旗舰店（选中为1）
+freeShipment 包邮（选中为1）
+
+queryType 查询类型
+0 默认排序
+2 人气
+价格从高到低 queryType=0 ； sortType=3
+价格从低到高 queryType=0 ； sortType=4
+销量从高到低 queryType=0 ； sortType=9
+收入比率从高到低 queryType=0 ； sortType=1
+月推广量从高到低 queryType=0 ； sortType=5
+月支出佣金从高到低 queryType=0 ； sortType=7
+
+q 查询条件
+toPage 第几页
+perPageSize 每页大小
