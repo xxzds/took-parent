@@ -1,5 +1,6 @@
 package com.tooklili.service.alimama;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -11,15 +12,42 @@ import org.junit.Test;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
 import com.tooklili.http.HttpCallService;
+import com.tooklili.model.taobao.AlimamaItem;
+import com.tooklili.model.taobao.AlimamaItemLink;
+import com.tooklili.model.taobao.AlimamaReqItemModel;
 import com.tooklili.service.BaseTest;
+import com.tooklili.service.biz.intf.taobao.AlimamaService;
+import com.tooklili.service.util.AlimamaCookieUtils;
 import com.tooklili.util.HttpClientUtil;
 import com.tooklili.util.JsonFormatTool;
+import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;
 
 public class AlimamaServiceTest  extends BaseTest{
 	
 	@Resource
 	private HttpCallService httpCallService;
+	
+	@Resource
+	private AlimamaService alimamaService;
+	
+	@Test
+	public void superSearchItemsTest() throws UnsupportedEncodingException{
+		AlimamaReqItemModel alimamaReqItemModel = new AlimamaReqItemModel();
+		alimamaReqItemModel.setQ("https://item.taobao.com/item.htm?spm=a219t.7900221/10.1998910419.d30ccd691.465fa3568nG60d&id=546067706790");
+		alimamaReqItemModel.setYxjh(1);
+		alimamaReqItemModel.setToPage(1);
+		alimamaReqItemModel.setPerPageSize(40);
+		alimamaReqItemModel.setDpyhq(1);
+		PageResult<AlimamaItem> result = alimamaService.superSearchItems(alimamaReqItemModel);
+		logger.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
+	}
+	
+	@Test
+	public void generatePromoteLink(){
+		PlainResult<AlimamaItemLink> result = alimamaService.generatePromoteLink("556457818244");
+		logger.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
+	}
 	
 	
 	/**
@@ -141,7 +169,7 @@ pvid:10_220.178.25.22_1773_1506419402203
 //		PlainResult<String> result = httpCallService.httpGet("https://pub.alimama.com/common/code/getAuctionCode.json",params);
 		
 		String url="https://pub.alimama.com/common/code/getAuctionCode.json?pvid=10_211.162.8.113_2145_1507970029219&auctionid=558386463934&t=1507970430118&scenes=1&adzoneid=69036167&siteid=19682654&_tb_token_=fed381b34a3e3";
-		String cookies="t=bad3a9ecdcc777d375f4c3f03182e121; cookie2=192561358b84d264b6378d35491b140f; v=0; _tb_token_=fed381b34a3e3; alimamapwag=TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTBfMTJfNikgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzYxLjAuMzE2My4xMDAgU2FmYXJpLzUzNy4zNg%3D%3D; cookie32=188ac1e5db32c5916d7e368d0254cbbf; alimamapw=QwADXQkDDg0GbFEHVgYEUVZTBwAAUwEEVF8DBlIFAQFQAVZVUVYEAF1U; cookie31=MTIwMjU5NDUzLHRiNjkxNTk0NSwxMTE0MzMyOTA1QHFxLmNvbSxUQg%3D%3D; login=V32FPkk%2Fw0dUvg%3D%3D; account-path-guide-s1=true; 120259453_yxjh-filter-1=true; cna=jIhOEvvOPDwCAdOiCPf1QSjA; apushf38b938a083cdb84fd19afeeb6a41a19=%7B%22ts%22%3A1507970429287%2C%22parentId%22%3A1507967366375%7D; isg=AoyMHhLFOT4vJy1CV2C5ZvHhXex-bTEKFGQZc-ZUjjH_cRB7LtdO_uGHZ08y";
+		String cookies=AlimamaCookieUtils.getLoginCookies();
 		String content = HttpClientUtil.get(url, cookies);
 		logger.info(JsonFormatTool.formatJson(content));
 	}

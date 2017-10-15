@@ -19,6 +19,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 import com.gargoylesoftware.htmlunit.util.Cookie;
 import com.tooklili.http.HttpCallService;
 import com.tooklili.service.BaseTest;
+import com.tooklili.service.util.AlimamaCookieUtils;
 import com.tooklili.util.HttpClientUtil;
 import com.tooklili.util.JsonFormatTool;
 
@@ -84,6 +85,14 @@ public class AlimamaLoginTest extends BaseTest{
 	}
 	
 	
+	@Test
+	public void getAlimamaCookies() throws InterruptedException{
+		
+		String cookies = AlimamaCookieUtils.getLoginCookies();
+		logger.info(cookies);
+	}
+	
+	
 	
 	
 	
@@ -95,6 +104,7 @@ public class AlimamaLoginTest extends BaseTest{
 	 * @throws FailingHttpStatusCodeException
 	 * @throws MalformedURLException
 	 * @throws IOException
+	 * https://yq.aliyun.com/articles/59521
 	 */
 	@SuppressWarnings("resource")
 	@Test
