@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:mongo="http://www.springframework.org/schema/data/mongo"  
+     xsi:schemaLocation="
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+     http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
+	
+	<mongo:mongo  id="mongo" host="${mongodb.host}" port="${mongodb.port}">
+        <mongo:options connections-per-host="8"
+            threads-allowed-to-block-for-connection-multiplier="4"
+            connect-timeout="1000" 
+            max-wait-time="1500" 
+            auto-connect-retry="true"
+            socket-keep-alive="true" 
+            socket-timeout="1500" slave-ok="true"
+            write-number="1" 
+            write-timeout="0" 
+            write-fsync="true" />
+    </mongo:mongo>
+    
+    <mongo:db-factory  id="mongoDbFactory" dbname="mongoTest" mongo-ref="mongo" />
+    
+     <!-- 只要使用这个调用相应的方法操作 -->  
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">    
+       <constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />    
+    </bean>       
+</beans>

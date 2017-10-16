@@ -6,31 +6,31 @@ import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
 import com.tooklili.model.tooklili.Item;
-import com.tooklili.service.biz.impl.tooklili.ItemRedisServiceImpl;
 import com.tooklili.service.BaseTest;
+import com.tooklili.service.biz.intf.tooklili.ItemService;
 import com.tooklili.util.JsonFormatTool;
 import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;
 
 /**
- * 
- * @author ding.shuai
- * @date 2017年9月16日上午11:23:51
+ * @author shuai.ding
+ * @date 2017年10月16日下午2:55:26
  */
-public class TookliliServiceTest extends BaseTest{
-
+public class ItemMongoServiceTest extends BaseTest{
+	
 	@Resource
-	private ItemRedisServiceImpl tookliliService;
+	private ItemService itemService;
 	
 	@Test
 	public void queryCouponItemsByCateId(){
-		PageResult<Item> result =  tookliliService.queryCouponItemsByCateId(35, 2L, 1069L);		
+		PageResult<Item> result = itemService.queryCouponItemsByCateId(35, null, null);
 		logger.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
 	}
 	
 	@Test
-	public void queryItemByIdTest(){
-		PlainResult<Item> result = tookliliService.queryItemById(156801L);
+	public void queryItemById(){
+		PlainResult<Item> result = itemService.queryItemById(321864L);
 		logger.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
 	}
+
 }

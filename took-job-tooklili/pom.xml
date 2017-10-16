@@ -56,11 +56,18 @@
 		</dependency>
 				
 		<!-- test启动spring容器时用到 -->
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-test</artifactId>
-				<scope>test</scope>
-			</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+		<!--mongodb -->
+		<dependency>
+		    <groupId>org.springframework.data</groupId>
+		    <artifactId>spring-data-mongodb</artifactId>
+		    <version>1.10.6.RELEASE</version>
+		</dependency>
 	</dependencies>
 	
 	<build>

@@ -10,7 +10,6 @@ import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Function;
@@ -27,8 +26,8 @@ import com.tooklili.util.result.PlainResult;
  * @author ding.shuai
  * @date 2017年9月16日上午10:45:49
  */
-@Service
-public class ItemServiceImpl implements ItemService{
+//@Service
+public class ItemRedisServiceImpl implements ItemService{
 	
 	@Resource
 	private RedisTemplate<?, ?> redisTemplate;
@@ -61,8 +60,6 @@ public class ItemServiceImpl implements ItemService{
 		if(itemCateEnum==null){
 			return result.setErrorMessage(10001, "参数cateId不合法");
 		}
-		
-		
 		
 		final long begin =(currentPage-1)*pageSize;
 		final long end = begin+pageSize-1;		

@@ -12,16 +12,6 @@
      http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
      http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-3.2.xsd">
-	
-	<!--引入配置属性文件 -->
-	<bean class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-        <property name="locations" >
-	        <list>
-		        <value>classpath:redis.properties</value>
-	        </list>       
-        </property>
-        <property name="fileEncoding" value="UTF-8" />
-    </bean>
     
 	<!-- redis服务配置 开始-->
 	<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
