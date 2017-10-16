@@ -9,6 +9,8 @@
     <!-- 设置active后default失效，web启动时会加载对应的环境信息 -->
     <context-param>
         <param-name>spring.profiles.active</param-name>
+        <param-value>development</param-value>
+<!--         <param-value>production</param-value> -->
     </context-param>
     
     <listener>
