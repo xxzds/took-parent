@@ -131,6 +131,10 @@ public class AlimamaServiceImpl implements AlimamaService{
 	@Override
 	public PlainResult<AlimamaItemLink> generatePromoteLink(String auctionid) {
 		PlainResult<AlimamaItemLink> result = new PlainResult<AlimamaItemLink>();
+		
+		if(StringUtils.isEmpty(auctionid)){
+			return result.setErrorMessage("auctionid不能为空");
+		}
 				
 		String url="https://pub.alimama.com/common/code/getAuctionCode.json";
 		//推广类型、网站名称、投放推广位
