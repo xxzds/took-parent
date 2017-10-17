@@ -12,6 +12,7 @@ import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
@@ -25,7 +26,7 @@ import com.tooklili.util.PropertiesUtil;
  * @author shuai.ding
  * @date 2017年9月15日下午1:47:29
  */
-//@Service
+@Service
 public class SyncCouponsToReidsJob extends BaseJob{
 	private static final Logger LOGGER = LoggerFactory.getLogger(SyncCouponsToReidsJob.class);
 	

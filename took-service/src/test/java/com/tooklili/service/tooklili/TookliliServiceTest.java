@@ -6,9 +6,10 @@ import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
 import com.tooklili.model.tooklili.Item;
-import com.tooklili.service.biz.impl.tooklili.ItemRedisServiceImpl;
 import com.tooklili.service.BaseTest;
+import com.tooklili.service.biz.intf.tooklili.ItemService;
 import com.tooklili.util.JsonFormatTool;
+import com.tooklili.util.result.ListResult;
 import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;
 
@@ -19,18 +20,24 @@ import com.tooklili.util.result.PlainResult;
  */
 public class TookliliServiceTest extends BaseTest{
 
-	@Resource
-	private ItemRedisServiceImpl tookliliService;
+	@Resource(name="itemRedisServiceImpl")
+	private ItemService itemService;
 	
 	@Test
 	public void queryCouponItemsByCateId(){
-		PageResult<Item> result =  tookliliService.queryCouponItemsByCateId(35, 2L, 1069L);		
+		PageResult<Item> result =  itemService.queryCouponItemsByCateId(35, 2L, 1069L);		
 		logger.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
 	}
 	
 	@Test
 	public void queryItemByIdTest(){
-		PlainResult<Item> result = tookliliService.queryItemById(156801L);
+		PlainResult<Item> result = itemService.queryItemById(156801L);
+		logger.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
+	}
+	
+	@Test
+	public void getRandomItemByCateIdTest(){
+		ListResult<Item> result = itemService.getRandomItemByCateId(36, 3);
 		logger.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
 	}
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tooklili.model.tooklili.Item;
 import com.tooklili.service.biz.intf.tooklili.ItemService;
+import com.tooklili.util.result.ListResult;
 import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;
 
@@ -20,7 +21,7 @@ import com.tooklili.util.result.PlainResult;
 @Controller
 public class ItemController {	
 	
-	@Resource
+	@Resource(name="itemMongoServiceImpl")
 	private ItemService itemService;
 	
 	@RequestMapping("/couponItems")
@@ -33,6 +34,19 @@ public class ItemController {
 	@ResponseBody
 	public PlainResult<Item> queryItemById(@PathVariable Long id){
 		return itemService.queryItemById(id);
+	}
+	
+	/**
+	 * 通过cateId随机获取size个商品
+	 * @author shuai.ding
+	 * @param cateId    商品类别
+	 * @param size      获取商品的个数
+	 * @return
+	 */
+	@RequestMapping("/getRandomItemByCateId")
+	@ResponseBody
+	public ListResult<Item> getRandomItemByCateId(Integer cateId, Integer size){
+		return itemService.getRandomItemByCateId(cateId, size);
 	}
 
 }

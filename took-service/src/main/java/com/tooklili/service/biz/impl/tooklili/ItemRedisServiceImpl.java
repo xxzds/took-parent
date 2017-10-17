@@ -10,6 +10,7 @@ import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Function;
@@ -18,6 +19,7 @@ import com.tooklili.dao.intf.tooklili.ItemDao;
 import com.tooklili.enums.tooklili.ItemCateEnum;
 import com.tooklili.model.tooklili.Item;
 import com.tooklili.service.biz.intf.tooklili.ItemService;
+import com.tooklili.util.result.ListResult;
 import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;
 
@@ -26,7 +28,7 @@ import com.tooklili.util.result.PlainResult;
  * @author ding.shuai
  * @date 2017年9月16日上午10:45:49
  */
-//@Service
+@Service
 public class ItemRedisServiceImpl implements ItemService{
 	
 	@Resource
@@ -103,6 +105,47 @@ public class ItemRedisServiceImpl implements ItemService{
 		}		
 		Item item = itemDao.queryItemById(id);
 		result.setData(item);		
+		return result;
+	}
+
+	@Override
+	public ListResult<Item> getRandomItemByCateId(Integer cateId, Integer size) {
+		ListResult<Item> result = new ListResult<Item>();
+		
+		if(cateId==null || cateId==0){
+			return result.setErrorMessage(10001, "参数cateId不能为空");
+		}
+		
+		final ItemCateEnum itemCateEnum = ItemCateEnum.valueOf(cateId);
+		if(itemCateEnum==null){
+			return result.setErrorMessage(10001, "参数cateId不合法");
+		}
+		
+		if(size==null){
+			size=10;
+		}
+		
+		final int nLimit = size;
+		List<Item> items = redisTemplate.execute(new RedisCallback<List<Item>>(){
+			@Override
+			public List<Item> doInRedis(RedisConnection connection) throws DataAccessException {
+				List<Item> items = Lists.newArrayList();
+				byte[] key = stringRedisSerializer.serialize(itemCateEnum.getName());
+				
+				//总数
+				Long count = connection.lLen(key);
+				
+				for(int i=0;i<nLimit;i++){
+					Long index =  (long) (Math.random() * count);
+					byte[] valueByte = connection.lIndex(key, index);
+					String value = stringRedisSerializer.deserialize(valueByte);
+					items.add(JSON.parseObject(value, Item.class));
+				}
+				return items;
+			}
+			
+		});
+		result.setData(items);
 		return result;
 	}
 }
