@@ -2,6 +2,7 @@ package com.tooklili.service.biz.impl.taobao;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import com.alibaba.fastjson.JSON;
 import com.tooklili.http.HttpCallService;
 import com.tooklili.model.taobao.ItemImageDetailModel;
 import com.tooklili.service.biz.intf.taobao.TaobaoService;
+import com.tooklili.util.PropertiesUtil;
 import com.tooklili.util.result.ListResult;
 import com.tooklili.util.result.PlainResult;
 
@@ -52,6 +54,25 @@ public class TaobaoServiceImpl implements TaobaoService{
 		result.setData(itemImageDetailModel.getData().getImages());
 		return result;
 		
+	}
+
+
+	@Override
+	public PlainResult<String> getCouponUrlByItemId(String activityId,String itemId) {
+		PlainResult<String> result = new PlainResult<String>();
+		if(StringUtils.isEmpty(itemId)){
+			return result.setErrorMessage("商品ID不能为空");
+		}
+		if(StringUtils.isEmpty(activityId)){
+			return result.setErrorMessage("优惠券ID不能为空");
+		}
+		
+		//http://uland.taobao.com/coupon/edetail?activityId=32位券ID&pid=3段式mm号&itemId=商品ID&src=淘客工具接口参数&dx=
+		String urlTemplate = "https://uland.taobao.com/coupon/edetail?activityId={0}&pid={1}&itemId={2}&src=cd_cdll";		
+		String pid="mm_"+PropertiesUtil.getInstance("tbk.properties").getValue("tbk.pid");
+		String couponUrl = MessageFormat.format(urlTemplate,activityId, pid,itemId);		
+		result.setData(couponUrl);
+		return result;
 	}
 
 }

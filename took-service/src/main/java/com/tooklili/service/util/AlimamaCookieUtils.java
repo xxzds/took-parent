@@ -37,7 +37,17 @@ public class AlimamaCookieUtils {
 	/**
 	 * cookie 存入redis的key
 	 */
-	private static final String key="alimama-cookie";
+	private static final String key="alimama_cookie";
+	
+	
+	/**
+	 * 从redis中获取cookie
+	 * @author shuai.ding
+	 * @return
+	 */
+	public static String getCookiesFromRedis(){
+		return RedisUtils.getString(key);
+	}
 	
 	/**
 	 * 获取登录的cookies

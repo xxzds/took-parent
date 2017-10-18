@@ -3,6 +3,7 @@ package com.tooklili.service.biz.intf.taobao;
 import java.io.UnsupportedEncodingException;
 
 import com.tooklili.util.result.ListResult;
+import com.tooklili.util.result.PlainResult;
 
 /**
  * 淘宝服务
@@ -21,5 +22,22 @@ public interface TaobaoService{
 	 * @throws UnsupportedEncodingException 
 	 */
 	public ListResult<String> getItemImages(String numIid) throws UnsupportedEncodingException;
+	
+	
+	/**
+	 * 通过商品id获取优惠券链接
+	 * @author shuai.ding
+	 * @param itemId
+	 * @return
+	 */
+	
+	/**
+	 * 通过商品id和优惠券id获取优惠券链接
+	 * @author shuai.ding
+	 * @param activityId  优惠券id 32位
+	 * @param itemId  商品id
+	 * @return
+	 */
+	public PlainResult<String> getCouponUrlByItemId(String activityId,String itemId);
 
 }

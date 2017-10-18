@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import com.tooklili.task.ClearExpiredItemsJob;
 import com.tooklili.task.CollectItemsJob;
+import com.tooklili.task.PersistenceAlimamaCookieJob;
 import com.tooklili.task.SyncCouponsToMongoJob;
 import com.tooklili.task.SyncCouponsToReidsJob;
 import com.tooklili.test.BaseTest;
@@ -28,6 +29,9 @@ public class JobTest extends BaseTest{
 	
 	@Resource
 	private SyncCouponsToMongoJob syncCouponsToMongoJob;
+	
+	@Resource
+	private PersistenceAlimamaCookieJob persistenceAlimamaCookieJob;
 	
 	@Test
 	public void getCookie(){
@@ -52,5 +56,10 @@ public class JobTest extends BaseTest{
 	@Test
 	public void syncCouponsToMongoJobTest(){
 		syncCouponsToMongoJob.execute();
+	}
+	
+	@Test
+	public void persistenceAlimamaCookieTest(){
+		persistenceAlimamaCookieJob.execute();
 	}
 }

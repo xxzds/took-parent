@@ -88,6 +88,8 @@ public class AlimamaItem {
 	 * 商品id
 	 */
 	private String auctionId;
+	
+	
 
 	public Integer getCouponAmount() {
 		return couponAmount;

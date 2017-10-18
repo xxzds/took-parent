@@ -33,8 +33,8 @@ public class AlimamaController {
 		return alimamaService.superSearchItems(alimamaReqItemModel);
 	}
 	
-	@RequestMapping("/generatePromoteLink")
-	@ResponseBody
+//	@RequestMapping("/generatePromoteLink")
+//	@ResponseBody
 	public PlainResult<AlimamaItemLink> generatePromoteLink(String auctionid){
 		return alimamaService.generatePromoteLink(auctionid);
 	}

@@ -20,9 +20,9 @@ import com.tooklili.model.taobao.AlimamaItem;
 import com.tooklili.model.taobao.AlimamaItemLink;
 import com.tooklili.model.taobao.AlimamaReqItemModel;
 import com.tooklili.service.biz.intf.taobao.AlimamaService;
+import com.tooklili.service.biz.intf.taobao.TaobaoService;
 import com.tooklili.service.util.AlimamaCookieUtils;
 import com.tooklili.util.HttpClientUtil;
-import com.tooklili.util.JsonFormatTool;
 import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;
 
@@ -37,6 +37,9 @@ public class AlimamaServiceImpl implements AlimamaService{
 	
 	@Resource
 	private HttpCallService httpCallService;
+	
+	@Resource
+	private TaobaoService taobaoService;
 
 	@Override
 	public PageResult<AlimamaItem> superSearchItems(AlimamaReqItemModel alimamaReqItemModel) throws UnsupportedEncodingException {
@@ -123,8 +126,7 @@ public class AlimamaServiceImpl implements AlimamaService{
 
 		//商品信息
 		List<AlimamaItem> datas = JSON.parseArray(data.getJSONArray("pageList").toJSONString(), AlimamaItem.class);
-		result.setData(datas);
-		
+		result.setData(datas);		
 		return result;
 	}
 
@@ -141,9 +143,9 @@ public class AlimamaServiceImpl implements AlimamaService{
 		url+=("?adzoneid=69036167&siteid=19682654&scenes=1");
 		url+=("&auctionid="+auctionid);
 		LOGGER.info("请求地址:{}",url);
-		String cookies=AlimamaCookieUtils.getLoginCookies();
+		String cookies=AlimamaCookieUtils.getCookiesFromRedis();
 		String content = HttpClientUtil.get(url, cookies);
-		LOGGER.info(JsonFormatTool.formatJson(content));
+		LOGGER.info(content);
 		
 		AlimamaItemLink alimamaItemLink = JSON.parseObject(content).getObject("data", AlimamaItemLink.class);
 		result.setData(alimamaItemLink);
