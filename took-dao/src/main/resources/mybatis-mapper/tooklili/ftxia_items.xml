@@ -55,5 +55,138 @@
 	where id=#{id}
 </select>
 
+<insert id="insertItem" useGeneratedKeys="true" keyProperty="id" parameterType="com.tooklili.model.tooklili.ItemModel">
+	insert into ftxia_items
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="ordId != null">ordid,</if>
+		<if test="cateId != null">cate_id,</if>
+		<if test="origId != null">orig_id,</if>
+		<if test="numIid != null">num_iid,</if>
+		<if test="title != null and title != ''">title,</if>
+		<if test="intro != null and intro != ''">intro,</if>
+		<if test="nick != null and nick != ''">nick,</if>
+		<if test="sellerId != null and sellerId != ''">sellerId,</if>
+		<if test="uId != null">uid,</if>
+		<if test="uName != null and uName != ''">uname,</if>
+		<if test="picUrl != null and picUrl != ''">pic_url,</if>
+		<if test="price != null and price != ''">price,</if>
+		<if test="clickUrl != null and clickUrl != ''">click_url,</if>
+		<if test="volume != null and volume != ''">volume,</if>
+		<if test="commission != null and commission != ''">commission,</if>
+		<if test="commissionRate != null and commissionRate != ''">commission_rate,</if>
+		<if test="couponPrice != null and couponPrice != ''">coupon_price,</if>
+		<if test="couponRate != null and couponRate != ''">coupon_rate,</if>
+		<if test="couponStartTime != null and couponStartTime != ''">coupon_start_time,</if>
+		<if test="couponEndTime != null and couponEndTime != ''">coupon_end_time,</if>
+		<if test="pass != null">pass,</if>
+		<if test="shopType != null and shopType != ''">shop_type,</if>
+		<if test="itemUrl != null and itemUrl != ''">item_url,</if>
+		<if test="addTime != null and addTime != ''">add_time,</if>
+		<if test="isq != null">isq,</if>
+		<if test="cu != null">cu,</if>
+		<if test="quan != null and quan != ''">quan,</if>
+		<if test="quanUrl != null and quanUrl != ''">quanurl,</if>
+		<if test="quanCondition != null">Quan_condition,</if>
+		<if test="quanSurplus != null">Quan_surplus,</if>
+		<if test="quanReceive != null">Quan_receive,</if>
+	</trim>
+	<trim prefix="values (" suffix=")" suffixOverrides=",">
+		<if test="ordId != null">#{ordId},</if>
+		<if test="cateId != null">#{cateId},</if>
+		<if test="origId != null">#{origId},</if>
+		<if test="numIid != null">#{numIid},</if>
+		<if test="title != null and title != ''">#{title},</if>
+		<if test="intro != null and intro != ''">#{intro},</if>
+		<if test="nick != null and nick != ''">#{nick},</if>
+		<if test="sellerId != null and sellerId != ''">#{sellerId},</if>
+		<if test="uId != null">#{uId},</if>
+		<if test="uName != null and uName != ''">#{uName},</if>
+		<if test="picUrl != null and picUrl != ''">#{picUrl},</if>
+		<if test="price != null and price != ''">#{price},</if>
+		<if test="clickUrl != null and clickUrl != ''">#{clickUrl},</if>
+		<if test="volume != null and volume != ''">#{volume},</if>
+		<if test="commission != null and commission != ''">#{commission},</if>
+		<if test="commissionRate != null and commissionRate != ''">#{commissionRate},</if>
+		<if test="couponPrice != null and couponPrice != ''">#{couponPrice},</if>
+		<if test="couponRate != null and couponRate != ''">#{couponRate},</if>
+		<if test="couponStartTime != null and couponStartTime != ''">#{couponStartTime},</if>
+		<if test="couponEndTime != null and couponEndTime != ''">#{couponEndTime},</if>
+		<if test="pass != null">#{pass},</if>
+		<if test="shopType != null and shopType != ''">#{shopType},</if>
+		<if test="itemUrl != null and itemUrl != ''">#{itemUrl},</if>
+		<if test="addTime != null and addTime != ''">#{addTime},</if>
+		<if test="isq != null">#{isq},</if>
+		<if test="cu != null">#{cu},</if>
+		<if test="quan != null and quan != ''">#{quan},</if>
+		<if test="quanUrl != null and quanUrl != ''">#{quanUrl},</if>
+		<if test="quanCondition != null">#{quanCondition},</if>
+		<if test="quanSurplus != null">#{quanSurplus},</if>
+		<if test="quanReceive != null">#{quanReceive},</if>
+	</trim>
+</insert>
+
+<select id="queryItemBynumId" resultType="com.tooklili.model.tooklili.Item">
+	select 
+	id,
+	cate_id as cateId,
+	num_iid as numIid,
+	title,
+	pic_url as picUrl,
+	price,
+	coupon_price as couponPrice,
+	quan,
+	Quan_surplus as quanSurplus,
+	Quan_receive as quanReceive,
+	volume,
+	quanurl as quanUrl,
+	shop_type as shopType,
+	from_unixtime(coupon_start_time,'%Y-%m-%d %H:%i:%s') as couponStartTime,
+	from_unixtime(coupon_end_time,'%Y-%m-%d %H:%i:%s') as couponEndTime,
+	from_unixtime(add_time,'%Y-%m-%d %H:%i:%s') as addTime,
+	intro
+	from ftxia_items
+	where num_iid=#{numId}
+</select>
+
+<update id="updateItemById" parameterType="com.tooklili.model.tooklili.ItemModel">
+		update ftxia_items
+		<set>
+			<if test="ordId != null">ordid=#{ordId},</if>
+			<if test="cateId != null">cate_id=#{cateId},</if>
+			<if test="origId != null">orig_id=#{origId},</if>
+			<if test="numIid != null">num_iid=#{numIid},</if>
+			<if test="title != null and title != ''">title=#{title},</if>
+			<if test="intro != null and intro != ''">intro=#{intro},</if>
+			<if test="nick != null and nick != ''">nick=#{nick},</if>
+			<if test="sellerId != null and sellerId != ''">sellerId=#{sellerId},</if>
+			<if test="uId != null">uid=#{uId},</if>
+			<if test="uName != null and uName != ''">uname=#{uName},</if>
+			<if test="picUrl != null and picUrl != ''">pic_url=#{picUrl},</if>
+			<if test="price != null and price != ''">price=#{price},</if>
+			<if test="clickUrl != null and clickUrl != ''">click_url=#{clickUrl},</if>
+			<if test="volume != null and volume != ''">volume=#{volume},</if>
+			<if test="commission != null and commission != ''">commission=#{commission},</if>
+			<if test="commissionRate != null and commissionRate != ''">commission_rate=#{commissionRate},</if>
+			<if test="couponPrice != null and couponPrice != ''">coupon_price=#{couponPrice},</if>
+			<if test="couponRate != null and couponRate != ''">coupon_rate=#{couponRate},</if>
+			<if test="couponStartTime != null and couponStartTime != ''">coupon_start_time=#{couponStartTime},</if>
+			<if test="couponEndTime != null and couponEndTime != ''">coupon_end_time=#{couponEndTime},</if>
+			<if test="pass != null">pass=#{pass},</if>
+			<if test="shopType != null and shopType != ''">shop_type=#{shopType},</if>
+			<if test="itemUrl != null and itemUrl != ''">item_url=#{itemUrl},</if>
+			<if test="addTime != null and addTime != ''">add_time=#{addTime},</if>
+			<if test="isq != null">isq=#{isq},</if>
+			<if test="cu != null">cu=#{cu},</if>
+			<if test="quan != null and quan != ''">quan=#{quan},</if>
+			<if test="quanUrl != null and quanUrl != ''">quanurl=#{quanUrl},</if>
+			<if test="quanCondition != null">Quan_condition=#{quanCondition},</if>
+			<if test="quanSurplus != null">Quan_surplus=#{quanSurplus},</if>
+			<if test="quanReceive != null">Quan_receive=#{quanReceive},</if>
+		</set>
+		<where>
+			  and id=#{id}
+		</where>
+	</update>
+
 
 </mapper>

@@ -237,7 +237,9 @@ public class TbkApiServiceTest extends BaseTest{
 		try{
 			TbkDgItemCouponGetRequest req = new TbkDgItemCouponGetRequest();
 			req.setAdzoneId(68664126L);
-			req.setQ("手机");
+			//男装、女装/女士精品
+			req.setCat("30,16");
+//			req.setQ("服装");
 			TbkDgItemCouponGetResponse rsp = tbkApiService.getCouponItem(req);
 			logger.info(JsonFormatTool.formatJson(JSON.toJSONString(rsp.getResults())));
 			logger.info("总个数:"+rsp.getTotalResults());

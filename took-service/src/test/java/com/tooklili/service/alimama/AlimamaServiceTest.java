@@ -35,10 +35,10 @@ public class AlimamaServiceTest  extends BaseTest{
 	public void superSearchItemsTest() throws UnsupportedEncodingException{
 		AlimamaReqItemModel alimamaReqItemModel = new AlimamaReqItemModel();
 //		alimamaReqItemModel.setQ("https://item.taobao.com/item.htm?spm=a219t.7900221/10.1998910419.d30ccd691.465fa3568nG60d&id=546067706790");
-		alimamaReqItemModel.setQ("袜子男士");
+		alimamaReqItemModel.setQ("服装");
 		alimamaReqItemModel.setYxjh(1);
-		alimamaReqItemModel.setToPage(1);
-		alimamaReqItemModel.setPerPageSize(10);
+		alimamaReqItemModel.setToPage(10);
+		alimamaReqItemModel.setPerPageSize(1);
 		alimamaReqItemModel.setDpyhq(1);
 		PageResult<AlimamaItem> result = alimamaService.superSearchItems(alimamaReqItemModel);
 		logger.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));

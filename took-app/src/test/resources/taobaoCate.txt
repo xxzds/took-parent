@@ -1,124 +1,155 @@
-		<option value="121266001">众筹</option>
-		<option value="50023722">隐形眼镜/护理液</option>
-		<option value="50026555">购物提货券/蛋糕面包</option>
-		<option value="50026523">休闲娱乐</option>
-		<option value="50008075">餐饮美食</option>
-		<option value="50019095">超市卡/商场购物卡</option>
-		<option value="50014927">教育培训</option>
-		<option value="26">汽车/用品/配件/改装</option>
-		<option value="50020808">家居饰品</option>
-		<option value="50020857">特色手工艺</option>
-		<option value="50025707">度假线路/签证送关/旅游服务</option>
-		<option value="30">男装</option>
-		<option value="50008164">住宅家具</option>
-		<option value="50020611">商业/办公家具</option>
-		<option value="50023904">国货精品数码</option>
-		<option value="50010788">彩妆/香水/美妆工具</option>
-		<option value="1801">美容护肤/美体/精油</option>
-		<option value="50023282">美发护发/假发</option>
-		<option value="1512">手机</option>
-		<option value="14">数码相机/单反相机/摄像机</option>
-		<option value="1201">MP3/MP4/iPod/录音笔</option>
-		<option value="1101">笔记本电脑</option>
-		<option value="50019780">平板电脑/MID</option>
-		<option value="50018222">DIY电脑</option>
-		<option value="11">电脑硬件/显示器/电脑周边</option>
-		<option value="50018264">网络设备/网络相关</option>
-		<option value="50008090">3C数码配件</option>
-		<option value="50012164">闪存卡/U盘/存储/移动硬盘</option>
-		<option value="50007218">办公设备/耗材/相关服务</option>
-		<option value="50018004">电子词典/电纸书/文化用品</option>
-		<option value="20">电玩/配件/游戏/攻略</option>
-		<option value="50022703">大家电</option>
-		<option value="50011972">影音电器</option>
-		<option value="50012100">生活电器</option>
-		<option value="50012082">厨房电器</option>
-		<option value="50002768">个人护理/保健/按摩器材</option>
-		<option value="27">家装主材</option>
-		<option value="50020332">基础建材</option>
-		<option value="50020485">五金/工具</option>
-		<option value="50020579">电子/电工</option>
-		<option value="50050471">婚庆/摄影/摄像服务</option>
-		<option value="50011949">特价酒店/特色客栈/公寓旅馆</option>
-		<option value="21">居家日用</option>
-		<option value="50016349">厨房/烹饪用具</option>
-		<option value="50016348">家庭/个人清洁工具</option>
-		<option value="50008163">床上用品</option>
-		<option value="35">奶粉/辅食/营养品/零食</option>
-		<option value="50014812">尿片/洗护/喂哺/推车床</option>
-		<option value="50022517">孕妇装/孕产妇用品/营养</option>
-		<option value="50008165">童装/婴儿装/亲子装</option>
-		<option value="50020275">传统滋补营养品</option>
-		<option value="50002766">零食/坚果/特产</option>
-		<option value="50016422">粮油米面/南北干货/调味品</option>
-		<option value="121380001">国内机票/国际机票/增值服务</option>
-		<option value="121536003">数字娱乐</option>
-		<option value="121536007">全球购代购市场</option>
-		<option value="40">腾讯QQ专区</option>
-		<option value="50010728">运动/瑜伽/健身/球迷用品</option>
-		<option value="50013886">户外/登山/野营/旅行用品</option>
-		<option value="50011699">运动服/休闲服装</option>
-		<option value="25">玩具/童车/益智/积木/模型</option>
-		<option value="50011665">网游装备/游戏币/帐号/代练</option>
-		<option value="50008907">手机号码/套餐/增值业务</option>
-		<option value="99">网络游戏点卡</option>
-		<option value="23">古董/邮币/字画/收藏</option>
-		<option value="50007216">鲜花速递/花卉仿真/绿植园艺</option>
-		<option value="50004958">移动/联通/电信充值中心</option>
-		<option value="50011740">流行男鞋</option>
-		<option value="16">女装/女士精品</option>
-		<option value="50006843">女鞋</option>
-		<option value="50006842">箱包皮具/热销女包/男包</option>
-		<option value="1625">女士内衣/男士内衣/家居服</option>
-		<option value="50010404">服饰配件/皮带/帽子/围巾</option>
-		<option value="50011397">珠宝/钻石/翡翠/黄金</option>
-		<option value="28">ZIPPO/瑞士军刀/眼镜</option>
-		<option value="33">书籍/杂志/报纸</option>
-		<option value="34">音乐/影视/明星/音像</option>
-		<option value="50017300">乐器/吉他/钢琴/配件</option>
-		<option value="29">宠物/宠物食品及用品</option>
-		<option value="2813">成人用品/避孕/计生用品</option>
-		<option value="50012029">运动鞋new</option>
-		<option value="50013864">饰品/流行首饰/时尚饰品新</option>
-		<option value="50014811">网店/网络服务/软件</option>
-		<option value="50016891">游戏物品交易平台</option>
-		<option value="50023724">其他</option>
-		<option value="50017652">TP服务商大类</option>
-		<option value="50019379">合作商家</option>
-		<option value="50023575">房产/租房/新房/二手房/委托服务</option>
-		<option value="50023717">OTC药品/医疗器械/计生用品</option>
-		<option value="50023878">自用闲置转让</option>
-		<option value="50024971">新车/二手车</option>
-		<option value="50025004">个性定制/设计服务/DIY</option>
-		<option value="50025110">电影/演出/体育赛事</option>
-		<option value="50025618">理财</option>
-		<option value="50025705">洗护清洁剂/卫生巾/纸/香薰</option>
-		<option value="50026316">咖啡/麦片/冲饮</option>
-		<option value="50023804">装修设计/施工/监理</option>
-		<option value="50026800">保健食品/膳食营养补充食品</option>
-		<option value="50050359">水产肉类/新鲜蔬果/熟食</option>
-		<option value="50074001">摩托车/装备/配件</option>
-		<option value="50158001">网络店铺代金/优惠券</option>
-		<option value="50230002">服务商品</option>
-		<option value="50454031">景点门票/实景演出/主题乐园</option>
-		<option value="50468001">手表</option>
-		<option value="50510002">运动包/户外包/配件</option>
-		<option value="50008141">酒类</option>
-		<option value="50690010">无线生活服务</option>
-		<option value="122650005">童鞋/婴儿鞋/亲子鞋</option>
-		<option value="122684003">自行车/骑行装备/零配件</option>
-		<option value="122718004">家庭保健</option>
-		<option value="122852001">居家布艺</option>
-		<option value="122950001">节庆用品/礼品</option>
-		<option value="122952001">餐饮具</option>
-		<option value="122928002">收纳整理</option>
-		<option value="122966004">处方药</option>
-		<option value="123690003">中药饮片</option>
-		<option value="124044001">品牌台机/品牌一体机/服务器</option>
-		<option value="124116010">零售O2O</option>
-		<option value="124242008">智能设备</option>
-		<option value="124354002">电动车/配件/交通工具</option>
-		<option value="124466001">农用物资</option>
-		<option value="124468001">农机/农具/农膜</option>
-		<option value="124484008">模玩/动漫/周边/cos/桌游</option>
-		<option value="124458005">茶</option>
+<?xml version="1.0" encoding="utf-8" ?><itemcats_get_response>
+<item_cats>
+<item_cat><cid>121266001</cid><is_parent>true</is_parent><name>众筹</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>120886001</cid><is_parent>true</is_parent><name>公益</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>98</cid><is_parent>true</is_parent><name>包装</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>120950002</cid><is_parent>true</is_parent><name>天猫点券</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>120894001</cid><is_parent>true</is_parent><name>淘女郎</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50023722</cid><is_parent>true</is_parent><name>隐形眼镜/护理液</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50026555</cid><is_parent>true</is_parent><name>购物提货券</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50026523</cid><is_parent>true</is_parent><name>休闲娱乐</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50008075</cid><is_parent>true</is_parent><name>餐饮美食</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50019095</cid><is_parent>true</is_parent><name>消费卡</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50014927</cid><is_parent>true</is_parent><name>教育培训</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>26</cid><is_parent>true</is_parent><name>汽车/用品/配件/改装</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50020808</cid><is_parent>true</is_parent><name>家居饰品</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50020857</cid><is_parent>true</is_parent><name>特色手工艺</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50025707</cid><is_parent>true</is_parent><name>度假线路/签证送关/旅游服务</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50024099</cid><is_parent>true</is_parent><name>电子元器件市场</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>30</cid><is_parent>true</is_parent><name>男装</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50008164</cid><is_parent>true</is_parent><name>住宅家具</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50020611</cid><is_parent>true</is_parent><name>商业/办公家具</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50010788</cid><is_parent>true</is_parent><name>彩妆/香水/美妆工具</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>1801</cid><is_parent>true</is_parent><name>美容护肤/美体/精油</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50023282</cid><is_parent>true</is_parent><name>美发护发/假发</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>1512</cid><is_parent>false</is_parent><name>手机</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>14</cid><is_parent>true</is_parent><name>数码相机/单反相机/摄像机</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>1201</cid><is_parent>false</is_parent><name>MP3/MP4/iPod/录音笔</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>1101</cid><is_parent>false</is_parent><name>笔记本电脑</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50019780</cid><is_parent>false</is_parent><name>平板电脑/MID</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50018222</cid><is_parent>true</is_parent><name>DIY电脑</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>11</cid><is_parent>true</is_parent><name>电脑硬件/显示器/电脑周边</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50018264</cid><is_parent>true</is_parent><name>网络设备/网络相关</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50008090</cid><is_parent>true</is_parent><name>3C数码配件</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50012164</cid><is_parent>true</is_parent><name>闪存卡/U盘/存储/移动硬盘</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50007218</cid><is_parent>true</is_parent><name>办公设备/耗材/相关服务</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50018004</cid><is_parent>true</is_parent><name>电子词典/电纸书/文化用品</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>20</cid><is_parent>true</is_parent><name>电玩/配件/游戏/攻略</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50022703</cid><is_parent>true</is_parent><name>大家电</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50011972</cid><is_parent>true</is_parent><name>影音电器</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50012100</cid><is_parent>true</is_parent><name>生活电器</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50012082</cid><is_parent>true</is_parent><name>厨房电器</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50002768</cid><is_parent>true</is_parent><name>个人护理/保健/按摩器材</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>27</cid><is_parent>true</is_parent><name>家装主材</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>124912001</cid><is_parent>false</is_parent><name>合约机</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50020332</cid><is_parent>true</is_parent><name>基础建材</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50020485</cid><is_parent>true</is_parent><name>五金/工具</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50026535</cid><is_parent>true</is_parent><name>医疗及健康服务</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50020579</cid><is_parent>true</is_parent><name>电子/电工</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50050471</cid><is_parent>true</is_parent><name>婚庆/摄影/摄像服务</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50011949</cid><is_parent>true</is_parent><name>特价酒店/特色客栈/公寓旅馆</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>21</cid><is_parent>true</is_parent><name>居家日用</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50016349</cid><is_parent>true</is_parent><name>厨房/烹饪用具</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50016348</cid><is_parent>true</is_parent><name>家庭/个人清洁工具</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50008163</cid><is_parent>true</is_parent><name>床上用品</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>35</cid><is_parent>true</is_parent><name>奶粉/辅食/营养品/零食</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50014812</cid><is_parent>true</is_parent><name>尿片/洗护/喂哺/推车床</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50022517</cid><is_parent>true</is_parent><name>孕妇装/孕产妇用品/营养</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50008165</cid><is_parent>true</is_parent><name>童装/婴儿装/亲子装</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50020275</cid><is_parent>true</is_parent><name>传统滋补营养品</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50002766</cid><is_parent>true</is_parent><name>零食/坚果/特产</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50016422</cid><is_parent>true</is_parent><name>粮油米面/南北干货/调味品</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>121380001</cid><is_parent>true</is_parent><name>国内机票/国际机票/增值服务</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>121536003</cid><is_parent>true</is_parent><name>数字娱乐</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>121536007</cid><is_parent>true</is_parent><name>全球购代购市场</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>40</cid><is_parent>true</is_parent><name>腾讯QQ专区</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50010728</cid><is_parent>true</is_parent><name>运动/瑜伽/健身/球迷用品</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50013886</cid><is_parent>true</is_parent><name>户外/登山/野营/旅行用品</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50011699</cid><is_parent>true</is_parent><name>运动服/休闲服装</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>25</cid><is_parent>true</is_parent><name>玩具/童车/益智/积木/模型</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50011665</cid><is_parent>true</is_parent><name>网游装备/游戏币/帐号/代练</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50008907</cid><is_parent>true</is_parent><name>手机号码/套餐/增值业务</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>99</cid><is_parent>true</is_parent><name>网络游戏点卡</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>23</cid><is_parent>true</is_parent><name>古董/邮币/字画/收藏</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50007216</cid><is_parent>true</is_parent><name>鲜花速递/花卉仿真/绿植园艺</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50004958</cid><is_parent>true</is_parent><name>移动/联通/电信充值中心</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50011740</cid><is_parent>true</is_parent><name>流行男鞋</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>16</cid><is_parent>true</is_parent><name>女装/女士精品</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50006843</cid><is_parent>true</is_parent><name>女鞋</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50006842</cid><is_parent>true</is_parent><name>箱包皮具/热销女包/男包</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>1625</cid><is_parent>true</is_parent><name>女士内衣/男士内衣/家居服</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50010404</cid><is_parent>true</is_parent><name>服饰配件/皮带/帽子/围巾</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50011397</cid><is_parent>true</is_parent><name>珠宝/钻石/翡翠/黄金</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>28</cid><is_parent>true</is_parent><name>ZIPPO/瑞士军刀/眼镜</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>33</cid><is_parent>true</is_parent><name>书籍/杂志/报纸</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>34</cid><is_parent>true</is_parent><name>音乐/影视/明星/音像</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50017300</cid><is_parent>true</is_parent><name>乐器/吉他/钢琴/配件</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>29</cid><is_parent>true</is_parent><name>宠物/宠物食品及用品</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>2813</cid><is_parent>true</is_parent><name>成人用品/情趣用品</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50012029</cid><is_parent>true</is_parent><name>运动鞋new</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50013864</cid><is_parent>true</is_parent><name>饰品/流行首饰/时尚饰品新</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50014811</cid><is_parent>true</is_parent><name>网店/网络服务/软件</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50016891</cid><is_parent>true</is_parent><name>游戏物品交易平台</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50023724</cid><is_parent>true</is_parent><name>其他</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50017652</cid><is_parent>true</is_parent><name>TP服务商大类</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50023575</cid><is_parent>true</is_parent><name>房产/租房/新房/二手房/委托服务</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50023717</cid><is_parent>true</is_parent><name>OTC药品/医疗器械/计生用品</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50023878</cid><is_parent>true</is_parent><name>自用闲置转让</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50024186</cid><is_parent>true</is_parent><name>保险</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50024451</cid><is_parent>true</is_parent><name>外卖/外送/订餐(请勿发布)</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50024612</cid><is_parent>true</is_parent><name>阿里健康送药服务</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50024971</cid><is_parent>true</is_parent><name>新车/二手车</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50025004</cid><is_parent>true</is_parent><name>个性定制/设计服务/DIY</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50025110</cid><is_parent>true</is_parent><name>电影/演出/体育赛事</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50025618</cid><is_parent>true</is_parent><name>理财</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50025705</cid><is_parent>true</is_parent><name>洗护清洁剂/卫生巾/纸/香薰</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50025968</cid><is_parent>true</is_parent><name>司法拍卖拍品专用</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50026316</cid><is_parent>true</is_parent><name>咖啡/麦片/冲饮</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50023804</cid><is_parent>true</is_parent><name>装修设计/施工/监理</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50026800</cid><is_parent>true</is_parent><name>保健食品/膳食营养补充食品</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50050359</cid><is_parent>true</is_parent><name>水产肉类/新鲜蔬果/熟食</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50074001</cid><is_parent>true</is_parent><name>摩托车/装备/配件</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50158001</cid><is_parent>true</is_parent><name>网络店铺代金/优惠券</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50230002</cid><is_parent>true</is_parent><name>服务商品</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50454031</cid><is_parent>true</is_parent><name>景点门票/演艺演出/周边游</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50468001</cid><is_parent>true</is_parent><name>手表</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50510002</cid><is_parent>true</is_parent><name>运动包/户外包/配件</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50008141</cid><is_parent>true</is_parent><name>酒类</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50734010</cid><is_parent>true</is_parent><name>资产</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>50025111</cid><is_parent>true</is_parent><name>本地化生活服务</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>121938001</cid><is_parent>false</is_parent><name>淘点点预定点菜</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>121940001</cid><is_parent>false</is_parent><name>淘点点现金券</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>122650005</cid><is_parent>true</is_parent><name>童鞋/婴儿鞋/亲子鞋</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>122684003</cid><is_parent>true</is_parent><name>自行车/骑行装备/零配件</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>122718004</cid><is_parent>true</is_parent><name>家庭保健</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>122852001</cid><is_parent>true</is_parent><name>居家布艺</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>122950001</cid><is_parent>true</is_parent><name>节庆用品/礼品</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>122952001</cid><is_parent>true</is_parent><name>餐饮具</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>122928002</cid><is_parent>true</is_parent><name>收纳整理</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>122966004</cid><is_parent>true</is_parent><name>处方药</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>123536002</cid><is_parent>true</is_parent><name>阿里通信专属类目</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>123500005</cid><is_parent>true</is_parent><name>资产（政府类专用）</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>123690003</cid><is_parent>true</is_parent><name>精制中药材</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>124024001</cid><is_parent>true</is_parent><name>农业生产资料（农村淘宝专用）</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>124044001</cid><is_parent>true</is_parent><name>品牌台机/品牌一体机/服务器</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>124050001</cid><is_parent>true</is_parent><name>全屋定制</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>124242008</cid><is_parent>true</is_parent><name>智能设备</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>124354002</cid><is_parent>true</is_parent><name>电动车/配件/交通工具</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>124466001</cid><is_parent>true</is_parent><name>农用物资</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>124468001</cid><is_parent>true</is_parent><name>农机/农具/农膜</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>124470001</cid><is_parent>true</is_parent><name>畜牧/养殖物资</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>124470006</cid><is_parent>true</is_parent><name>整车(经销商)</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>124484008</cid><is_parent>true</is_parent><name>模玩/动漫/周边/cos/桌游</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>124458005</cid><is_parent>true</is_parent><name>茶</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>124568010</cid><is_parent>true</is_parent><name>室内设计师</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>124750013</cid><is_parent>true</is_parent><name>俪人购(俪人购专用)</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>124698018</cid><is_parent>true</is_parent><name>装修服务</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>124844002</cid><is_parent>true</is_parent><name>拍卖会专用</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>124868003</cid><is_parent>true</is_parent><name>盒马</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>124852003</cid><is_parent>true</is_parent><name>二手数码</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>125022006</cid><is_parent>true</is_parent><name>全球购官网直购（专用）</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>125102006</cid><is_parent>true</is_parent><name>到家业务</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>125406001</cid><is_parent>true</is_parent><name>享淘卡</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>126040001</cid><is_parent>true</is_parent><name>橙运</name><parent_cid>0</parent_cid></item_cat>
+<item_cat><cid>126252002</cid><is_parent>true</is_parent><name>门店O2O</name><parent_cid>0</parent_cid></item_cat>
+</item_cats>

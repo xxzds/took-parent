@@ -1,7 +1,7 @@
 package com.tooklili.model.tooklili;
 
 /**
- * tooklili 商品模型
+ * tooklili 商品模型-部分字段
  * @author shuai.ding
  * @date 2017年9月11日下午2:14:07
  */
@@ -19,7 +19,7 @@ public class Item {
 	/**
 	 * 淘宝中对应的商品id
 	 */
-	private String numIid;
+	private Long numIid;
 	
 	/**
 	 * 标题
@@ -52,14 +52,14 @@ public class Item {
 	private String quanUrl;
 	
 	/**
-	 * 优惠券剩余数
+	 * 优惠券总数？
 	 */
-	private String quanSurplus;
+	private Long quanSurplus;
 	
 	/**
-	 * 优惠券已领取数
+	 * 优惠券剩余数？
 	 */
-	private String quanReceive;
+	private Long quanReceive;
 	
 	/**
 	 * 销量
@@ -107,11 +107,11 @@ public class Item {
 		this.cateId = cateId;
 	}
 
-	public String getNumIid() {
+	public Long getNumIid() {
 		return numIid;
 	}
 
-	public void setNumIid(String numIid) {
+	public void setNumIid(Long numIid) {
 		this.numIid = numIid;
 	}
 
@@ -163,19 +163,19 @@ public class Item {
 		this.quanUrl = quanUrl;
 	}
 
-	public String getQuanSurplus() {
+	public Long getQuanSurplus() {
 		return quanSurplus;
 	}
 
-	public void setQuanSurplus(String quanSurplus) {
+	public void setQuanSurplus(Long quanSurplus) {
 		this.quanSurplus = quanSurplus;
 	}
 
-	public String getQuanReceive() {
+	public Long getQuanReceive() {
 		return quanReceive;
 	}
 
-	public void setQuanReceive(String quanReceive) {
+	public void setQuanReceive(Long quanReceive) {
 		this.quanReceive = quanReceive;
 	}
 
