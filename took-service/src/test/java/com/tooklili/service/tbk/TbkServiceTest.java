@@ -107,7 +107,7 @@ public class TbkServiceTest extends BaseTest{
 		try{
 			TbkDgItemCouponGetRequest req = new TbkDgItemCouponGetRequest();
 			req.setPageNo(1L);
-			req.setPageSize(1L);
+			req.setPageSize(2L);
 			//男装、女装/女士精品
 			req.setCat("30,16");
 			PageResult<TbkCoupon> result = tbkService.getCouponItems(req);
@@ -126,6 +126,23 @@ public class TbkServiceTest extends BaseTest{
 			itemModel.setCouponRate(String.valueOf(tbkCoupon.getCouponRemainCount()));
 			itemModel.setVolume(tbkCoupon.getVolume().toString());
 			itemModel.setAddTime(String.valueOf(new Date().getTime()/1000));
+			String zkFinalPrice = tbkCoupon.getZkFinalPrice();
+			itemModel.setPrice(tbkCoupon.getZkFinalPrice());
+			
+			String couponInfo =tbkCoupon.getCouponInfo();			
+			String pattern="满(\\d+?)元减(\\d+?)元";			
+			Matcher m = Pattern.compile(pattern).matcher(couponInfo);
+			 if (m.find()) {
+				 if(StringUtils.isNotEmpty(m.group(1))){
+					 itemModel.setQuanCondition(m.group(1));
+				 }else{
+					 itemModel.setQuanCondition("");
+				 }
+				
+				 itemModel.setQuan(m.group(2));
+			 }		
+			double couponPrice = Arith.sub(Double.valueOf(zkFinalPrice),Double.valueOf(itemModel.getQuan()));
+			itemModel.setCouponPrice(String.valueOf(couponPrice));
 			if(item!=null){ //更新
 				itemModel.setId(item.getId());
 				itemDao.updateItemById(itemModel);
@@ -135,23 +152,7 @@ public class TbkServiceTest extends BaseTest{
 				itemModel.setNumIid(tbkCoupon.getNumIid());
 				itemModel.setTitle(tbkCoupon.getTitle());
 				itemModel.setPicUrl(tbkCoupon.getPictUrl());
-				String zkFinalPrice = tbkCoupon.getZkFinalPrice();
-				itemModel.setPrice(tbkCoupon.getZkFinalPrice());
 				
-				String couponInfo =tbkCoupon.getCouponInfo();			
-				String pattern="满(\\d+?)元减(\\d+?)元";			
-				Matcher m = Pattern.compile(pattern).matcher(couponInfo);
-				 if (m.find()) {
-					 if(StringUtils.isNotEmpty(m.group(1))){
-						 itemModel.setQuanCondition(m.group(1));
-					 }else{
-						 itemModel.setQuanCondition("");
-					 }
-					
-					 itemModel.setQuan(m.group(2));
-				 }		
-				double couponPrice = Arith.sub(Double.valueOf(zkFinalPrice),Double.valueOf(itemModel.getQuan()));
-				itemModel.setCouponPrice(String.valueOf(couponPrice));
 				itemModel.setQuanUrl(tbkCoupon.getCouponClickUrl());
 				
 				itemModel.setIntro(tbkCoupon.getItemDescription());
