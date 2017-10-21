@@ -168,12 +168,12 @@ public class CollectCouponsItemByTbkApiJobHandller extends IJobHandler{
 		 }	
 		double couponPrice = Arith.sub(Double.valueOf(zkFinalPrice),Double.valueOf(itemModel.getQuan()));
 		itemModel.setCouponPrice(String.valueOf(couponPrice));
+		itemModel.setCateId(itemCateId);
 		if(item!=null){ //更新
 			itemModel.setId(item.getId());
 			itemDao.updateItemById(itemModel);
 			LOGGER.info("更新数据库的商品主键为：{}",itemModel.getId());
-		}else{  //insert
-			itemModel.setCateId(35);
+		}else{  //insert			
 			itemModel.setNumIid(tbkCoupon.getNumIid());
 			itemModel.setTitle(tbkCoupon.getTitle());
 			itemModel.setPicUrl(tbkCoupon.getPictUrl());
