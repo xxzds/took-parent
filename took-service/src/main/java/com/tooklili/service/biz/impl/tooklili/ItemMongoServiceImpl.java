@@ -170,4 +170,28 @@ public class ItemMongoServiceImpl implements ItemService{
 		return result;
 	}
 
+	@Override
+	public PageResult<Item> queryCouponItemsByKeyWords(String keyWords,Long currentPage,Long pageSize) {
+		if(currentPage==null || currentPage==0){
+			currentPage=1L;
+		}
+		if(pageSize==null || pageSize==0){
+			pageSize=20L;
+		}
+		PageResult<Item> result = new PageResult<Item>(currentPage,pageSize);
+		
+		Query query = new Query(Criteria.where("title").regex(keyWords));
+		query.with(new Sort(new Order(Direction.DESC, "addTime")));   //排序
+		
+		//总个数
+		long count = mongoTemplate.count(query, Item.class,collection);
+		result.setTotalCount(count);
+		
+		
+		query.with(new MongoPageable(currentPage.intValue(), pageSize.intValue())); //分页			
+		List<Item> list = mongoTemplate.find(query, Item.class,collection);
+		result.setData(list);
+		return result;
+	}
+
 }

@@ -27,7 +27,7 @@
 	<import resource="spring-mongodb-config.xml"/>
 	
 	<!-- xxl-job -->
-<!-- 	<import resource="../xxl-job/applicationcontext-xxl-job.xml"/> -->
+	<import resource="applicationcontext-xxl-job.xml"/>
 
 
 <!-- Spring容器仅允许最多定义一个PropertyPlaceholderConfigurer(或<context:property-placeholder/>)，其余的会被Spring忽略掉。
@@ -44,7 +44,7 @@
 					<value>classpath:development/jdbc.properties</value>
 					<value>classpath:development/redis.properties</value>
 					<value>classpath:development/mongo.properties</value>
-					<!-- <value>classpath*:xxl-job/xxl-job-executor.properties</value> -->
+					<value>classpath:development/xxl-job-executor.properties</value>
 				</list>
 			</property>
 		</bean>
@@ -59,7 +59,7 @@
 					<value>classpath:production/jdbc.properties</value>
 					<value>classpath:production/redis.properties</value>
 					<value>classpath:production/mongo.properties</value>
-					<!-- <value>classpath*:xxl-job/xxl-job-executor.properties</value> -->
+					<value>classpath:production/xxl-job-executor.properties</value>
 				</list>
 			</property>
 		</bean>

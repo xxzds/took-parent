@@ -48,5 +48,19 @@ public class ItemController {
 	public ListResult<Item> getRandomItemByCateId(Integer cateId, Integer size){
 		return itemService.getRandomItemByCateId(cateId, size);
 	}
+	
+	/**
+	 * 通过关键词查询商品列表
+	 * @author shuai.ding
+	 * @param keyWords      关键字
+	 * @param currentPage   当前页
+	 * @param pageSize      页面大小
+	 * @return
+	 */
+	@RequestMapping("/queryCouponItemsByKeyWords")
+	@ResponseBody
+	public PageResult<Item> queryCouponItemsByKeyWords(String keyWords,Long currentPage,Long pageSize){
+		return itemService.queryCouponItemsByKeyWords(keyWords, currentPage, pageSize);
+	}
 
 }

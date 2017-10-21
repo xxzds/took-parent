@@ -47,22 +47,22 @@ public class AlimamaItem {
 	/**
 	 * 优惠券总个数
 	 */
-	private Integer couponTotalCount;
+	private Long couponTotalCount;
 	
 	/**
 	 * 优惠券剩余个数
 	 */
-	private Integer couponLeftCount;
+	private Long couponLeftCount;
 	
 	/**
 	 * 原价
 	 */
-	private Integer reservePrice;
+	private String reservePrice;
 	
 	/**
 	 * 现价
 	 */
-	private Integer zkPrice;
+	private String zkPrice;
 	
 	/**
 	 * 月销
@@ -72,7 +72,7 @@ public class AlimamaItem {
 	/**
 	 * 佣金比率
 	 */
-	private Integer tkRate;
+	private Double tkRate;
 	
 	/**
 	 * 佣金
@@ -87,9 +87,22 @@ public class AlimamaItem {
 	/**
 	 * 商品id
 	 */
-	private String auctionId;
+	private Long auctionId;
 	
+	/**
+	 * 卖家昵称
+	 */
+	private String nick;
 	
+	/**
+	 * 卖家id
+	 */
+	private String sellerId;
+	
+	/**
+	 * 用户类型  0、淘宝  1、天猫
+	 */
+	private Integer userType;
 
 	public Integer getCouponAmount() {
 		return couponAmount;
@@ -124,6 +137,9 @@ public class AlimamaItem {
 	}
 
 	public String getPictUrl() {
+		if(pictUrl!=null && pictUrl.startsWith("//")){
+			pictUrl="http:"+pictUrl;
+		}
 		return pictUrl;
 	}
 
@@ -147,35 +163,35 @@ public class AlimamaItem {
 		this.couponInfo = couponInfo;
 	}
 
-	public Integer getCouponTotalCount() {
+	public Long getCouponTotalCount() {
 		return couponTotalCount;
 	}
 
-	public void setCouponTotalCount(Integer couponTotalCount) {
+	public void setCouponTotalCount(Long couponTotalCount) {
 		this.couponTotalCount = couponTotalCount;
 	}
 
-	public Integer getCouponLeftCount() {
+	public Long getCouponLeftCount() {
 		return couponLeftCount;
 	}
 
-	public void setCouponLeftCount(Integer couponLeftCount) {
+	public void setCouponLeftCount(Long couponLeftCount) {
 		this.couponLeftCount = couponLeftCount;
 	}
 
-	public Integer getReservePrice() {
+	public String getReservePrice() {
 		return reservePrice;
 	}
 
-	public void setReservePrice(Integer reservePrice) {
+	public void setReservePrice(String reservePrice) {
 		this.reservePrice = reservePrice;
 	}
 
-	public Integer getZkPrice() {
+	public String getZkPrice() {
 		return zkPrice;
 	}
 
-	public void setZkPrice(Integer zkPrice) {
+	public void setZkPrice(String zkPrice) {
 		this.zkPrice = zkPrice;
 	}
 
@@ -187,11 +203,11 @@ public class AlimamaItem {
 		this.biz30day = biz30day;
 	}
 
-	public Integer getTkRate() {
+	public Double getTkRate() {
 		return tkRate;
 	}
 
-	public void setTkRate(Integer tkRate) {
+	public void setTkRate(Double tkRate) {
 		this.tkRate = tkRate;
 	}
 
@@ -211,11 +227,35 @@ public class AlimamaItem {
 		this.shopTitle = shopTitle;
 	}
 
-	public String getAuctionId() {
+	public Long getAuctionId() {
 		return auctionId;
 	}
 
-	public void setAuctionId(String auctionId) {
+	public void setAuctionId(Long auctionId) {
 		this.auctionId = auctionId;
+	}
+
+	public String getNick() {
+		return nick;
+	}
+
+	public void setNick(String nick) {
+		this.nick = nick;
+	}
+
+	public String getSellerId() {
+		return sellerId;
+	}
+
+	public void setSellerId(String sellerId) {
+		this.sellerId = sellerId;
+	}
+
+	public Integer getUserType() {
+		return userType;
+	}
+
+	public void setUserType(Integer userType) {
+		this.userType = userType;
 	}
 }

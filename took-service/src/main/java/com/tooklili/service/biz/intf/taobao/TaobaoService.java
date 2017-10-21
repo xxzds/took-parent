@@ -39,5 +39,14 @@ public interface TaobaoService{
 	 * @return
 	 */
 	public PlainResult<String> getCouponUrlByItemId(String activityId,String itemId);
+	
+	/**
+	 * 通过商品id，获取商品的子标题
+	 * @author shuai.ding
+	 * @param itemId
+	 * @return
+	 * @throws UnsupportedEncodingException 
+	 */
+	public PlainResult<String> getItemSubTitleByItemId(String itemId) throws UnsupportedEncodingException;
 
 }

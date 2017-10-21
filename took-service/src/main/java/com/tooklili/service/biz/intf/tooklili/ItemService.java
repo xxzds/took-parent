@@ -35,4 +35,12 @@ public interface ItemService {
 	 * @return
 	 */
 	public ListResult<Item> getRandomItemByCateId(final Integer cateId,Integer size);
+	
+	/**
+	 * 通过关键词查询商品列表
+	 * @author shuai.ding
+	 * @param keyWords
+	 * @return
+	 */
+	public PageResult<Item> queryCouponItemsByKeyWords(String keyWords,Long currentPage,Long pageSize);
 }

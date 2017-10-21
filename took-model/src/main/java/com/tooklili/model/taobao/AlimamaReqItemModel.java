@@ -72,6 +72,11 @@ public class AlimamaReqItemModel {
 	 * 包邮（选中为1）
 	 */
 	private Integer freeShipment;
+	
+	/**
+	 * 1 、天猫商品
+	 */
+	private Integer userType;
 
 	public String getQ() {
 		return q;
@@ -159,5 +164,13 @@ public class AlimamaReqItemModel {
 
 	public void setYxjh(Integer yxjh) {
 		this.yxjh = yxjh;
+	}
+
+	public Integer getUserType() {
+		return userType;
+	}
+
+	public void setUserType(Integer userType) {
+		this.userType = userType;
 	}
 }

@@ -148,4 +148,17 @@ public class ItemRedisServiceImpl implements ItemService{
 		result.setData(items);
 		return result;
 	}
+
+	@Override
+	public PageResult<Item> queryCouponItemsByKeyWords(String keyWords,Long currentPage,Long pageSize) {
+		if(currentPage==null || currentPage==0){
+			currentPage=1L;
+		}
+		if(pageSize==null || pageSize==0){
+			pageSize=20L;
+		}
+		PageResult<Item> result = new PageResult<Item>(currentPage,pageSize);
+		result.setErrorMessage("无关键字查询功能");
+		return result;
+	}
 }

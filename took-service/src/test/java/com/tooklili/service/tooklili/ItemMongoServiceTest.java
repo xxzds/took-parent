@@ -39,5 +39,11 @@ public class ItemMongoServiceTest extends BaseTest{
 		ListResult<Item> result = itemService.getRandomItemByCateId(36, 3);
 		logger.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
 	}
+	
+	@Test
+	public void queryCouponItemsByKeyWordsTest(){
+		PageResult<Item> result = itemService.queryCouponItemsByKeyWords("跑鞋", null, null);
+		logger.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
+	}
 
 }

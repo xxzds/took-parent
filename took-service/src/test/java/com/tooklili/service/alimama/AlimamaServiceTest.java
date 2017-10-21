@@ -1,23 +1,32 @@
 package com.tooklili.service.alimama;
 
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
+import com.tooklili.dao.intf.tooklili.ItemDao;
 import com.tooklili.http.HttpCallService;
 import com.tooklili.model.taobao.AlimamaItem;
 import com.tooklili.model.taobao.AlimamaItemLink;
 import com.tooklili.model.taobao.AlimamaReqItemModel;
+import com.tooklili.model.tooklili.Item;
+import com.tooklili.model.tooklili.ItemModel;
 import com.tooklili.service.BaseTest;
 import com.tooklili.service.biz.intf.taobao.AlimamaService;
 import com.tooklili.service.util.AlimamaCookieUtils;
+import com.tooklili.util.Arith;
+import com.tooklili.util.DateUtil;
 import com.tooklili.util.HttpClientUtil;
 import com.tooklili.util.JsonFormatTool;
 import com.tooklili.util.result.PageResult;
@@ -30,6 +39,9 @@ public class AlimamaServiceTest  extends BaseTest{
 	
 	@Resource
 	private AlimamaService alimamaService;
+	
+	@Resource
+	private ItemDao itemDao;
 	
 	@Test
 	public void superSearchItemsTest() throws UnsupportedEncodingException{
@@ -48,6 +60,81 @@ public class AlimamaServiceTest  extends BaseTest{
 	public void generatePromoteLink(){
 		PlainResult<AlimamaItemLink> result = alimamaService.generatePromoteLink("556457818244");
 		logger.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
+	}
+	
+	@Test
+	public void getCouponItemsTest() throws UnsupportedEncodingException, ParseException{
+		AlimamaReqItemModel alimamaReqItemModel = new AlimamaReqItemModel();
+		alimamaReqItemModel.setQ("女装上衣");
+		alimamaReqItemModel.setYxjh(1);
+		alimamaReqItemModel.setToPage(1);
+		alimamaReqItemModel.setPerPageSize(1);
+		alimamaReqItemModel.setDpyhq(1);
+		alimamaReqItemModel.setB2c(1);
+		alimamaReqItemModel.setSortType(9);
+		PageResult<AlimamaItem> result = alimamaService.superSearchItems(alimamaReqItemModel);
+		logger.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
+		
+		AlimamaItem alimamaItem = result.getData().get(0);
+		
+		Long numIid = alimamaItem.getAuctionId();
+		Item item = itemDao.queryItemBynumId(numIid);
+		
+		ItemModel itemModel = new ItemModel();
+		
+		itemModel.setCouponStartTime(String.valueOf(DateUtil.parseDate(alimamaItem.getCouponEffectiveStartTime(),DateUtil.DEFAULT_DAY_STYLE).getTime()/1000));
+		itemModel.setCouponEndTime(String.valueOf(DateUtil.parseDate(alimamaItem.getCouponEffectiveEndTime(),DateUtil.DEFAULT_DAY_STYLE).getTime()/1000));
+		itemModel.setQuanSurplus(alimamaItem.getCouponTotalCount());
+		itemModel.setQuanReceive(alimamaItem.getCouponTotalCount()-alimamaItem.getCouponLeftCount());
+		itemModel.setCouponRate(String.valueOf(alimamaItem.getCouponLeftCount()));
+		itemModel.setVolume(alimamaItem.getBiz30day().toString());
+		itemModel.setAddTime(String.valueOf(new Date().getTime()/1000));
+		String zkFinalPrice = alimamaItem.getZkPrice();
+		itemModel.setPrice(zkFinalPrice);
+		
+		String couponInfo =alimamaItem.getCouponInfo();			
+		String pattern="满(\\d+?)元减(\\d+?)元";			
+		Matcher m = Pattern.compile(pattern).matcher(couponInfo);
+		 if (m.find()) {
+			 if(StringUtils.isNotEmpty(m.group(1))){
+				 itemModel.setQuanCondition(m.group(1));
+			 }else{
+				 itemModel.setQuanCondition("");
+			 }
+			
+			 itemModel.setQuan(m.group(2));
+		 }	
+		double couponPrice = Arith.sub(Double.valueOf(zkFinalPrice),Double.valueOf(itemModel.getQuan()));
+		itemModel.setCouponPrice(String.valueOf(couponPrice));
+		
+		if(item!=null){ //更新
+			itemModel.setId(item.getId());
+			itemDao.updateItemById(itemModel);
+			logger.info("更新数据库的商品主键为：{}",itemModel.getId());
+		}else{  //insert
+			itemModel.setCateId(35);
+			itemModel.setNumIid(numIid);
+			itemModel.setTitle(alimamaItem.getTitle());
+			itemModel.setPicUrl(alimamaItem.getPictUrl());
+			
+			AlimamaItemLink alimamaItemLink =  alimamaService.generatePromoteLink(numIid.toString()).getData();
+			
+			itemModel.setQuanUrl(alimamaItemLink.getCouponLink());
+			
+			itemModel.setIntro("");
+			itemModel.setNick(alimamaItem.getNick());
+			itemModel.setSellerId(alimamaItem.getSellerId());
+			itemModel.setClickUrl(alimamaItemLink.getCouponLink());
+			itemModel.setIsq(1);
+			itemModel.setItemUrl(alimamaItem.getAuctionUrl());
+			
+			itemModel.setCommissionRate(alimamaItem.getTkRate().toString());			
+			itemModel.setCommission(alimamaItem.getTkCommFee().toString());
+					
+			itemDao.insertItem(itemModel);
+			logger.info("插入数据库的商品主键为：{}",itemModel.getId());
+		}
+		 
 	}
 	
 	

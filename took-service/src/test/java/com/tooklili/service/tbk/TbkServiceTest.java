@@ -157,6 +157,7 @@ public class TbkServiceTest extends BaseTest{
 				
 				itemModel.setIntro(tbkCoupon.getItemDescription());
 				itemModel.setNick(tbkCoupon.getNick());
+				itemModel.setSellerId(tbkCoupon.getSellerId().toString());
 				itemModel.setClickUrl(tbkCoupon.getCouponClickUrl());
 				itemModel.setIsq(1);
 				itemModel.setItemUrl(tbkCoupon.getItemUrl());
@@ -175,6 +176,24 @@ public class TbkServiceTest extends BaseTest{
 			
 			
 			
+		}catch(Exception e){
+			logger.error("exception",e);
+		}
+	}
+	
+	
+	@Test
+	public void getCouponItemsTest2(){
+		try{
+			TbkDgItemCouponGetRequest req = new TbkDgItemCouponGetRequest();
+			req.setPageNo(1L);
+			req.setPageSize(1L);
+			req.setQ("零食良品铺子");
+			PageResult<TbkCoupon> result = tbkService.getCouponItems(req);
+			logger.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
+			
+			TbkCoupon tbkCoupon = result.getData().get(0);
+			logger.info(JsonFormatTool.formatJson(JSON.toJSONString(tbkCoupon)));
 		}catch(Exception e){
 			logger.error("exception",e);
 		}

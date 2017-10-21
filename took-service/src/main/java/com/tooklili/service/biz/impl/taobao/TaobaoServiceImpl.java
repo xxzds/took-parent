@@ -42,6 +42,7 @@ public class TaobaoServiceImpl implements TaobaoService{
 			return result.setErrorMessage("numIid不能为空");
 		}
 		
+		//获取淘宝宝贝详情图片的接口
 		String url ="https://hws.m.taobao.com/cache/mtop.wdetail.getItemDescx/4.1/";
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("data",URLEncoder.encode("{item_num_id:\""+numIid+"\"}", "utf-8"));
@@ -72,6 +73,27 @@ public class TaobaoServiceImpl implements TaobaoService{
 		String pid="mm_"+PropertiesUtil.getInstance("tbk.properties").getValue("tbk.pid");
 		String couponUrl = MessageFormat.format(urlTemplate,activityId, pid,itemId);		
 		result.setData(couponUrl);
+		return result;
+	}
+
+
+	@Override
+	public PlainResult<String> getItemSubTitleByItemId(String itemId) throws UnsupportedEncodingException {
+		PlainResult<String> result = new PlainResult<String>();
+		if(StringUtils.isEmpty(itemId)){
+			return result.setErrorMessage("商品ID不能为空");
+		}
+		
+		//获取商品详情H5页面接口
+		String url="https://acs.m.taobao.com/h5/mtop.taobao.detail.getdetail/6.0/";
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("qq-pf-to", "pcqq.group");
+		params.put("data",URLEncoder.encode("{\"itemNumId\":\""+itemId+"\"}", "utf-8"));		
+		PlainResult<String> responseResult =  httpCallService.httpGet(url,params);
+		
+		//子标题
+		String intro = JSON.parseObject(responseResult.getData()).getJSONObject("data").getJSONObject("item").getString("subtitle");
+		result.setData(intro);
 		return result;
 	}
 

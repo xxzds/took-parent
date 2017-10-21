@@ -89,4 +89,66 @@ public class RedisTest extends BaseTest{
 			logger.info("exception",e);
 		}
 	}
+	
+	/**
+	 * 模拟消息队列(list)
+	 * @author shuai.ding
+	 */
+	@Test
+	public void simulateMessageQueue(){
+		try{
+			final byte[] key = stringRedisSerializer.serialize("list");
+			
+			redisTemplate.execute(new RedisCallback<String>(){
+
+				@Override
+				public String doInRedis(final RedisConnection connection) throws DataAccessException {
+					//切换数据库到1中
+					connection.select(1);
+										
+					connection.del(key);
+					for(int i=0;i<30;i++){
+						connection.lPush(key, stringRedisSerializer.serialize(String.valueOf(i)));
+					}					
+					return null;
+				}				
+			});	
+			
+			
+			/**
+			 * 开启10个线程
+			 */
+			for(int i=0;i<10;i++){
+				new Thread( new Runnable() {
+					public void run() {
+						while(true){
+							byte[] valueByte = redisTemplate.execute(new RedisCallback<byte[]>() {
+
+								@Override
+								public byte[] doInRedis(RedisConnection connection) throws DataAccessException {
+									//切换数据库到1中
+									connection.select(1);
+									
+									byte[] valueByte = connection.lPop(key);
+									return valueByte;
+								}
+							});
+							
+							if(valueByte==null){
+								break;
+							}
+							logger.info("当前线程：{}，从队列中取出的数据为：{}",Thread.currentThread().getName(),stringRedisSerializer.deserialize(valueByte));						
+						}
+						
+					}
+				}).start();
+			}
+
+			 //主线程休眠  
+	        Thread.sleep(Long.MAX_VALUE);
+		}catch(Exception e){
+			logger.info("exception",e);
+		}
+		
+	}
 }
