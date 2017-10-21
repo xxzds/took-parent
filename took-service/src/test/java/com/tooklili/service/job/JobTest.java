@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import com.tooklili.service.BaseTest;
 import com.tooklili.service.jobhandler.CollectCouponsItemBySupserSearchJobHandler;
+import com.tooklili.service.jobhandler.CollectCouponsItemByTbkApiJobHandller;
 import com.tooklili.service.jobhandler.DemoJobHandler;
 
 /**
@@ -22,6 +23,9 @@ public class JobTest extends BaseTest{
 	@Resource
 	private CollectCouponsItemBySupserSearchJobHandler collectCouponsItemBySupserSearchJobHandler;
 	
+	@Resource
+	private CollectCouponsItemByTbkApiJobHandller collectCouponsItemByTbkApiJobHandller;
+	
 	@Test
 	public void demoJobHandlerTest() throws Exception{
 		demoJobHandler.execute();
@@ -34,6 +38,11 @@ public class JobTest extends BaseTest{
 			Thread.sleep(10000);
 		}
 		
+	}
+	
+	@Test
+	public void collectCouponsItemByTbkApiJobHandllerTest() throws Exception{
+		collectCouponsItemByTbkApiJobHandller.execute();
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.tooklili.service.jobhandler;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -16,15 +17,14 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.taobao.api.ApiException;
+import com.taobao.api.request.TbkDgItemCouponGetRequest;
+import com.taobao.api.response.TbkDgItemCouponGetResponse.TbkCoupon;
 import com.tooklili.dao.intf.tooklili.ItemDao;
 import com.tooklili.enums.tooklili.ItemCateEnum;
-import com.tooklili.model.taobao.AlimamaItem;
-import com.tooklili.model.taobao.AlimamaItemLink;
-import com.tooklili.model.taobao.AlimamaReqItemModel;
 import com.tooklili.model.tooklili.Item;
 import com.tooklili.model.tooklili.ItemModel;
-import com.tooklili.service.biz.intf.taobao.AlimamaService;
-import com.tooklili.service.biz.intf.taobao.TaobaoService;
+import com.tooklili.service.biz.intf.taobao.TbkService;
 import com.tooklili.util.Arith;
 import com.tooklili.util.DateUtil;
 import com.tooklili.util.JsonFormatTool;
@@ -34,29 +34,25 @@ import com.xxl.job.core.handler.IJobHandler;
 import com.xxl.job.core.handler.annotation.JobHander;
 
 /**
- * 通过超级搜索接口，采集优惠券商品
- * @author shuai.ding
- *
- * @date 2017年10月21日上午11:16:50
+ * 通过淘宝客采券接口，采集优惠券商品
+ * @author ding.shuai
+ * @date 2017年10月21日下午7:55:01
  */
-@JobHander(value="collectCouponsItemBySupserSearchJobHandler")
+@JobHander(value="collectCouponsItemByTbkApiJobHandller")
 @Service
-public class CollectCouponsItemBySupserSearchJobHandler extends IJobHandler{
-	private static final Logger LOGGER = LoggerFactory.getLogger(CollectCouponsItemBySupserSearchJobHandler.class);
-	
-	@Resource
-	private AlimamaService alimamaService;
-	
+public class CollectCouponsItemByTbkApiJobHandller extends IJobHandler{
+	private static final Logger LOGGER = LoggerFactory.getLogger(CollectCouponsItemByTbkApiJobHandller.class);
+
 	@Resource
 	private ItemDao itemDao;
 	
 	@Resource
-	private TaobaoService taobaoService;
+	private TbkService tbkService;
 	
 	private final Integer PAGEMAX=100;
-
+	
 	@Override
-	public ReturnT<String> execute(String... params) throws Exception {
+	public ReturnT<String> execute(String... arg0) throws Exception {
 		List<Map<Integer,String[]>> itemCateList= Lists.newArrayList();
 		
 		//服装
@@ -105,107 +101,108 @@ public class CollectCouponsItemBySupserSearchJobHandler extends IJobHandler{
 		digitalHomeAppliancesMap.put(ItemCateEnum.DIGITAL_HOME_APPLIANCES.getCode(), digitalHomeAppliances);
 		itemCateList.add(digitalHomeAppliancesMap);
 		
-		
+		//每次调用采集10次
+		for(int i=0;i<10;i++){
+			this.collectCouponItemByTbkApi(itemCateList);
+		}
+		return ReturnT.SUCCESS;
+	}
+	
+	/**
+	 * 调用采券接口，将采集的券存入数据库
+	 * @param itemCateList   关键词集合
+	 * @throws ApiException
+	 * @throws ParseException
+	 */
+	private void collectCouponItemByTbkApi(List<Map<Integer,String[]>> itemCateList) throws ApiException, ParseException{
 		int random = (int)(Math.random() * itemCateList.size());
 		Map<Integer, String[]> map =  itemCateList.get(random);
-		LOGGER.info(JsonFormatTool.formatJson(JSON.toJSONString(map)));
+		LOGGER.info("选择的关键词集合:{}",JSON.toJSONString(map));
 		
 		Integer itemCateId = map.keySet().iterator().next();
 		String[] keyWords = map.get(itemCateId);
 		int keyWordsIndex = (int)(Math.random() * keyWords.length);
 		String keyWord = keyWords[keyWordsIndex];
 		
+		//调用淘宝客采券接口
+		TbkDgItemCouponGetRequest req = new TbkDgItemCouponGetRequest();
+		Long pageNo = (long)(Math.random() * (PAGEMAX-1) +1);
+		req.setPageNo(100L);
+		req.setPageSize(1L);
+		req.setQ(keyWord);
+		LOGGER.info("选择的关键词：{}，采集第{}页",keyWord,pageNo);
+		PageResult<TbkCoupon> result = tbkService.getCouponItems(req);
+		LOGGER.info("调用tbk采券接口,返回的内容：{}",JsonFormatTool.formatJson(JSON.toJSONString(result)));
 		
-		//调用超级接口
-		AlimamaReqItemModel alimamaReqItemModel = new AlimamaReqItemModel();
-		
-		alimamaReqItemModel.setQ(keyWord);
-		alimamaReqItemModel.setYxjh(1);
-		Integer toPage = (int)(Math.random() * (PAGEMAX-1) +1);
-		alimamaReqItemModel.setToPage(toPage);
-		alimamaReqItemModel.setPerPageSize(1);
-		//包含店铺优惠券
-		alimamaReqItemModel.setDpyhq(1);
-		//天猫
-		alimamaReqItemModel.setUserType(1);
-		//销量从高到低
-		alimamaReqItemModel.setSortType(9);
-		PageResult<AlimamaItem> result = alimamaService.superSearchItems(alimamaReqItemModel);
-		LOGGER.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
-		
-		if(result.getData().size()<=0){
-			LOGGER.info("通过关键词[{}]查询第{}页的商品没有查到",keyWord,toPage);
-			return ReturnT.SUCCESS;
+		List<TbkCoupon> tbkCoupons = result.getData();
+		if(tbkCoupons==null || tbkCoupons.size()==0){
+			LOGGER.info("通过关键词[{}]查询第{}页的商品没有查到",keyWord,pageNo);
+			return;
 		}		
-		AlimamaItem alimamaItem = result.getData().get(0);
+		TbkCoupon tbkCoupon = tbkCoupons.get(0);
 		
-		Long numIid = alimamaItem.getAuctionId();
+		Long numIid = tbkCoupon.getNumIid();
 		Item item = itemDao.queryItemBynumId(numIid);
 		
 		ItemModel itemModel = new ItemModel();		
-		itemModel.setCouponStartTime(String.valueOf(DateUtil.parseDate(alimamaItem.getCouponEffectiveStartTime(),DateUtil.DEFAULT_DAY_STYLE).getTime()/1000));
-		itemModel.setCouponEndTime(String.valueOf(DateUtil.parseDate(alimamaItem.getCouponEffectiveEndTime(),DateUtil.DEFAULT_DAY_STYLE).getTime()/1000));
-		itemModel.setQuanSurplus(alimamaItem.getCouponTotalCount());
-		itemModel.setQuanReceive(alimamaItem.getCouponTotalCount()-alimamaItem.getCouponLeftCount());
-		itemModel.setCouponRate(String.valueOf(alimamaItem.getCouponLeftCount()));
-		itemModel.setVolume(alimamaItem.getBiz30day().toString());
+		itemModel.setCouponStartTime(String.valueOf(DateUtil.parseDate(tbkCoupon.getCouponStartTime(),DateUtil.DEFAULT_DAY_STYLE).getTime()/1000));
+		itemModel.setCouponEndTime(String.valueOf(DateUtil.parseDate(tbkCoupon.getCouponEndTime(),DateUtil.DEFAULT_DAY_STYLE).getTime()/1000));
+		itemModel.setQuanSurplus(tbkCoupon.getCouponTotalCount());
+		itemModel.setQuanReceive(tbkCoupon.getCouponTotalCount()-tbkCoupon.getCouponRemainCount());
+		itemModel.setCouponRate(String.valueOf(tbkCoupon.getCouponRemainCount()));
+		itemModel.setVolume(tbkCoupon.getVolume().toString());
 		itemModel.setAddTime(String.valueOf(new Date().getTime()/1000));
-		String zkFinalPrice = alimamaItem.getZkPrice();
+		String zkFinalPrice = tbkCoupon.getZkFinalPrice();
 		itemModel.setPrice(zkFinalPrice);
 		
 		//默认值
 		itemModel.setQuanCondition("");
-		String couponInfo =alimamaItem.getCouponInfo();			
+		String couponInfo =tbkCoupon.getCouponInfo();			
 		String pattern="满(\\d+?)元减(\\d+?)元";			
 		Matcher m = Pattern.compile(pattern).matcher(couponInfo);
 		 if (m.find()) {
 			 if(StringUtils.isNotEmpty(m.group(1))){
 				 itemModel.setQuanCondition(m.group(1));
 			 }
+			 itemModel.setQuan(m.group(2));
 		 }	
-		 //优惠券
-		 itemModel.setQuan(alimamaItem.getCouponAmount().toString());
 		double couponPrice = Arith.sub(Double.valueOf(zkFinalPrice),Double.valueOf(itemModel.getQuan()));
 		itemModel.setCouponPrice(String.valueOf(couponPrice));
-		
 		if(item!=null){ //更新
 			itemModel.setId(item.getId());
 			itemDao.updateItemById(itemModel);
 			LOGGER.info("更新数据库的商品主键为：{}",itemModel.getId());
 		}else{  //insert
-			itemModel.setCateId(itemCateId);
-			itemModel.setNumIid(numIid);
-			itemModel.setTitle(alimamaItem.getTitle());
-			itemModel.setPicUrl(alimamaItem.getPictUrl());
+			itemModel.setCateId(35);
+			itemModel.setNumIid(tbkCoupon.getNumIid());
+			itemModel.setTitle(tbkCoupon.getTitle());
+			itemModel.setPicUrl(tbkCoupon.getPictUrl());
 			
-			AlimamaItemLink alimamaItemLink =  alimamaService.generatePromoteLink(numIid.toString()).getData();
-			if(alimamaItemLink == null){
-				LOGGER.info("推广链接生成失败");
-				return ReturnT.FAIL;
-			}
-			itemModel.setQuanUrl(alimamaItemLink.getCouponLink());
+			itemModel.setQuanUrl(tbkCoupon.getCouponClickUrl());
 			
-			itemModel.setIntro(taobaoService.getItemSubTitleByItemId(String.valueOf(numIid)).getData());
-			itemModel.setNick(alimamaItem.getNick());
-			itemModel.setSellerId(alimamaItem.getSellerId());
-			itemModel.setClickUrl(alimamaItemLink.getCouponLink());
+			itemModel.setIntro(tbkCoupon.getItemDescription());
+			itemModel.setNick(tbkCoupon.getNick());
+			itemModel.setSellerId(tbkCoupon.getSellerId().toString());
+			itemModel.setClickUrl(tbkCoupon.getCouponClickUrl());
 			itemModel.setIsq(1);
-			itemModel.setItemUrl(alimamaItem.getAuctionUrl());
-			
-			itemModel.setCommissionRate(alimamaItem.getTkRate().toString());			
-			itemModel.setCommission(alimamaItem.getTkCommFee().toString());
+			itemModel.setItemUrl(tbkCoupon.getItemUrl());
+			String commissionRate = tbkCoupon.getCommissionRate();
+			itemModel.setCommissionRate(tbkCoupon.getCommissionRate());
+
+			double commission = Arith.mul(Double.parseDouble(zkFinalPrice), Double.parseDouble(commissionRate)/100);
+			itemModel.setCommission(String.valueOf(Arith.round(commission, 2)));
 			
 			//商品类别
-			Integer userType = alimamaItem.getUserType();
-			if(userType==0){
+			Long userType = tbkCoupon.getUserType();
+			if(userType==0L){
 				itemModel.setShopType("C");
-			}else if(userType==1){
+			}else if(userType==1L){
 				itemModel.setShopType("B");
 			}
-				
+			
 			itemDao.insertItem(itemModel);
 			LOGGER.info("插入数据库的商品主键为：{}",itemModel.getId());
 		}
-		return ReturnT.SUCCESS;
 	}
+
 }

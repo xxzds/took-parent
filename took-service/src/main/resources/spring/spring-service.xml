@@ -26,10 +26,6 @@
 	<!-- mongodb -->
 	<import resource="spring-mongodb-config.xml"/>
 	
-	<!-- xxl-job -->
-	<import resource="applicationcontext-xxl-job.xml"/>
-
-
 <!-- Spring容器仅允许最多定义一个PropertyPlaceholderConfigurer(或<context:property-placeholder/>)，其余的会被Spring忽略掉。
          Spring容器采用反射扫描的发现机制，在探测到Spring容器中有一个org.springframework.beans.factory.config.PropertyPlaceholderConfigurer的Bean
                  就会停止对剩余PropertyPlaceholderConfigurer的扫描（Spring 3.1已经使用PropertySourcesPlaceholderConfigurer替代PropertyPlaceholderConfigurer了）。
@@ -43,11 +39,13 @@
 				<list>
 					<value>classpath:development/jdbc.properties</value>
 					<value>classpath:development/redis.properties</value>
-					<value>classpath:development/mongo.properties</value>
-					<value>classpath:development/xxl-job-executor.properties</value>
+					<value>classpath:development/mongo.properties</value>					
 				</list>
 			</property>
-		</bean>
+		</bean>		
+		
+		<!-- JobHandler 扫描路径 -->
+		<context:component-scan base-package="com.tooklili.service.jobhandler" />
 	</beans>
 	
 	<!-- 生产环境 -->
@@ -63,5 +61,8 @@
 				</list>
 			</property>
 		</bean>
+		
+		<!-- xxl-job -->
+		<import resource="applicationcontext-xxl-job.xml"/>
 	</beans>
 </beans>
