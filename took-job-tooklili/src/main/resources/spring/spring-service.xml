@@ -11,18 +11,15 @@
 			http://www.springframework.org/schema/task/spring-task-4.1.xsd  
 			">
 			
-	<!-- xxl-job -->
-<!-- 	<import resource="../xxl-job/applicationcontext-xxl-job.xml"/> -->
-
 	<!-- 扫描定时任务的服务 -->
-<!-- 	<context:component-scan base-package="com.tooklili.jobhandler" /> -->
+	<context:component-scan base-package="com.tooklili.jobhandler" />
 
 	<!-- Spring框架自3.0版本起，自带了任务调度功能，好比是一个轻量级的Quartz，而且使用起来也方便、简单，且不需要依赖其他的JAR包。 -->
 	<!--开启这个配置，spring才能识别@Scheduled注解-->    
-	<task:annotation-driven/> 
+<!-- 	<task:annotation-driven/>  -->
 	
 	<!-- 扫描定时任务 -->
-	<context:component-scan base-package="com.tooklili.task" />
+<!-- 	<context:component-scan base-package="com.tooklili.task" /> -->
 
 
 	<!-- 组件 -->
@@ -45,7 +42,6 @@
 				<list>
 				<value>classpath:development/jdbc.properties</value>
 				<value>classpath:development/redis.properties</value>
-<!-- 				<value>classpath*:xxl-job/xxl-job-executor.properties</value> -->
 				<value>classpath:development/mongo.properties</value>
 			</list>
 			</property>
@@ -61,9 +57,12 @@
 					<value>classpath:production/jdbc.properties</value>
 					<value>classpath:production/redis.properties</value>
 					<value>classpath:production/mongo.properties</value>
-					<!-- <value>classpath*:xxl-job/xxl-job-executor.properties</value> -->
+					<value>classpath:production/xxl-job-executor.properties</value>
 				</list>
 			</property>
 		</bean>
+		
+		<!-- xxl-job -->
+		<import resource="applicationcontext-xxl-job.xml"/>
 	</beans>
 </beans>

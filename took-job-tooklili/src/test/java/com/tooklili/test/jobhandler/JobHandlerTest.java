@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import com.tooklili.jobhandler.ClearExpiredItemsJobHandler;
 import com.tooklili.jobhandler.CollectItemsJobHandler;
+import com.tooklili.jobhandler.PersistenceAlimamaCookieJobHandler;
 import com.tooklili.test.BaseTest;
 
 public class JobHandlerTest extends BaseTest{
@@ -15,6 +16,9 @@ public class JobHandlerTest extends BaseTest{
 	
 	@Resource
 	private CollectItemsJobHandler collectItemsJobHandler;
+	
+	@Resource
+	private PersistenceAlimamaCookieJobHandler persistenceAlimamaCookieJobHandler;
 	
 	/**
 	 * 清除过期商品测试
@@ -33,6 +37,15 @@ public class JobHandlerTest extends BaseTest{
 	public void collectItemsJobHandlerTest(){
 		try {
 			collectItemsJobHandler.execute("");
+		} catch (Exception e) {
+			logger.error("exception:",e);
+		}
+	}
+	
+	@Test
+	public void persistenceAlimamaCookieJobHandlerTest(){
+		try {
+			persistenceAlimamaCookieJobHandler.execute();
 		} catch (Exception e) {
 			logger.error("exception:",e);
 		}
