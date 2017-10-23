@@ -1,5 +1,7 @@
 package com.tooklili.model.taobao;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * alimama商品实体
  * @author shuai.ding
@@ -129,6 +131,10 @@ public class AlimamaItem {
 	}
 
 	public String getTitle() {
+		//清除html标签
+	    if(StringUtils.isNotEmpty(this.title)){
+	    	title = title.replaceAll("<[.[^>]]*>","");
+	    }		
 		return title;
 	}
 

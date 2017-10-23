@@ -162,10 +162,11 @@ public class AlimamaServiceImpl implements AlimamaService{
 				
 		String url="https://pub.alimama.com/common/code/getAuctionCode.json";
 		//推广类型、网站名称、投放推广位
-		url+=("?adzoneid=69036167&siteid=19682654&scenes=1");
+		url+=("?adzoneid=69036167&siteid=19682654&scenes=1&_tb_token_:fe75b3fa1e795");
 		url+=("&auctionid="+auctionid);
 		LOGGER.info("请求地址:{}",url);
 		String cookies=AlimamaCookieUtils.getCookiesFromRedis();
+		LOGGER.info("获取的cookie:{}",cookies);
 		String content = HttpClientUtil.get(url, cookies);
 		LOGGER.info(content);
 		

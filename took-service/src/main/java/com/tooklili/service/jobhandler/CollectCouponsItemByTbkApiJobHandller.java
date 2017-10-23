@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,53 +57,53 @@ public class CollectCouponsItemByTbkApiJobHandller extends IJobHandler{
 		List<Map<Integer,String[]>> itemCateList= Lists.newArrayList();
 		
 		//服装
-		String[] constume = new String[]{"女装上衣","女装裙装","女装裤装","男装上衣","男装裤装","潮流女装","精品男装"};
+		String[] constume = new String[]{"女装上衣","女装裙装","女装裤装","男装上衣","男装裤装","潮流女装","精品男装","男士衬衣","男士休闲","女人","男人"};
 		Map<Integer, String[]> constumeMap = Maps.newHashMap();
 		constumeMap.put(ItemCateEnum.CONSTUME.getCode(), constume);
 		itemCateList.add(constumeMap);
 		
 		//母婴
-		String[] montherBoby = new String[]{"孕妇","儿童","玩具","母婴生活"};
+		String[] montherBoby = new String[]{"孕妇","儿童","玩具","母婴生活","母婴","拼图","儿童图书","恐龙玩具","袜子"};
 		Map<Integer, String[]> montherBobyMap = Maps.newHashMap();
 		montherBobyMap.put(ItemCateEnum.MONTHER_BOBY.getCode(), montherBoby);
 		itemCateList.add(montherBobyMap);
 		
 		//化妆品
-		String[] cosmetics = new String[]{"化妆品"};
+		String[] cosmetics = new String[]{"化妆品","洗发水","护发素","洗面奶","洁面膏","美妆"};
 		Map<Integer, String[]> cosmeticsMap = Maps.newHashMap();
 		cosmeticsMap.put(ItemCateEnum.COSMETICS.getCode(), cosmetics);
 		itemCateList.add(cosmeticsMap);
 		//居家
-		String[] occupyHome = new String[]{"居家","生活用品","生活小神器","创意家居"};
+		String[] occupyHome = new String[]{"居家","生活用品","生活小神器","创意家居","厨具","家居","收纳盒"};
 		Map<Integer, String[]> occupyHomeMap = Maps.newHashMap();
 		occupyHomeMap.put(ItemCateEnum.OCCUPY_HOME.getCode(), occupyHome);
 		itemCateList.add(occupyHomeMap);
 		//鞋包配饰
-		String[] shoeBagAccessories = new String[]{"男鞋","女鞋","男包","女包","鞋包运动"};
+		String[] shoeBagAccessories = new String[]{"男鞋","女鞋","男包","女包","鞋包运动","运动鞋","男士皮鞋","女士皮鞋","配饰","高跟鞋","平底鞋"};
 		Map<Integer, String[]> shoeBagAccessoriesMap = Maps.newHashMap();
 		shoeBagAccessoriesMap.put(ItemCateEnum.SHOE_BAG_ACCESSORIES.getCode(), shoeBagAccessories);
 		itemCateList.add(shoeBagAccessoriesMap);
 		
 		//美食
-		String[] gastronomy = new String[]{"美食","零食","零食三只松鼠","零食良品铺子"};
+		String[] gastronomy = new String[]{"美食","零食","零食三只松鼠","零食良品铺子","水果","瓜子","坚果","榨菜"};
 		Map<Integer, String[]> gastronomyMap = Maps.newHashMap();
 		gastronomyMap.put(ItemCateEnum.GASTRONOMY.getCode(), gastronomy);
 		itemCateList.add(gastronomyMap);
 		
 		//文体车品
-		String[] productStyleCar=new String[]{"文体","车配饰","文体车品","家装车品"};
+		String[] productStyleCar=new String[]{"文体","车配饰","文体车品","家装车品","装饰品"};
 		Map<Integer, String[]> productStyleCarMap = Maps.newHashMap();
 		productStyleCarMap.put(ItemCateEnum.PRODUCT_STYLE_CAR.getCode(), productStyleCar);
 		itemCateList.add(productStyleCarMap);
 		
 		//数码家电
-		String[] digitalHomeAppliances=new String[]{"数码","电器"};
+		String[] digitalHomeAppliances=new String[]{"数码","电器","家电","手机配饰","手机壳","手表","手机","充电宝","电饭锅","吹风机","耳机","电磁炉","电水壶","儿童手表"};
 		Map<Integer, String[]> digitalHomeAppliancesMap = Maps.newHashMap();
 		digitalHomeAppliancesMap.put(ItemCateEnum.DIGITAL_HOME_APPLIANCES.getCode(), digitalHomeAppliances);
 		itemCateList.add(digitalHomeAppliancesMap);
 		
 		//每次调用采集10次
-		for(int i=0;i<10;i++){
+		for(int i=0;i<100;i++){
 			this.collectCouponItemByTbkApi(itemCateList);
 		}
 		return ReturnT.SUCCESS;
@@ -115,18 +116,17 @@ public class CollectCouponsItemByTbkApiJobHandller extends IJobHandler{
 	 * @throws ParseException
 	 */
 	private void collectCouponItemByTbkApi(List<Map<Integer,String[]>> itemCateList) throws ApiException, ParseException{
-		int random = (int)(Math.random() * itemCateList.size());
-		Map<Integer, String[]> map =  itemCateList.get(random);
+		Random random = new Random();
+		Map<Integer, String[]> map =  itemCateList.get(random.nextInt(itemCateList.size()));
 		LOGGER.info("选择的关键词集合:{}",JSON.toJSONString(map));
 		
 		Integer itemCateId = map.keySet().iterator().next();
 		String[] keyWords = map.get(itemCateId);
-		int keyWordsIndex = (int)(Math.random() * keyWords.length);
-		String keyWord = keyWords[keyWordsIndex];
+		String keyWord = keyWords[random.nextInt(keyWords.length)];
 		
 		//调用淘宝客采券接口
-		TbkDgItemCouponGetRequest req = new TbkDgItemCouponGetRequest();
-		Long pageNo = (long)(Math.random() * (PAGEMAX-1) +1);
+		TbkDgItemCouponGetRequest req = new TbkDgItemCouponGetRequest();		
+		Long pageNo = (long)(random.nextInt(PAGEMAX)+1);
 		req.setPageNo(100L);
 		req.setPageSize(1L);
 		req.setQ(keyWord);
@@ -169,6 +169,7 @@ public class CollectCouponsItemByTbkApiJobHandller extends IJobHandler{
 		double couponPrice = Arith.sub(Double.valueOf(zkFinalPrice),Double.valueOf(itemModel.getQuan()));
 		itemModel.setCouponPrice(String.valueOf(couponPrice));
 		itemModel.setCateId(itemCateId);
+		itemModel.setIntro(tbkCoupon.getItemDescription());
 		if(item!=null){ //更新
 			itemModel.setId(item.getId());
 			itemDao.updateItemById(itemModel);
@@ -180,7 +181,7 @@ public class CollectCouponsItemByTbkApiJobHandller extends IJobHandler{
 			
 			itemModel.setQuanUrl(tbkCoupon.getCouponClickUrl());
 			
-			itemModel.setIntro(tbkCoupon.getItemDescription());
+			
 			itemModel.setNick(tbkCoupon.getNick());
 			itemModel.setSellerId(tbkCoupon.getSellerId().toString());
 			itemModel.setClickUrl(tbkCoupon.getCouponClickUrl());
