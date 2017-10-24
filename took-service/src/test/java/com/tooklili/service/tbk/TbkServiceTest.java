@@ -188,7 +188,7 @@ public class TbkServiceTest extends BaseTest{
 			TbkDgItemCouponGetRequest req = new TbkDgItemCouponGetRequest();
 			req.setPageNo(1L);
 			req.setPageSize(1L);
-			req.setQ("如果 zakka杂货红色电话亭欧式创意家居装饰小摆件办公桌摆件可爱");
+			req.setQ("家用大功率吹风机发廊理发店专用电吹风冷热学生风筒3000不伤发");
 			PageResult<TbkCoupon> result = tbkService.getCouponItems(req);
 			logger.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
 			

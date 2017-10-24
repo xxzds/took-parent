@@ -2,15 +2,13 @@ package com.tooklili.service.jobhandler;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,6 +18,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.taobao.api.ApiException;
 import com.taobao.api.request.TbkDgItemCouponGetRequest;
+import com.taobao.api.response.TbkCouponGetResponse.MapData;
 import com.taobao.api.response.TbkDgItemCouponGetResponse.TbkCoupon;
 import com.tooklili.dao.intf.tooklili.ItemDao;
 import com.tooklili.enums.tooklili.ItemCateEnum;
@@ -103,7 +102,7 @@ public class CollectCouponsItemByTbkApiJobHandller extends IJobHandler{
 		itemCateList.add(digitalHomeAppliancesMap);
 		
 		//每次调用采集10次
-		for(int i=0;i<100;i++){
+		for(int i=0;i<10;i++){
 			this.collectCouponItemByTbkApi(itemCateList);
 		}
 		return ReturnT.SUCCESS;
@@ -127,7 +126,7 @@ public class CollectCouponsItemByTbkApiJobHandller extends IJobHandler{
 		//调用淘宝客采券接口
 		TbkDgItemCouponGetRequest req = new TbkDgItemCouponGetRequest();		
 		Long pageNo = (long)(random.nextInt(PAGEMAX)+1);
-		req.setPageNo(100L);
+		req.setPageNo(pageNo);
 		req.setPageSize(1L);
 		req.setQ(keyWord);
 		LOGGER.info("选择的关键词：{}，采集第{}页",keyWord,pageNo);
@@ -155,17 +154,20 @@ public class CollectCouponsItemByTbkApiJobHandller extends IJobHandler{
 		String zkFinalPrice = tbkCoupon.getZkFinalPrice();
 		itemModel.setPrice(zkFinalPrice);
 		
-		//默认值
-		itemModel.setQuanCondition("");
-		String couponInfo =tbkCoupon.getCouponInfo();			
-		String pattern="满(\\d+?)元减(\\d+?)元";			
-		Matcher m = Pattern.compile(pattern).matcher(couponInfo);
-		 if (m.find()) {
-			 if(StringUtils.isNotEmpty(m.group(1))){
-				 itemModel.setQuanCondition(m.group(1));
-			 }
-			 itemModel.setQuan(m.group(2));
-		 }	
+		
+		//优惠券点击地址
+		String couponClickUrl = tbkCoupon.getCouponClickUrl();
+		Map<String, String> params = this.getUrlParam(couponClickUrl);
+		String me = params.get("e");
+		
+		MapData mapData = tbkService.getCouponInfo(me).getData();
+		
+		//优惠券门槛金额
+		itemModel.setQuanCondition(mapData.getCouponStartFee());
+		//优惠券金额
+		itemModel.setQuan(mapData.getCouponAmount());
+		
+		//券后价		
 		double couponPrice = Arith.sub(Double.valueOf(zkFinalPrice),Double.valueOf(itemModel.getQuan()));
 		itemModel.setCouponPrice(String.valueOf(couponPrice));
 		itemModel.setCateId(itemCateId);
@@ -204,6 +206,27 @@ public class CollectCouponsItemByTbkApiJobHandller extends IJobHandler{
 			itemDao.insertItem(itemModel);
 			LOGGER.info("插入数据库的商品主键为：{}",itemModel.getId());
 		}
+	}
+	
+	
+	/**
+	 * 获取get url 的参数
+	 * @author shuai.ding
+	 * @param url
+	 * @return
+	 */
+	private Map<String, String> getUrlParam(String url){
+		Map<String, String> result = new HashMap<String, String>();
+		String[] array1 = url.split("\\?");
+		if(array1!=null && array1.length==2){
+			String param =  array1[1];
+			String[] array2 = param.split("&");
+			for(String param2:array2){
+				String[] array3 = param2.split("=");
+				result.put(array3[0], array3[1]);
+			}
+		}
+		return result;
 	}
 
 }

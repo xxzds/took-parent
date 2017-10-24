@@ -2,6 +2,7 @@ package com.tooklili.service.biz.intf.taobao;
 
 import com.taobao.api.ApiException;
 import com.taobao.api.request.TbkDgItemCouponGetRequest;
+import com.taobao.api.response.TbkCouponGetResponse.MapData;
 import com.taobao.api.response.TbkDgItemCouponGetResponse.TbkCoupon;
 import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;
@@ -54,4 +55,12 @@ public interface TbkService {
 	 * @throws ApiException 
 	 */
 	public PlainResult<String> createTpwd(String text,String url,String logo) throws ApiException;
+	
+	/**
+	 * 阿里妈妈推广券信息查询
+	 * @author shuai.ding
+	 * @param me   带券ID与商品ID的加密串
+	 * @return
+	 */
+	public PlainResult<MapData> getCouponInfo(String me) throws ApiException;
 }

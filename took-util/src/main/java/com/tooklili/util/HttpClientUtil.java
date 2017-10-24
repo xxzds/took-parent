@@ -47,6 +47,10 @@ public class HttpClientUtil {
 			httpGet.setHeader("Cookie", cookies);
 		}
 		
+		//模拟浏览器头部
+		httpGet.setHeader("Accept", "application/json, text/javascript, */*; q=0.01");
+		httpGet.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36");
+		
 		try{
 			// 执行get请求
 			CloseableHttpResponse response = httpclient.execute(httpGet);

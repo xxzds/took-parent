@@ -9,13 +9,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.taobao.api.ApiException;
 import com.taobao.api.domain.NTbkItem;
+import com.taobao.api.request.TbkCouponGetRequest;
 import com.taobao.api.request.TbkDgItemCouponGetRequest;
 import com.taobao.api.request.TbkItemInfoGetRequest;
 import com.taobao.api.request.TbkTpwdCreateRequest;
+import com.taobao.api.response.TbkCouponGetResponse;
+import com.taobao.api.response.TbkCouponGetResponse.MapData;
 import com.taobao.api.response.TbkDgItemCouponGetResponse;
 import com.taobao.api.response.TbkDgItemCouponGetResponse.TbkCoupon;
 import com.taobao.api.response.TbkItemGetResponse;
@@ -166,5 +170,26 @@ public class TbkServiceImpl implements TbkService{
 		result.setData(rsp.getData().getModel());
 		return result;
 		
+	}
+	
+	/**
+	 * 阿里妈妈推广券信息查询
+	 * @author shuai.ding
+	 * @param me   带券ID与商品ID的加密串
+	 * @return
+	 */
+	public PlainResult<MapData> getCouponInfo(String me) throws ApiException{
+		PlainResult<MapData> result = new PlainResult<MapData>();
+		if(StringUtils.isEmpty(me)){
+			return result.setErrorMessage("带券ID与商品ID的加密串的参数不能为空");
+		}
+		LOGGER.info("带券ID与商品ID的加密串:{}",me);
+		
+		TbkCouponGetRequest req = new TbkCouponGetRequest();
+		req.setMe(me);
+		TbkCouponGetResponse tbkCouponGetResponse = tbkApiService.getCoupon(req);
+		LOGGER.info("响应内容：{}",JSON.toJSONString(tbkCouponGetResponse));
+		result.setData(tbkCouponGetResponse.getData());
+		return result;
 	}
 }

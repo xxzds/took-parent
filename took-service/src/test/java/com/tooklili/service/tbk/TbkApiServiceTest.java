@@ -11,6 +11,7 @@ import com.alibaba.fastjson.JSON;
 import com.taobao.api.ApiException;
 import com.taobao.api.internal.util.StringUtils;
 import com.taobao.api.request.JuItemsSearchRequest.TopItemQuery;
+import com.taobao.api.request.TbkCouponGetRequest;
 import com.taobao.api.request.TbkDgItemCouponGetRequest;
 import com.taobao.api.request.TbkItemGetRequest;
 import com.taobao.api.request.TbkItemInfoGetRequest;
@@ -23,6 +24,7 @@ import com.taobao.api.request.TbkTpwdCreateRequest;
 import com.taobao.api.request.TbkUatmEventGetRequest;
 import com.taobao.api.request.TbkUatmFavoritesGetRequest;
 import com.taobao.api.response.JuItemsSearchResponse;
+import com.taobao.api.response.TbkCouponGetResponse;
 import com.taobao.api.response.TbkDgItemCouponGetResponse;
 import com.taobao.api.response.TbkItemGetResponse;
 import com.taobao.api.response.TbkItemInfoGetResponse;
@@ -246,6 +248,23 @@ public class TbkApiServiceTest extends BaseTest{
 		}catch(ApiException e){
 			logger.error("exception",e);
 		}
+	}
+	
+	/**
+	 * 阿里妈妈推广券信息查询
+	 * @author shuai.ding
+	 */
+	@Test
+	public void getCoupon(){
+		try{
+			TbkCouponGetRequest req = new TbkCouponGetRequest();
+			req.setMe("SN2ltNLnRaI8Clx5mXPEKpVaTevdr8KO52byC6A2NtMr6crFk2KoXOvNXSiguVVUdyCKxGCNPHZ25HMRCRMIxdBRtZ5z41kz%2BMUwzxYlSKFauagim%2F7qiSBU9wR5muo5YwSwz7WAymSTj6mSLsKhY7tfy9H%2BT7FNgxZ5fSU6mqLNWdzmw3WZLg%3D%3D&traceId=0b8a57e415087996786104757");
+			TbkCouponGetResponse rsp = tbkApiService.getCoupon(req);
+			logger.info(JsonFormatTool.formatJson(JSON.toJSONString(rsp.getData())));
+		}catch(Exception e){
+			logger.error("exception",e);
+		}
+		
 	}
 	
 	/**

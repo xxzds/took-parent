@@ -3,6 +3,7 @@ package com.tooklili.service.biz.impl.taobao;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -160,9 +161,9 @@ public class AlimamaServiceImpl implements AlimamaService{
 			return result.setErrorMessage("auctionid不能为空");
 		}
 				
-		String url="https://pub.alimama.com/common/code/getAuctionCode.json";
+		String url="http://wx.tooklili.com/common/code/getAuctionCode.json";
 		//推广类型、网站名称、投放推广位
-		url+=("?adzoneid=69036167&siteid=19682654&scenes=1&_tb_token_:fe75b3fa1e795");
+		url+=("?adzoneid=69036167&siteid=19682654&scenes=1&_tb_token_=75811b937dfe3&t="+new Date().getTime()+"&pvid=10_220.178.25.22_13754_"+new Date().getTime());
 		url+=("&auctionid="+auctionid);
 		LOGGER.info("请求地址:{}",url);
 		String cookies=AlimamaCookieUtils.getCookiesFromRedis();

@@ -1,5 +1,7 @@
 package com.tooklili.service.jobhandler;
 
+import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -105,10 +107,20 @@ public class CollectCouponsItemBySupserSearchJobHandler extends IJobHandler{
 		digitalHomeAppliancesMap.put(ItemCateEnum.DIGITAL_HOME_APPLIANCES.getCode(), digitalHomeAppliances);
 		itemCateList.add(digitalHomeAppliancesMap);
 		
+		//每次调用采集10次
+		for(int i=0;i<5;i++){
+			this.collectCouponItemBySuperSearch(itemCateList);
+			Thread.sleep(20000);
+		}
 		
+		
+		return ReturnT.SUCCESS;
+	}
+	
+	public void collectCouponItemBySuperSearch(List<Map<Integer,String[]>> itemCateList) throws UnsupportedEncodingException, ParseException{
 		int random = (int)(Math.random() * itemCateList.size());
 		Map<Integer, String[]> map =  itemCateList.get(random);
-		LOGGER.info(JsonFormatTool.formatJson(JSON.toJSONString(map)));
+		LOGGER.info("选择的关键词集合:{}",JSON.toJSONString(map));
 		
 		Integer itemCateId = map.keySet().iterator().next();
 		String[] keyWords = map.get(itemCateId);
@@ -135,7 +147,7 @@ public class CollectCouponsItemBySupserSearchJobHandler extends IJobHandler{
 		
 		if(result.getData().size()<=0){
 			LOGGER.info("通过关键词[{}]查询第{}页的商品没有查到",keyWord,toPage);
-			return ReturnT.SUCCESS;
+			return;
 		}		
 		AlimamaItem alimamaItem = result.getData().get(0);
 		
@@ -163,8 +175,8 @@ public class CollectCouponsItemBySupserSearchJobHandler extends IJobHandler{
 				 itemModel.setQuanCondition(m.group(1));
 			 }
 		 }	
-		 //优惠券
-		 itemModel.setQuan(alimamaItem.getCouponAmount().toString());
+		//优惠券
+		itemModel.setQuan(alimamaItem.getCouponAmount().toString());
 		double couponPrice = Arith.sub(Double.valueOf(zkFinalPrice),Double.valueOf(itemModel.getQuan()));
 		itemModel.setCouponPrice(String.valueOf(couponPrice));
 		
@@ -181,7 +193,7 @@ public class CollectCouponsItemBySupserSearchJobHandler extends IJobHandler{
 			AlimamaItemLink alimamaItemLink =  alimamaService.generatePromoteLink(numIid.toString()).getData();
 			if(alimamaItemLink == null){
 				LOGGER.info("推广链接生成失败");
-				return ReturnT.FAIL;
+				return;
 			}
 			itemModel.setQuanUrl(alimamaItemLink.getCouponLink());
 			
@@ -206,6 +218,5 @@ public class CollectCouponsItemBySupserSearchJobHandler extends IJobHandler{
 			itemDao.insertItem(itemModel);
 			LOGGER.info("插入数据库的商品主键为：{}",itemModel.getId());
 		}
-		return ReturnT.SUCCESS;
 	}
 }
