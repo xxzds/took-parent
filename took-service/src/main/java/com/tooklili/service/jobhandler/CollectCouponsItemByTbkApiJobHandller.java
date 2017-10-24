@@ -161,6 +161,10 @@ public class CollectCouponsItemByTbkApiJobHandller extends IJobHandler{
 		String me = params.get("e");
 		
 		MapData mapData = tbkService.getCouponInfo(me).getData();
+		if(mapData==null){
+			LOGGER.info("查询优惠券信息失败");
+			return;
+		}
 		
 		//优惠券门槛金额
 		itemModel.setQuanCondition(mapData.getCouponStartFee());
