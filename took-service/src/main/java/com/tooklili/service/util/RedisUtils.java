@@ -52,6 +52,23 @@ public class RedisUtils {
 	}
 	
 	/**
+	 * 将value存入redis中
+	 * @param key
+	 * @param value
+	 * @param seconds
+	 * @return
+	 */
+	public static boolean setString(final String key,final String value){
+		return redisTemplate.execute(new RedisCallback<Boolean>() {
+			@Override
+			public Boolean doInRedis(RedisConnection connection) throws DataAccessException {				
+				connection.set(stringRedisSerializer.serialize(key), stringRedisSerializer.serialize(value));
+				return true;
+			}
+		});
+	}
+	
+	/**
 	 * 将value存入redis中，生命周期为seconds秒
 	 * @param key
 	 * @param value

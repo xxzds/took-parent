@@ -18,6 +18,7 @@ import com.tooklili.dao.intf.tooklili.ItemDao;
 import com.tooklili.enums.tooklili.ItemCateEnum;
 import com.tooklili.model.tooklili.Item;
 import com.tooklili.service.BaseTest;
+import com.tooklili.service.util.RedisUtils;
 
 /**
  * redis 操作测试
@@ -88,6 +89,18 @@ public class RedisTest extends BaseTest{
 		}catch(Exception e){
 			logger.info("exception",e);
 		}
+	}
+	
+	
+	@Test
+	public void setAlimamaCookie(){
+		try{
+			String cookie="t=f7de8508771a63b914836dcf4d318bed; account-path-guide-s1=true; 120259453_yxjh-filter-1=true; undefined_yxjh-filter-1=true; pub-message-center=1; cookie2=1d4e1c75238bdbe96a5205a68c44b808; _tb_token_=fb563333b8588; v=0; alimamapwag=TW96aWxsYS81LjAgKFdpbmRvd3MgTlQgNi4xOyBXT1c2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzYxLjAuMzE2My4xMDAgU2FmYXJpLzUzNy4zNg%3D%3D; cookie32=188ac1e5db32c5916d7e368d0254cbbf; alimamapw=FQZUX1AAWA0Ma1MNB1YABAAOUQZXUVgHAl8JAVAPUFFUVAAIB1BTAgRX; cookie31=MTIwMjU5NDUzLHRiNjkxNTk0NSwxMTE0MzMyOTA1QHFxLmNvbSxUQg%3D%3D; login=UtASsssmOIJ0bQ%3D%3D; cna=kh9nEqPMlWgCAdyyGRZG7pPS; isg=AnZ2nT7zMzEBJcfHzSrP0VvUx6y4P4j4JwUCieBfQ9n0Ixa9SCcK4dzRTcm0";
+			RedisUtils.setString("alimama_cookie", cookie);
+		}catch(Exception e){
+			logger.info("exception",e);
+		}
+		
 	}
 	
 	/**
