@@ -187,6 +187,10 @@
 			  and id=#{id}
 		</where>
 	</update>
-
-
+	
+	<update id="updateItemPicUrl">
+		update ftxia_items 
+		set pic_url=CONCAT('http:',pic_url)
+		where pic_url like '//%'	
+	</update>
 </mapper>

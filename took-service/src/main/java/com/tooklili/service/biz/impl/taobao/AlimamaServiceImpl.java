@@ -121,7 +121,8 @@ public class AlimamaServiceImpl implements AlimamaService{
 		}
 		
 		//天猫
-		if(alimamaReqItemModel.getUserType()==1){
+		Integer userType = alimamaReqItemModel.getUserType();
+		if(userType!=null && userType==1){
 			params.put("userType", "1");
 		}
 		

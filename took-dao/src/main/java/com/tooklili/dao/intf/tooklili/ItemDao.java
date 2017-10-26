@@ -55,4 +55,11 @@ public interface ItemDao {
 	 * @return
 	 */
 	public Long updateItemById(ItemModel itemModel);
+	
+	/**
+	 * 更新商品的pic_url,使url带上前缀'http:'
+	 * @author shuai.ding
+	 * @return
+	 */
+	public Long updateItemPicUrl();
 }

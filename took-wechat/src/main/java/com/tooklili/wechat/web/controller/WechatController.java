@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.tooklili.service.biz.intf.wechat.WechatMessageService;
 import com.tooklili.util.PropertiesUtil;
 import com.tooklili.wechat.web.util.SignUtil;
 import com.tooklili.wechat.web.util.encrypt.WXBizMsgCrypt;
@@ -26,8 +28,12 @@ import com.tooklili.wechat.web.util.encrypt.WXBizMsgCrypt;
  */
 @Controller
 @RequestMapping("/wechat")
-public class WechatController {
+public class WechatController {	
 	private static final Logger LOGGER = LoggerFactory.getLogger(WechatController.class);
+	
+	@Resource
+	private WechatMessageService wechatMessageService;
+	
 	
 	private final PropertiesUtil propertiesUtil =PropertiesUtil.getInstance("wechat.properties");
 	//令牌
@@ -78,15 +84,16 @@ public class WechatController {
 			            sb.append(s);  
 			        }  
 			        String xml = sb.toString();
-			        LOGGER.info("微信端发送的数据:"+xml);
+			        LOGGER.info("微信端发送的数据:{}",xml);
 			        
 			        //如果msg_signature不为空，则微信发送的数据是加密的，此处进行解密
 			        if(StringUtils.isNotEmpty(msg_signature)){
 			        	WXBizMsgCrypt pc = new WXBizMsgCrypt(token, encodingAesKey, appId);
 			        	xml = pc.decryptMsg(msg_signature, timestamp, nonce, xml);
-			        	LOGGER.info("解密后的xml:"+xml);
+			        	LOGGER.info("解密后的xml:{}",xml);
 			        }
 					//正常的微信处理流程  
+			        result = wechatMessageService.processWechatMag(xml);
 		            
 		            //加密
 		            if(StringUtils.isNotEmpty(msg_signature)){
@@ -98,9 +105,9 @@ public class WechatController {
 			
 		}catch(Exception e){
 			result="";
-			LOGGER.info("微信请求响应异常{}",e.getMessage());
+			LOGGER.error("exception：",e);
 		}
-		LOGGER.info("服务端响应的数据:"+result);
+		LOGGER.info("服务端响应的数据:{}",result);
 		PrintWriter out = response.getWriter();
 		out.print(result);
 		out.flush();

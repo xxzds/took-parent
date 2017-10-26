@@ -47,7 +47,7 @@ public class JobTest extends BaseTest{
 	
 	@Test
 	public void dirctCollectCouponsByParamJobHandlerTest() throws Exception{
-		dirctCollectCouponsByParamJobHandler.execute("小型收纳盒","2","5","38");
+		dirctCollectCouponsByParamJobHandler.execute("女士裙装","1","2","35","1");
 	}
 
 }

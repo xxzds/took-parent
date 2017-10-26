@@ -10,10 +10,10 @@
 	<packaging>war</packaging>
 
 	<dependencies>
-		<!-- took-util-->
+		<!-- took-service-->
 		<dependency>
 			<groupId>com.tooklili</groupId>
-			<artifactId>took-util</artifactId>
+			<artifactId>took-service</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		
