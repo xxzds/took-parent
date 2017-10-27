@@ -144,7 +144,7 @@ public class DirctCollectCouponsByParamJobHandler extends IJobHandler{
 		//包含店铺优惠券
 		alimamaReqItemModel.setDpyhq(1);
 		//天猫
-		alimamaReqItemModel.setUserType(1);
+//		alimamaReqItemModel.setUserType(1);
 		//销量从高到低
 		alimamaReqItemModel.setSortType(9);
 		LOGGER.info("关键字:{},当前页:{},页面大小:{}",keyword,currentPage,pageSize);
