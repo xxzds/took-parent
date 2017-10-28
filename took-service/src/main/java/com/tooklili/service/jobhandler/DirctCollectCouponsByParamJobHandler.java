@@ -163,8 +163,8 @@ public class DirctCollectCouponsByParamJobHandler extends IJobHandler{
 		for(AlimamaItem alimamaItem:alimamaItems){
 			itemDBService.insertOrUpdate(alimamaItem, cate);
 			
-			//为防止频繁调用阿里妈妈推广接口，被禁，此处休眠10s
-			Thread.sleep(10000);
+			//为防止频繁调用阿里妈妈推广接口，被禁，此处休眠20s
+			Thread.sleep(20000);
 		}
 		return result;
 	}

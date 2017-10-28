@@ -1,5 +1,6 @@
 package com.tooklili.service.redis;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -16,6 +17,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.tooklili.dao.intf.tooklili.ItemDao;
 import com.tooklili.enums.tooklili.ItemCateEnum;
+import com.tooklili.model.taobao.KeyWordAndCateModel;
 import com.tooklili.model.tooklili.Item;
 import com.tooklili.service.BaseTest;
 import com.tooklili.service.util.RedisUtils;
@@ -162,6 +164,150 @@ public class RedisTest extends BaseTest{
 		}catch(Exception e){
 			logger.info("exception",e);
 		}
+		
+	}
+	
+	/**
+	 * 初始化关键字到reids中
+	 */
+	@Test
+	public void initKeyWordToRedis(){
+		final List<KeyWordAndCateModel> keyWordAndCateModels = new ArrayList<KeyWordAndCateModel>();
+		//服装		
+		keyWordAndCateModels.add(new KeyWordAndCateModel("女装上衣", 35, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("女装裙装", 35, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("女装裤装", 35, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("男装上衣", 35, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("男装裤装", 35, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("潮流女装", 35, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("精品男装", 35, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("男士衬衣", 35, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("男士休闲", 35, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("女人", 35, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("男人", 35, 1));
+		//母婴
+		keyWordAndCateModels.add(new KeyWordAndCateModel("孕妇", 36, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("儿童", 36, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("玩具", 36, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("母婴生活", 36, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("母婴", 36, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("拼图", 36, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("儿童图书", 36, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("恐龙玩具", 36, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("袜子", 36, 1));
+		//化妆品
+		keyWordAndCateModels.add(new KeyWordAndCateModel("化妆品", 37, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("洗发水", 37, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("护发素", 37, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("洗面奶", 37, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("洁面膏", 37, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("美妆", 37, 1));
+		//居家
+		keyWordAndCateModels.add(new KeyWordAndCateModel("居家", 38, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("生活用品", 38, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("生活小神器", 38, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("创意家居", 38, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("厨具", 38, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("家居", 38, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("收纳盒", 38, 1));
+		//鞋包配饰
+		keyWordAndCateModels.add(new KeyWordAndCateModel("男鞋", 39, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("女鞋", 39, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("男包", 39, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("女包", 39, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("鞋包运动", 39, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("运动鞋", 39, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("男士皮鞋", 39, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("女士皮鞋", 39, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("配饰", 39, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("高跟鞋", 39, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("平底鞋", 39, 1));
+		//美食
+		keyWordAndCateModels.add(new KeyWordAndCateModel("美食", 40, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("零食", 40, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("零食三只松鼠", 40, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("零食良品铺子", 40, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("水果", 40, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("瓜子", 40, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("坚果", 40, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("榨菜", 40, 1));
+		//文体车品
+		keyWordAndCateModels.add(new KeyWordAndCateModel("文体", 41, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("车配饰", 41, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("文体车品", 41, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("家装车品", 41, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("装饰品", 41, 1));
+		//数码家电
+		keyWordAndCateModels.add(new KeyWordAndCateModel("数码", 42, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("电器", 42, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("家电", 42, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("手机配饰", 42, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("手机壳", 42, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("手表", 42, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("手机", 42, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("充电宝", 42, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("电饭锅", 42, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("吹风机", 42, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("耳机", 42, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("电磁炉", 42, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("电水壶", 42, 1));
+		keyWordAndCateModels.add(new KeyWordAndCateModel("儿童手表", 42, 1));
+		
+		final List<byte[]> list = Lists.newArrayList(); 
+		for(KeyWordAndCateModel keyWordAndCateModel:keyWordAndCateModels){
+			byte[] bytes =stringRedisSerializer.serialize(JSON.toJSONString(keyWordAndCateModel));
+			list.add(bytes);
+		}
+		
+		redisTemplate.execute(new RedisCallback<Long>() {
+			@Override
+			public Long doInRedis(RedisConnection connection) throws DataAccessException {				
+				String key = "super_search_keyword";
+							
+				connection.del(stringRedisSerializer.serialize(key));
+				return connection.sAdd(stringRedisSerializer.serialize(key), list.toArray(new byte[list.size()][]));
+			}
+		});
+		
+		redisTemplate.execute(new RedisCallback<Long>() {
+			@Override
+			public Long doInRedis(RedisConnection connection) throws DataAccessException {				
+				String key = "tbk_api_keyword";
+								
+				connection.del(stringRedisSerializer.serialize(key));
+				return connection.sAdd(stringRedisSerializer.serialize(key), list.toArray(new byte[list.size()][]));
+			}
+		});
+	}
+	
+	/**
+	 * 从redis中获取关键字
+	 */
+	@Test
+	public void getKeyWordFromRedisTest(){		
+		final String key = "tbk_api_keyword";
+		final KeyWordAndCateModel keyWordAndCateModel = redisTemplate.execute(new RedisCallback<KeyWordAndCateModel>() {
+			@Override
+			public KeyWordAndCateModel doInRedis(RedisConnection connection) throws DataAccessException {				
+				
+								
+				 byte[] valueByte = connection.sPop(stringRedisSerializer.serialize(key));		 
+				 KeyWordAndCateModel keyWordAndCateModel = JSON.parseObject(stringRedisSerializer.deserialize(valueByte), KeyWordAndCateModel.class);
+				 logger.info(JSON.toJSONString(keyWordAndCateModel));
+				 return keyWordAndCateModel;
+			}
+		});
+		
+		keyWordAndCateModel.setCurrentPage(keyWordAndCateModel.getCurrentPage()+1);
+		
+		redisTemplate.execute(new RedisCallback<Long>() {
+			@Override
+			public Long doInRedis(RedisConnection connection) throws DataAccessException {												
+				 
+				 return connection.sAdd(stringRedisSerializer.serialize(key), stringRedisSerializer.serialize(JSON.toJSONString(keyWordAndCateModel)));
+			}
+		});
+		
 		
 	}
 }
