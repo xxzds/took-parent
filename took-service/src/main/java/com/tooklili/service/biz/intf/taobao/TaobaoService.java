@@ -24,13 +24,7 @@ public interface TaobaoService{
 	public ListResult<String> getItemImages(String numIid) throws UnsupportedEncodingException;
 	
 	
-	/**
-	 * 通过商品id获取优惠券链接
-	 * @author shuai.ding
-	 * @param itemId
-	 * @return
-	 */
-	
+
 	/**
 	 * 通过商品id和优惠券id获取优惠券链接
 	 * @author shuai.ding

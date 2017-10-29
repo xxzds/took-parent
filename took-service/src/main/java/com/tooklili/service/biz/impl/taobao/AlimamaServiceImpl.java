@@ -85,6 +85,11 @@ public class AlimamaServiceImpl implements AlimamaService{
 			params.put("queryType", queryType.toString());
 		}
 		
+		//排序类型
+		if(alimamaReqItemModel.getSortType()!=null){
+			params.put("sortType", alimamaReqItemModel.getSortType().toString());
+		}
+		
 		//商品标签,默认为空
 		String shopTag = "";
 				
