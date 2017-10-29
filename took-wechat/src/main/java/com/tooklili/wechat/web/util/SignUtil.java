@@ -3,6 +3,8 @@ package com.tooklili.wechat.web.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * 请求校验工具类
  */
@@ -17,6 +19,10 @@ public class SignUtil {
      */
     public static boolean checkSignature(String signature, String timestamp,
             String nonce,String token) {
+    	if(StringUtils.isEmpty(signature) || StringUtils.isEmpty(timestamp) || StringUtils.isEmpty(nonce)){
+    		return false;
+    	}
+    	
         String[] arr = new String[] { token, timestamp, nonce };
         // 将token、timestamp、nonce三个参数进行字典序排序
         //Arrays.sort(arr);
