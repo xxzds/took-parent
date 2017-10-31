@@ -44,6 +44,18 @@ public class AlimamaItemLink {
 	 * 领券短链接（300天有效期）
 	 */
 	private String couponShortLinkUrl;
+	
+	
+	/***************************custom*******************************/
+	/**
+	 * 自定义商品短链接
+	 */
+	private String customShortLinkUrl;
+	
+	/**
+	 * 自定义领券短链接
+	 */
+	private String customCouponShortLinkUrl;
 
 	public String getTaoToken() {
 		return taoToken;
@@ -99,5 +111,21 @@ public class AlimamaItemLink {
 
 	public void setCouponShortLinkUrl(String couponShortLinkUrl) {
 		this.couponShortLinkUrl = couponShortLinkUrl;
+	}
+
+	public String getCustomShortLinkUrl() {
+		return customShortLinkUrl;
+	}
+
+	public void setCustomShortLinkUrl(String customShortLinkUrl) {
+		this.customShortLinkUrl = customShortLinkUrl;
+	}
+
+	public String getCustomCouponShortLinkUrl() {
+		return customCouponShortLinkUrl;
+	}
+
+	public void setCustomCouponShortLinkUrl(String customCouponShortLinkUrl) {
+		this.customCouponShortLinkUrl = customCouponShortLinkUrl;
 	}
 }

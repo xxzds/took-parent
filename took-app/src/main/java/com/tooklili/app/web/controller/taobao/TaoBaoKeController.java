@@ -1,5 +1,8 @@
 package com.tooklili.app.web.controller.taobao;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.taobao.api.ApiException;
 import com.taobao.api.request.TbkDgItemCouponGetRequest;
 import com.taobao.api.response.TbkDgItemCouponGetResponse.TbkCoupon;
+import com.tooklili.model.taobao.TpwdAndShortUrlModel;
+import com.tooklili.service.biz.intf.common.ShortLinkService;
 import com.tooklili.service.biz.intf.taobao.TbkService;
 import com.tooklili.util.PropertiesUtil;
 import com.tooklili.util.result.PageResult;
@@ -32,6 +37,9 @@ public class TaoBaoKeController {
 	
 	@Resource
 	private TbkService tbkService;
+	
+	@Resource
+	private ShortLinkService shortLinkService;
 		
 	/**
 	 * 查询商品列表
@@ -111,6 +119,39 @@ public class TaoBaoKeController {
 	@ResponseBody
 	public PlainResult<String> getTPwd(String text,String url,String logo) throws ApiException{
 		PlainResult<String> result = tbkService.createTpwd(text, url,logo);
+		return result;
+	}
+	
+	/**
+	 * @throws UnsupportedEncodingException 
+	 * 获取淘口令和短链接地址
+	 * @author shuai.ding
+	 * @param text       口令弹框内容
+	 * @param url        口令跳转目标页
+	 * @param logo       口令弹框logoURL 可选 如https://uland.taobao.com/
+	 * @return
+	 * @throws ApiException 
+	 * @throws   
+	 */
+	@RequestMapping("/getTpwdAndShortLink")
+	@ResponseBody
+	public PlainResult<TpwdAndShortUrlModel> getTpwdAndShortLink(String text,String url,String logo) throws ApiException, UnsupportedEncodingException{
+		PlainResult<TpwdAndShortUrlModel> result = new PlainResult<TpwdAndShortUrlModel>();
+		
+		TpwdAndShortUrlModel tpwdAndShortUrlModel = new TpwdAndShortUrlModel();
+		PlainResult<String> tpwdResult = tbkService.createTpwd(text, url,logo);
+		if(!tpwdResult.isSuccess()){
+			return result.setErrorMessage("生成淘口令失败");
+		}
+		tpwdAndShortUrlModel.setCouponLinkTaoToken(tpwdResult.getData());
+				
+		String finalUrl =  "http://www.tooklili.com:81/taobao?backurl=" +URLEncoder.encode(url,"utf-8");
+		PlainResult<String> shortLinkResult = shortLinkService.getShortLinkUrl(finalUrl);
+		if(!shortLinkResult.isSuccess()){
+			return result.setErrorMessage("生成短链接失败");
+		}
+		tpwdAndShortUrlModel.setCouponShortLinkUrl(shortLinkResult.getData());	
+		result.setData(tpwdAndShortUrlModel);
 		return result;
 	}
 }

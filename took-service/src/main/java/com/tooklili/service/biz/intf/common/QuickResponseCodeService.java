@@ -1,4 +1,4 @@
-package com.tooklili.service.biz.intf.qrcode;
+package com.tooklili.service.biz.intf.common;
 
 import java.io.UnsupportedEncodingException;
 
@@ -13,7 +13,7 @@ public interface QuickResponseCodeService {
 	/**
 	 * 获取二维码地址前缀
 	 */
-	public final String urlPrfix ="http://qr.liantu.com/api.php?text=";
+	public final String urlPrefix ="http://qr.liantu.com/api.php?text=";
 
 	/**
 	 * 生成二维码base64字符串

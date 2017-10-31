@@ -1,4 +1,4 @@
-package com.tooklili.service.biz.impl.qrcode;
+package com.tooklili.service.biz.impl.common;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.tooklili.http.HttpCallService;
-import com.tooklili.service.biz.intf.qrcode.QuickResponseCodeService;
+import com.tooklili.service.biz.intf.common.QuickResponseCodeService;
 import com.tooklili.util.result.PlainResult;
 
 /**
@@ -40,9 +40,9 @@ public class QuickResponseCodeServiceImpl implements QuickResponseCodeService{
 			return result.setErrorMessage("url不能为空");
 		}
 		url=URLEncoder.encode(url, "utf-8");	
-		PlainResult<byte[]> responseResult =  httpCallService.urlConnectionGetReturnByte(urlPrfix+url);
+		PlainResult<byte[]> responseResult =  httpCallService.urlConnectionGetReturnByte(urlPrefix+url);
 		if(!responseResult.isSuccess()){
-			LOGGER.info("调用地址【{}】失败，失败原因：{}",urlPrfix+url,responseResult.getMessage());
+			LOGGER.info("调用地址【{}】失败，失败原因：{}",urlPrefix+url,responseResult.getMessage());
 			return result.setErrorMessage(responseResult.getMessage());
 		}
 		
