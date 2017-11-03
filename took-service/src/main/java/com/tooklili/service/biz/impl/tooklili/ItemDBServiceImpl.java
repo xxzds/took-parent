@@ -102,7 +102,7 @@ public class ItemDBServiceImpl implements ItemDBService{
 			}
 			itemModel.setQuanUrl(alimamaItemLink.getCouponLink());
 			
-			itemModel.setIntro(taobaoService.getItemSubTitleByItemId(String.valueOf(numIid)).getData());
+//			itemModel.setIntro(taobaoService.getItemSubTitleByItemId(String.valueOf(numIid)).getData());
 			itemModel.setNick(alimamaItem.getNick());
 			itemModel.setSellerId(alimamaItem.getSellerId());
 			itemModel.setClickUrl(alimamaItemLink.getCouponLink());
