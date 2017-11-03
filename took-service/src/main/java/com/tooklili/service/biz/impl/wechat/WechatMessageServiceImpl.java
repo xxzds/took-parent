@@ -62,7 +62,11 @@ public class WechatMessageServiceImpl implements WechatMessageService{
 				result = FormatXml.formatXmlAboutText(xmlEntity.getFromUserName(), xmlEntity.getToUserName(), content);
 				break;
 			default: 
+				//中文、英文逗号，都可进行分割
 				String[] params = reciveContent.split(",");
+				if(params!=null && params.length==1){
+					params = reciveContent.split("，");
+				}
 				AlimamaReqItemModel alimamaReqItemModel = new AlimamaReqItemModel();
 				alimamaReqItemModel.setQ(params[0]);
 				//销量从高到低
