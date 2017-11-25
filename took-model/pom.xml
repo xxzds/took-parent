@@ -9,6 +9,13 @@
 	<artifactId>took-model</artifactId>
 
 	<dependencies>
+		<!-- took-util -->
+		<dependency>
+			<groupId>com.tooklili</groupId>
+			<artifactId>took-util</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
 		<!-- 淘宝接口 -->
 		<dependency>
 		  <groupId>com.taobao</groupId>

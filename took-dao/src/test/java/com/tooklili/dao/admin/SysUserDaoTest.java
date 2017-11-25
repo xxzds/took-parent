@@ -8,8 +8,11 @@ import javax.annotation.Resource;
 import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
+import com.github.miemiedev.mybatis.paginator.domain.Order;
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.tooklili.dao.BaseTest;
 import com.tooklili.dao.intf.admin.SysUserDao;
+import com.tooklili.enums.admin.UserStatus;
 import com.tooklili.model.admin.SysUser;
 
 /**
@@ -30,7 +33,7 @@ public class SysUserDaoTest extends BaseTest{
 		sysUser.setUserPassword("123");
 		sysUser.setUserSalt("1");
 		sysUser.setUserCreateTime(new Date());
-		sysUser.setUserStatus("666");
+		sysUser.setUserStatus(UserStatus.normal);
 		
 		sysUserDao.insert(sysUser);
 		logger.info("主键:{}",sysUser.getId());
@@ -55,10 +58,17 @@ public class SysUserDaoTest extends BaseTest{
 	
 	@Test
 	public void findTest(){
-		List<SysUser> list = sysUserDao.find(null);
-		for(SysUser sysUser:list){
-			logger.info(JSON.toJSONString(sysUser));
-		}
+		try{
+			SysUser sysUser1 = new SysUser();
+			sysUser1.setUserName("admin");
+			sysUser1.setUserStatus(UserStatus.normal);
+			List<SysUser> list = sysUserDao.find(sysUser1);
+			for(SysUser sysUser:list){
+				logger.info(JSON.toJSONString(sysUser));
+			}
+		}catch(Exception e){
+			logger.error("exception",e);
+		}		
 	}
 	
 	@Test
@@ -86,6 +96,16 @@ public class SysUserDaoTest extends BaseTest{
 		sysUser.setId(6L);
 		sysUser.setUserPassword("456");
 		sysUserDao.updateByIdSelective(sysUser);
+	}
+	
+	@Test
+	public void queryUsersByPageTest(){
+		try{
+			PageBounds pageBounds = new PageBounds(1, 10,Order.formString("id.desc,user_name.asc"));
+			sysUserDao.queryUsersByPage(null, pageBounds);
+		}catch(Exception e){
+			logger.error("exception",e);
+		}
 	}
 	
 }

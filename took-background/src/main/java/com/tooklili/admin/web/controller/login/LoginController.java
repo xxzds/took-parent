@@ -1,10 +1,17 @@
 package com.tooklili.admin.web.controller.login;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tooklili.model.admin.SysUser;
+import com.tooklili.service.biz.intf.admin.system.UserService;
+import com.tooklili.service.constant.Constants;
+import com.tooklili.service.util.MessageUtils;
 import com.tooklili.util.result.BaseResult;
 
 /**
@@ -14,6 +21,9 @@ import com.tooklili.util.result.BaseResult;
  */
 @Controller
 public class LoginController {
+	
+	@Resource
+	private UserService userService;
 
 	/**
 	 * 去登录页面
@@ -32,19 +42,21 @@ public class LoginController {
 	 */
 	@RequestMapping("/login")
 	@ResponseBody
-	public BaseResult login(String userName,String password){
+	public BaseResult login(String userName,String password,HttpSession session){
 		BaseResult result = new BaseResult();
 		
 		if(StringUtils.isEmpty(userName)){
-			return result.setErrorMessage("用户名不能为空");
+			return result.setErrorMessage(MessageUtils.message("login.no.username"));
 		}
 		if(StringUtils.isEmpty(password)){
-			return result.setErrorMessage("密码不能为空");
+			return result.setErrorMessage(MessageUtils.message("login.no.password"));
 		}
 		
-		
-		
-		return result;
-		
+		SysUser sysUser = userService.findUserByUsernameAndPassword(userName, password).getData();
+		if(sysUser==null){
+			return result.setErrorMessage(MessageUtils.message("login.error"));
+		}
+		session.setAttribute(Constants.CURRENT_USER, sysUser);	
+		return result;		
 	}
 }

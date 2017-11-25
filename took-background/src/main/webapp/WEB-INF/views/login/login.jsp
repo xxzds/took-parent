@@ -10,14 +10,19 @@
 <body>
 
 <form id="form">
-用户名：<input type="text" id="userName"/><br>
-密码：<input type="password" id="password"/><br>
+用户名：<input type="text" id="userName" name="userName"/><br>
+密码：<input type="password" id="password" name="password"/><br>
 <div style="color:red;"><span id="tip"></span></div>
 <input type="button" id="login" value="登录"/>
 
 </form>
 
 <script type="text/javascript">
+
+	/*针对于session为空时 判断是不是有iframe*/
+	if (self.frameElement != null && (self.frameElement.tagName == "IFRAME" || self.frameElement.tagName == "iframe")) {
+	    top.window.location.href = window.location.href;
+	}
 	//登录
 	$('#login').click(function(){
 		var userName=$('#userName').val();

@@ -21,6 +21,10 @@ public class PageResult<T> extends BaseResult {
         this(currentPage,pageSize,null);
     }
     
+    public PageResult(int currentPage,int pageSize){
+    	 this((long)currentPage,(long)pageSize,null);
+    }
+    
     public PageResult(Long currentPage, Long pageSize,Long totalCount) {
         this.currentPage = currentPage;
         this.pageSize = pageSize;
@@ -34,6 +38,11 @@ public class PageResult<T> extends BaseResult {
     public void setTotalCount(Long totalCount) {
         this.totalCount = totalCount;
     }
+    
+    public void setTotalCount(int totalCount) {
+        this.totalCount = (long)totalCount;
+    }
+
 
     public Long getPageSize() {
         return pageSize;

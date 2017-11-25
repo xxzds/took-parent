@@ -7,12 +7,16 @@
 			<result column="user_name" property="userName" jdbcType="VARCHAR" />
 			<result column="user_password" property="userPassword" jdbcType="VARCHAR" />
 			<result column="user_salt" property="userSalt" jdbcType="VARCHAR" />
-			<result column="user_create_time" property="userCreateTime" jdbcType="DATE" />
+			<result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+			<result column="user_email" property="userEmail" jdbcType="VARCHAR" />			
+			<result column="user_create_time" property="userCreateTime" jdbcType="TIMESTAMP" />
+			<result column="user_edit_time" property="userEditTime" jdbcType="TIMESTAMP" />
 			<result column="user_status" property="userStatus" jdbcType="VARCHAR" />
+			<result column="user_deleted" property="userDeleted" jdbcType="INTEGER" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		id,user_name,user_password,user_salt,user_create_time,user_status
+		id,user_name,user_password,user_salt,user_phone,user_email,user_create_time,user_edit_time,user_status,user_deleted
 	</sql>
 
 	<sql id="conditions_sysUser">
@@ -29,11 +33,23 @@
 			<if test="userSalt != null">
 				and user_salt = #{userSalt}
 			</if>
+			<if test="userPhone != null">
+				and user_phone = #{userPhone}
+			</if>
+			<if test="userEmail != null">
+				and user_email = #{userEmail}
+			</if>			
 			<if test="userCreateTime != null">
 				and user_create_time = #{userCreateTime}
 			</if>
+			<if test="userEditTime != null">
+				and user_edit_time = #{userEditTime}
+			</if>
 			<if test="userStatus != null">
-				and status = #{status}
+				and user_status = #{userStatus}
+			</if>
+			<if test="userDeleted != null">
+				and user_deleted = #{userDeleted}
 			</if>
 		</where>
 	</sql>
@@ -78,16 +94,24 @@
 			user_name,
 			user_password,
 			user_salt,
+			user_phone,
+			user_email,
 			user_create_time,
-			user_status
+			user_edit_time,
+			user_status,
+			user_deleted
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			#{id},
 			#{userName},
 			#{userPassword},
 			#{userSalt},
+			#{userPhone},
+			#{userEmail},
 			#{userCreateTime},
-			#{userStatus}
+			#{userEditTime},
+			#{userStatus},
+			#{userDeleted}
 		</trim>
 	</insert>
 
@@ -98,16 +122,24 @@
 			<if test="userName != null">user_name,</if>
 			<if test="userPassword != null">user_password,</if>
 			<if test="userSalt != null">user_salt,</if>
+			<if test="userPhone != null">user_phone,</if>
+			<if test="userEmail != null">user_email,</if>
 			<if test="userCreateTime != null">user_create_time,</if>
+			<if test="userEditTime != null">user_edit_time,</if>
 			<if test="userStatus != null">user_status,</if>
+			<if test="userDeleted != null">user_deleted,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">#{id},</if>
 			<if test="userName != null">#{userName},</if>
 			<if test="userPassword != null">#{userPassword},</if>
 			<if test="userSalt != null">#{userSalt},</if>
+			<if test="userPhone != null">#{userPhone},</if>
+			<if test="userEmail != null">#{userEmail},</if>
 			<if test="userCreateTime != null">#{userCreateTime},</if>
-			<if test="userStatus != null">#{status},</if>
+			<if test="userEditTime != null">#{userEditTime},</if>
+			<if test="userStatus != null">#{userStatus},</if>
+			<if test="userDeleted != null">#{userDeleted},</if>
 		</trim>
 	</insert>
 
@@ -117,8 +149,12 @@
 			user_name=#{userName},
 			user_password=#{userPassword},
 			user_salt=#{userSalt},
+			user_phone=#{userPhone},
+			user_email=#{userEmail},
 			user_create_time=#{userCreateTime},
-			user_status=#{userStatus}
+			user_edit_time=#{userEditTime},
+			user_status=#{userStatus},
+			user_deleted=#{userDeleted}
 		</set>
 		<where>
 			  and id=#{id}
@@ -136,13 +172,59 @@
 			</if>
 			<if test="userSalt != null">user_salt=#{userSalt},
 			</if>
+			<if test="userPhone != null">user_phone=#{userPhone},
+			</if>
+			<if test="userEmail != null">user_email=#{userEmail},
+			</if>
 			<if test="userCreateTime != null">user_create_time=#{userCreateTime},
 			</if>
+			<if test="userEditTime != null">user_edit_time=#{userEditTime},
+			</if>
 			<if test="userStatus != null">user_status=#{userStatus},
+			</if>
+			<if test="userDeleted != null">user_deleted=#{userDeleted},
 			</if>
 		</set>
 		<where>
 			  and id=#{id}
 		</where>
 	</update>
+	
+	<select id="queryUsersByPage" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
+		from sys_user
+		<where>
+			<if test="sysUser!=null and sysUser.id != null">
+				and id = #{sysUser.id}
+			</if>
+			<if test="sysUser!=null and sysUser.userName != null and sysUser.userName != ''">
+				and user_name = #{sysUser.userName}
+			</if>
+			<if test="sysUser!=null and sysUser.userPassword != null and sysUser.userPassword != ''">
+				and user_password = #{sysUser.userPassword}
+			</if>
+			<if test="sysUser!=null and sysUser.userSalt != null and sysUser.userSalt != ''">
+				and user_salt = #{sysUser.userSalt}
+			</if>
+			<if test="sysUser!=null and sysUser.userPhone != null and sysUser.userPhone != ''">
+				and user_phone = #{sysUser.userPhone}
+			</if>
+			<if test="sysUser!=null and sysUser.userEmail != null and sysUser.userEmail != ''">
+				and user_email = #{sysUser.userEmail}
+			</if>
+			<if test="sysUser!=null and sysUser.userCreateTime != null and sysUser.userCreateTime != ''">
+				and user_create_time = #{sysUser.userCreateTime}
+			</if>
+			<if test="sysUser!=null and sysUser.userEditTime != null and sysUser.userEditTime != ''">
+				and user_edit_time = #{sysUser.userEditTime}
+			</if>
+			<if test="sysUser!=null and sysUser.userStatus != null and sysUser.userStatus != ''">
+				and user_status = #{sysUser.userStatus}
+			</if>
+			<if test="sysUser!=null and sysUser.userDeleted != null">
+				and user_deleted = #{sysUser.userDeleted}
+			</if>
+		</where>
+	</select>
 </mapper>

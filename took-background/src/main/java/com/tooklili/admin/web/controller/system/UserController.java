@@ -1,10 +1,18 @@
 package com.tooklili.admin.web.controller.system;
 
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tooklili.admin.web.controller.BaseController;
+import com.tooklili.model.admin.SysUser;
+import com.tooklili.service.biz.intf.admin.system.UserService;
+import com.tooklili.util.result.BaseResult;
+import com.tooklili.util.result.PageResult;
 
 /**
  * 用户控制器
@@ -15,6 +23,9 @@ import com.tooklili.admin.web.controller.BaseController;
 @Controller
 @RequestMapping("/system/user")
 public class UserController extends BaseController{
+	
+	@Resource
+	private UserService userService;
 	
 	public UserController() {
 		setResourceIdentity("system:user");
@@ -28,12 +39,80 @@ public class UserController extends BaseController{
 	@RequestMapping(value = "", method = RequestMethod.GET)
     public String main() {
 		
-		if (permissionList != null) {
-			this.permissionList.assertHasViewPermission();
-		}	
+//		if (permissionList != null) {
+//			this.permissionList.assertHasViewPermission();
+//		}	
 		
 		
 		return "system/user";
     }
+	
+
+	/**
+	 * 用户列表查询
+	 * @author shuai.ding
+	 * @param page        当前页
+	 * @param rows        页面大小
+	 * @return
+	 */
+	@RequestMapping(value = "/userList")
+	@ResponseBody
+	public PageResult<SysUser> userList(SysUser sysUser, Integer page,Integer rows){
+		//展示非逻辑删除的用户
+		if(sysUser==null){
+			sysUser=new SysUser();			
+		}
+		sysUser.setUserDeleted(0);
+		return userService.findUsers(sysUser, page,rows);
+	}
+	
+	/**
+	 * 添加用户
+	 * @author shuai.ding
+	 * @param sysUser
+	 * @return
+	 */
+	@RequestMapping(value = "/addUser")
+	@ResponseBody
+	public BaseResult addUser(SysUser sysUser){
+		return  userService.addUser(sysUser);
+	}
+	
+	/**
+	 * 修改用户
+	 * @author shuai.ding
+	 * @param sysUser
+	 * @return
+	 */
+	@RequestMapping(value = "/editUser")
+	@ResponseBody
+	public BaseResult editUser(SysUser sysUser){
+		return userService.editUser(sysUser);
+	}
+	
+
+	/**
+	 * 逻辑删除用户
+	 * @author shuai.ding
+	 * @param id      用户主键
+	 * @return
+	 */
+	@RequestMapping(value = "/logicDelUser/{id}")
+	@ResponseBody
+	public BaseResult logicDelUser(@PathVariable Long id){
+		return userService.logicDelUser(id);
+	}
+	
+	/**
+	 * 重置用户密码，密码默认为123
+	 * @author shuai.ding
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/defaultUserPwd/{id}")
+	@ResponseBody
+	public BaseResult defaultUserPwd(@PathVariable Long id){
+		return userService.defaultUserPwd(id);
+	}
 
 }

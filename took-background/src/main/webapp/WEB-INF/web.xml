@@ -5,6 +5,18 @@
   <welcome-file-list>
 	<welcome-file>/index.jsp</welcome-file>
   </welcome-file-list>
+  
+  <!-- 在上下文context-param中设置profile.active的默认值 -->
+    <!-- 设置active后default失效，web启动时会加载对应的环境信息 -->
+    <context-param>
+        <param-name>spring.profiles.active</param-name>
+        <param-value>admin_development</param-value>
+<!--         <param-value>admin_production</param-value> -->
+    </context-param>
+    
+    <listener>
+		<listener-class>com.tooklili.admin.web.listener.InitConfigListener</listener-class>
+	</listener>
 	
   <context-param>
 		<param-name>contextConfigLocation</param-name>

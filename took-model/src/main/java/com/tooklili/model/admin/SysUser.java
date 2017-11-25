@@ -2,6 +2,9 @@ package com.tooklili.model.admin;
 
 import java.util.Date;
 
+import com.tooklili.enums.admin.UserStatus;
+import com.tooklili.util.DateUtil;
+
 /**
  * 用户实体
  * @author shuai.ding
@@ -29,14 +32,34 @@ public class SysUser {
 	private String userSalt;
 	
 	/**
+	 * 手机号码
+	 */
+	private String userPhone;
+	
+	/**
+	 * 电子邮箱
+	 */
+	private String userEmail;
+	
+	/**
 	 * 创建时间
 	 */
 	private Date userCreateTime;
 	
 	/**
-	 * 用户状态
+	 * 修改时间
 	 */
-	private String userStatus;
+	private Date userEditTime;
+	
+	/**
+	 * 用户状态 normal-正常状态  blocked-封禁状态
+	 */
+	private UserStatus userStatus;
+	
+	/**
+	 * 用户是否删除 0-未删除   1-删除
+	 */
+	private Integer userDeleted;
 
 	public Long getId() {
 		return id;
@@ -73,16 +96,80 @@ public class SysUser {
 	public Date getUserCreateTime() {
 		return userCreateTime;
 	}
+	
+	/**
+	 * 将日期对象转化成字符串
+	 * @author shuai.ding
+	 * @return
+	 */
+	public String getUserCreateTimeStr(){
+		if(this.userCreateTime==null){
+			return null;
+		}
+		return DateUtil.formatDate(this.userCreateTime);
+	}
 
 	public void setUserCreateTime(Date userCreateTime) {
 		this.userCreateTime = userCreateTime;
 	}
 
-	public String getUserStatus() {
+	public UserStatus getUserStatus() {
 		return userStatus;
 	}
+	
+	/**
+	 * 将状态变成对应的汉字
+	 * @author shuai.ding
+	 * @return
+	 */
+	public String getUserStatusStr(){
+		if(this.userStatus==null){
+			return null;
+		}
+		return this.userStatus.getInfo();
+	}
 
-	public void setUserStatus(String userStatus) {
+	public void setUserStatus(UserStatus userStatus) {
 		this.userStatus = userStatus;
+	}
+
+	public Date getUserEditTime() {
+		return userEditTime;
+	}
+
+	public void setUserEditTime(Date userEditTime) {
+		this.userEditTime = userEditTime;
+	}
+
+	public String getUserPhone() {
+		return userPhone;
+	}
+
+	public void setUserPhone(String userPhone) {
+		this.userPhone = userPhone;
+	}
+
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+
+	public Integer getUserDeleted() {
+		return userDeleted;
+	}
+
+	public void setUserDeleted(Integer userDeleted) {
+		this.userDeleted = userDeleted;
+	}
+
+	@Override
+	public String toString() {
+		return "SysUser [id=" + id + ", userName=" + userName + ", userPassword=" + userPassword + ", userSalt="
+				+ userSalt + ", userPhone=" + userPhone + ", userEmail=" + userEmail + ", userCreateTime="
+				+ userCreateTime + ", userEditTime=" + userEditTime + ", userStatus=" + userStatus + ", userDeleted="
+				+ userDeleted + "]";
 	}
 }

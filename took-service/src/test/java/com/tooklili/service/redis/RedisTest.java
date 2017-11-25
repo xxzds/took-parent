@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.junit.Test;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.connection.ReturnType;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -309,5 +310,130 @@ public class RedisTest extends BaseTest{
 		});
 		
 		
+	}
+	
+	/**
+	 * 去库存，虽然redis是单线程执行的，但在多线程的条件下，查询、更新是两个步骤，依然不能保证去库存的正确性。
+	 * 此处的解决是通过锁实现的，但局限性比较大，如集群时，此法不可用。
+	 * @author shuai.ding
+	 */
+	@Test
+	public void reduceStockTest(){
+		try{
+			final byte[] key = stringRedisSerializer.serialize("stock");
+			
+			redisTemplate.execute(new RedisCallback<Long>() {
+
+				@Override
+				public Long doInRedis(RedisConnection connection) throws DataAccessException {
+					//切换数据库到1中
+					connection.select(1);
+					
+					connection.set(key, stringRedisSerializer.serialize("30"));
+					return null;
+				}
+			});
+			
+			final Object obj = new Object();
+			//开启10个线程，去库存
+			for(int i=0;i<10;i++){
+				new Thread( new Runnable() {
+					public void run() {
+							while(true){
+								final String value = redisTemplate.execute(new RedisCallback<String>() {
+
+									@Override
+									public String doInRedis(RedisConnection connection) throws DataAccessException {
+										//切换数据库到1中
+										connection.select(1);
+										
+										String value=null;
+										synchronized(obj){
+											byte[] valueByte = connection.get(key);
+											value = stringRedisSerializer.deserialize(valueByte);
+											logger.info("当前线程：{}，当前库存：{}",Thread.currentThread().getName(),value);
+											
+											int newValue = Integer.parseInt(value)-1;
+											if(newValue>=0){
+												connection.set(key, stringRedisSerializer.serialize(newValue+""));
+											}else{
+												value=null;
+											}
+										}
+
+										return value;
+									}
+								});
+								
+								if(value==null){
+									break;
+								}														
+							}
+					}
+				}).start();
+			}
+
+			 //主线程休眠  
+	        Thread.sleep(Long.MAX_VALUE);
+		}catch(Exception e){
+			logger.info("exception",e);
+		}
+	}
+	
+	/**
+	 * 通过lua脚本，保证命令执行的原子性
+	 * @author shuai.ding
+	 */
+	@Test
+	public void reduceStockByLuaScriptTest(){
+		try{
+			final byte[] key = stringRedisSerializer.serialize("stock");
+			
+			redisTemplate.execute(new RedisCallback<Long>() {
+
+				@Override
+				public Long doInRedis(RedisConnection connection) throws DataAccessException {
+					//切换数据库到1中
+					connection.select(1);
+					
+					connection.set(key, stringRedisSerializer.serialize("30"));
+					return null;
+				}
+			});
+			
+			for(int i=0;i<10;i++){
+				new Thread(new Runnable() {					
+					@Override
+					public void run() {
+						while(true){
+							final byte[] value = redisTemplate.execute(new RedisCallback<byte[]>() {
+
+								@Override
+								public byte[] doInRedis(RedisConnection connection) throws DataAccessException {
+									//切换数据库到1中
+									connection.select(1);
+									
+									//调用lua脚本
+									byte[] valueByte = connection.evalSha("6c92b18ad5bb0e09afef2bc6b2fdd42031756374", ReturnType.VALUE, 1, key);
+									if(valueByte==null){
+										return null;
+									}
+									logger.info("当前线程：{}，当前库存：{}",Thread.currentThread().getName(),stringRedisSerializer.deserialize(valueByte));
+									return valueByte;
+								}
+							});
+							
+							if(value==null){
+								break;
+							}														
+						}
+					}
+				}).start();
+			}
+			 //主线程休眠  
+	        Thread.sleep(Long.MAX_VALUE);
+		}catch(Exception e){
+			logger.info("exception",e);
+		}
 	}
 }
