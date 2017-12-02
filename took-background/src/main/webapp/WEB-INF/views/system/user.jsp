@@ -19,14 +19,14 @@
 	<table id="dg"></table>
 	
 	<!-- add modify -->
-	<div id="formDialog">
+	<div id="formDialog" style="visibility:hidden;">
 		<form id="form" method="post">
 			<input type="hidden" name="id"/>
 			<table align="center" width="100%">
 				<tr height="35px">
 					<td width="35%" align="right">用户名：</td>
 					<td>
-						<input class="easyui-textbox" id="userNameStr" name="userName" data-options="required:true">
+						<input class="easyui-textbox" id="userNameStr" name="userName" data-options="required:true,validType:'remote[\'${ctx}/system/user/userNameIfNotRepeate\',\'userName\']',invalidMessage:'用户名不可重复'">
 					</td>
 				</tr>
 				<tr height="35px">

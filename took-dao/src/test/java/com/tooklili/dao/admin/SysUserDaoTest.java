@@ -12,7 +12,7 @@ import com.github.miemiedev.mybatis.paginator.domain.Order;
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.tooklili.dao.BaseTest;
 import com.tooklili.dao.intf.admin.SysUserDao;
-import com.tooklili.enums.admin.UserStatus;
+import com.tooklili.enums.admin.UserStatusEnum;
 import com.tooklili.model.admin.SysUser;
 
 /**
@@ -33,7 +33,7 @@ public class SysUserDaoTest extends BaseTest{
 		sysUser.setUserPassword("123");
 		sysUser.setUserSalt("1");
 		sysUser.setUserCreateTime(new Date());
-		sysUser.setUserStatus(UserStatus.normal);
+		sysUser.setUserStatus(UserStatusEnum.normal);
 		
 		sysUserDao.insert(sysUser);
 		logger.info("主键:{}",sysUser.getId());
@@ -61,7 +61,7 @@ public class SysUserDaoTest extends BaseTest{
 		try{
 			SysUser sysUser1 = new SysUser();
 			sysUser1.setUserName("admin");
-			sysUser1.setUserStatus(UserStatus.normal);
+			sysUser1.setUserStatus(UserStatusEnum.normal);
 			List<SysUser> list = sysUserDao.find(sysUser1);
 			for(SysUser sysUser:list){
 				logger.info(JSON.toJSONString(sysUser));

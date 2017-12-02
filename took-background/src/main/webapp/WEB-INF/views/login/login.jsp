@@ -12,6 +12,7 @@
 <form id="form">
 用户名：<input type="text" id="userName" name="userName"/><br>
 密码：<input type="password" id="password" name="password"/><br>
+<input type="checkbox" id="ifRemember" name="ifRemember" value="1"/>记住我
 <div style="color:red;"><span id="tip"></span></div>
 <input type="button" id="login" value="登录"/>
 

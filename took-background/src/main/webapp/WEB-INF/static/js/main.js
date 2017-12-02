@@ -70,4 +70,75 @@ $(function(){
 			tabs.tabs("close", closeTabsTitle[i]);
 		}
 	}
+	
+	//修改密码
+	$('#modifyPwd').click(function(){
+		//显示对话框的内容
+		$('#formDialog').css('visibility','visible');
+				
+		$('#formDialog').dialog({
+			title: '修改密码',    
+		    width: 400,    
+		    height: 200,    
+		    iconCls:'icon-edit',
+		    cache: false,   
+		    modal: true,
+		    buttons:[{
+		    	text:'保存',
+		    	iconCls:'icon-ok',
+		    	plain:true,
+		    	handler:function(){
+		    		debugger;
+		    		$('#form').form('submit', {    
+		    		    url:ctx+'/system/user/modifyPassword', 
+		    		    onSubmit: function(param){    
+		    		    	return $(this).form('validate');
+		    		    },    
+		    		    success:function(dataStr){
+		    		    	var data = JSON.parse(dataStr);
+		    		    	if(data.success){
+		    		    		messager.show('密码修改成功');
+		    		    		$(this).form('clear');
+		    		    		$('#formDialog').dialog('close');
+		    		    	}else{
+		    		    		messager.show(data.message);
+		    		    	}
+		    		    }    
+		    		}); 
+		    	}
+		    },{
+		    	text:'关闭',
+		    	iconCls:'icon-cancel',
+		    	plain:true,
+		    	handler:function(){
+		    		$('#form').form('clear');
+		    		$('#formDialog').dialog('close');
+		    	}
+		    }]
+		});
+	});
+	
+	
+	//退出
+	$('#logout').click(function(){
+		$.messager.confirm('确认','您确认要退出吗？',function(r){
+			if(r){
+				$.ajax({  
+		            type : "POST",  
+		            url : ctx+"/logout",
+		            dataType: "json",
+		            success : function(result) {
+		                if (result.success) {  
+		                	top.window.location.href=ctx+"/toLogin";		                	
+		                } else {  
+		                	messager.alert(result.message); 
+		                }  
+		            },
+		            error:function(){
+		            	messager.alert("网络异常"); 
+		            }
+		        });
+			}		  
+		});
+	});
 });

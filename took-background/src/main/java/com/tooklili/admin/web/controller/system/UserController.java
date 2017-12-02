@@ -1,7 +1,10 @@
 package com.tooklili.admin.web.controller.system;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tooklili.admin.web.controller.BaseController;
+import com.tooklili.admin.web.method.annotation.CurrentUser;
+import com.tooklili.admin.web.method.annotation.SameUrlData;
+import com.tooklili.enums.admin.UserDelEnum;
 import com.tooklili.model.admin.SysUser;
 import com.tooklili.service.biz.intf.admin.system.UserService;
 import com.tooklili.util.result.BaseResult;
@@ -62,7 +68,7 @@ public class UserController extends BaseController{
 		if(sysUser==null){
 			sysUser=new SysUser();			
 		}
-		sysUser.setUserDeleted(0);
+		sysUser.setUserDeleted(UserDelEnum.USER_NO_DEL.getCode());
 		return userService.findUsers(sysUser, page,rows);
 	}
 	
@@ -113,6 +119,46 @@ public class UserController extends BaseController{
 	@ResponseBody
 	public BaseResult defaultUserPwd(@PathVariable Long id){
 		return userService.defaultUserPwd(id);
+	}
+	
+	/**
+	 * 判断用户名是否重复
+	 * true 不重复  false 重复
+	 * @author shuai.ding
+	 * @param userName
+	 * @return
+	 */
+	@RequestMapping(value = "userNameIfNotRepeate")
+	@ResponseBody
+	public boolean userNameIfNotRepeate(String userName){
+		if(StringUtils.isEmpty(userName)){
+			return true;
+		}
+		
+		SysUser user = new SysUser();
+		user.setUserName(userName);
+		user.setUserDeleted(UserDelEnum.USER_NO_DEL.getCode());
+		List<SysUser> users = userService.findUser(user).getData();
+		if(users!=null && users.size()>0){
+			return false;
+		}		
+		return true;
+	}
+	
+	
+	/**
+	 * 修改密码
+	 * @author shuai.ding
+	 * @param oldPwd      原密码
+	 * @param newPwd      新密码
+	 * @param confirmPwd  确认密码
+	 * @return
+	 */
+	@RequestMapping(value = "modifyPassword")
+	@ResponseBody
+	@SameUrlData
+	public BaseResult modifyPassword(String oldPwd,String newPwd,String confirmPwd,@CurrentUser SysUser user){
+		return userService.modifyPassword(user.getId(), oldPwd, newPwd, confirmPwd);
 	}
 
 }

@@ -5,12 +5,12 @@ package com.tooklili.enums.admin;
  * @author shuai.ding
  * @date 2017年11月21日下午6:00:59
  */
-public enum UserStatus {
+public enum UserStatusEnum {
 	normal("正常"), blocked("封禁");
 
 	public final String info;
 
-	private UserStatus( String info) {
+	private UserStatusEnum( String info) {
 		this.info = info;
 	}
 

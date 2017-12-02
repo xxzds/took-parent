@@ -204,10 +204,13 @@ var userModule = {
 	}
 }
 
-$(function(){
+$(function(){	
 	userModule.init();
 	$('#search').click(userModule.search);
 	$('#add').click(userModule.add);
 	$('#modify').click(userModule.modify);
 	$('#del').click(userModule.del);
+	
+	//解决页面加载时，出现未渲染的对话框内容
+	$('#formDialog').css('visibility','visible');	
 })

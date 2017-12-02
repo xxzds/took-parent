@@ -2,7 +2,7 @@ package com.tooklili.model.admin;
 
 import java.util.Date;
 
-import com.tooklili.enums.admin.UserStatus;
+import com.tooklili.enums.admin.UserStatusEnum;
 import com.tooklili.util.DateUtil;
 
 /**
@@ -54,7 +54,7 @@ public class SysUser {
 	/**
 	 * 用户状态 normal-正常状态  blocked-封禁状态
 	 */
-	private UserStatus userStatus;
+	private UserStatusEnum userStatus;
 	
 	/**
 	 * 用户是否删除 0-未删除   1-删除
@@ -113,7 +113,7 @@ public class SysUser {
 		this.userCreateTime = userCreateTime;
 	}
 
-	public UserStatus getUserStatus() {
+	public UserStatusEnum getUserStatus() {
 		return userStatus;
 	}
 	
@@ -129,7 +129,7 @@ public class SysUser {
 		return this.userStatus.getInfo();
 	}
 
-	public void setUserStatus(UserStatus userStatus) {
+	public void setUserStatus(UserStatusEnum userStatus) {
 		this.userStatus = userStatus;
 	}
 

@@ -2,6 +2,7 @@ package com.tooklili.service.biz.intf.admin.system;
 
 import com.tooklili.model.admin.SysUser;
 import com.tooklili.util.result.BaseResult;
+import com.tooklili.util.result.ListResult;
 import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;
 
@@ -34,6 +35,14 @@ public interface UserService {
 	public PageResult<SysUser> findUsers(SysUser user,Integer currentPage,Integer pageSize);
 	
 	/**
+	 * 查询用户列表
+	 * @author shuai.ding
+	 * @param user
+	 * @return
+	 */
+	public ListResult<SysUser> findUser(SysUser user);
+	
+	/**
 	 * 添加用户
 	 * @author shuai.ding
 	 * @param user
@@ -64,5 +73,16 @@ public interface UserService {
 	 * @return
 	 */
 	public BaseResult defaultUserPwd(Long id);
+	
+	/**
+	 * 修改密码
+	 * @author shuai.ding
+	 * @param userId       用户id
+	 * @param oldPwd       原密码
+	 * @param newPwd       新密码
+	 * @param confirmPwd   确认密码
+	 * @return
+	 */
+	public BaseResult modifyPassword(Long userId,String oldPwd,String newPwd,String confirmPwd);
 
 }

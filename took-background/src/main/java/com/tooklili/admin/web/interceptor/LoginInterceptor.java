@@ -25,7 +25,14 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 		LOGGER.info("project root:{},request path：{}",request.getContextPath(),request.getServletPath());
 		SysUser sysUser = (SysUser)request.getSession().getAttribute(Constants.CURRENT_USER);
 		if(sysUser==null){
-			response.sendRedirect(request.getContextPath()+"/toLogin");
+			
+			 //如果是ajax请求响应头会有,x-requested-with
+			if(request.getHeader("x-requested-with") != null && request.getHeader("x-requested-with").equalsIgnoreCase("XMLHttpRequest")){
+				response.setHeader("sessionstatus", "timeout");//在响应头设置session状态
+				response.setHeader("login", request.getContextPath()+"/toLogin");
+			}else{
+				response.sendRedirect(request.getContextPath()+"/toLogin");
+			}
 			return false;
 		}
 		LOGGER.info("current login user：{}",sysUser.getUserName());

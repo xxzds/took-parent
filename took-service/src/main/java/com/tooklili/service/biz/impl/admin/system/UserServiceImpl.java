@@ -13,13 +13,15 @@ import org.springframework.stereotype.Service;
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.github.miemiedev.mybatis.paginator.domain.PageList;
 import com.tooklili.dao.intf.admin.SysUserDao;
-import com.tooklili.enums.admin.UserStatus;
+import com.tooklili.enums.admin.UserDelEnum;
+import com.tooklili.enums.admin.UserStatusEnum;
 import com.tooklili.model.admin.SysUser;
 import com.tooklili.service.biz.intf.admin.system.UserService;
 import com.tooklili.service.exception.BusinessException;
 import com.tooklili.service.util.MessageUtils;
 import com.tooklili.util.UUIDUtils;
 import com.tooklili.util.result.BaseResult;
+import com.tooklili.util.result.ListResult;
 import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;
 import com.tooklili.util.security.Md5Utils;
@@ -50,14 +52,30 @@ public class UserServiceImpl implements UserService{
 		
 		SysUser sysUser = new SysUser();
 		sysUser.setUserName(userName);
-		sysUser.setUserStatus(UserStatus.normal);
 		List<SysUser> sysUsers = sysUserDao.find(sysUser);
-		if(sysUsers!=null && sysUsers.size()>0){
-			sysUser = sysUsers.get(0);
-			if(matches(sysUser, password)){
-				result.setData(sysUser);
-			}
-		}		
+		
+		if(sysUser==null || sysUsers.size()==0){
+			return result.setErrorMessage(MessageUtils.message("login.error"));
+		}
+		
+		sysUser = sysUsers.get(0);
+		
+		//判断用户是否逻辑删除
+		if(sysUser.getUserDeleted()==UserDelEnum.USER_DEL.getCode()){
+			return result.setErrorMessage(MessageUtils.message("login.logic.del"));
+		}
+		
+		//判断用户是否禁用
+		if(sysUser.getUserStatus()==UserStatusEnum.blocked){
+			return result.setErrorMessage(MessageUtils.message("login.forbade"));
+		}
+		
+		//判断密码是否正确
+		if(!matches(sysUser, password)){
+			return result.setErrorMessage(MessageUtils.message("login.error"));			
+		}
+		
+		result.setData(sysUser);
 		return result;
 	}
 	
@@ -102,6 +120,14 @@ public class UserServiceImpl implements UserService{
 		
 		return result;
 	}
+	
+	@Override
+	public ListResult<SysUser> findUser(SysUser user) {
+		ListResult<SysUser> result = new ListResult<SysUser>();
+		List<SysUser> users = sysUserDao.find(user);
+		result.setData(users);
+		return result;
+	}
 
 	@Override
 	public PlainResult<Long> addUser(SysUser user) {
@@ -125,7 +151,7 @@ public class UserServiceImpl implements UserService{
 		
 		//默认正常状态
 		if(user.getUserStatus()==null){
-			user.setUserStatus(UserStatus.normal);
+			user.setUserStatus(UserStatusEnum.normal);
 		}
 		
 		long count = sysUserDao.insertSelective(user);
@@ -169,7 +195,7 @@ public class UserServiceImpl implements UserService{
 		SysUser sysUser = new SysUser();
 		sysUser.setId(id);
 		//1-逻辑删除
-		sysUser.setUserDeleted(1);
+		sysUser.setUserDeleted(UserDelEnum.USER_DEL.getCode());
 		long count = sysUserDao.updateByIdSelective(sysUser);
 		if(count<=0){
 			LOGGER.info("主键[{}]的用户，逻辑删除失败",id);
@@ -205,4 +231,41 @@ public class UserServiceImpl implements UserService{
 		return result;
 	}
 
+	@Override
+	public BaseResult modifyPassword(Long userId,String oldPwd, String newPwd, String confirmPwd) {
+		BaseResult result = new BaseResult();
+		if(StringUtils.isEmpty(oldPwd)){
+			return result.setErrorMessage(MessageUtils.message("modify.no.old.password"));
+		}
+		if(StringUtils.isEmpty(newPwd)){
+			return result.setErrorMessage(MessageUtils.message("modify.no.new.password"));
+		}
+		if(StringUtils.isEmpty(confirmPwd)){
+			return result.setErrorMessage(MessageUtils.message("modify.no.confirm.password"));
+		}
+		if(!newPwd.equals(confirmPwd)){
+			return result.setErrorMessage(MessageUtils.message("newpwd.and.confirmpwd.no.same"));
+		}
+		
+		SysUser user = sysUserDao.findById(userId);
+		if(user == null){
+			LOGGER.info("通过用户id[{}]没有查询到此用户",userId);
+			return result.setErrorMessage("没有查询到用户");
+		}
+		
+		if(!matches(user,oldPwd)){
+			return result.setErrorMessage(MessageUtils.message("modify.old.password.error"));
+		}
+		
+		SysUser sysUser = new SysUser();
+		sysUser.setId(userId);
+		String salt = UUIDUtils.generateUuid32();
+		sysUser.setUserSalt(salt);
+		sysUser.setUserPassword(encryptPassword(user.getUserName(), newPwd, salt));
+		long count = sysUserDao.updateByIdSelective(sysUser);
+		if(count<=0){
+			return result.setErrorMessage("修改密码失败");
+		}
+		return result;
+	}
 }
