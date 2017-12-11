@@ -200,4 +200,8 @@
 		</where>
 	</update>
 	
+	<select id="getCountByPid" parameterType="Long" resultType="java.lang.Integer">
+	     select count(*) from sys_menu where menu_parent_id=#{pid}
+	</select>
+	
 </mapper>

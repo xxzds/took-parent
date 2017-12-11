@@ -13,6 +13,7 @@ import com.tooklili.dao.intf.admin.SysMenuDao;
 import com.tooklili.model.admin.SysMenu;
 import com.tooklili.model.admin.leftMenu.MenuNode;
 import com.tooklili.service.biz.intf.admin.system.MenuService;
+import com.tooklili.util.result.ListResult;
 
 /**
  * 菜单服务
@@ -42,6 +43,33 @@ public class MenuServiceImpl implements MenuService{
 			});
 		}
 		return MenuNode.buildMenu(MenuNodeList).getChildren();
+	}
+
+	@Override
+	public ListResult<SysMenu> getMenuTree(Long pid) {
+		ListResult<SysMenu> result = new ListResult<SysMenu>();
+		
+		SysMenu sysMenu = new SysMenu();
+		sysMenu.setMenuParentId(pid);
+		List<SysMenu> sysMenus = sysMenuDao.find(sysMenu);
+		//设置是否是子节点
+		for(SysMenu menu:sysMenus){
+			String state = hasChild(menu.getId()) ? "closed" :"open";
+			menu.setState(state);
+		}		
+		result.setData(sysMenus);		
+		return result;
+	}
+	
+	/**
+	 * 判断是否有子节点
+	 * @author shuai.ding
+	 * @param pid
+	 * @return
+	 */
+	private boolean hasChild(Long pid){
+		int count = sysMenuDao.getCountByPid(pid);
+		return count > 0 ?true:false;
 	}
 
 }
