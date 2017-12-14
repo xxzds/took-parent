@@ -1,5 +1,6 @@
 package com.tooklili.model.admin;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.tooklili.enums.admin.UserStatusEnum;
@@ -10,7 +11,9 @@ import com.tooklili.util.DateUtil;
  * @author shuai.ding
  * @date 2017年8月26日上午11:57:46
  */
-public class SysUser {
+public class SysUser implements Serializable{
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 主键
 	 */

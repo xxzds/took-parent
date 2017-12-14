@@ -12,7 +12,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.alibaba.fastjson.JSON;
 import com.tooklili.model.admin.SysUser;
-import com.tooklili.service.BaseTest;
 import com.tooklili.service.biz.intf.admin.system.UserService;
 import com.tooklili.util.JsonFormatTool;
 import com.tooklili.util.result.BaseResult;
@@ -23,7 +22,7 @@ import com.tooklili.util.result.PlainResult;
 @ContextConfiguration(locations = {"classpath:spring/spring-service-admin.xml"})
 @ActiveProfiles("admin_development")
 public class UserServiceTest{
-	public static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
+	public static final Logger logger = LoggerFactory.getLogger(UserServiceTest.class);
 	@Resource
 	private UserService userService;
 	

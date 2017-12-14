@@ -3,7 +3,9 @@ package com.tooklili.service.biz.intf.admin.system;
 import java.util.List;
 
 import com.tooklili.model.admin.SysMenu;
+import com.tooklili.model.admin.easyui.MenuTreeGridModel;
 import com.tooklili.model.admin.leftMenu.MenuNode;
+import com.tooklili.util.result.BaseResult;
 import com.tooklili.util.result.ListResult;
 
 /**
@@ -26,5 +28,29 @@ public interface MenuService {
 	 * @param pid
 	 * @return
 	 */
-	public ListResult<SysMenu> getMenuTree(Long pid);
+	public ListResult<MenuTreeGridModel> getMenuTree(Long pid);
+	
+	/**
+	 * 增加菜单
+	 * @author shuai.ding
+	 * @param sysMenu
+	 * @return
+	 */
+	public BaseResult addMenu(SysMenu sysMenu);
+	
+	/**
+	 * 修改菜单信息
+	 * @author shuai.ding
+	 * @param sysMenu
+	 * @return
+	 */
+	public BaseResult modifyMenu(SysMenu sysMenu);
+	
+	/**
+	 * 删除菜单，如果此菜单有子节点，删除所有子节点
+	 * @author shuai.ding
+	 * @param id  菜单ID
+	 * @return
+	 */
+	public BaseResult delMenu(Long id);
 }

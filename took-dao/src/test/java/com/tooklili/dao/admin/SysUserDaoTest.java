@@ -103,6 +103,8 @@ public class SysUserDaoTest extends BaseTest{
 		try{
 			PageBounds pageBounds = new PageBounds(1, 10,Order.formString("id.desc,user_name.asc"));
 			sysUserDao.queryUsersByPage(null, pageBounds);
+			
+//			logger.info(JSON.toJSONString(Order.formString("id.desc,user_name.asc")));
 		}catch(Exception e){
 			logger.error("exception",e);
 		}

@@ -63,11 +63,6 @@ public class SysMenu {
 	 * 修改时间
 	 */
 	private Date modifyTime;
-	
-	/**
-	 * 冗余字段  closed 代表有子节点  open代表没有子节点
-	 */
-	private String state;
 
 	public Long getId() {
 		return id;
@@ -157,11 +152,11 @@ public class SysMenu {
 		this.modifyTime = modifyTime;
 	}
 
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
+	@Override
+	public String toString() {
+		return "SysMenu [id=" + id + ", menuName=" + menuName + ", menuIdentify=" + menuIdentify + ", menuUrl="
+				+ menuUrl + ", menuParentId=" + menuParentId + ", menuIcon=" + menuIcon + ", menuSort=" + menuSort
+				+ ", menuVisible=" + menuVisible + ", menuRemark=" + menuRemark + ", createTime=" + createTime
+				+ ", modifyTime=" + modifyTime + "]";
 	}
 }

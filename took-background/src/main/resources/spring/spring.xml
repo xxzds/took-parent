@@ -6,6 +6,13 @@
 			http://www.springframework.org/schema/context
 			http://www.springframework.org/schema/context/spring-context-4.1.xsd
 			">
+
+	<!-- redis-session -->
+	<bean id="redisHttpSessionConfiguration"
+		class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
+		<property name="maxInactiveIntervalInSeconds" value="1800" />  <!-- 30分钟 ,存入redis,多出300s?-->
+	</bean>
+
 	<!-- service -->
-	<import resource="classpath:spring/spring-service-admin.xml"/>
+	<import resource="classpath:spring/spring-service-admin.xml" />
 </beans>

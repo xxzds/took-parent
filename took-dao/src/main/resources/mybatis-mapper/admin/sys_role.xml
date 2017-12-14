@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tooklili.dao.intf.admin.SysRoleDao">
+
+	<resultMap id="BaseResultMap" type="com.tooklili.model.admin.SysRole">
+			<result column="id" property="id" jdbcType="DECIMAL" />
+			<result column="role_name" property="roleName" jdbcType="VARCHAR" />
+			<result column="role_description" property="roleDescription" jdbcType="VARCHAR" />
+			<result column="create_time" property="createTime" jdbcType="DATE" />
+			<result column="modify_time" property="modifyTime" jdbcType="DATE" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+			id,
+			role_name,
+			role_description,
+			create_time,
+			modify_time
+	</sql>
+
+	<sql id="conditions_sysRole">
+		<where>
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="roleName != null">
+				and role_name = #{roleName}
+			</if>
+			<if test="roleDescription != null">
+				and role_description = #{roleDescription}
+			</if>
+			<if test="createTime != null">
+				and create_time = #{createTime}
+			</if>
+			<if test="modifyTime != null">
+				and modify_time = #{modifyTime}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select 
+		<include refid="Base_Column_List" />
+		from sys_role
+		<where>
+			  and id=#{id}
+		</where>
+	</select>
+	
+	<select id="find" resultMap="BaseResultMap" parameterType="com.tooklili.model.admin.SysRole">
+		select 
+		<include refid="Base_Column_List" />
+		from sys_role
+		<include refid="conditions_sysRole" />
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+		delete from sys_role
+		<where>
+			  and id=#{id}
+		</where>
+	</delete>
+	
+	<delete id="batchDeleteByIds" parameterType="java.lang.String">
+		delete from sys_role
+		<where>
+			  and id in 
+			  <foreach collection="array" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</where>
+	</delete>
+
+	<insert id="insert" parameterType="com.tooklili.model.admin.SysRole" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			id,
+			role_name,
+			role_description,
+			create_time,
+			modify_time,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{id},
+			#{roleName},
+			#{roleDescription},
+			#{createTime},
+			#{modifyTime},
+		</trim>
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.tooklili.model.admin.SysRole" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="roleName != null">role_name,</if>
+			<if test="roleDescription != null">role_description,</if>
+			<if test="createTime != null">create_time,</if>
+			<if test="modifyTime != null">modify_time,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="roleName != null">#{roleName},</if>
+			<if test="roleDescription != null">#{roleDescription},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="modifyTime != null">#{modifyTime},</if>
+		</trim>
+	</insert>
+
+	<update id="updateById" parameterType="com.tooklili.model.admin.SysRole">
+		update sys_role
+		<set>
+			role_name=#{roleName},
+			role_description=#{roleDescription},
+			create_time=#{createTime},
+			modify_time=#{modifyTime},
+		</set>
+		<where>
+			  and id=#{id}
+		</where>
+	</update>
+
+	
+	<update id="updateByIdSelective" parameterType="com.tooklili.model.admin.SysRole">
+		update sys_role
+		<set>
+			<if test="roleName != null">role_name=#{roleName},</if>
+			<if test="roleDescription != null">role_description=#{roleDescription},</if>
+			<if test="createTime != null">create_time=#{createTime},</if>
+			<if test="modifyTime != null">modify_time=#{modifyTime},</if>
+		</set>
+		<where>
+			  and id=#{id}
+		</where>
+	</update>
+	
+	<select id="queryRolesByPage" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
+		from sys_role
+		<where>
+			<if test="sysRole != null and  sysRole.id != null">
+				and id = #{sysRole.id}
+			</if>
+			<if test="sysRole != null and  sysRole.roleName != null and sysRole.roleName !=''">
+				and role_name = #{sysRole.roleName}
+			</if>
+			<if test="sysRole != null and  sysRole.roleDescription != null and sysRole.roleDescription !=''">
+				and role_description = #{sysRole.roleDescription}
+			</if>
+			<if test="sysRole != null and  sysRole.createTime != null">
+				and create_time = #{sysRole.createTime}
+			</if>
+			<if test="sysRole != null and  sysRole.modifyTime != null">
+				and modify_time = #{sysRole.modifyTime}
+			</if>
+		</where>
+	</select>	
+</mapper>

@@ -204,4 +204,62 @@
 	     select count(*) from sys_menu where menu_parent_id=#{pid}
 	</select>
 	
+	<select id="findMenuAndOrder" resultMap="BaseResultMap" parameterType="com.tooklili.model.admin.SysMenu">
+		select 
+			id,
+			menu_name,
+			menu_identify,
+			menu_url,
+			menu_parent_id,
+			menu_icon,
+			menu_sort,
+			menu_visible,
+			menu_remark,
+			create_time,
+			modify_time
+		from sys_menu
+		<where>
+			<if test="sysMenu!=null and sysMenu.id != null">
+				and id = #{sysMenu.id}
+			</if>
+			<if test="sysMenu!=null and sysMenu.menuName != null">
+				and menu_name = #{sysMenu.menuName}
+			</if>
+			<if test="sysMenu!=null and sysMenu.menuIdentify != null">
+				and menu_identify = #{sysMenu.menuIdentify}
+			</if>
+			<if test="sysMenu!=null and sysMenu.menuUrl != null">
+				and menu_url = #{sysMenu.menuUrl}
+			</if>
+			<if test="sysMenu!=null and sysMenu.menuParentId != null">
+				and menu_parent_id = #{sysMenu.menuParentId}
+			</if>
+			<if test="sysMenu!=null and sysMenu.menuIcon != null">
+				and menu_icon = #{sysMenu.menuIcon}
+			</if>
+			<if test="sysMenu!=null and sysMenu.menuSort != null">
+				and menu_sort = #{sysMenu.menuSort}
+			</if>
+			<if test="sysMenu!=null and sysMenu.menuVisible != null">
+				and menu_visible = #{sysMenu.menuVisible}
+			</if>
+			<if test="sysMenu!=null and sysMenu.menuRemark != null">
+				and menu_remark = #{sysMenu.menuRemark}
+			</if>
+			<if test="sysMenu!=null and sysMenu.createTime != null">
+				and create_time = #{sysMenu.createTime}
+			</if>
+			<if test="sysMenu!=null and sysMenu.modifyTime != null">
+				and modify_time = #{sysMenu.modifyTime}
+			</if>
+		</where>
+		<!-- 排序 -->		
+		<if test="orders!=null">
+			<foreach collection="orders" item="order" open="order by " separator=",">
+				${order.property}
+			</foreach>
+		</if>
+		 
+	</select>
+	
 </mapper>

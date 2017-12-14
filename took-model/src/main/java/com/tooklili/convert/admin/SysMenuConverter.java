@@ -1,6 +1,7 @@
 package com.tooklili.convert.admin;
 
 import com.tooklili.model.admin.SysMenu;
+import com.tooklili.model.admin.easyui.MenuTreeGridModel;
 import com.tooklili.model.admin.leftMenu.MenuNode;
 
 /**
@@ -21,5 +22,26 @@ public class SysMenuConverter {
 		menuNode.getAttributes().setSortnum(sysMenu.getMenuSort());
 		
 		return menuNode;
+	}
+	
+	public static MenuTreeGridModel toMenuTreeGridModel(SysMenu sysMenu){
+		if(sysMenu==null){
+			return null;
+		}
+		MenuTreeGridModel menuTreeGridModel = new MenuTreeGridModel();
+		menuTreeGridModel.setId(sysMenu.getId());
+		menuTreeGridModel.setIconCls(sysMenu.getMenuIcon());
+		menuTreeGridModel.setParentId(sysMenu.getMenuParentId());
+		menuTreeGridModel.setMenuName(sysMenu.getMenuName());
+		menuTreeGridModel.setMenuIdentify(sysMenu.getMenuIdentify());
+		menuTreeGridModel.setMenuUrl(sysMenu.getMenuUrl());
+		menuTreeGridModel.setMenuRemark(sysMenu.getMenuRemark());
+		menuTreeGridModel.setCreateTime(sysMenu.getCreateTime());
+		menuTreeGridModel.setModifyTime(sysMenu.getModifyTime());
+		menuTreeGridModel.setMenuSort(sysMenu.getMenuSort());
+		menuTreeGridModel.setMenuVisible(sysMenu.getMenuVisible());
+		
+		
+		return menuTreeGridModel;
 	}
 }

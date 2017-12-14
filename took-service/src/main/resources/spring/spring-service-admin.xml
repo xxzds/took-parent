@@ -12,6 +12,9 @@
 
 	<!-- dao -->
 	<import resource="classpath:spring/spring-dao.xml"/>
+	
+	<!-- redis -->
+	<import resource="spring-redis-config.xml"/>
 
 	<!-- 组件 -->
 	<import resource="spring-service-component.xml"/>
@@ -26,23 +29,25 @@
      -->
 	<!--引入配置属性文件  profile的定义一定要在文档的最下边，否则会有异常 -->	
 	<!-- 后台-开发环境 -->
-	<beans profile="admin_development">
+	<beans profile="development">
 		<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 			<property name="fileEncoding" value="utf-8" />
 			<property name="locations">
 				<list>
-					<value>classpath:development/jdbc.properties</value>					
+					<value>classpath:development/redis.properties</value>
+					<value>classpath:development/jdbc.properties</value>				
 				</list>
 			</property>
 		</bean>
 	</beans>
 	
 	<!-- 后台-生产环境 -->
-	<beans profile="admin_production">
+	<beans profile="production">
 		<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 			<property name="fileEncoding" value="utf-8" />
 			<property name="locations">
 				<list>
+					<value>classpath:production/redis.properties</value>
 					<value>classpath:production/jdbc.properties</value>			
 				</list>
 			</property>

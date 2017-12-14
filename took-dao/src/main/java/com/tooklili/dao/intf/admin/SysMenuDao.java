@@ -1,5 +1,10 @@
 package com.tooklili.dao.intf.admin;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.github.miemiedev.mybatis.paginator.domain.Order;
 import com.tooklili.dao.intf.BaseDao;
 import com.tooklili.model.admin.SysMenu;
 
@@ -17,4 +22,13 @@ public interface SysMenuDao extends BaseDao<SysMenu, Long>{
 	 * @return
 	 */
 	public int getCountByPid(Long pid);
+	
+	/**
+	 * 查询菜单列表，可进行排序
+	 * @author shuai.ding
+	 * @param sysMenu
+	 * @param orders
+	 * @return
+	 */
+	public List<SysMenu> findMenuAndOrder(@Param("sysMenu") SysMenu sysMenu,@Param("orders")List<Order> orders);
 }
