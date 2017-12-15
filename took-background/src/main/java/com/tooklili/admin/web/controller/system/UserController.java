@@ -72,28 +72,32 @@ public class UserController extends BaseController{
 		return userService.findUsers(sysUser, page,rows);
 	}
 	
+
 	/**
 	 * 添加用户
 	 * @author shuai.ding
-	 * @param sysUser
+	 * @param sysUser   用户实体
+	 * @param role      角色id
 	 * @return
 	 */
 	@RequestMapping(value = "/addUser")
 	@ResponseBody
-	public BaseResult addUser(SysUser sysUser){
-		return  userService.addUser(sysUser);
+	public BaseResult addUser(SysUser sysUser,Long role){
+		return  userService.addUserAndRole(sysUser, role);
 	}
 	
+
 	/**
 	 * 修改用户
 	 * @author shuai.ding
-	 * @param sysUser
+	 * @param sysUser    用户实体
+	 * @param role       角色id
 	 * @return
 	 */
 	@RequestMapping(value = "/editUser")
 	@ResponseBody
-	public BaseResult editUser(SysUser sysUser){
-		return userService.editUser(sysUser);
+	public BaseResult editUser(SysUser sysUser,Long role){
+		return userService.editUserAndRole(sysUser, role);
 	}
 	
 

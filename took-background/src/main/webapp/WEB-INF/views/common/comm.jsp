@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%-- <link rel="stylesheet" type="text/css" href="${ctx}/static/plugins/easyui/themes/default/easyui.css"> --%>
+<link rel="stylesheet" type="text/css" href="${ctx}/static/plugins/easyui/themes/default/easyui.css">
 <%-- <link rel="stylesheet" type="text/css" href="${ctx}/static/plugins/easyui/themes/material/easyui.css"> --%>
 <%-- <link rel="stylesheet" type="text/css" href="${ctx}/static/plugins/easyui/themes/black/easyui.css"> --%>
 <%-- <link rel="stylesheet" type="text/css" href="${ctx}/static/plugins/easyui/themes/bootstrap/easyui.css"> --%>
-<link rel="stylesheet" type="text/css" href="${ctx}/static/plugins/easyui/themes/metro/easyui.css">
+<%-- <link rel="stylesheet" type="text/css" href="${ctx}/static/plugins/easyui/themes/metro/easyui.css"> --%>
 <%-- <link rel="stylesheet" type="text/css" href="${ctx}/static/plugins/easyui/themes/gray/easyui.css"> --%>
 
 

@@ -14,6 +14,33 @@ var userModule = {
 			          {field:'userEmail',title:'电子邮箱',align:'center',width:200},
 			          {field:'userCreateTimeStr',title:'创建时间',align:'center',width:200},
 			          {field:'userStatusStr',title:'用户状态',align:'center',width:100},
+			          {field:'role',title:'用户角色',align:'center',width:100,formatter:function(value,row){
+			        	   var formatDate;
+			        	   $.ajax({  
+					            type : "POST",  
+					            url : ctx+"/system/userRole/queryUserRoles",
+					            dataType: "json",
+					            async: false,
+					            data:{
+					            	userId:row.id
+					            },
+					            success : function(result) {
+					            	console.log(result);
+					                if (result.success) {
+					                	var data = result.data;
+					                	if(data && data.length>0){
+					                		formatDate = data[0].sysRole.roleName;
+					                	}else{
+					                		formatDate = '<span style="color:red">无角色</span>';
+					                	}
+					                }
+					            },
+					            error:function(){
+					            	messager.alert("网络异常"); 
+					            }
+					        }); 
+			        	  return formatDate;
+			          }},
 			          {field:'action',title:'操作',width:100,align:'center',formatter:function(value,row){
 			        	  return '<a href="javascript:void(0);" onclick="userModule.setDefaultPwd(\''+row.id+'\');">恢复默认密码</a>';
 			          }}
@@ -65,12 +92,14 @@ var userModule = {
 
 	},
 	add:function(){
-		$('#userNameStr').textbox('readonly',false);
+		$('#userName').textbox('readonly',false);
+		//打开校验
+	    $('#userName').textbox({novalidate:false});
 		userModule.clearForm();
 		$('#formDialog').dialog({
 			title: '添加',    
 		    width: 400,    
-		    height: 250,    
+		    height: 280,    
 		    iconCls:'icon-add',
 		    cache: false,   
 		    modal: true,
@@ -115,11 +144,11 @@ var userModule = {
 			return;
 		}
 		
-		if(row.userName=='admin'){
-			$('#userNameStr').textbox('readonly',true);
-		}else{
-			$('#userNameStr').textbox('readonly',false);
-		}
+		//用户名不可修改
+		$('#userName').textbox('readonly',true);
+		
+		//关闭校验
+	    $('#userName').textbox({novalidate:true});
 		
 		//载入数据到表单
 		$('#form').form('load',row);
@@ -127,7 +156,7 @@ var userModule = {
 		$('#formDialog').dialog({
 			title: '修改',    
 		    width: 400,    
-		    height: 250,    
+		    height: 280,    
 		    iconCls:'icon-edit',
 		    cache: false,   
 		    modal: true,

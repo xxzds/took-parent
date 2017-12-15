@@ -8,7 +8,15 @@
 	<jsp:include page="../common/comm.jsp"></jsp:include>
 </head>
 <body>
-	666
+	<div id="toolbar">
+		<label>角色名称：</label><input id="roleName" name="roleName" class="easyui-textbox">
+		<a href="javascript:void(0)" id="search" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:'true'">查询</a>
+		<br>
+		<a href="javascript:void(0)" id="add" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:'true'">新增</a>
+    	<a href="javascript:void(0)" id="modify" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:'true'">修改</a>
+    	<a href="javascript:void(0)" id="del" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:'true'">删除</a>
+	</div>
+	<table id="dg"></table>
 	<script type="text/javascript" src="${ctx}/static/js/system/role.js?version=1"></script>
 </body>
 </html>

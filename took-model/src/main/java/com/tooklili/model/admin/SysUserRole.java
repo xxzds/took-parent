@@ -21,6 +21,16 @@ public class SysUserRole {
 	 * 角色id
 	 */
 	private Long roleId;
+	
+	/**
+	 * 用户
+	 */
+	private SysUser sysUser;
+	
+	/**
+	 * 角色
+	 */
+	private SysRole sysRole;
 
 	public Long getId() {
 		return id;
@@ -44,5 +54,21 @@ public class SysUserRole {
 
 	public void setRoleId(Long roleId) {
 		this.roleId = roleId;
+	}
+
+	public SysUser getSysUser() {
+		return sysUser;
+	}
+
+	public void setSysUser(SysUser sysUser) {
+		this.sysUser = sysUser;
+	}
+
+	public SysRole getSysRole() {
+		return sysRole;
+	}
+
+	public void setSysRole(SysRole sysRole) {
+		this.sysRole = sysRole;
 	}
 }

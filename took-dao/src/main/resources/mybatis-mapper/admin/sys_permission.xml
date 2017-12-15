@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tooklili.dao.intf.admin.SysPermissionDao">
+
+	<resultMap id="BaseResultMap" type="com.tooklili.model.admin.SysPermission">
+			<result column="id" property="id" jdbcType="DECIMAL" />
+			<result column="permission_name" property="permissionName" jdbcType="VARCHAR" />
+			<result column="permission_identify" property="permissionIdentify" jdbcType="VARCHAR" />
+			<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+			id,
+			permission_name,
+			permission_identify,
+			remark
+	</sql>
+
+	<sql id="conditions_sysPermission">
+		<where>
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="permissionName != null">
+				and permission_name = #{permissionName}
+			</if>
+			<if test="permissionIdentify != null">
+				and permission_identify = #{permissionIdentify}
+			</if>
+			<if test="remark != null">
+				and remark = #{remark}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select 
+		<include refid="Base_Column_List" />
+		from sys_permission
+		<where>
+			  and id=#{id}
+		</where>
+	</select>
+	
+	<select id="find" resultMap="BaseResultMap" parameterType="com.tooklili.model.admin.SysPermission">
+		select 
+		<include refid="Base_Column_List" />
+		from sys_permission
+		<include refid="conditions_sysPermission" />
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+		delete from sys_permission
+		<where>
+			  and id=#{id}
+		</where>
+	</delete>
+	
+	<delete id="batchDeleteByIds" parameterType="java.lang.String">
+		delete from sys_permission
+		<where>
+			  and id in 
+			  <foreach collection="array" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</where>
+	</delete>
+
+	<insert id="insert" parameterType="com.tooklili.model.admin.SysPermission" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_permission
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			id,
+			permission_name,
+			permission_identify,
+			remark,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{id},
+			#{permissionName},
+			#{permissionIdentify},
+			#{remark},
+		</trim>
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.tooklili.model.admin.SysPermission" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_permission
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="permissionName != null">permission_name,</if>
+			<if test="permissionIdentify != null">permission_identify,</if>
+			<if test="remark != null">remark,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="permissionName != null">#{permissionName},</if>
+			<if test="permissionIdentify != null">#{permissionIdentify},</if>
+			<if test="remark != null">#{remark},</if>
+		</trim>
+	</insert>
+
+	<update id="updateById" parameterType="com.tooklili.model.admin.SysPermission">
+		update sys_permission
+		<set>
+			permission_name=#{permissionName},
+			permission_identify=#{permissionIdentify},
+			remark=#{remark},
+		</set>
+		<where>
+			  and id=#{id}
+		</where>
+	</update>
+
+	
+	<update id="updateByIdSelective" parameterType="com.tooklili.model.admin.SysPermission">
+		update sys_permission
+		<set>
+			<if test="permissionName != null">permission_name=#{permissionName},</if>
+			<if test="permissionIdentify != null">permission_identify=#{permissionIdentify},</if>
+			<if test="remark != null">remark=#{remark},</if>
+		</set>
+		<where>
+			  and id=#{id}
+		</where>
+	</update>
+	
+	<select id="queryPermissionsByPage" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
+		from sys_permission
+		<where>
+			<if test="sysPermission != null and sysPermission.id != null">
+				and id = #{sysPermission.id}
+			</if>
+			<if test="sysPermission != null and sysPermission.permissionName != null and sysPermission.permissionName != ''">
+				and permission_name = #{sysPermission.permissionName}
+			</if>
+			<if test="sysPermission != null and sysPermission.permissionIdentify != null and sysPermission.permissionIdentify != ''">
+				and permission_identify = #{sysPermission.permissionIdentify}
+			</if>
+			<if test="sysPermission != null and sysPermission.remark != null and sysPermission.remark != ''">
+				and remark = #{sysPermission.remark}
+			</if>
+		</where>
+	</select>
+</mapper>

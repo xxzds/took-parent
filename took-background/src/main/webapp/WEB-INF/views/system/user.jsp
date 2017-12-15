@@ -9,7 +9,7 @@
 </head>
 <body>
 	<div id="toolbar">
-		<label>用户名：</label><input id="userName" name="userName" class="easyui-textbox">
+		<label>用户名：</label><input id="userName-search" name="userName-search" class="easyui-textbox">
 		<a href="javascript:void(0)" id="search" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:'true'">查询</a>
 		<br>		
 		<a href="javascript:void(0)" id="add" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:'true'">新增</a>
@@ -26,7 +26,7 @@
 				<tr height="35px">
 					<td width="35%" align="right">用户名：</td>
 					<td>
-						<input class="easyui-textbox" id="userNameStr" name="userName" data-options="required:true,validType:'remote[\'${ctx}/system/user/userNameIfNotRepeate\',\'userName\']',invalidMessage:'用户名不可重复'">
+						<input class="easyui-textbox" id="userName" name="userName" data-options="required:true,validType:'remote[\'${ctx}/system/user/userNameIfNotRepeate\',\'userName\']',invalidMessage:'用户名不可重复'">
 					</td>
 				</tr>
 				<tr height="35px">
@@ -42,6 +42,12 @@
 					</td>
 				</tr>
 				<tr height="35px">
+					<td width="35%" align="right">用户角色：</td>
+					<td>
+						<input id="role" name="role" data-options="required:true">
+					</td>
+				</tr>
+				<tr height="35px">
 					<td width="35%" align="right">用户状态：</td>
 					<td>
 						<input type="radio" name="userStatus" value="normal" checked="checked"><label>正常</label>
@@ -52,6 +58,7 @@
 		</form>
 	</div>
 	
-	<script type="text/javascript" src="${ctx}/static/js/system/user.js?version=1"></script>
+	<script type="text/javascript" src="${ctx}/static/js/system/user.js?version=4"></script>
+	<script type="text/javascript" src="${ctx}/static/js/combobox.js?version=1"></script>
 </body>
 </html>

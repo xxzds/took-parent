@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.github.miemiedev.mybatis.paginator.domain.PageList;
@@ -16,6 +17,7 @@ import com.tooklili.dao.intf.admin.SysUserDao;
 import com.tooklili.enums.admin.UserDelEnum;
 import com.tooklili.enums.admin.UserStatusEnum;
 import com.tooklili.model.admin.SysUser;
+import com.tooklili.service.biz.intf.admin.system.UserRoleService;
 import com.tooklili.service.biz.intf.admin.system.UserService;
 import com.tooklili.service.exception.BusinessException;
 import com.tooklili.service.util.MessageUtils;
@@ -37,6 +39,9 @@ public class UserServiceImpl implements UserService{
 	
 	@Resource
 	private SysUserDao sysUserDao;
+	
+	@Resource
+	private UserRoleService userRoleService;
 
 	@Override
 	public PlainResult<SysUser> findUserByUsernameAndPassword(String userName, String password) {
@@ -162,6 +167,24 @@ public class UserServiceImpl implements UserService{
 		result.setData(user.getId());
 		return result;
 	}
+	
+	@Override
+	@Transactional
+	public BaseResult addUserAndRole(SysUser user, Long roleId) {
+		BaseResult result = new BaseResult();
+		
+		//添加用户
+		PlainResult<Long> plainResult =  this.addUser(user);
+		if(!plainResult.isSuccess()){
+			return result.setErrorMessage(plainResult.getMessage());
+		}
+		
+		//添加用户，角色关联关系
+		Long userId = plainResult.getData();
+		result = userRoleService.addUserRole(userId, roleId);
+		
+		return result;
+	}
 
 	@Override
 	public BaseResult editUser(SysUser user) {
@@ -181,6 +204,32 @@ public class UserServiceImpl implements UserService{
 			LOGGER.info("用户信息{},修改失败",user);
 			throw new BusinessException("修改用户失败");
 		}
+		return result;
+	}
+	
+	@Override
+	@Transactional
+	public BaseResult editUserAndRole(SysUser user,Long roleId){
+		BaseResult result = new BaseResult();
+		
+		//1.修改用户信息
+		BaseResult updateResult =  this.editUser(user);
+		if(!updateResult.isSuccess()){
+			return result.setErrorMessage(updateResult.getMessage());
+		}
+		
+		//2.删除用户角色的关联关系
+		BaseResult delResult = userRoleService.delUserRole(user.getId());
+		if(!delResult.isSuccess()){
+			return result.setErrorMessage(delResult.getMessage());
+		}
+		
+		//3.添加用户角色的关联关系
+		BaseResult addResult =  userRoleService.addUserRole(user.getId(), roleId);
+		if(!addResult.isSuccess()){
+			return result.setErrorMessage(addResult.getMessage());
+		}
+		
 		return result;
 	}
 
@@ -268,4 +317,6 @@ public class UserServiceImpl implements UserService{
 		}
 		return result;
 	}
+
+	
 }

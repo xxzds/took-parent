@@ -51,12 +51,30 @@ public interface UserService {
 	public PlainResult<Long> addUser(SysUser user);
 	
 	/**
+	 * 添加用户和用户角色关联关系
+	 * @author shuai.ding
+	 * @param user
+	 * @param roleId
+	 * @return
+	 */
+	public BaseResult addUserAndRole(SysUser user,Long roleId);
+	
+	/**
 	 * 修改用户信息
 	 * @author shuai.ding
 	 * @param user
 	 * @return
 	 */
 	public BaseResult editUser(SysUser user);
+	
+	/**
+	 * 修改用户信息和用户角色关联关系
+	 * @author shuai.ding
+	 * @param user
+	 * @param roleId
+	 * @return
+	 */
+	public BaseResult editUserAndRole(SysUser user,Long roleId);
 	
 	/**
 	 * 逻辑删除用户

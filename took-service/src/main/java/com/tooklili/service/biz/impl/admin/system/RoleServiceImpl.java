@@ -1,5 +1,7 @@
 package com.tooklili.service.biz.impl.admin.system;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import com.github.miemiedev.mybatis.paginator.domain.PageList;
 import com.tooklili.dao.intf.admin.SysRoleDao;
 import com.tooklili.model.admin.SysRole;
 import com.tooklili.service.biz.intf.admin.system.RoleService;
+import com.tooklili.util.result.ListResult;
 import com.tooklili.util.result.PageResult;
 
 /**
@@ -36,6 +39,14 @@ public class RoleServiceImpl implements RoleService{
 		
 		result.setData(pageList);
 		result.setTotalCount(pageList.getPaginator().getTotalCount());
+		return result;
+	}
+
+	@Override
+	public ListResult<SysRole> findRoles(SysRole sysRole) {
+		ListResult<SysRole> result = new ListResult<SysRole>();
+		List<SysRole> sysRoles = sysRoleDao.find(sysRole);
+		result.setData(sysRoles);
 		return result;
 	}
 

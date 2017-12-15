@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tooklili.dao.intf.admin.SysUserRoleDao">
+
+	<resultMap id="BaseResultMap" type="com.tooklili.model.admin.SysUserRole">
+			<result column="id" property="id" jdbcType="DECIMAL" />
+			<result column="user_id" property="userId" jdbcType="DECIMAL" />
+			<result column="role_id" property="roleId" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+			id,
+			user_id,
+			role_id
+	</sql>
+
+	<sql id="conditions_sysUserRole">
+		<where>
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="userId != null">
+				and user_id = #{userId}
+			</if>
+			<if test="roleId != null">
+				and role_id = #{roleId}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select 
+		<include refid="Base_Column_List" />
+		from sys_user_role
+		<where>
+			  and id=#{id}
+		</where>
+	</select>
+	
+	<select id="find" resultMap="BaseResultMap" parameterType="com.tooklili.model.admin.SysUserRole">
+		select 
+		<include refid="Base_Column_List" />
+		from sys_user_role
+		<include refid="conditions_sysUserRole" />
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+		delete from sys_user_role
+		<where>
+			  and id=#{id}
+		</where>
+	</delete>
+	
+	<delete id="batchDeleteByIds" parameterType="java.lang.String">
+		delete from sys_user_role
+		<where>
+			  and id in 
+			  <foreach collection="array" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</where>
+	</delete>
+
+	<insert id="insert" parameterType="com.tooklili.model.admin.SysUserRole" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_user_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			id,
+			user_id,
+			role_id,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{id},
+			#{userId},
+			#{roleId},
+		</trim>
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.tooklili.model.admin.SysUserRole" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_user_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="userId != null">user_id,</if>
+			<if test="roleId != null">role_id,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="userId != null">#{userId},</if>
+			<if test="roleId != null">#{roleId},</if>
+		</trim>
+	</insert>
+
+	<update id="updateById" parameterType="com.tooklili.model.admin.SysUserRole">
+		update sys_user_role
+		<set>
+			user_id=#{userId},
+			role_id=#{roleId},
+		</set>
+		<where>
+			  and id=#{id}
+		</where>
+	</update>
+
+	
+	<update id="updateByIdSelective" parameterType="com.tooklili.model.admin.SysUserRole">
+		update sys_user_role
+		<set>
+			<if test="userId != null">user_id=#{userId},</if>
+			<if test="roleId != null">role_id=#{roleId},</if>
+		</set>
+		<where>
+			  and id=#{id}
+		</where>
+	</update>
+	
+	<delete id="delUserRoleByUserId" parameterType="java.lang.Long">
+		delete from sys_user_role
+		<where>
+			  and user_id=#{userId}
+		</where>
+	</delete>
+	
+	<select id="queryUserRole" resultType="com.tooklili.model.admin.SysUserRole">
+		select 
+		a.id as id,
+		a.user_id as userId,
+		a.role_id as roleId,
+		b.user_name as 'sysUser.userName',
+		c.role_name as 'sysRole.roleName'
+		from sys_user_role a
+		left join sys_user b on a.user_id=b.id
+		left join sys_role c on a.role_id = c.id
+		<where>
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="userId != null">
+				and user_id = #{userId}
+			</if>
+			<if test="roleId != null">
+				and role_id = #{roleId}
+			</if>
+		</where>
+	</select>
+	
+</mapper>

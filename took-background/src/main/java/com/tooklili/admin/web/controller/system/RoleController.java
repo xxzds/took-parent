@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tooklili.model.admin.SysRole;
 import com.tooklili.service.biz.intf.admin.system.RoleService;
@@ -40,6 +41,8 @@ public class RoleController {
 	 * @param rows  页面大小
 	 * @return
 	 */
+	@RequestMapping("/getRoles")
+	@ResponseBody
 	public PageResult<SysRole> getRoles(SysRole sysRole,Integer page,Integer rows){
 		return roleService.findRoles(sysRole, page, rows);
 	}
