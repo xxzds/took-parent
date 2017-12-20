@@ -3,6 +3,8 @@ package com.tooklili.service.biz.impl.wechat;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
@@ -67,13 +69,24 @@ public class WechatMessageServiceImpl implements WechatMessageService{
 				if(params!=null && params.length==1){
 					params = reciveContent.split("，");
 				}
+				
+				//关键字过滤(如果用户直接从手淘中复制的链接，需要过滤到标题)
+				String pattern ="^【(.+)】";
+				// 创建 Pattern 对象
+			    Pattern r = Pattern.compile(pattern);			    
+			    Matcher m = r.matcher(reciveContent);
+			    if(m.find()){
+			    	params[0] = m.group(1);
+			    }
+			    
+				
 				AlimamaReqItemModel alimamaReqItemModel = new AlimamaReqItemModel();
 				alimamaReqItemModel.setQ(params[0]);
 				//销量从高到低
 				alimamaReqItemModel.setSortType(9);
 				//包含店铺优惠券（选中为1）
-				if(params.length>=2 && "1".equals(params[1])){
-					alimamaReqItemModel.setDpyhq(1);
+				if(params.length>=2 && "1".equals(params[params.length-1])){
+					alimamaReqItemModel.setDpyhq(params.length-1);
 				}			
 				PageResult<AlimamaItem> pageResult = alimamaService.superSearchItems(alimamaReqItemModel);
 				List<AlimamaItem> alimamaItems = pageResult.getData();
