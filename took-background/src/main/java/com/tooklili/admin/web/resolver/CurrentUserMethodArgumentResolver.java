@@ -1,4 +1,4 @@
-package com.tooklili.admin.web.method;
+package com.tooklili.admin.web.resolver;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -8,7 +8,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.tooklili.admin.web.method.annotation.CurrentUser;
+import com.tooklili.admin.web.resolver.annotation.CurrentUser;
 
 /**
  * 通过注解CurrentUser，绑定当前用户

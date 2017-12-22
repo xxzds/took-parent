@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="ds" uri="http://www.anjz.com/tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,12 +10,20 @@
 </head>
 <body>
 	<div id="toolbar">
-		<label>用户名：</label><input id="userName-search" name="userName-search" class="easyui-textbox">
-		<a href="javascript:void(0)" id="search" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:'true'">查询</a>
-		<br>		
-		<a href="javascript:void(0)" id="add" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:'true'">新增</a>
-    	<a href="javascript:void(0)" id="modify" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:'true'">修改</a>
-    	<a href="javascript:void(0)" id="del" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:'true'">删除</a>
+		<ds:hasPermission name="system:user:view">
+			<label>用户名：</label><input id="userName-search" name="userName-search" class="easyui-textbox">
+			<a href="javascript:void(0)" id="search" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:'true'">查询</a>
+			<br>
+		</ds:hasPermission>	
+	    <ds:hasPermission name="system:user:add">
+	    	<a href="javascript:void(0)" id="add" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:'true'">新增</a>
+	    </ds:hasPermission>	
+		<ds:hasPermission name="system:user:modify">
+			<a href="javascript:void(0)" id="modify" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:'true'">修改</a>
+		</ds:hasPermission>
+    	<ds:hasPermission name="system:user:delete">
+    		<a href="javascript:void(0)" id="del" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:'true'">删除</a>
+    	</ds:hasPermission>    	
 	</div>
 	<table id="dg"></table>
 	

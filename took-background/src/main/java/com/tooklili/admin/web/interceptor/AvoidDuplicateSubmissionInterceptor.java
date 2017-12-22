@@ -1,4 +1,4 @@
-package com.tooklili.admin.web.method;
+package com.tooklili.admin.web.interceptor;
 
 import java.lang.reflect.Method;
 
@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.tooklili.admin.web.method.annotation.AvoidDuplicateSubmission;
+import com.tooklili.admin.web.interceptor.annotation.AvoidDuplicateSubmission;
 import com.tooklili.service.util.MessageUtils;
 import com.tooklili.util.UUIDUtils;
 

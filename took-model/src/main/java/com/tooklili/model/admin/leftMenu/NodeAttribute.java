@@ -25,6 +25,11 @@ public class NodeAttribute {
 	 * 是否是叶子节点
 	 */
 	private Boolean isLeaf;
+	
+	/**
+	 * 角色绑定菜单对应的id
+	 */
+	private Long roleMenuId;
 
 	public String getUrl() {
 		return url;
@@ -56,5 +61,13 @@ public class NodeAttribute {
 
 	public void setIsLeaf(Boolean isLeaf) {
 		this.isLeaf = isLeaf;
+	}
+
+	public Long getRoleMenuId() {
+		return roleMenuId;
+	}
+
+	public void setRoleMenuId(Long roleMenuId) {
+		this.roleMenuId = roleMenuId;
 	}
 }

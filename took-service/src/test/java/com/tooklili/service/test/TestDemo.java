@@ -1,7 +1,10 @@
 package com.tooklili.service.test;
 
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,5 +40,31 @@ public class TestDemo {
 		
 		logger.info(new Date().getTime()+"");
 		
+	}
+	
+	@Test
+	public void regularTest(){
+		String str="【优线围巾女秋冬季新款韩版百搭条纹披肩两用冬天保暖加厚超大长款】http://m.tb.cn/h.BpGsLI 点击链接，再选择浏览器打开；或复制这条信息￥79pf0jmXL59￥后打开手淘";
+		String pattern ="^【(.+)】";
+		
+		// 创建 Pattern 对象
+	    Pattern r = Pattern.compile(pattern);
+	    
+	    Matcher m = r.matcher(str);
+	    
+	    logger.info(m.groupCount()+"");
+	    if(m.find()){
+	    	logger.info(m.group(0));
+	    	logger.info(m.group(1));
+	    }  
+	}
+	
+	@Test
+	public void splitTest(){
+		String str ="system:user:view";
+		String[] strs =  str.split(":");
+		logger.info("长度：{}",strs.length);
+		strs[strs.length-1] ="*";
+		logger.info(StringUtils.join(strs, ":"));
 	}
 }

@@ -45,8 +45,9 @@
         
         <!-- 注解解析器 -->
         <mvc:argument-resolvers>
-        	<bean class="com.tooklili.admin.web.method.CurrentUserMethodArgumentResolver"/>
+        	<bean class="com.tooklili.admin.web.resolver.CurrentUserMethodArgumentResolver"/>
         </mvc:argument-resolvers>
+       
     </mvc:annotation-driven>
     
 	<mvc:default-servlet-handler />
@@ -68,7 +69,12 @@
 		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/**"/>
-			<bean class="com.tooklili.admin.web.method.SameUrlDataInterceptor"/>   <!-- 防重提交拦截器 -->
+			<bean class="com.tooklili.admin.web.interceptor.SameUrlDataInterceptor"/>   <!-- 防重提交拦截器 -->
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="com.tooklili.admin.web.interceptor.PermissionInterceptor"/>   <!-- 权限拦截器 -->
 		</mvc:interceptor>
 	</mvc:interceptors>
 	

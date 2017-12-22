@@ -1,4 +1,4 @@
-package com.tooklili.admin.web.method.annotation;
+package com.tooklili.admin.web.resolver.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

@@ -20,7 +20,7 @@ import com.tooklili.util.result.PlainResult;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/spring-service-admin.xml"})
-@ActiveProfiles("admin_development")
+@ActiveProfiles("development")
 public class UserServiceTest{
 	public static final Logger logger = LoggerFactory.getLogger(UserServiceTest.class);
 	@Resource

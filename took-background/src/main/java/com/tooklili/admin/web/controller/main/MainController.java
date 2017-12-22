@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tooklili.admin.web.resolver.annotation.CurrentUser;
+import com.tooklili.model.admin.SysUser;
 import com.tooklili.model.admin.leftMenu.MenuNode;
 import com.tooklili.service.biz.intf.admin.system.MenuService;
 
@@ -31,10 +33,8 @@ public class MainController {
 	
 	@RequestMapping("/getMenu")
 	@ResponseBody
-	public List<MenuNode> getMenu() throws IOException{
-		
-		List<MenuNode> result = menuService.getMenu();
-		
+	public List<MenuNode> getMenu(@CurrentUser SysUser user) throws IOException{		
+		List<MenuNode> result = menuService.getMenu(user.getId());		
 		return result;
 
 	}

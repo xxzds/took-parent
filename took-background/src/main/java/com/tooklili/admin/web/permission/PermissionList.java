@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.google.common.collect.Maps;
 import com.tooklili.admin.web.exception.UnauthorizedException;
+import com.tooklili.admin.web.interceptor.PermissionInterceptor;
 import com.tooklili.service.util.MessageUtils;
 
 public class PermissionList implements Serializable{
@@ -83,7 +84,8 @@ public class PermissionList implements Serializable{
         if (resourcePermission == null) {
             resourcePermission = this.resourceIdentity + ":" + permission;
         }
-        boolean flag = false;
+        //判断是否有此权限
+        boolean flag = PermissionInterceptor.isPermitted(resourcePermission);
         if (!flag) {
             throw new UnauthorizedException(MessageUtils.message(errorCode, resourcePermission));
         }

@@ -2,6 +2,8 @@ package com.tooklili.service.biz.impl.admin.system;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -13,9 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.miemiedev.mybatis.paginator.domain.Order;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.tooklili.convert.admin.SysMenuConverter;
 import com.tooklili.dao.intf.admin.SysMenuDao;
+import com.tooklili.dao.intf.admin.SysRoleMenuDao;
 import com.tooklili.model.admin.SysMenu;
+import com.tooklili.model.admin.SysRoleMenu;
 import com.tooklili.model.admin.easyui.MenuTreeGridModel;
 import com.tooklili.model.admin.leftMenu.MenuNode;
 import com.tooklili.service.biz.intf.admin.system.MenuService;
@@ -33,14 +39,37 @@ public class MenuServiceImpl implements MenuService{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(MenuServiceImpl.class);
 	
+	private static Long ROOT_ID    = 0L;
+	
 	@Resource
 	private SysMenuDao sysMenuDao;
+	
+	@Resource
+	private SysRoleMenuDao sysRoleMenuDao;
 
 	@Override
-	public List<MenuNode> getMenu() {
+	public List<MenuNode> getMenu(Long userId) {
 		List<MenuNode> MenuNodeList =Lists.newArrayList();
+
+		List<SysMenu> sysMenuList = Lists.newArrayList();
+		if(userId==null){
+			sysMenuList =  sysMenuDao.find(null);
+		}else{
+			List<SysMenu> childMenus = sysRoleMenuDao.queryMenuByUserId(userId);
+			
+			Map<Long,SysMenu> childMenuMaps = Maps.newHashMap();
+			for(SysMenu menu:childMenus){
+				childMenuMaps.put(menu.getId(), menu);
+			}
+			
+			Set<SysMenu> parentMenu = Sets.newHashSet();
+			this.getParentMenu(parentMenu, childMenuMaps);
+			
+			//父级菜单包含子菜单(此处可以清除重复的数据)
+			parentMenu.addAll(childMenus);
+			sysMenuList.addAll(parentMenu);
+		}
 		
-		List<SysMenu> sysMenuList =  sysMenuDao.find(null);
 		
 		if(sysMenuList!=null){
 			MenuNodeList = Lists.transform(sysMenuList, new Function<SysMenu, MenuNode>() {
@@ -49,6 +78,71 @@ public class MenuServiceImpl implements MenuService{
 				public MenuNode apply(SysMenu input) {
 					
 					return SysMenuConverter.toMenuNode(input);
+				}
+			});
+		}
+		return MenuNode.buildMenu(MenuNodeList).getChildren();
+	}
+	
+	
+	/**
+	 * 通过子节点，查询所有父节点集合
+	 * @author shuai.ding
+	 * @param menus        父节点集合
+	 * @param childMenus   子节点集合
+	 * @return
+	 */
+	private Set<SysMenu> getParentMenu(Set<SysMenu> menus,Map<Long,SysMenu> childMenus){
+		
+		Map<Long,SysMenu> parentMenus = Maps.newHashMap();
+		
+		for(SysMenu sysMenu:childMenus.values()){
+			Long parentId = sysMenu.getMenuParentId();
+			if(parentId != ROOT_ID && parentMenus.get(parentId)==null){				
+				SysMenu menu = new SysMenu();
+				menu.setId(parentId);
+				List<SysMenu> sysMenus = sysMenuDao.find(menu);
+				parentMenus.put(sysMenus.get(0).getId(), sysMenus.get(0));
+			}			
+		}		
+		if(parentMenus.size()>0){
+			menus.addAll(parentMenus.values());
+			getParentMenu(menus, parentMenus);
+		}
+		return menus;
+	}
+	
+	
+	@Override
+	public List<MenuNode> getMenuByRoleId(final Long roleId){
+		if(roleId==null){
+			return getMenu(null);
+		}		
+		
+		List<MenuNode> MenuNodeList =Lists.newArrayList();
+		
+		List<SysMenu> sysMenuList =  sysMenuDao.find(null);
+		
+		if(sysMenuList!=null){
+			MenuNodeList = Lists.transform(sysMenuList, new Function<SysMenu, MenuNode>() {
+
+				@Override
+				public MenuNode apply(SysMenu input) {			
+					MenuNode menuNode =  SysMenuConverter.toMenuNode(input);
+					
+					//判断菜单是否被选中，如果选中，记录角色-菜单id
+					SysRoleMenu sysRoleMenu = new SysRoleMenu();
+					sysRoleMenu.setRoleId(roleId);
+					sysRoleMenu.setMenuId(input.getId());
+					List<SysRoleMenu> sysRoleMenus = sysRoleMenuDao.find(sysRoleMenu);
+					if(sysRoleMenus != null && sysRoleMenus.size()>0){		
+						menuNode.setChecked(true);
+						menuNode.getAttributes().setRoleMenuId(sysRoleMenus.get(0).getId());
+					}else{
+						menuNode.setChecked(false); 
+					}
+					
+				    return menuNode;
 				}
 			});
 		}

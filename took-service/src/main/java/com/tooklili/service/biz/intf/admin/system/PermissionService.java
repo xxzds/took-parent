@@ -2,6 +2,7 @@ package com.tooklili.service.biz.intf.admin.system;
 
 import com.tooklili.model.admin.SysPermission;
 import com.tooklili.util.result.BaseResult;
+import com.tooklili.util.result.ListResult;
 import com.tooklili.util.result.PageResult;
 
 public interface PermissionService {
@@ -14,6 +15,15 @@ public interface PermissionService {
 	 * @return
 	 */
 	public PageResult<SysPermission> findPermissions(SysPermission sysPermission,Integer currentPage,Integer pageSize);
+	
+	
+	/**
+	 * 查询权限列表
+	 * @author shuai.ding
+	 * @param sysPermission
+	 * @return
+	 */
+	public ListResult<SysPermission> findPermissions(SysPermission sysPermission);
 	
 	/**
 	 * 添加权限

@@ -1,15 +1,20 @@
 package com.tooklili.admin.web.controller.system;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tooklili.model.admin.SysPermission;
+import com.tooklili.model.admin.SysRoleMenuPermission;
 import com.tooklili.service.biz.intf.admin.system.PermissionService;
+import com.tooklili.service.biz.intf.admin.system.RoleMenuPermissionService;
 import com.tooklili.util.result.BaseResult;
 import com.tooklili.util.result.PageResult;
 
@@ -24,6 +29,9 @@ public class PermissionController {
 	
 	@Resource
 	private PermissionService permissionService;
+	
+	@Resource
+	private RoleMenuPermissionService roleMenuPermissionService;
 	
 	/**
 	 * 主页
@@ -83,6 +91,32 @@ public class PermissionController {
 	@ResponseBody
 	public BaseResult delPermission(@PathVariable Long id){
 		return permissionService.delPermission(id);
+	}
+	
+	@RequestMapping("/queryPermissons")
+	public String queryPermissionList(Long roleMenuId,Model model){
+		List<SysPermission> permissions = permissionService.findPermissions(null).getData();
+		
+		if(roleMenuId!=null){
+			SysRoleMenuPermission sysRoleMenuPermission = new SysRoleMenuPermission();
+			sysRoleMenuPermission.setRoleMenuId(roleMenuId);
+			List<SysRoleMenuPermission> roleMenuPermissions = roleMenuPermissionService.findRoleMenuPermissions(sysRoleMenuPermission).getData();
+			
+			if(roleMenuPermissions!=null && roleMenuPermissions.size()>0){
+				for(SysPermission sysPermission:permissions){
+					for(SysRoleMenuPermission roleMenuPermission:roleMenuPermissions){
+						if(roleMenuPermission.getPermissionId()==sysPermission.getId()){
+							sysPermission.setSelected(true);
+							continue;
+						}
+					}
+				}
+			}
+	
+		}
+		
+		model.addAttribute("permissions", permissions);
+		return "system/permission_list";
 	}
 
 }

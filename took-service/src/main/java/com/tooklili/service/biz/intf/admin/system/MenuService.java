@@ -20,7 +20,22 @@ public interface MenuService {
 	 * @author shuai.ding
 	 * @return
 	 */
-	public List<MenuNode> getMenu();
+	
+	/**
+	 * 通过用户ID,查询此用户所拥有的菜单，如果用户id为空，查询所有菜单
+	 * @author shuai.ding
+	 * @param userId
+	 * @return
+	 */
+	public List<MenuNode> getMenu(Long userId);
+	
+	/**
+	 * 通过角色，查看菜单列表，标识角色选中的菜单
+	 * @author shuai.ding
+	 * @param roleId
+	 * @return
+	 */
+	public List<MenuNode> getMenuByRoleId(Long roleId);
 	
 	/**
 	 * 通过pid获取菜单列表

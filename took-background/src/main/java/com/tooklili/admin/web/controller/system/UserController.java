@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.tooklili.admin.web.controller.BaseController;
-import com.tooklili.admin.web.method.annotation.CurrentUser;
-import com.tooklili.admin.web.method.annotation.SameUrlData;
+import com.tooklili.admin.web.interceptor.annotation.RequiresPermissions;
+import com.tooklili.admin.web.interceptor.annotation.SameUrlData;
+import com.tooklili.admin.web.resolver.annotation.CurrentUser;
 import com.tooklili.enums.admin.UserDelEnum;
 import com.tooklili.model.admin.SysUser;
 import com.tooklili.service.biz.intf.admin.system.UserService;
@@ -28,14 +28,10 @@ import com.tooklili.util.result.PageResult;
  */
 @Controller
 @RequestMapping("/system/user")
-public class UserController extends BaseController{
+public class UserController{
 	
 	@Resource
 	private UserService userService;
-	
-	public UserController() {
-		setResourceIdentity("system:user");
-	}
 	
 	/**
 	 * 主页
@@ -43,13 +39,8 @@ public class UserController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequiresPermissions("system:user:view")
     public String main() {
-		
-//		if (permissionList != null) {
-//			this.permissionList.assertHasViewPermission();
-//		}	
-		
-		
 		return "system/user";
     }
 	
@@ -63,6 +54,7 @@ public class UserController extends BaseController{
 	 */
 	@RequestMapping(value = "/userList")
 	@ResponseBody
+	@RequiresPermissions("system:user:view")
 	public PageResult<SysUser> userList(SysUser sysUser, Integer page,Integer rows){
 		//展示非逻辑删除的用户
 		if(sysUser==null){
@@ -82,6 +74,7 @@ public class UserController extends BaseController{
 	 */
 	@RequestMapping(value = "/addUser")
 	@ResponseBody
+	@RequiresPermissions("system:user:add")
 	public BaseResult addUser(SysUser sysUser,Long role){
 		return  userService.addUserAndRole(sysUser, role);
 	}
@@ -96,6 +89,7 @@ public class UserController extends BaseController{
 	 */
 	@RequestMapping(value = "/editUser")
 	@ResponseBody
+	@RequiresPermissions("system:user:modify")
 	public BaseResult editUser(SysUser sysUser,Long role){
 		return userService.editUserAndRole(sysUser, role);
 	}
@@ -109,6 +103,7 @@ public class UserController extends BaseController{
 	 */
 	@RequestMapping(value = "/logicDelUser/{id}")
 	@ResponseBody
+	@RequiresPermissions("system:user:delete")
 	public BaseResult logicDelUser(@PathVariable Long id){
 		return userService.logicDelUser(id);
 	}

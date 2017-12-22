@@ -26,6 +26,11 @@ public class SysPermission {
 	 * 备注
 	 */
 	private String remark;
+	
+	/**
+	 * 是否被选中，冗余字段
+	 */
+	private Boolean selected=false;
 
 	public Long getId() {
 		return id;
@@ -57,5 +62,13 @@ public class SysPermission {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public Boolean getSelected() {
+		return selected;
+	}
+
+	public void setSelected(Boolean selected) {
+		this.selected = selected;
 	}
 }

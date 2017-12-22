@@ -1,7 +1,5 @@
 package com.tooklili.service.admin.system;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.junit.Test;
@@ -13,41 +11,35 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.alibaba.fastjson.JSON;
-import com.tooklili.model.admin.easyui.MenuTreeGridModel;
-import com.tooklili.model.admin.leftMenu.MenuNode;
-import com.tooklili.service.biz.intf.admin.system.MenuService;
+import com.tooklili.model.admin.SysUser;
+import com.tooklili.service.biz.intf.admin.system.RoleMenuPermissionService;
 import com.tooklili.util.JsonFormatTool;
 import com.tooklili.util.result.ListResult;
 
 /**
+ * 
  * @author shuai.ding
- * @date 2017年8月27日下午3:51:05
+ * @date 2017年12月22日上午10:35:16
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/spring-service-admin.xml"})
 @ActiveProfiles("development")
-public class MenuServiceTest{
-	public static final Logger logger = LoggerFactory.getLogger(MenuServiceTest.class);
-
-	@Resource
-	private MenuService menuService;
+public class RoleMenuPermissionServiceTest {
+	public static final Logger logger = LoggerFactory.getLogger(RoleMenuPermissionServiceTest.class);
 	
+	@Resource
+	private RoleMenuPermissionService roleMenuPermissionService;
+	
+	/**
+	 * 获取用户所有权限集合
+	 * @author shuai.ding
+	 */
 	@Test
-	public void getMenuTest(){
-		
-		List<MenuNode> result = menuService.getMenu(null);
-		
+	public void getPermissionsByUserTest(){
+		SysUser user = new SysUser();
+		user.setId(43L);
+		ListResult<String> result =  roleMenuPermissionService.getPermissionsByUser(user);
 		logger.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
 	}
-	
-	@Test
-	public void getMenuTreeTest(){
-		try{
-			ListResult<MenuTreeGridModel> result = menuService.getMenuTree(1L);
-			logger.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
-		}catch(Exception e){
-			logger.error("exception",e);
-		}
-	}
-	
+
 }

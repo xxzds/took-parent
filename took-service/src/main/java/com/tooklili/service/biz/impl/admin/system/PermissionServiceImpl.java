@@ -1,5 +1,7 @@
 package com.tooklili.service.biz.impl.admin.system;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import com.tooklili.model.admin.SysPermission;
 import com.tooklili.service.biz.intf.admin.system.PermissionService;
 import com.tooklili.service.exception.BusinessException;
 import com.tooklili.util.result.BaseResult;
+import com.tooklili.util.result.ListResult;
 import com.tooklili.util.result.PageResult;
 
 /**
@@ -39,6 +42,15 @@ public class PermissionServiceImpl implements PermissionService{
 		result.setData(pageList);
 		result.setTotalCount(pageList.getPaginator().getTotalCount());
 		
+		return result;
+	}
+	
+	@Override
+	public ListResult<SysPermission> findPermissions(SysPermission sysPermission){
+		ListResult<SysPermission> result = new ListResult<SysPermission>();
+		
+		List<SysPermission> sysPermissions = sysPermissionDao.find(sysPermission);
+		result.setData(sysPermissions);
 		return result;
 	}
 

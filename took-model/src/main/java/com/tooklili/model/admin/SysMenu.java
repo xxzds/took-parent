@@ -151,6 +151,23 @@ public class SysMenu {
 	public void setModifyTime(Date modifyTime) {
 		this.modifyTime = modifyTime;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj==null || ! (obj instanceof SysMenu)){
+			return false;
+		}
+		SysMenu sysMenu = (SysMenu)obj;
+		if(this.id ==sysMenu.id){
+			return true;
+		}	
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return this.getId()!=null ? this.getId().intValue():0;
+	}
 
 	@Override
 	public String toString() {

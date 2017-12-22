@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tooklili.dao.intf.admin.SysRoleMenuDao">
+
+	<resultMap id="BaseResultMap" type="com.tooklili.model.admin.SysRoleMenu">
+			<result column="id" property="id" jdbcType="DECIMAL" />
+			<result column="role_id" property="roleId" jdbcType="DECIMAL" />
+			<result column="menu_id" property="menuId" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+			id,
+			role_id,
+			menu_id
+	</sql>
+
+	<sql id="conditions_sysRoleMenu">
+		<where>
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="roleId != null">
+				and role_id = #{roleId}
+			</if>
+			<if test="menuId != null">
+				and menu_id = #{menuId}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select 
+		<include refid="Base_Column_List" />
+		from sys_role_menu
+		<where>
+			  and id=#{id}
+		</where>
+	</select>
+	
+	<select id="find" resultMap="BaseResultMap" parameterType="com.tooklili.model.admin.SysRoleMenu">
+		select 
+		<include refid="Base_Column_List" />
+		from sys_role_menu
+		<include refid="conditions_sysRoleMenu" />
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+		delete from sys_role_menu
+		<where>
+			  and id=#{id}
+		</where>
+	</delete>
+	
+	<delete id="batchDeleteByIds" parameterType="java.lang.String">
+		delete from sys_role_menu
+		<where>
+			  and id in 
+			  <foreach collection="array" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</where>
+	</delete>
+
+	<insert id="insert" parameterType="com.tooklili.model.admin.SysRoleMenu" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_role_menu
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			id,
+			role_id,
+			menu_id,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{id},
+			#{roleId},
+			#{menuId},
+		</trim>
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.tooklili.model.admin.SysRoleMenu" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_role_menu
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="roleId != null">role_id,</if>
+			<if test="menuId != null">menu_id,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="roleId != null">#{roleId},</if>
+			<if test="menuId != null">#{menuId},</if>
+		</trim>
+	</insert>
+
+	<update id="updateById" parameterType="com.tooklili.model.admin.SysRoleMenu">
+		update sys_role_menu
+		<set>
+			role_id=#{roleId},
+			menu_id=#{menuId},
+		</set>
+		<where>
+			  and id=#{id}
+		</where>
+	</update>
+
+	
+	<update id="updateByIdSelective" parameterType="com.tooklili.model.admin.SysRoleMenu">
+		update sys_role_menu
+		<set>
+			<if test="roleId != null">role_id=#{roleId},</if>
+			<if test="menuId != null">menu_id=#{menuId},</if>
+		</set>
+		<where>
+			  and id=#{id}
+		</where>
+	</update>
+	
+	<insert id="batchAddRoleMenu">
+		insert into sys_role_menu
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			id,
+			role_id,
+			menu_id,
+		</trim>
+		values
+		<foreach collection ="list" item="roleMenu" index= "index" separator =",">
+             (
+                #{roleMenu.id},
+			    #{roleMenu.roleId},
+			    #{roleMenu.menuId}
+             )
+        </foreach>
+	</insert>
+	
+	<delete id="delRoleMenuByRoleIdAndMenuIds">
+		delete from sys_role_menu
+		<where>
+			  role_id =#{roleId}
+			  and menu_id in 
+			  <foreach collection="menuIds" item="menuId" open="(" separator="," close=")">
+				#{menuId}
+			</foreach>
+		</where>
+	</delete>
+	
+	<select id="queryIdByRoleIdAndMenuIds" resultType="java.lang.Long">
+		select 
+		id
+		from sys_role_menu
+		<where>
+			  role_id =#{roleId}
+			  and menu_id in 
+			  <foreach collection="menuIds" item="menuId" open="(" separator="," close=")">
+				#{menuId}
+			 </foreach>	
+		</where>
+	</select>
+	
+	<!-- 此处过滤掉不显示的菜单 -->
+	<select id="queryMenuByUserId" resultType="com.tooklili.model.admin.SysMenu">
+		select 
+		c.id as id,
+		c.menu_name as menuName,
+		c.menu_identify as menuIdentify,
+		c.menu_url as menuUrl,
+		c.menu_parent_id as menuParentId,
+		c.menu_icon as menuIcon,
+		c.menu_sort as menuSort,
+		c.menu_visible as menuVisible,
+		c.menu_remark as menuRemark,
+		c.create_time as createTime,
+		c.modify_time as modifyTime
+		from sys_role_menu a
+		left join sys_user_role b on a.role_id = b.role_id
+		left join sys_menu c on a.menu_id = c.id
+		where b.user_id = #{userId} and c.menu_visible =1
+	</select>
+	
+	<!-- 此处过滤掉不显示的菜单，只查询用户所拥有的的叶子节点 -->
+	<select id="queryLeftMenuByUserId" resultType="com.tooklili.model.admin.MenuAndPermissionModel">
+		select 
+		c.id as id,
+		c.menu_name as menuName,
+		c.menu_identify as menuIdentify,
+		c.menu_url as menuUrl,
+		c.menu_parent_id as menuParentId,
+		c.menu_icon as menuIcon,
+		c.menu_sort as menuSort,
+		c.menu_visible as menuVisible,
+		c.menu_remark as menuRemark,
+		c.create_time as createTime,
+		c.modify_time as modifyTime,
+		a.id as roleMenuId
+		from sys_role_menu a
+		left join sys_user_role b on a.role_id = b.role_id
+		left join sys_menu c on a.menu_id = c.id
+		where b.user_id = #{userId} and c.menu_visible =1
+		and (select count(*) from sys_menu d where d.id = c.menu_parent_id)>0
+	</select>
+	
+</mapper>

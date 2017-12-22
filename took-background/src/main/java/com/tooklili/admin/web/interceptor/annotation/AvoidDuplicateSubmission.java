@@ -1,4 +1,4 @@
-package com.tooklili.admin.web.method.annotation;
+package com.tooklili.admin.web.interceptor.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

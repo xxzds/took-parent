@@ -16,27 +16,29 @@
 		
 		<div data-options="region:'center'" style="width:100px;">
 			<div class="easyui-panel"  title="菜单" data-options="iconCls:'icon-lock',tools:'#menu_panel_tools',fit:true">
+				<input type="hidden" id="roleId" name="roleId"/>
 				<ul id="menu_tree"></ul>
 			</div>
 		</div> 
 		 
 		
-		<div data-options="region:'east',split:true" style="width:200px;">
+		<div data-options="region:'east',split:true" style="width:500px;">
 			<div class="easyui-panel"  title="权限" data-options="iconCls:'icon-lock',tools:'#permission_panel_tools',fit:true">
-				<ul id="tree"></ul>
+				<input type="hidden" id="roleMenuId" name="roleMenuId"/>
+				<div id="permission_list"></div>
 			</div>
 			
 		</div>  
 		
 		<div id="menu_panel_tools">
-			<a href="javascript:;" class="icon-save" title="保存"></a>
+			<a href="javascript:;"  id="menusave" class="icon-save" title="保存"></a>
 		</div>
 		
 		<div id="permission_panel_tools">
-			<a href="javascript:;" class="icon-save" title="保存"></a>
+			<a href="javascript:;" id="permissionsave" class="icon-save" title="保存"></a>
 		</div>
 	</div>
 	
-	<script type="text/javascript" src="${ctx}/static/js/system/auth.js?version=1"></script>
+	<script type="text/javascript" src="${ctx}/static/js/system/auth.js?version=9"></script>
 </body>
 </html>

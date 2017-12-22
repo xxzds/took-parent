@@ -12,14 +12,9 @@ public class SysRoleMenuPermission {
 	private Long id;
 	
 	/**
-	 * 角色id
+	 * 角色菜单id
 	 */
-	private Long roleId;
-	
-	/**
-	 * 菜单id
-	 */
-	private Long menuId;
+    private Long roleMenuId;
 	
 	/**
 	 * 权限id
@@ -34,20 +29,12 @@ public class SysRoleMenuPermission {
 		this.id = id;
 	}
 
-	public Long getRoleId() {
-		return roleId;
+	public Long getRoleMenuId() {
+		return roleMenuId;
 	}
 
-	public void setRoleId(Long roleId) {
-		this.roleId = roleId;
-	}
-
-	public Long getMenuId() {
-		return menuId;
-	}
-
-	public void setMenuId(Long menuId) {
-		this.menuId = menuId;
+	public void setRoleMenuId(Long roleMenuId) {
+		this.roleMenuId = roleMenuId;
 	}
 
 	public Long getPermissionId() {
