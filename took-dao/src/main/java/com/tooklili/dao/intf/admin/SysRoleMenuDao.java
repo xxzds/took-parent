@@ -50,12 +50,29 @@ public interface SysRoleMenuDao extends BaseDao<SysRoleMenu,Long> {
 	 */
 	public List<SysMenu> queryMenuByUserId(Long userId);
 	
+	
 	/**
-	 * 通过用户id，查询用户所拥有的叶子节点结合
+	 * 通过角色id,查询用户所拥有的菜单集合
+	 * @author shuai.ding
+	 * @param roleId
+	 * @return
+	 */
+	public List<SysMenu> queryMenuByRoleId(Long roleId);
+	
+	/**
+	 * 通过用户id，查询用户所拥有的叶子节点集合
 	 * @author shuai.ding
 	 * @param userId
 	 * @return
 	 */
-	public List<MenuAndPermissionModel> queryLeftMenuByUserId(Long userId);
+	public List<MenuAndPermissionModel> queryLeafMenuByUserId(Long userId);
+	
+	/**
+	 * 通过角色id,查询角色所拥有的的叶子节点集合
+	 * @author shuai.ding
+	 * @param roleId
+	 * @return
+	 */
+	public List<MenuAndPermissionModel> queryLeafMenuByRoleId(Long roleId);
 
 }

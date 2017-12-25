@@ -53,7 +53,7 @@ public class AuthController {
 	@RequestMapping("/getMenuByRoleId")
 	@ResponseBody
 	public List<MenuNode> getMenuByRoleId(Long roleId){
-		return menuService.getMenuByRoleId(roleId);
+		return menuService.getAllMenuCheckedByRoleId(roleId);
 	}
 	
 	

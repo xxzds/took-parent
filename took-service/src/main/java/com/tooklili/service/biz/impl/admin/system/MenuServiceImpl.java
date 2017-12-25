@@ -9,9 +9,15 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
 import com.github.miemiedev.mybatis.paginator.domain.Order;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
@@ -20,8 +26,10 @@ import com.google.common.collect.Sets;
 import com.tooklili.convert.admin.SysMenuConverter;
 import com.tooklili.dao.intf.admin.SysMenuDao;
 import com.tooklili.dao.intf.admin.SysRoleMenuDao;
+import com.tooklili.dao.intf.admin.SysUserRoleDao;
 import com.tooklili.model.admin.SysMenu;
 import com.tooklili.model.admin.SysRoleMenu;
+import com.tooklili.model.admin.SysUserRole;
 import com.tooklili.model.admin.easyui.MenuTreeGridModel;
 import com.tooklili.model.admin.leftMenu.MenuNode;
 import com.tooklili.service.biz.intf.admin.system.MenuService;
@@ -46,44 +54,135 @@ public class MenuServiceImpl implements MenuService{
 	
 	@Resource
 	private SysRoleMenuDao sysRoleMenuDao;
+	
+	@Resource
+	private SysUserRoleDao sysUserRoleDao;
+	
+	@Resource
+	private RedisTemplate<?,?> redisTemplate;
 
 	@Override
-	public List<MenuNode> getMenu(Long userId) {
-		List<MenuNode> MenuNodeList =Lists.newArrayList();
-
-		List<SysMenu> sysMenuList = Lists.newArrayList();
-		if(userId==null){
-			sysMenuList =  sysMenuDao.find(null);
-		}else{
-			List<SysMenu> childMenus = sysRoleMenuDao.queryMenuByUserId(userId);
-			
-			Map<Long,SysMenu> childMenuMaps = Maps.newHashMap();
-			for(SysMenu menu:childMenus){
-				childMenuMaps.put(menu.getId(), menu);
-			}
-			
-			Set<SysMenu> parentMenu = Sets.newHashSet();
-			this.getParentMenu(parentMenu, childMenuMaps);
-			
-			//父级菜单包含子菜单(此处可以清除重复的数据)
-			parentMenu.addAll(childMenus);
-			sysMenuList.addAll(parentMenu);
-		}
+	public List<MenuNode> getMenu() {
+		List<MenuNode> menuNodeList =Lists.newArrayList();
 		
-		
+		List<SysMenu> sysMenuList =  sysMenuDao.find(null);
 		if(sysMenuList!=null){
-			MenuNodeList = Lists.transform(sysMenuList, new Function<SysMenu, MenuNode>() {
-
+			menuNodeList = Lists.transform(sysMenuList, new Function<SysMenu, MenuNode>() {
 				@Override
-				public MenuNode apply(SysMenu input) {
-					
+				public MenuNode apply(SysMenu input) {					
 					return SysMenuConverter.toMenuNode(input);
 				}
 			});
 		}
-		return MenuNode.buildMenu(MenuNodeList).getChildren();
+		return MenuNode.buildMenu(menuNodeList).getChildren();
+	}
+		
+	@Override
+	public List<MenuNode> getMenu(Long userId){
+		if(userId==null){
+			throw new BusinessException("通过userId查询所拥有的菜单，userId不能为空");
+		}
+		List<MenuNode> menuNodeList =Lists.newArrayList();
+		//通过用户id获取用户角色
+		SysUserRole sysUserRole = new SysUserRole();
+		sysUserRole.setUserId(userId);
+		List<SysUserRole> userRoles = sysUserRoleDao.find(sysUserRole);
+		
+		if(userRoles!=null && userRoles.size()>=0){
+			List<SysMenu> sysMenuList = this.getMenuByRoleIds(Lists.transform(userRoles, new Function<SysUserRole, Long>() {
+				@Override
+				public Long apply(SysUserRole input) {
+					
+					return input.getRoleId();
+				}
+			}).toArray(new Long[]{}));
+			
+			menuNodeList = Lists.transform(sysMenuList, new Function<SysMenu, MenuNode>() {
+				@Override
+				public MenuNode apply(SysMenu input) {					
+					return SysMenuConverter.toMenuNode(input);
+				}
+			});
+		}
+		return MenuNode.buildMenu(menuNodeList).getChildren();
 	}
 	
+	public List<SysMenu> getMenuByRoleIds(Long[] roleIds){
+		if(roleIds==null){
+			throw new BusinessException("通过roleIds查询所拥有的的菜单，roleIds不能为空");
+		}
+				
+		List<SysMenu> menuList =Lists.newArrayList();
+		
+		Set<SysMenu> menuSet = Sets.newHashSet();
+		for(Long roleId:roleIds){
+			List<SysMenu> menus = this.getMenuByRoleId(roleId);
+			menuSet.addAll(menus);
+		}
+		menuList.addAll(menuSet);
+		return menuList;
+	}
+	
+	@Override
+	public List<SysMenu> getMenuByRoleId(final Long roleId){
+		
+		if(roleId==null){
+			throw new BusinessException("通过角色id，查询角色所拥有的列表，角色id不能为空");
+		}
+		
+		//从redis获取 start
+		final String prefix = "menu-roleId-";
+		final StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+		String jsonStr =  redisTemplate.execute(new RedisCallback<String>() {
+			@Override
+			public String doInRedis(RedisConnection connection) throws DataAccessException {				
+				byte[] bytes = connection.get(stringRedisSerializer.serialize(prefix+roleId));
+				if(bytes==null || bytes.length<=0){
+					return null;
+				}
+				return stringRedisSerializer.deserialize(bytes);
+			}
+		});
+		
+		if(jsonStr!=null){
+			LOGGER.debug("角色Id：{},从redis中获取菜单集合，{}",roleId,jsonStr);
+			List<SysMenu> menus =  JSON.parseArray(jsonStr, SysMenu.class);
+			return menus;
+		}
+		//从redis获取 end
+		
+				
+		List<SysMenu> sysMenuList = Lists.newArrayList();		
+		//此处，存入到数据库中的，如果没有选中所有子节点，父节点是存入不到db中的，此处需要补全
+		List<SysMenu> childMenus = sysRoleMenuDao.queryMenuByRoleId(roleId);
+		
+		Map<Long,SysMenu> childMenuMaps = Maps.newHashMap();
+		for(SysMenu menu:childMenus){
+			childMenuMaps.put(menu.getId(), menu);
+		}
+		
+		Set<SysMenu> parentMenu = Sets.newHashSet();
+		this.getParentMenu(parentMenu, childMenuMaps);
+		
+		//父级菜单包含子菜单(此处可以清除重复的数据)
+		parentMenu.addAll(childMenus);
+		sysMenuList.addAll(parentMenu);
+		
+		//将角色对应的菜单集合存入redis中
+		final String jsonStrx = JSON.toJSONString(sysMenuList);
+		Boolean flag = redisTemplate.execute(new RedisCallback<Boolean>() {
+			@Override
+			public Boolean doInRedis(RedisConnection connection) throws DataAccessException {				
+				connection.set(stringRedisSerializer.serialize(prefix+roleId), stringRedisSerializer.serialize(jsonStrx));
+				return true;
+			}
+		});
+		if(flag){
+			LOGGER.debug("角色id:{},对应的菜单集合:{},存入redis成功!",roleId,jsonStrx);
+		}
+	
+		return sysMenuList;
+	}
 	
 	/**
 	 * 通过子节点，查询所有父节点集合
@@ -114,7 +213,7 @@ public class MenuServiceImpl implements MenuService{
 	
 	
 	@Override
-	public List<MenuNode> getMenuByRoleId(final Long roleId){
+	public List<MenuNode> getAllMenuCheckedByRoleId(final Long roleId){
 		if(roleId==null){
 			return getMenu(null);
 		}		

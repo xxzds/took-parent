@@ -16,26 +16,45 @@ import com.tooklili.util.result.ListResult;
 public interface MenuService {
 
 	/**
-	 * 获取菜单列表
+	 * 获取菜单列表(树型结构)
 	 * @author shuai.ding
 	 * @return
 	 */
+	public List<MenuNode> getMenu();
 	
 	/**
-	 * 通过用户ID,查询此用户所拥有的菜单，如果用户id为空，查询所有菜单
+	 * 通过用户ID,查询此用户所拥有的菜单(树型结构)
 	 * @author shuai.ding
 	 * @param userId
 	 * @return
 	 */
 	public List<MenuNode> getMenu(Long userId);
 	
+	
 	/**
-	 * 通过角色，查看菜单列表，标识角色选中的菜单
+	 * 通过角色ID集合，查询角色集合所拥有的菜单
+	 * @author shuai.ding
+	 * @param roleIds
+	 * @return
+	 */
+	public List<SysMenu> getMenuByRoleIds(Long[] roleIds);
+	
+	
+	/**
+	 * 通过角色Id，查询此角色所拥有的菜单(此处引入redis缓存，加快查询速度)
 	 * @author shuai.ding
 	 * @param roleId
 	 * @return
 	 */
-	public List<MenuNode> getMenuByRoleId(Long roleId);
+	public List<SysMenu> getMenuByRoleId(Long roleId);
+	
+	/**
+	 * 通过角色，查看菜单列表(所有的)，标识角色选中的菜单
+	 * @author shuai.ding
+	 * @param roleId
+	 * @return
+	 */
+	public List<MenuNode> getAllMenuCheckedByRoleId(Long roleId);
 	
 	/**
 	 * 通过pid获取菜单列表

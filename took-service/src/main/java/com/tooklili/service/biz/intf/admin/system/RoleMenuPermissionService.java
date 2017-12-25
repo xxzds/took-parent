@@ -1,7 +1,6 @@
 package com.tooklili.service.biz.intf.admin.system;
 
 import com.tooklili.model.admin.SysRoleMenuPermission;
-import com.tooklili.model.admin.SysUser;
 import com.tooklili.util.result.BaseResult;
 import com.tooklili.util.result.ListResult;
 
@@ -34,9 +33,25 @@ public interface RoleMenuPermissionService {
 	/**
 	 * 获取用户所有权限集合
 	 * @author shuai.ding
-	 * @param user           用户实体
+	 * @param userId       用户id
 	 * @return
 	 */
-	public ListResult<String> getPermissionsByUser(SysUser user);
+	public ListResult<String> getPermissionsByUserId(Long userId);
+	
+	/**
+	 * 通过角色集合，查询角色所拥有的权限集合
+	 * @author shuai.ding
+	 * @param roleIds
+	 * @return
+	 */
+	public ListResult<String> getPermissionByRoleIds(Long[] roleIds);
+	
+	/**
+	 * 通过角色，获取所拥有的权限集合(此处引入redis缓存，加快查询速度)
+	 * @author shuai.ding
+	 * @param roleId
+	 * @return
+	 */
+	public ListResult<String> getPermissionByRoleId(Long roleId);
 
 }

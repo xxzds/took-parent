@@ -11,7 +11,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.alibaba.fastjson.JSON;
-import com.tooklili.model.admin.SysUser;
 import com.tooklili.service.biz.intf.admin.system.RoleMenuPermissionService;
 import com.tooklili.util.JsonFormatTool;
 import com.tooklili.util.result.ListResult;
@@ -36,9 +35,7 @@ public class RoleMenuPermissionServiceTest {
 	 */
 	@Test
 	public void getPermissionsByUserTest(){
-		SysUser user = new SysUser();
-		user.setId(43L);
-		ListResult<String> result =  roleMenuPermissionService.getPermissionsByUser(user);
+		ListResult<String> result =  roleMenuPermissionService.getPermissionsByUserId(1L);
 		logger.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
 	}
 

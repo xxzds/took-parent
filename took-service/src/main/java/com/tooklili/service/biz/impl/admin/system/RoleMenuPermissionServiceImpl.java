@@ -2,22 +2,33 @@ package com.tooklili.service.biz.impl.admin.system;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.tooklili.dao.intf.admin.SysMenuDao;
 import com.tooklili.dao.intf.admin.SysRoleMenuDao;
 import com.tooklili.dao.intf.admin.SysRoleMenuPermissionDao;
+import com.tooklili.dao.intf.admin.SysUserRoleDao;
 import com.tooklili.model.admin.MenuAndPermissionModel;
 import com.tooklili.model.admin.SysMenu;
 import com.tooklili.model.admin.SysPermission;
 import com.tooklili.model.admin.SysRoleMenuPermission;
-import com.tooklili.model.admin.SysUser;
+import com.tooklili.model.admin.SysUserRole;
 import com.tooklili.service.biz.intf.admin.system.RoleMenuPermissionService;
 import com.tooklili.service.exception.BusinessException;
 import com.tooklili.util.result.BaseResult;
@@ -31,6 +42,8 @@ import com.tooklili.util.result.ListResult;
 @Service
 public class RoleMenuPermissionServiceImpl implements RoleMenuPermissionService{
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(RoleMenuPermissionServiceImpl.class);
+	
 	@Resource
 	private SysRoleMenuPermissionDao sysRoleMenuPermissionDao;
 	
@@ -39,6 +52,12 @@ public class RoleMenuPermissionServiceImpl implements RoleMenuPermissionService{
 	
 	@Resource
 	private SysMenuDao sysMenuDao;
+	
+	@Resource
+	private SysUserRoleDao sysUserRoleDao;
+	
+	@Resource
+	private RedisTemplate<?,?> redisTemplate;
 
 	@Override
 	public ListResult<SysRoleMenuPermission> findRoleMenuPermissions(SysRoleMenuPermission sysRoleMenuPermission) {
@@ -77,14 +96,85 @@ public class RoleMenuPermissionServiceImpl implements RoleMenuPermissionService{
 	}
 
 	@Override
-	public ListResult<String> getPermissionsByUser(SysUser user) {
+	public ListResult<String> getPermissionsByUserId(Long userId){
 		ListResult<String> result = new ListResult<String>();
-		if(user==null){
+		if(userId==null){
 			throw new BusinessException("通过用户，查询权限，用户信息不能为空");
 		}
 		
-		//查询用户所拥有的所有叶子节点
-		List<MenuAndPermissionModel> leafMenus = sysRoleMenuDao.queryLeftMenuByUserId(user.getId());
+		//通过用户id获取用户角色
+		SysUserRole sysUserRole = new SysUserRole();
+		sysUserRole.setUserId(userId);
+		List<SysUserRole> userRoles = sysUserRoleDao.find(sysUserRole);
+		
+		if(userRoles!=null && userRoles.size()>=0){
+			
+			result = this.getPermissionByRoleIds(Lists.transform(userRoles, new Function<SysUserRole, Long>() {
+				@Override
+				public Long apply(SysUserRole input) {
+					
+					return input.getRoleId();
+				}
+			}).toArray(new Long[]{}));
+		}
+				
+		return result;
+	}
+	
+	@Override
+	public ListResult<String> getPermissionByRoleIds(Long[] roleIds) {
+		ListResult<String> result = new ListResult<String>();
+		
+		if(roleIds == null || roleIds.length==0){
+			throw new BusinessException("通过角色集合，查询权限，角色id集合不能为空");
+		}
+		
+		//此处用set集合，去重
+		Set<String> permissionSet = Sets.newHashSet();
+		for(Long roleId : roleIds){
+			List<String> permissions =  this.getPermissionByRoleId(roleId).getData();			
+			permissionSet.addAll(permissions);
+		}
+		
+		//将set转化成list
+		List<String> permissionList = Lists.newArrayList();
+		permissionList.addAll(permissionSet);
+		
+		result.setData(permissionList);		
+		return result;
+	}
+
+	@Override
+	public ListResult<String> getPermissionByRoleId(final Long roleId) {
+		ListResult<String> result = new ListResult<String>();
+		if(roleId == null){
+			throw new BusinessException("通过角色，查询权限，角色id不能为空");
+		}
+		
+		//从redis获取 start
+		final String prefix = "permission-roleId-";
+		final StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+		String jsonStr =  redisTemplate.execute(new RedisCallback<String>() {
+			@Override
+			public String doInRedis(RedisConnection connection) throws DataAccessException {				
+				byte[] bytes = connection.get(stringRedisSerializer.serialize(prefix+roleId));
+				if(bytes==null || bytes.length<=0){
+					return null;
+				}
+				return stringRedisSerializer.deserialize(bytes);
+			}
+		});
+		
+		if(jsonStr!=null){
+			LOGGER.debug("角色Id：{},从redis中获取权限集合，{}",roleId,jsonStr);
+			List<String> permissions =  JSON.parseArray(jsonStr, String.class);
+			result.setData(permissions);
+			return result;
+		}
+		//从redis获取 end
+
+		//查询角色查询所拥有的所有叶子节点
+		List<MenuAndPermissionModel> leafMenus = sysRoleMenuDao.queryLeafMenuByRoleId(roleId);
 		
 		List<String> allPermissions = Lists.newArrayList();
 		for(MenuAndPermissionModel menuAndPermissionModel:leafMenus){
@@ -105,6 +195,21 @@ public class RoleMenuPermissionServiceImpl implements RoleMenuPermissionService{
 				allPermissions.addAll(permissinsWithMenu);
 			}			
 		}
+		
+		//将角色对应的权限集合存入redis中
+		final String jsonStrx = JSON.toJSONString(allPermissions);
+		Boolean flag = redisTemplate.execute(new RedisCallback<Boolean>() {
+			@Override
+			public Boolean doInRedis(RedisConnection connection) throws DataAccessException {				
+				connection.set(stringRedisSerializer.serialize(prefix+roleId), stringRedisSerializer.serialize(jsonStrx));
+				return true;
+			}
+		});
+		if(flag){
+			LOGGER.debug("角色id:{},对应的权限集合:{},存入redis成功!",roleId,jsonStrx);
+		}
+		
+		
 		result.setData(allPermissions);
 		return result;
 	}

@@ -106,7 +106,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter{
 		 
 		 //获取当前用户的所有权限
 		 RoleMenuPermissionService roleMenuPermissionService =  SpringUtils.getBean(RoleMenuPermissionService.class);
-		 List<String> permissions =  roleMenuPermissionService.getPermissionsByUser(user).getData();
+		 List<String> permissions =  roleMenuPermissionService.getPermissionsByUserId(user.getId()).getData();
 		 
 		 //权限完全匹配
 		 if(permissions.contains(permission)){
