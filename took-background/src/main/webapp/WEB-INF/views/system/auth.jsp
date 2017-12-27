@@ -10,7 +10,7 @@
 <body>
 	<div class="easyui-layout" data-options="fit:true">
 			
-		<div data-options="region:'west',title:'角色',split:true" style="width:200px;">
+		<div data-options="region:'west',title:'角色',split:true" style="width:400px;">
 			<table id="role"></table>
 		</div> 
 		
@@ -22,7 +22,7 @@
 		</div> 
 		 
 		
-		<div data-options="region:'east',split:true" style="width:500px;">
+		<div data-options="region:'east',split:true" style="width:400px;">
 			<div class="easyui-panel"  title="权限" data-options="iconCls:'icon-lock',tools:'#permission_panel_tools',fit:true">
 				<input type="hidden" id="roleMenuId" name="roleMenuId"/>
 				<div id="permission_list"></div>
@@ -39,6 +39,6 @@
 		</div>
 	</div>
 	
-	<script type="text/javascript" src="${ctx}/static/js/system/auth.js?version=9"></script>
+	<script type="text/javascript" src="${ctx}/static/js/system/auth.js?version=10"></script>
 </body>
 </html>

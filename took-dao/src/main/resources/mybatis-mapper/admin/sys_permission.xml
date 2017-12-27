@@ -131,8 +131,9 @@
 			<if test="sysPermission != null and sysPermission.id != null">
 				and id = #{sysPermission.id}
 			</if>
+			<!-- 模糊查询 -->
 			<if test="sysPermission != null and sysPermission.permissionName != null and sysPermission.permissionName != ''">
-				and permission_name = #{sysPermission.permissionName}
+				and permission_name like CONCAT('%',#{sysPermission.permissionName},'%')
 			</if>
 			<if test="sysPermission != null and sysPermission.permissionIdentify != null and sysPermission.permissionIdentify != ''">
 				and permission_identify = #{sysPermission.permissionIdentify}

@@ -29,7 +29,9 @@ import com.tooklili.model.admin.SysMenu;
 import com.tooklili.model.admin.SysPermission;
 import com.tooklili.model.admin.SysRoleMenuPermission;
 import com.tooklili.model.admin.SysUserRole;
+import com.tooklili.service.biz.intf.admin.system.MenuService;
 import com.tooklili.service.biz.intf.admin.system.RoleMenuPermissionService;
+import com.tooklili.service.constant.Constants;
 import com.tooklili.service.exception.BusinessException;
 import com.tooklili.util.result.BaseResult;
 import com.tooklili.util.result.ListResult;
@@ -58,6 +60,9 @@ public class RoleMenuPermissionServiceImpl implements RoleMenuPermissionService{
 	
 	@Resource
 	private RedisTemplate<?,?> redisTemplate;
+	
+	@Resource
+	private MenuService menuService;
 
 	@Override
 	public ListResult<SysRoleMenuPermission> findRoleMenuPermissions(SysRoleMenuPermission sysRoleMenuPermission) {
@@ -151,13 +156,12 @@ public class RoleMenuPermissionServiceImpl implements RoleMenuPermissionService{
 			throw new BusinessException("通过角色，查询权限，角色id不能为空");
 		}
 		
-		//从redis获取 start
-		final String prefix = "permission-roleId-";
+		//从redis获取
 		final StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
 		String jsonStr =  redisTemplate.execute(new RedisCallback<String>() {
 			@Override
 			public String doInRedis(RedisConnection connection) throws DataAccessException {				
-				byte[] bytes = connection.get(stringRedisSerializer.serialize(prefix+roleId));
+				byte[] bytes = connection.get(stringRedisSerializer.serialize(Constants.PERMISSION_REDIS_PREFIX+roleId));
 				if(bytes==null || bytes.length<=0){
 					return null;
 				}
@@ -171,8 +175,36 @@ public class RoleMenuPermissionServiceImpl implements RoleMenuPermissionService{
 			result.setData(permissions);
 			return result;
 		}
-		//从redis获取 end
 
+		//从数据库中获取数据
+		List<String> allPermissions = this.getPermissionByRoleIdNoCache(roleId);
+		
+		//将角色对应的权限集合存入redis中
+		final String jsonStrx = JSON.toJSONString(allPermissions);
+		Boolean flag = redisTemplate.execute(new RedisCallback<Boolean>() {
+			@Override
+			public Boolean doInRedis(RedisConnection connection) throws DataAccessException {				
+				connection.set(stringRedisSerializer.serialize(Constants.PERMISSION_REDIS_PREFIX+roleId), stringRedisSerializer.serialize(jsonStrx));
+				return true;
+			}
+		});
+		if(flag){
+			LOGGER.debug("角色id:{},对应的权限集合:{},存入redis成功!",roleId,jsonStrx);
+		}
+		
+		
+		result.setData(allPermissions);
+		return result;
+	}
+	
+	
+	/**
+	 * 通过角色id，从数据库中获取权限集合
+	 * @author shuai.ding
+	 * @param roleId
+	 * @return
+	 */
+	private List<String> getPermissionByRoleIdNoCache(Long roleId){
 		//查询角色查询所拥有的所有叶子节点
 		List<MenuAndPermissionModel> leafMenus = sysRoleMenuDao.queryLeafMenuByRoleId(roleId);
 		
@@ -195,23 +227,7 @@ public class RoleMenuPermissionServiceImpl implements RoleMenuPermissionService{
 				allPermissions.addAll(permissinsWithMenu);
 			}			
 		}
-		
-		//将角色对应的权限集合存入redis中
-		final String jsonStrx = JSON.toJSONString(allPermissions);
-		Boolean flag = redisTemplate.execute(new RedisCallback<Boolean>() {
-			@Override
-			public Boolean doInRedis(RedisConnection connection) throws DataAccessException {				
-				connection.set(stringRedisSerializer.serialize(prefix+roleId), stringRedisSerializer.serialize(jsonStrx));
-				return true;
-			}
-		});
-		if(flag){
-			LOGGER.debug("角色id:{},对应的权限集合:{},存入redis成功!",roleId,jsonStrx);
-		}
-		
-		
-		result.setData(allPermissions);
-		return result;
+		return allPermissions;
 	}
 	
 	/**
@@ -240,6 +256,38 @@ public class RoleMenuPermissionServiceImpl implements RoleMenuPermissionService{
 		SysMenu parentMenu = sysMenuDao.findById(parentId);
 		permissions = getMenuPermission(permissions, parentMenu);
 		return  permissions;
+	}
+
+	@Override
+	public BaseResult updateCacheAboutMenuAndPermissionByRoleId(final Long roleId) {
+		BaseResult result = new BaseResult();
+		
+		if(roleId==null){
+			throw new BusinessException("更新缓存,roleId不能为空");
+		}
+		
+		//1.角色-菜单
+		List<SysMenu> menus = menuService.getMenuByRoleIdNoCache(roleId);
+		final String menusStr = JSON.toJSONString(menus);
+		
+		//2.角色-权限
+		List<String> permissions =  this.getPermissionByRoleIdNoCache(roleId);
+		final String permissionsStr = JSON.toJSONString(permissions);
+		
+		//3.存入redis中
+		final StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+		Boolean flag = redisTemplate.execute(new RedisCallback<Boolean>() {
+			@Override
+			public Boolean doInRedis(RedisConnection connection) throws DataAccessException {				
+				connection.set(stringRedisSerializer.serialize(Constants.MENU_REDIS_PREFIX+roleId), stringRedisSerializer.serialize(menusStr));
+				connection.set(stringRedisSerializer.serialize(Constants.PERMISSION_REDIS_PREFIX+roleId), stringRedisSerializer.serialize(permissionsStr));
+				return true;
+			}
+		});
+		if(flag){
+			LOGGER.debug("角色id:{},对应的菜单集合:{},权限集合:{},存入redis成功!",roleId,menusStr,permissionsStr);
+		}	
+		return result;
 	}
 
 }

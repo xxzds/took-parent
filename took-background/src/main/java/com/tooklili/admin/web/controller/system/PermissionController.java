@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tooklili.admin.web.interceptor.annotation.RequiresPermissions;
 import com.tooklili.model.admin.SysPermission;
 import com.tooklili.model.admin.SysRoleMenuPermission;
 import com.tooklili.service.biz.intf.admin.system.PermissionService;
@@ -53,6 +54,7 @@ public class PermissionController {
 	 */
 	@RequestMapping("/permissionList")
 	@ResponseBody
+	@RequiresPermissions("system:permission:view")
 	public PageResult<SysPermission> permissionList(SysPermission sysPermission,Integer page,Integer rows){
 		return permissionService.findPermissions(sysPermission, page, rows);
 	}
@@ -65,6 +67,7 @@ public class PermissionController {
 	 */
 	@RequestMapping("/addPermission")
 	@ResponseBody
+	@RequiresPermissions("system:permission:add")
 	public BaseResult addPermission(SysPermission sysPermission){
 		return permissionService.addPermission(sysPermission);
 	}
@@ -77,6 +80,7 @@ public class PermissionController {
 	 */
 	@RequestMapping("/modifyPermission")
 	@ResponseBody
+	@RequiresPermissions("system:permission:modify")
 	public BaseResult modifyPermission(SysPermission sysPermission){
 		return permissionService.modifyPermission(sysPermission);
 	}
@@ -89,10 +93,18 @@ public class PermissionController {
 	 */
 	@RequestMapping("/delPermission/{id}")
 	@ResponseBody
+	@RequiresPermissions("system:permission:delete")
 	public BaseResult delPermission(@PathVariable Long id){
 		return permissionService.delPermission(id);
 	}
 	
+	/**
+	 * 获取权限列表，同时标识选中的权限
+	 * @author shuai.ding
+	 * @param roleMenuId   角色-菜单ID
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("/queryPermissons")
 	public String queryPermissionList(Long roleMenuId,Model model){
 		List<SysPermission> permissions = permissionService.findPermissions(null).getData();

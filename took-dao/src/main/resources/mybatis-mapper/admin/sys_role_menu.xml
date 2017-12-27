@@ -140,6 +140,13 @@
 		</where>
 	</delete>
 	
+	<delete id="delRoleMenuByRoleId">
+		delete from sys_role_menu
+		<where>
+			  role_id =#{roleId}
+		</where>
+	</delete>
+	
 	<select id="queryIdByRoleIdAndMenuIds" resultType="java.lang.Long">
 		select 
 		id

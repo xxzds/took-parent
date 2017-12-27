@@ -33,6 +33,7 @@ import com.tooklili.model.admin.SysUserRole;
 import com.tooklili.model.admin.easyui.MenuTreeGridModel;
 import com.tooklili.model.admin.leftMenu.MenuNode;
 import com.tooklili.service.biz.intf.admin.system.MenuService;
+import com.tooklili.service.constant.Constants;
 import com.tooklili.service.exception.BusinessException;
 import com.tooklili.util.result.BaseResult;
 import com.tooklili.util.result.ListResult;
@@ -80,7 +81,7 @@ public class MenuServiceImpl implements MenuService{
 	@Override
 	public List<MenuNode> getMenu(Long userId){
 		if(userId==null){
-			throw new BusinessException("通过userId查询所拥有的菜单，userId不能为空");
+			return getMenu();
 		}
 		List<MenuNode> menuNodeList =Lists.newArrayList();
 		//通过用户id获取用户角色
@@ -131,12 +132,11 @@ public class MenuServiceImpl implements MenuService{
 		}
 		
 		//从redis获取 start
-		final String prefix = "menu-roleId-";
 		final StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
 		String jsonStr =  redisTemplate.execute(new RedisCallback<String>() {
 			@Override
 			public String doInRedis(RedisConnection connection) throws DataAccessException {				
-				byte[] bytes = connection.get(stringRedisSerializer.serialize(prefix+roleId));
+				byte[] bytes = connection.get(stringRedisSerializer.serialize(Constants.MENU_REDIS_PREFIX+roleId));
 				if(bytes==null || bytes.length<=0){
 					return null;
 				}
@@ -149,9 +149,28 @@ public class MenuServiceImpl implements MenuService{
 			List<SysMenu> menus =  JSON.parseArray(jsonStr, SysMenu.class);
 			return menus;
 		}
-		//从redis获取 end
 		
-				
+		//从数据库中获取	
+		List<SysMenu> sysMenuList =this.getMenuByRoleIdNoCache(roleId);
+		
+		//将角色对应的菜单集合存入redis中
+		final String jsonStrx = JSON.toJSONString(sysMenuList);
+		Boolean flag = redisTemplate.execute(new RedisCallback<Boolean>() {
+			@Override
+			public Boolean doInRedis(RedisConnection connection) throws DataAccessException {				
+				connection.set(stringRedisSerializer.serialize(Constants.MENU_REDIS_PREFIX+roleId), stringRedisSerializer.serialize(jsonStrx));
+				return true;
+			}
+		});
+		if(flag){
+			LOGGER.debug("角色id:{},对应的菜单集合:{},存入redis成功!",roleId,jsonStrx);
+		}
+	
+		return sysMenuList;
+	}
+	
+	@Override
+	public List<SysMenu> getMenuByRoleIdNoCache(Long roleId){
 		List<SysMenu> sysMenuList = Lists.newArrayList();		
 		//此处，存入到数据库中的，如果没有选中所有子节点，父节点是存入不到db中的，此处需要补全
 		List<SysMenu> childMenus = sysRoleMenuDao.queryMenuByRoleId(roleId);
@@ -168,19 +187,6 @@ public class MenuServiceImpl implements MenuService{
 		parentMenu.addAll(childMenus);
 		sysMenuList.addAll(parentMenu);
 		
-		//将角色对应的菜单集合存入redis中
-		final String jsonStrx = JSON.toJSONString(sysMenuList);
-		Boolean flag = redisTemplate.execute(new RedisCallback<Boolean>() {
-			@Override
-			public Boolean doInRedis(RedisConnection connection) throws DataAccessException {				
-				connection.set(stringRedisSerializer.serialize(prefix+roleId), stringRedisSerializer.serialize(jsonStrx));
-				return true;
-			}
-		});
-		if(flag){
-			LOGGER.debug("角色id:{},对应的菜单集合:{},存入redis成功!",roleId,jsonStrx);
-		}
-	
 		return sysMenuList;
 	}
 	

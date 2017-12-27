@@ -11,10 +11,10 @@
 		<module>took-service</module>
 		<module>took-model</module>
 		<module>took-util</module>
-		<module>took-app</module>
-<!-- 		<module>took-background</module> -->
+<!-- 		<module>took-app</module> -->
+		<module>took-background</module>
 <!-- 		<module>took-job-tooklili</module> -->
-		<module>took-wechat</module>
+<!-- 		<module>took-wechat</module> -->
 	</modules>
 
 	<properties>

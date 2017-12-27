@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tooklili.admin.web.interceptor.annotation.RequiresPermissions;
 import com.tooklili.model.admin.SysMenu;
 import com.tooklili.model.admin.easyui.MenuTreeGridModel;
 import com.tooklili.service.biz.intf.admin.system.MenuService;
@@ -35,6 +36,7 @@ public class MenuController {
 	 * @return
 	 */
 	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequiresPermissions("system:menu:view")
 	public String main(){
 		return "system/menu";
 	}
@@ -47,6 +49,7 @@ public class MenuController {
 	 */
 	@RequestMapping(value = "getMenuTree")
 	@ResponseBody
+	@RequiresPermissions("system:menu:view")
 	public List<MenuTreeGridModel> getMenuTree(Long id){
 		if(id==null){
 			id=0L;
@@ -62,6 +65,7 @@ public class MenuController {
 	 */
 	@RequestMapping(value = "addMenu")
 	@ResponseBody
+	@RequiresPermissions("system:menu:add")
 	public BaseResult addMenu(SysMenu sysMenu){
 		return menuService.addMenu(sysMenu);
 	}
@@ -74,6 +78,7 @@ public class MenuController {
 	 */
 	@RequestMapping(value = "modifyMenu")
 	@ResponseBody
+	@RequiresPermissions("system:menu:modify")
 	public BaseResult modifyMenu(SysMenu sysMenu){
 		return menuService.modifyMenu(sysMenu);
 	}
@@ -86,6 +91,7 @@ public class MenuController {
 	 */
 	@RequestMapping(value = "delMenu/{id}")
 	@ResponseBody
+	@RequiresPermissions("system:menu:delete")
 	public BaseResult delMenu(@PathVariable Long id){
 		return menuService.delMenu(id);
 	}

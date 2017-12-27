@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tooklili.dao.intf.admin.SysIconDao">
+
+	<resultMap id="BaseResultMap" type="com.tooklili.model.admin.SysIcon">
+			<result column="id" property="id" jdbcType="DECIMAL" />
+			<result column="icon_identity" property="iconIdentity" jdbcType="VARCHAR" />
+			<result column="icon_size" property="iconSize" jdbcType="VARCHAR" />
+			<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+			id,
+			icon_identity,
+			icon_size,
+			remark
+	</sql>
+
+	<sql id="conditions_sysIcon">
+		<where>
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="iconIdentity != null">
+				and icon_identity = #{iconIdentity}
+			</if>
+			<if test="iconSize != null">
+				and icon_size = #{iconSize}
+			</if>
+			<if test="remark != null">
+				and remark = #{remark}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select 
+		<include refid="Base_Column_List" />
+		from sys_icon
+		<where>
+			  and id=#{id}
+		</where>
+	</select>
+	
+	<select id="find" resultMap="BaseResultMap" parameterType="com.tooklili.model.admin.SysIcon">
+		select 
+		<include refid="Base_Column_List" />
+		from sys_icon
+		<include refid="conditions_sysIcon" />
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+		delete from sys_icon
+		<where>
+			  and id=#{id}
+		</where>
+	</delete>
+	
+	<delete id="batchDeleteByIds" parameterType="java.lang.String">
+		delete from sys_icon
+		<where>
+			  and id in 
+			  <foreach collection="array" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</where>
+	</delete>
+
+	<insert id="insert" parameterType="com.tooklili.model.admin.SysIcon" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_icon
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			id,
+			icon_identity,
+			icon_size,
+			remark,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{id},
+			#{iconIdentity},
+			#{iconSize},
+			#{remark},
+		</trim>
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.tooklili.model.admin.SysIcon" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_icon
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="iconIdentity != null">icon_identity,</if>
+			<if test="iconSize != null">icon_size,</if>
+			<if test="remark != null">remark,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="iconIdentity != null">#{iconIdentity},</if>
+			<if test="iconSize != null">#{iconSize},</if>
+			<if test="remark != null">#{remark},</if>
+		</trim>
+	</insert>
+
+	<update id="updateById" parameterType="com.tooklili.model.admin.SysIcon">
+		update sys_icon
+		<set>
+			icon_identity=#{iconIdentity},
+			icon_size=#{iconSize},
+			remark=#{remark},
+		</set>
+		<where>
+			  and id=#{id}
+		</where>
+	</update>
+
+	
+	<update id="updateByIdSelective" parameterType="com.tooklili.model.admin.SysIcon">
+		update sys_icon
+		<set>
+			<if test="iconIdentity != null">icon_identity=#{iconIdentity},</if>
+			<if test="iconSize != null">icon_size=#{iconSize},</if>
+			<if test="remark != null">remark=#{remark},</if>
+		</set>
+		<where>
+			  and id=#{id}
+		</where>
+	</update>
+	
+	<select id="queryIconsByPage" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
+		from sys_icon
+		<where>
+			<if test="sysIcon != null and sysIcon.id != null">
+				and id = #{sysIcon.id}
+			</if>
+			<if test="sysIcon != null and sysIcon.iconIdentity != null and sysIcon.iconIdentity != ''">
+				and icon_identity = #{sysIcon.iconIdentity}
+			</if>
+			<if test="sysIcon != null and sysIcon.iconSize != null and sysIcon.iconSize != ''">
+				and icon_size = #{sysIcon.iconSize}
+			</if>
+			<if test="sysIcon != null and sysIcon.remark != null and sysIcon.remark != ''">
+				and remark = #{sysIcon.remark}
+			</if>
+		</where>
+	</select>
+	
+</mapper>

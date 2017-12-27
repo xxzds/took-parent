@@ -25,11 +25,12 @@ var userModule = {
 					            	userId:row.id
 					            },
 					            success : function(result) {
-					            	console.log(result);
 					                if (result.success) {
 					                	var data = result.data;
 					                	if(data && data.length>0){
 					                		formatDate = data[0].sysRole.roleName;
+					                		//设置角色Id
+					                		row.roleId=data[0].roleId;
 					                	}else{
 					                		formatDate = '<span style="color:red">无角色</span>';
 					                	}
@@ -53,7 +54,7 @@ var userModule = {
 	  		},
 	  		onBeforeLoad:function(param){
 	  			//设置查询条件
-	  			param.userName=$('#userName').val();
+	  			param.userName=$('#userName-search').val();
 	  		},
 	        loadFilter:function(data){
 	        	return {
@@ -152,6 +153,7 @@ var userModule = {
 		
 		//载入数据到表单
 		$('#form').form('load',row);
+		$('#role').combobox('setValue', row.roleId);
 			
 		$('#formDialog').dialog({
 			title: '修改',    

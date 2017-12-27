@@ -32,6 +32,13 @@ public interface SysRoleMenuDao extends BaseDao<SysRoleMenu,Long> {
 	 */
 	public long delRoleMenuByRoleIdAndMenuIds(@Param("menuIds")List<Long> menuIds,@Param("roleId")Long roleId);
 	
+	/**
+	 * 通过角色id，删除关联
+	 * @author shuai.ding
+	 * @param roleId
+	 * @return
+	 */
+	public long delRoleMenuByRoleId(Long roleId);
 	
 	/**
 	 * 通过角色Id和菜单Ids,查询主键集合

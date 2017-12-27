@@ -53,5 +53,13 @@ public interface RoleMenuPermissionService {
 	 * @return
 	 */
 	public ListResult<String> getPermissionByRoleId(Long roleId);
+	
+	/**
+	 * 更新缓存，角色-菜单、角色-权限
+	 * @author shuai.ding
+	 * @param roleId
+	 * @return
+	 */
+	public BaseResult updateCacheAboutMenuAndPermissionByRoleId(Long roleId);
 
 }

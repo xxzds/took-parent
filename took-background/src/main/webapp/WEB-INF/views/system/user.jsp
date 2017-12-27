@@ -67,7 +67,7 @@
 		</form>
 	</div>
 	
-	<script type="text/javascript" src="${ctx}/static/js/system/user.js?version=4"></script>
+	<script type="text/javascript" src="${ctx}/static/js/system/user.js?version=6"></script>
 	<script type="text/javascript" src="${ctx}/static/js/combobox.js?version=1"></script>
 </body>
 </html>

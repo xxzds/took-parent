@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -81,6 +82,19 @@ public class AuthController {
 	@ResponseBody
 	public BaseResult addRoleMenuPermission(Long roleMenuId,Long[] permissionIds){
 		return roleMenuPermissionService.addRoleMenuPermissions(roleMenuId, permissionIds);
+	}
+	
+	
+	/**
+	 * 更新缓存，更新存入redis，角色-菜单，角色-权限
+	 * @author shuai.ding
+	 * @param roleId
+	 * @return
+	 */
+	@RequestMapping("/refreshCache/{roleId}")
+	@ResponseBody
+	public BaseResult refreshCache(@PathVariable Long roleId){
+		return roleMenuPermissionService.updateCacheAboutMenuAndPermissionByRoleId(roleId);
 	}
 
 }

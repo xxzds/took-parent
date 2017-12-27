@@ -22,5 +22,15 @@ public interface Constants {
      * 编码格式
      */
     String UTF8 = "UTF-8";
+    
+    /**
+     * 角色对应的菜单存入redis的键的前缀
+     */
+    String MENU_REDIS_PREFIX = "menu-roleId-";
+    
+    /**
+     * 角色对应的权限存入redis的键的前缀
+     */
+    String PERMISSION_REDIS_PREFIX = "permission-roleId-";
 	
 }

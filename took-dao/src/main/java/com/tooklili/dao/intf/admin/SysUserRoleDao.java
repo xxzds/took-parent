@@ -28,5 +28,13 @@ public interface SysUserRoleDao extends BaseDao<SysUserRole,Long> {
 	 * @return
 	 */
 	public List<SysUserRole> queryUserRole(SysUserRole sysUserRole);
+	
+	/**
+	 * 通过角色id，查询用户角色信息
+	 * @author shuai.ding
+	 * @param roleId
+	 * @return
+	 */
+	public long delUserRoleByRoleId(Long roleId);
 
 }

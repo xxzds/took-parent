@@ -142,8 +142,9 @@
 			<if test="sysRole != null and  sysRole.id != null">
 				and id = #{sysRole.id}
 			</if>
+			<!-- 模糊查询 -->
 			<if test="sysRole != null and  sysRole.roleName != null and sysRole.roleName !=''">
-				and role_name = #{sysRole.roleName}
+				and role_name like CONCAT('%',#{sysRole.roleName},'%')
 			</if>
 			<if test="sysRole != null and  sysRole.roleDescription != null and sysRole.roleDescription !=''">
 				and role_description = #{sysRole.roleDescription}

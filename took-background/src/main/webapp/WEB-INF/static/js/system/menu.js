@@ -2,48 +2,42 @@ var menuModule={
 	 //根节点的PID
 	 root:0,
 	 //操作格式化,现限制到二级菜单
-	 formatterOper:function(id,row){
-		 if (row.parentId == menuModule.root) {
-				return '<div style="margin-left:auto;margin-right:auto;text-align:center;background-color:red;width:90px;"><div style="float:left;cursor:pointer;" onclick="menuModule.add('
-						+ id
-						+ ')">增加</div>'
-						+ '<div  style="margin-left:5px;float:left;cursor:pointer;" onclick="menuModule.modify('
-						+ id
-						+ ')">修改</div>'
-						+ '<div style="margin-left:5px;float:left;cursor:pointer;" onclick="menuModule.del('
-						+ id
-						+ ','
-						+ row.parentId
-						+ ',\''
-						+ row.menuName
-						+ '\')" >删除</div></div>';
-			} else {
-				return '<div style="margin-left:auto;margin-right:auto;text-align:center;background-color:red;width:58px;">'
-						+ '<div style="float:left;cursor:pointer;" onclick="menuModule.modify('
-						+ id
-						+ ')" >修改</div>'
-						+ '<div style="float:right;cursor:pointer;" onclick="menuModule.del('
-						+ id
-						+ ','
-						+ row.parentId
-						+ ',\''
-						+ row.menuName
-						+ '\')">删除</div>' + '</div>';
-			}
-	 },
+//	 formatterOper:function(id,row){
+//		 if (row.parentId == menuModule.root) {
+//				return '<div style="margin-left:auto;margin-right:auto;text-align:center;background-color:red;width:90px;"><div style="float:left;cursor:pointer;" onclick="menuModule.add('
+//						+ id
+//						+ ')">增加</div>'
+//						+ '<div  style="margin-left:5px;float:left;cursor:pointer;" onclick="menuModule.modify('
+//						+ id
+//						+ ')">修改</div>'
+//						+ '<div style="margin-left:5px;float:left;cursor:pointer;" onclick="menuModule.del('
+//						+ id
+//						+ ','
+//						+ row.parentId
+//						+ ',\''
+//						+ row.menuName
+//						+ '\')" >删除</div></div>';
+//			} else {
+//				return '<div style="margin-left:auto;margin-right:auto;text-align:center;background-color:red;width:58px;">'
+//						+ '<div style="float:left;cursor:pointer;" onclick="menuModule.modify('
+//						+ id
+//						+ ')" >修改</div>'
+//						+ '<div style="float:right;cursor:pointer;" onclick="menuModule.del('
+//						+ id
+//						+ ','
+//						+ row.parentId
+//						+ ',\''
+//						+ row.menuName
+//						+ '\')">删除</div>' + '</div>';
+//			}
+//	 },
 	 init:function(){
 		 $('#menu').treegrid({
 			 idField:'id',
 			 treeField:'menuName',
 			 url:ctx+'/system/menu/getMenuTree',
 			 rownumbers: true,
-			 toolbar:[{
-				 iconCls:'icon-add',
-					text:'增加目录',
-					handler:function(){
-						menuModule.add(menuModule.root);
-					}
-			 }],
+			 toolbar:'#toolbar',
 			 queryParams:{
 				 id:0
 			 },//首次查询的参数
@@ -62,6 +56,7 @@ var menuModule={
 	 //增加
 	 add:function(pid){
 		menuModule.clearForm();
+		$('#selectedIcon').html('');
 		if(pid==menuModule.root){
 			$('#formDialog').dialog({title: '增加目录', iconCls:'icon-add'});
 		}else{
@@ -96,14 +91,17 @@ var menuModule={
 	 //修改
 	 modify:function(id){
 		 menuModule.clearForm();
+		 $('#selectedIcon').html('');
 		 $('#formDialog').dialog({title: '修改页面信息',iconCls:'icon-edit'});
 		 $('#formDialog').dialog('open');
 		 
 		 var row = $("#menu").treegrid('find', id);
 		 //载入数据到表单
 		 $('#form').form('load',row);
-		 //图标
+		 //图标名称
 		 $('#menuIcon').textbox('setValue',row.iconCls);
+		 //图标
+		 $('#selectedIcon').html('<span class="icon-span ' + row.iconCls + '"></span>');
 		 
 		//保存按钮注册click事件
 		$('#save').off('click').on('click',function(){
@@ -168,6 +166,65 @@ var menuModule={
 	 clearForm:function(){
 		$('#form').form('clear');
 		$('input[name="menuVisible"]').removeAttr("checked").eq(0).prop('checked',"checked");
+	},
+	menuIconInit:function(){
+		$('#menuIcon').combo({
+			required : true,
+			width : 150,
+			panelWidth : 300,
+			editable:false
+		});
+
+		$('#iconSelectPanel').appendTo($('#menuIcon').combo('panel'));
+		
+		//注册事件
+		$('#iconList').delegate('span', 'click', function () {
+			var value = $(this).data('icon');
+            var title = $(this).attr('title');
+			
+			var formatter = '<span class="icon-span ' + value + '" title="' + title + '" ></span>';
+            $('#selectedIcon').html(formatter);
+            $('#menuIcon').combo('setValue', value).combo('setText', value).combo('hidePanel');
+		});
+
+		//分页
+		$('#pp').pagination({
+			pageNumber : 1,
+			pageSize : 100,
+			pageList: [20,40,60,80],
+			showPageList: false,
+			displayMsg:'',
+			onSelectPage : function(pageNumber, pageSize) {
+				$(this).pagination('loading');
+				$(this).pagination('loaded');
+				menuModule.requestIcon(pageNumber,pageSize);
+			}
+		});
+		
+		//初始请求
+		menuModule.requestIcon(1,100);
+	},
+	requestIcon:function(pageNumber,pageSize){
+		$.ajax({  
+            type : "POST",  
+            url : ctx+"/system/icon/getIcons",
+            dataType: "json",
+            data: {
+                page: pageNumber,
+                rows: pageSize
+            },
+            success : function(result) {
+                if (result.success) {  
+                	$('#pp').pagination({ total: result.totalCount});
+                	 $('#iconList').html($('#iconTemplate').render(result.data));
+                } else {  
+                	messager.show(result.message); 
+                }  
+            },
+            error:function(){
+            	messager.alert("网络异常"); 
+            }
+        });
 	}
 }
 
@@ -175,6 +232,14 @@ $(function(){
 	//初始化，树型菜单
 	menuModule.init();
 	
+	//初始化，图标
+	menuModule.menuIconInit();
+	
+	//增加目录
+	$('#add').click(function(){
+		menuModule.add(menuModule.root);
+	});
+		
 	//解决页面加载时，出现未渲染的对话框内容
 	$('#formDialog').css('visibility','visible');
 })

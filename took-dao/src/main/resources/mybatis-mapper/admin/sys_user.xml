@@ -198,8 +198,9 @@
 			<if test="sysUser!=null and sysUser.id != null">
 				and id = #{sysUser.id}
 			</if>
+			<!-- 模糊查询 -->
 			<if test="sysUser!=null and sysUser.userName != null and sysUser.userName != ''">
-				and user_name = #{sysUser.userName}
+				and user_name like  CONCAT('%',#{sysUser.userName},'%')  
 			</if>
 			<if test="sysUser!=null and sysUser.userPassword != null and sysUser.userPassword != ''">
 				and user_password = #{sysUser.userPassword}

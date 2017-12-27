@@ -1,6 +1,7 @@
 package com.tooklili.service.biz.intf.admin.system;
 
 import com.tooklili.model.admin.SysRole;
+import com.tooklili.util.result.BaseResult;
 import com.tooklili.util.result.ListResult;
 import com.tooklili.util.result.PageResult;
 
@@ -28,4 +29,29 @@ public interface RoleService {
 	 * @return
 	 */
 	public ListResult<SysRole> findRoles(SysRole sysRole);
+	
+	/**
+	 * 增加角色
+	 * @author shuai.ding
+	 * @param role
+	 * @return
+	 */
+	public BaseResult addRole(SysRole role);
+	
+	/**
+	 * 修改角色
+	 * @author shuai.ding
+	 * @param role
+	 * @return
+	 */
+	public BaseResult modifyRole(SysRole role);
+	
+
+	/**
+	 * 通过角色id，删除角色  -  删除所有关联的数据
+	 * @author shuai.ding
+	 * @param roleId
+	 * @return
+	 */
+	public BaseResult delRole(Long roleId);
 }

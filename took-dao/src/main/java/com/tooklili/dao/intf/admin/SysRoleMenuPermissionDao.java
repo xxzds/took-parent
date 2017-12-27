@@ -23,7 +23,7 @@ public interface SysRoleMenuPermissionDao extends BaseDao<SysRoleMenuPermission,
 	
 	
 	/**
-	 *过角色-菜单id，删除角色-菜单-权限数据
+	 *通过角色-菜单id，删除角色-菜单-权限数据
 	 * @author shuai.ding
 	 * @param roleMenuId
 	 * @return

@@ -9,7 +9,10 @@ var authModule = {
 	        toolbar:"#toolbar",
 	        columns:[[
 						{field:'id',hidden:true},
-						{field:'roleName',title:'角色名称',align:'center',width:150}
+						{field:'roleName',title:'角色名称',align:'center',width:150},
+						{field:'action',title:'操作',width:100,align:'center',formatter:function(value,row){
+				        	  return '<a href="javascript:void(0);" onclick="authModule.refreshCache(\''+row.id+'\');">刷新缓存</a>';
+				          }}
 	                ]],
             onLoadError : function(data) {
 	  			this.datagrid('loadData', {
@@ -93,6 +96,7 @@ var authModule = {
             	if(result.success){
             		messager.show("保存菜单成功");
                 	$('#menu_tree').tree('reload');
+                	$('#roleMenuId').val('');
             	}else{
             		messager.show(result.message); 
             	}           	
@@ -127,6 +131,26 @@ var authModule = {
             	if(result.success){
             		messager.show("保存权限成功");
             		authModule.permissionInit();
+            	}else{
+            		messager.show(result.message); 
+            	}           	
+            },
+            error:function(){
+            	messager.alert("网络异常"); 
+            }
+        }); 
+	},
+	refreshCache:function(roleId,e){
+		//停止冒泡
+		window.event? window.event.cancelBubble = true : e.stopPropagation();
+		
+		$.ajax({  
+            type : "POST",  
+            url : ctx+"/system/auth/refreshCache/"+roleId,
+            dataType: "json",
+            success : function(result) {
+            	if(result.success){
+            		messager.show("缓存更新成功");
             	}else{
             		messager.show(result.message); 
             	}           	

@@ -48,6 +48,15 @@ public interface MenuService {
 	 */
 	public List<SysMenu> getMenuByRoleId(Long roleId);
 	
+	
+	/**
+	 * 通过角色Id，查询此角色所拥有的菜单(直接从数据库中查询)
+	 * @author shuai.ding
+	 * @param roleId
+	 * @return
+	 */
+	public List<SysMenu> getMenuByRoleIdNoCache(Long roleId);
+	
 	/**
 	 * 通过角色，查看菜单列表(所有的)，标识角色选中的菜单
 	 * @author shuai.ding
