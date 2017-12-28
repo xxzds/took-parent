@@ -7,7 +7,6 @@
 	<title>主页</title>
 	<jsp:include page="../common/comm.jsp"></jsp:include> 
 	<link rel="stylesheet" type="text/css" href="${ctx}/static/css/main.css">
-	<script type="text/javascript" src="${ctx}/static/js/main.js"></script>
 </head>
 <body class="easyui-layout"> 
     <div data-options="region:'north'" class="north">
@@ -30,7 +29,6 @@
   
   <div id="formDialog" style="visibility:hidden;">
   	<form id="form" method="post">
-  		<input type="hidden" name="token" value="${token}">
   		<table align="center" width="100%">
 				<tr height="35px">
 					<td width="32%" align="right">原密码：</td>
@@ -53,6 +51,7 @@
 			</table>
   	</form>
   </div> 
+  <script type="text/javascript" src="${ctx}/static/plugins/md5.min.js"></script>
+  <script type="text/javascript" src="${ctx}/static/js/main.js?version=3"></script>
 </body>  
-
 </html>

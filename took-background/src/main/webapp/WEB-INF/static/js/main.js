@@ -88,23 +88,32 @@ $(function(){
 		    	iconCls:'icon-ok',
 		    	plain:true,
 		    	handler:function(){
-		    		debugger;
-		    		$('#form').form('submit', {    
-		    		    url:ctx+'/system/user/modifyPassword', 
-		    		    onSubmit: function(param){    
-		    		    	return $(this).form('validate');
-		    		    },    
-		    		    success:function(dataStr){
-		    		    	var data = JSON.parse(dataStr);
-		    		    	if(data.success){
-		    		    		messager.show('密码修改成功');
-		    		    		$(this).form('clear');
-		    		    		$('#formDialog').dialog('close');
-		    		    	}else{
-		    		    		messager.show(data.message);
-		    		    	}
-		    		    }    
-		    		}); 
+		    		//校验
+		    		var valid = $('#form').form('validate');
+		    		if(!valid) return;
+		    		
+		    		$.ajax({  
+			            type : "POST",  
+			            url : ctx+'/system/user/modifyPassword',
+			            dataType: "json",
+			            data:{
+			            	oldPwd:md5($('#oldPwd').val()),
+			            	newPwd:md5($('#newPwd').val()),
+		    				confirmPwd:md5($('#confirmPwd').val())
+			            },
+			            success : function(result) {
+			                if (result.success) {  
+			                	messager.show('密码修改成功');
+		    		    		$('#form').form('clear');
+		    		    		$('#formDialog').dialog('close');		                	
+			                } else {  
+			                	messager.show(result.message); 
+			                }  
+			            },
+			            error:function(){
+			            	messager.alert("网络异常"); 
+			            }
+			        }); 
 		    	}
 		    },{
 		    	text:'关闭',
