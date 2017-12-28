@@ -22,5 +22,17 @@
 		  <artifactId>taobao-sdk-java-auto_1462616566587</artifactId>
 		  <version>20170918</version>
 		</dependency>
+		
+		<!-- JSR-303 校验接口 -->
+		<dependency>
+		    <groupId>javax.validation</groupId>
+		    <artifactId>validation-api</artifactId>
+		</dependency>
+		
+		<!-- 校验的实现 -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-validator</artifactId>
+		</dependency>
 	</dependencies>
 </project>

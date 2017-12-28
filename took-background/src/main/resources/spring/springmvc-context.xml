@@ -65,6 +65,7 @@
 			<mvc:exclude-mapping path="/toLogin"/>
 			<mvc:exclude-mapping path="/login"/>
 			<mvc:exclude-mapping path="/static/**"/>
+			<mvc:exclude-mapping path="/getCodeImage"/>   <!-- 验证码 -->
 			<bean class="com.tooklili.admin.web.interceptor.LoginInterceptor"/>   <!-- 登录拦截器 -->
 		</mvc:interceptor>
 		<mvc:interceptor>

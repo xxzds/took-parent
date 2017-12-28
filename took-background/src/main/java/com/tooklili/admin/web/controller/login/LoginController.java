@@ -3,9 +3,11 @@ package com.tooklili.admin.web.controller.login;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,6 +18,7 @@ import com.tooklili.service.biz.intf.admin.system.UserService;
 import com.tooklili.service.constant.Constants;
 import com.tooklili.util.result.BaseResult;
 import com.tooklili.util.result.PlainResult;
+import com.tooklili.vo.tbk.admin.LoginVo;
 
 /**
  * 登录、退出控制器
@@ -45,18 +48,23 @@ public class LoginController {
 	 */
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	@ResponseBody
-	public BaseResult login(String userName,String password, HttpSession session,String ifRemember,HttpServletResponse response){
+	public BaseResult login(@Valid LoginVo loginVo,BindingResult bindingResult,HttpSession session,HttpServletResponse response){
 		BaseResult result = new BaseResult();
 		
+		if(bindingResult.hasErrors()){
+			result.setErrorMessage(bindingResult.getFieldErrors().get(0).getDefaultMessage());
+			return result;
+		}
+		
 		//password md5 encryption
-		PlainResult<SysUser> plainResult = userService.findUserByUsernameAndPassword(userName, password);
+		PlainResult<SysUser> plainResult = userService.findUserByUsernameAndPassword(loginVo.getUserName(), loginVo.getPassword());
 		if(!plainResult.isSuccess()){
 			return result.setErrorMessage(plainResult.getMessage());
 		}
 		SysUser sysUser = plainResult.getData();
 		//记住我
-		if(StringUtils.isNotEmpty(ifRemember) && "on".equals(ifRemember)){
-			String value=userService.generatorCookieValueAboutRememberMe(userName, sysUser.getUserPassword(), sysUser.getUserSalt()).getData();
+		if(StringUtils.isNotEmpty(loginVo.getIfRemember()) && "on".equals(loginVo.getIfRemember())){
+			String value=userService.generatorCookieValueAboutRememberMe(loginVo.getUserName(), sysUser.getUserPassword(), sysUser.getUserSalt()).getData();
 			//记住2天时间
 			int maxAge=2 * 24 * 60 * 60;
 			CookieUtils.addCookie(Constants.REMEMBER_ME_COOKIE_KEY, value, maxAge, true, response);

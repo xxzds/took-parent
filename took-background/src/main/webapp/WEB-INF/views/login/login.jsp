@@ -12,6 +12,7 @@
 <form id="form">
 用户名：<input type="text" id="userName" name="userName"/><br>
 密码：<input type="password" id="password" name="password"/><br>
+验证码：<input type="text" id="code" name="code"/><img id="codeImage" alt="验证码看不清，换一张" src="${ctx}/getCodeImage"><br/>
 <input type="checkbox" id="ifRemember" name="ifRemember"/>记住我
 <div style="color:red;"><span id="tip"></span></div>
 <input type="button" id="login" value="登录"/>
@@ -24,11 +25,18 @@
 	if (self.frameElement != null && (self.frameElement.tagName == "IFRAME" || self.frameElement.tagName == "iframe")) {
 	    top.window.location.href = window.location.href;
 	}
+	
+	//验证码切换
+	$('#codeImage').click(function(){
+		$(this).get(0).src = "${ctx}/getCodeImage?v="+new Date().getTime();
+	});
+	
 	//登录
 	$('#login').click(function(){
 		var userName=$('#userName').val();
 		var password=$('#password').val();
 		var ifRemember = $('#ifRemember')[0].checked ? 'on':'off';
+		var code = $('#code').val();
 		
 		if(userName==null || userName==''){
 			$('#tip').html('用户名不能为空');
@@ -36,6 +44,10 @@
 		}
 		if(password==null || password==''){
 			$('#tip').html('密码不能为空');
+			return;
+		}
+		if(code==null || code==''){
+			$('#tip').html('验证码不能为空');
 			return;
 		}
 		$('#tip').html('');
@@ -46,14 +58,17 @@
             data :{
             	userName:userName,
             	password:md5(password),
-            	ifRemember:ifRemember
+            	ifRemember:ifRemember,
+            	code:code
             },
             dataType: "json",
             success : function(result) {
                if(result.success){
             	   window.location.href='${ctx}/main';
-               }else{
+               }else{            	  
             	   $('#tip').html(result.message);
+            	   //切换验证码
+            	   $('#codeImage').click();
                }
             },
             error:function(){

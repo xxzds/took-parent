@@ -37,5 +37,10 @@ public interface Constants {
      * 记住我，存入客户端cookie中的键
      */
     String REMEMBER_ME_COOKIE_KEY ="remember";
+    
+    /**
+     * 验证码存入session的key
+     */
+    String CODE_IMAGE_KEY = "random";
 	
 }
