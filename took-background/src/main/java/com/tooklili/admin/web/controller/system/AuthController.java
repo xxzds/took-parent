@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tooklili.admin.web.interceptor.annotation.RequiresPermissions;
 import com.tooklili.model.admin.leftMenu.MenuNode;
 import com.tooklili.service.biz.intf.admin.system.MenuService;
 import com.tooklili.service.biz.intf.admin.system.RoleMenuPermissionService;
@@ -53,6 +54,7 @@ public class AuthController {
 	 */
 	@RequestMapping("/getMenuByRoleId")
 	@ResponseBody
+	@RequiresPermissions("system:auth:view")
 	public List<MenuNode> getMenuByRoleId(Long roleId){
 		return menuService.getAllMenuCheckedByRoleId(roleId);
 	}
@@ -67,6 +69,7 @@ public class AuthController {
 	 */
 	@RequestMapping("/addRoleMenu")
 	@ResponseBody
+	@RequiresPermissions("system:auth:add")
 	public BaseResult addRoleMenu(Long roleId,Long[] menuIds){
 		return roleMenuService.addRoleMenu(roleId, menuIds);
 	}
@@ -80,6 +83,7 @@ public class AuthController {
 	 */
 	@RequestMapping("/addRoleMenuPermission")
 	@ResponseBody
+	@RequiresPermissions("system:auth:add")
 	public BaseResult addRoleMenuPermission(Long roleMenuId,Long[] permissionIds){
 		return roleMenuPermissionService.addRoleMenuPermissions(roleMenuId, permissionIds);
 	}

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="ds" uri="http://www.anjz.com/tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -15,7 +16,7 @@
 		</div> 
 		
 		<div data-options="region:'center'" style="width:100px;">
-			<div class="easyui-panel"  title="菜单" data-options="iconCls:'icon-lock',tools:'#menu_panel_tools',fit:true">
+			<div class="easyui-panel"  title="菜单" data-options="iconCls:'icon-book-open',tools:'#menu_panel_tools',fit:true">
 				<input type="hidden" id="roleId" name="roleId"/>
 				<ul id="menu_tree"></ul>
 			</div>
@@ -31,14 +32,18 @@
 		</div>  
 		
 		<div id="menu_panel_tools">
-			<a href="javascript:;"  id="menusave" class="icon-save" title="保存"></a>
+			<ds:hasPermission name="system:auth:add">
+				<a href="javascript:;"  id="menusave" class="icon-save" title="保存"></a>
+			</ds:hasPermission>			
 		</div>
 		
 		<div id="permission_panel_tools">
-			<a href="javascript:;" id="permissionsave" class="icon-save" title="保存"></a>
+			<ds:hasPermission name="system:auth:add">
+				<a href="javascript:;" id="permissionsave" class="icon-save" title="保存"></a>
+			</ds:hasPermission>
 		</div>
 	</div>
 	
-	<script type="text/javascript" src="${ctx}/static/js/system/auth.js?version=10"></script>
+	<script type="text/javascript" src="${ctx}/static/js/system/auth.js?version=11"></script>
 </body>
 </html>

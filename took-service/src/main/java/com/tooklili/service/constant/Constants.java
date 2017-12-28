@@ -32,5 +32,10 @@ public interface Constants {
      * 角色对应的权限存入redis的键的前缀
      */
     String PERMISSION_REDIS_PREFIX = "permission-roleId-";
+    
+    /**
+     * 记住我，存入客户端cookie中的键
+     */
+    String REMEMBER_ME_COOKIE_KEY ="remember";
 	
 }

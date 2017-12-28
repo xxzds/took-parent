@@ -1,10 +1,12 @@
 package com.tooklili.service.biz.impl.admin.system;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +21,7 @@ import com.tooklili.enums.admin.UserStatusEnum;
 import com.tooklili.model.admin.SysUser;
 import com.tooklili.service.biz.intf.admin.system.UserRoleService;
 import com.tooklili.service.biz.intf.admin.system.UserService;
+import com.tooklili.service.constant.Constants;
 import com.tooklili.service.exception.BusinessException;
 import com.tooklili.service.util.MessageUtils;
 import com.tooklili.util.UUIDUtils;
@@ -84,6 +87,63 @@ public class UserServiceImpl implements UserService{
 		return result;
 	}
 	
+	@Override
+	public PlainResult<String> generatorCookieValueAboutRememberMe(String userName,String password,String salt){
+		PlainResult<String> result = new PlainResult<String>();
+		
+		StringBuilder content = new StringBuilder();		
+		content.append(userName).append("-").append(Md5Utils.hash(encryptPassword(userName, password, salt)));
+		
+		//BASE64编码		
+		try {
+			result.setData(Base64.encodeBase64String(content.toString().getBytes(Constants.UTF8)));
+		} catch (UnsupportedEncodingException e) {
+			LOGGER.error("UnsupportedEncodingException",e);
+            throw new BusinessException(MessageUtils.message("error.service"));
+		}
+		return result;
+	}
+	
+	@Override
+	public PlainResult<SysUser> validRememberMeCookieKey(String cookieValue){
+		PlainResult<SysUser> result = new PlainResult<SysUser>();
+		if(StringUtils.isEmpty(cookieValue)){
+			return result.setErrorMessage("参数为空");
+		}
+		
+		//Base64解码
+		String decodeCookieValue="";
+		try {
+			decodeCookieValue = new String(Base64.decodeBase64(cookieValue),Constants.UTF8);
+		} catch (UnsupportedEncodingException e) {
+			LOGGER.error("UnsupportedEncodingException",e);
+			throw new BusinessException(MessageUtils.message("error.service"));
+		}
+		String[] params = decodeCookieValue.split("-");
+		if(params.length != 2){
+			throw new BusinessException("参数不合法");
+		}
+		
+		SysUser sysUser = new SysUser();
+		sysUser.setUserName(params[0]);
+		sysUser.setUserDeleted(0);
+		sysUser.setUserStatus(UserStatusEnum.normal);
+		List<SysUser> sysUsers = sysUserDao.find(sysUser);
+		
+		if(sysUsers==null || sysUsers.size()==0){
+			return result.setErrorMessage("无用户信息");
+		}
+		sysUser = sysUsers.get(0);
+				
+		String newContent = this.generatorCookieValueAboutRememberMe(sysUser.getUserName(), sysUser.getUserPassword(), sysUser.getUserSalt()).getData();
+		
+		if(!cookieValue.equals(newContent)){
+			return result.setErrorMessage("rememberMe cookie 失效");
+		}
+		result.setData(sysUser);
+		return result;
+	}
+	
 	/**
 	 * 密码是否匹配
 	 * @author shuai.ding
@@ -99,7 +159,7 @@ public class UserServiceImpl implements UserService{
 	 * 密码加密
 	 * @author shuai.ding
 	 * @param username    用户名
-	 * @param password    明文密码
+	 * @param password    明文密码(前端传入的，默认是经过md5加密一次)
 	 * @param salt        盐值
 	 * @return
 	 */
@@ -270,7 +330,7 @@ public class UserServiceImpl implements UserService{
 		sysUser.setId(id);
 		String salt = UUIDUtils.generateUuid32();
 		sysUser.setUserSalt(salt);
-		sysUser.setUserPassword(encryptPassword(user.getUserName(), "123", salt));
+		sysUser.setUserPassword(encryptPassword(user.getUserName(), Md5Utils.hash("123"), salt));
 		
 		long count = sysUserDao.updateByIdSelective(sysUser);
 		if(count<=0){

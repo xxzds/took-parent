@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.tooklili.util.DateUtil;
+import com.tooklili.util.security.Md5Utils;
 
 /**
  * 测试
@@ -66,5 +67,10 @@ public class TestDemo {
 		logger.info("长度：{}",strs.length);
 		strs[strs.length-1] ="*";
 		logger.info(StringUtils.join(strs, ":"));
+	}
+	
+	@Test
+	public void md5Test(){
+		logger.info(Md5Utils.hash("value"));
 	}
 }

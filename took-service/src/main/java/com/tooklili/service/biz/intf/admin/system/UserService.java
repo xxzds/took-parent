@@ -18,11 +18,28 @@ public interface UserService {
 	 * 通过用户名、密码查询用户
 	 * @author shuai.ding
 	 * @param userName    用户名
-	 * @param password    密码
+	 * @param password    未加密的密码
 	 * @return
 	 */
 	public PlainResult<SysUser> findUserByUsernameAndPassword(String userName,String password);
 	
+	/**
+	 * 生成记住我cookie值   [base64(用户名-md5(md5(用户名+加密后的密码+盐值)))]
+	 * @author shuai.ding
+	 * @param userName     用户名
+	 * @param password     加密后的密码
+	 * @param salt         盐值
+	 * @return
+	 */
+	public PlainResult<String> generatorCookieValueAboutRememberMe(String userName,String password,String salt);	
+	
+	/**
+	 * 校验存入客户端的cookie是否有效
+	 * @author shuai.ding
+	 * @param cookieValue
+	 * @return
+	 */
+	public PlainResult<SysUser> validRememberMeCookieKey(String cookieValue);
 
 	/**
 	 * 分页查询用户列表

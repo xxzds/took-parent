@@ -25,7 +25,7 @@ public class MainController {
 	@Resource
 	private MenuService menuService;
 
-	@RequestMapping("/main")
+	@RequestMapping(value= {"/","/main"})
 	public String main() {
 		return "main/index";
 	}

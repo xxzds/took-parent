@@ -148,9 +148,9 @@ public class UserController{
 	/**
 	 * 修改密码
 	 * @author shuai.ding
-	 * @param oldPwd      原密码
-	 * @param newPwd      新密码
-	 * @param confirmPwd  确认密码
+	 * @param oldPwd      原密码(md5加密后)
+	 * @param newPwd      新密码(md5加密后)
+	 * @param confirmPwd  确认密码(md5加密后)
 	 * @return
 	 */
 	@RequestMapping(value = "modifyPassword")

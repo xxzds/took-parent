@@ -42,6 +42,7 @@ var authModule = {
 			url : ctx + '/system/auth/getMenuByRoleId',
 			checkbox:true,
 			animate:true,
+			lines:true,
 			onBeforeLoad:function(node,param){
 				param.roleId=$('#roleId').val();
 			},

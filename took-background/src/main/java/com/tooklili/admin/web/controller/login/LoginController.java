@@ -1,6 +1,7 @@
 package com.tooklili.admin.web.controller.login;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tooklili.admin.web.util.CookieUtils;
 import com.tooklili.model.admin.SysUser;
 import com.tooklili.service.biz.intf.admin.system.UserService;
 import com.tooklili.service.constant.Constants;
@@ -43,20 +45,23 @@ public class LoginController {
 	 */
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	@ResponseBody
-	public BaseResult login(String userName,String password, HttpSession session,String ifRemember){
+	public BaseResult login(String userName,String password, HttpSession session,String ifRemember,HttpServletResponse response){
 		BaseResult result = new BaseResult();
 		
+		//password md5 encryption
 		PlainResult<SysUser> plainResult = userService.findUserByUsernameAndPassword(userName, password);
 		if(!plainResult.isSuccess()){
 			return result.setErrorMessage(plainResult.getMessage());
 		}
-		
+		SysUser sysUser = plainResult.getData();
 		//记住我
 		if(StringUtils.isNotEmpty(ifRemember) && "on".equals(ifRemember)){
-			
+			String value=userService.generatorCookieValueAboutRememberMe(userName, sysUser.getUserPassword(), sysUser.getUserSalt()).getData();
+			//记住2天时间
+			int maxAge=2 * 24 * 60 * 60;
+			CookieUtils.addCookie(Constants.REMEMBER_ME_COOKIE_KEY, value, maxAge, true, response);
 		}
 		
-		SysUser sysUser = plainResult.getData();
 		session.setAttribute(Constants.CURRENT_USER, sysUser);	
 		return result;		
 	}
