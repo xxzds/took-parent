@@ -16,6 +16,7 @@ import com.tooklili.admin.web.util.CookieUtils;
 import com.tooklili.model.admin.SysUser;
 import com.tooklili.service.biz.intf.admin.system.UserService;
 import com.tooklili.service.constant.Constants;
+import com.tooklili.service.util.MessageUtils;
 import com.tooklili.util.result.BaseResult;
 import com.tooklili.util.result.PlainResult;
 import com.tooklili.vo.tbk.admin.LoginVo;
@@ -54,6 +55,12 @@ public class LoginController {
 		if(bindingResult.hasErrors()){
 			result.setErrorMessage(bindingResult.getFieldErrors().get(0).getDefaultMessage());
 			return result;
+		}
+		
+		//验证验证码是否正确
+		String code = (String)session.getAttribute(Constants.CODE_IMAGE_KEY);
+		if(!loginVo.getCode().equals(code)){
+			return result.setErrorMessage(MessageUtils.message("code.error"));
 		}
 		
 		//password md5 encryption
