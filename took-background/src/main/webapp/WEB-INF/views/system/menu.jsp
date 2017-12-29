@@ -89,7 +89,7 @@
 	</script>
 	
 	<script type="text/javascript" src="${ctx}/static/plugins/jsrender.min.js"></script>
-	<script type="text/javascript" src="${ctx}/static/js/system/menu.js?version=4"></script>
+	<script type="text/javascript" src="${ctx}/static/js/system/menu.js?version=5"></script>
 	<script type="text/javascript">
 	//操作格式化,现限制到二级菜单(增加权限控制)
 	menuModule.formatterOper = function(id,row){

@@ -190,7 +190,7 @@ var menuModule={
 		//分页
 		$('#pp').pagination({
 			pageNumber : 1,
-			pageSize : 100,
+			pageSize : 50,
 			pageList: [20,40,60,80],
 			showPageList: false,
 			displayMsg:'',
@@ -202,7 +202,7 @@ var menuModule={
 		});
 		
 		//初始请求
-		menuModule.requestIcon(1,100);
+		menuModule.requestIcon(1,50);
 	},
 	requestIcon:function(pageNumber,pageSize){
 		$.ajax({  

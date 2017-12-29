@@ -239,7 +239,7 @@ public class MenuServiceImpl implements MenuService{
 					SysRoleMenu sysRoleMenu = new SysRoleMenu();
 					sysRoleMenu.setRoleId(roleId);
 					sysRoleMenu.setMenuId(input.getId());
-					List<SysRoleMenu> sysRoleMenus = sysRoleMenuDao.find(sysRoleMenu);
+					List<SysRoleMenu> sysRoleMenus = sysRoleMenuDao.isLeafMenuByMenuIdAndRoleId(input.getId(), roleId);
 					if(sysRoleMenus != null && sysRoleMenus.size()>0){		
 						menuNode.setChecked(true);
 						menuNode.getAttributes().setRoleMenuId(sysRoleMenus.get(0).getId());

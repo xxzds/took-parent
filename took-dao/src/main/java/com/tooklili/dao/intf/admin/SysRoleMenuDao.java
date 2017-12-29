@@ -81,5 +81,15 @@ public interface SysRoleMenuDao extends BaseDao<SysRoleMenu,Long> {
 	 * @return
 	 */
 	public List<MenuAndPermissionModel> queryLeafMenuByRoleId(Long roleId);
+	
+	
+	/**
+	 * 通过角色id和菜单id，查询此角色是否关联了此菜单，且此菜单是叶子节点
+	 * @author shuai.ding
+	 * @param menuId
+	 * @param roleId
+	 * @return
+	 */
+	public List<SysRoleMenu> isLeafMenuByMenuIdAndRoleId(@Param("menuId")Long menuId,@Param("roleId")Long roleId);
 
 }
