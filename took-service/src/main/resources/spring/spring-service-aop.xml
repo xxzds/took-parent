@@ -8,6 +8,24 @@
         http://www.springframework.org/schema/aop 
         http://www.springframework.org/schema/aop/spring-aop.xsd"
        default-autowire="byName" default-lazy-init="false">
+       
+     <!-- druid spring监控 -->
+     <bean id="druid-stat-interceptor"
+	    class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
+	  </bean>
+	
+	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
+	    scope="prototype">
+	    <property name="patterns">
+	        <list>
+	            <value>com.tooklili.service.biz..*</value>  <!-- 正则表达式 -->
+	        </list>
+	    </property>
+	</bean>
+	
+	<aop:config>
+	    <aop:advisor advice-ref="druid-stat-interceptor" pointcut-ref="druid-stat-pointcut" />
+	</aop:config>
     
     <!-- 开启AOP监听 只对当前配置文件有效 ,expose-proxy="true" 可以使用AopContext.currentProxy()-->
 	<aop:aspectj-autoproxy expose-proxy="true"/>
