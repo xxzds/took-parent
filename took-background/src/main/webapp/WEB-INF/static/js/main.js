@@ -6,18 +6,19 @@ $(function(){
 		onClick : function(node) {
 			//是叶子节点才能打开tab页
 			if(node.attributes.isLeaf){
-				open(ctx+node.attributes.url, node.text);
+				var icon = node.iconCls ? node.iconCls : 'icon-tip';
+				open(ctx+node.attributes.url, node.text,icon);
 			}	
 		}
 	});
 	// 在右边center区域打开菜单，新增tab
-	function open(url, title) {
+	function open(url, title,icon) {
 		if ($('#tabs').tabs('exists', title)) {
 			$('#tabs').tabs('select', title);
 		} else {
 			$('#tabs').tabs('add',
 					{
-						iconCls : 'icon-tip',
+						iconCls : icon,
 						title : title,
 						content : '<iframe frameborder="0" src="'+url+'" style="width:100%;height:99%;"/>',
 						closable : true

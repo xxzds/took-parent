@@ -52,6 +52,6 @@
   	</form>
   </div> 
   <script type="text/javascript" src="${ctx}/static/plugins/md5.min.js"></script>
-  <script type="text/javascript" src="${ctx}/static/js/main.js?version=3"></script>
+  <script type="text/javascript" src="${ctx}/static/js/main.js?version=4"></script>
 </body>  
 </html>
