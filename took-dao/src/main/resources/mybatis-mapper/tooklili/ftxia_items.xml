@@ -193,4 +193,10 @@
 		set pic_url=CONCAT('http:',pic_url)
 		where pic_url like '//%'	
 	</update>
+	
+	<delete id="deleteExpiredItem">
+		delete 
+		from ftxia_items
+		where coupon_end_time <![CDATA[ < ]]> UNIX_TIMESTAMP(now())
+	</delete>
 </mapper>

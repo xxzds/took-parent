@@ -62,4 +62,11 @@ public interface ItemDao {
 	 * @return
 	 */
 	public Long updateItemPicUrl();
+	
+	/**
+	 * 删除过期商品
+	 * @author shuai.ding
+	 * @return
+	 */
+	public long deleteExpiredItem();
 }
