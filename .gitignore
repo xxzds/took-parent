@@ -1,8 +1,5 @@
+.properties
 .settings
 .project
 .classpath
 target
-took-app/src/main/resources/tbk.properties
-took-service/src/test/resources/tbk.properties
-took-service/src/test/resources/tbk.properties
-took-app/src/main/resources/tbk.properties
