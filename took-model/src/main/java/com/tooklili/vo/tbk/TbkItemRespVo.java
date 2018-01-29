@@ -2,6 +2,8 @@ package com.tooklili.vo.tbk;
 
 import java.util.List;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * 淘宝客商品响应模型
  * @author shuai.ding
@@ -11,46 +13,55 @@ public class TbkItemRespVo {
 	/**
 	 * 商品ID
 	 */
+	@ApiModelProperty("商品ID")
 	private Long numIid;
 	
 	/**
 	 * 商品地址
 	 */
+	@ApiModelProperty("商品地址")
 	private String itemUrl;
 	
 	/**
 	 * 商品主图
 	 */
+	@ApiModelProperty("商品主图")
 	private String pictUrl;
 	
 	/**
 	 * 商品小图列表
 	 */
+	@ApiModelProperty("商品小图列表")
 	private List<String> smallImages;
 
 	/**
 	 * 商品标题
 	 */
+	@ApiModelProperty("商品标题")
 	private String title;
 	
 	/**
 	 * 商品折扣价格
 	 */
+	@ApiModelProperty("商品折扣价格")
 	private String zkFinalPrice;
 	
 	/**
 	 * 商品一口价格
 	 */
+	@ApiModelProperty("商品一口价格")
 	private String reservePrice;
 	
 	/**
 	 * 30天销量
 	 */
+	@ApiModelProperty("30天销量")
 	private String volume;
 	
 	/**
 	 * 折扣率
 	 */
+	@ApiModelProperty("折扣率")
 	private String discountRate;
 	
 

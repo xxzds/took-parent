@@ -9,11 +9,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tooklili.service.biz.intf.test.TestService;
 
+import springfox.documentation.annotations.ApiIgnore;
+
 /**
  * 测试控制器
  * @author shuai.ding
  * @date 2017年5月26日下午5:45:25
  */
+@ApiIgnore
 @Controller
 @RequestMapping("/test")
 public class TestController {

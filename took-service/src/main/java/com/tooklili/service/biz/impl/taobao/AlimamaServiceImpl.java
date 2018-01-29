@@ -143,18 +143,18 @@ public class AlimamaServiceImpl implements AlimamaService{
 		String status = head.getString("status");
 		if(status!= null && "OK".equals(status)){  //成功
 			JSONObject paginator = data.getJSONObject("paginator");
-			result.setCurrentPage(head.getLong("pageNo"));
-			result.setPageSize(head.getLong("pageSize"));
-			result.setTotalCount(paginator.getLong("items"));
+			result.setCurrentPage(head.getIntValue("pageNo"));
+			result.setPageSize(head.getIntValue("pageSize"));
+			result.setTotalCount(paginator.getIntValue("items"));
 
 			//商品信息
 			List<AlimamaItem> datas = JSON.parseArray(data.getJSONArray("pageList").toJSONString(), AlimamaItem.class);
 			result.setData(datas);
 		}else{  //失败
 			result.setData(new ArrayList<AlimamaItem>());
-			result.setTotalCount(0L);
-			result.setCurrentPage(0L);
-			result.setPageSize(0L);			
+			result.setTotalCount(0);
+			result.setCurrentPage(0);
+			result.setPageSize(0);			
 		}	
 		return result;
 	}

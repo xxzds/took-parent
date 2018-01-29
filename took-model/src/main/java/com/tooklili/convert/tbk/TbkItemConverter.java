@@ -23,8 +23,8 @@ public class TbkItemConverter {
 		TbkItemGetRequest tbkItemGetRequest = new TbkItemGetRequest();
 		tbkItemGetRequest.setQ(tbkItemReqVo.getItemName());
 		tbkItemGetRequest.setCat(tbkItemReqVo.getItemCate());
-		tbkItemGetRequest.setPageNo(tbkItemReqVo.getPageNo());
-		tbkItemGetRequest.setPageSize(tbkItemReqVo.getPageSize());
+		tbkItemGetRequest.setPageNo(Long.valueOf(tbkItemReqVo.getPageNo()));
+		tbkItemGetRequest.setPageSize(Long.valueOf(tbkItemReqVo.getPageSize()));
 		//按销量排序
 		tbkItemGetRequest.setSort("total_sales");
 		return tbkItemGetRequest;

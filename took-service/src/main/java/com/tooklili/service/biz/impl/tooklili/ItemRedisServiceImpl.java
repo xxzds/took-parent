@@ -72,7 +72,7 @@ public class ItemRedisServiceImpl implements ItemService{
 				List<byte[]> byteList = connection.lRange(key, begin, end);
 				//总页数
 				Long count = connection.lLen(key);
-				result.setTotalCount(count);
+				result.setTotalCountLong(count);
 				if(byteList==null || byteList.size()==0){
 					result.setData(new ArrayList<Item>());
 					return result;

@@ -1,5 +1,7 @@
 package com.tooklili.model.taobao;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * 淘口令和短链接实体
  * @author shuai.ding
@@ -11,11 +13,13 @@ public class TpwdAndShortUrlModel {
 	/**
 	 * 领券口令
 	 */
+	@ApiModelProperty("领券口令")
 	private String couponLinkTaoToken;
 	
 	/**
 	 * 领券短链接
 	 */
+	@ApiModelProperty("领券短链接")
 	private String couponShortLinkUrl;
 
 	public String getCouponLinkTaoToken() {

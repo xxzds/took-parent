@@ -1,5 +1,7 @@
 package com.tooklili.model.tooklili;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * tooklili 商品模型-部分字段
  * @author shuai.ding
@@ -9,86 +11,103 @@ public class Item {
 	/**
 	 * 主键id
 	 */
+	@ApiModelProperty("主键id")
 	private Long id;
 	
 	/**
 	 * 分类id
 	 */
+	@ApiModelProperty("分类id")
 	private Integer cateId;
 	
 	/**
 	 * 淘宝中对应的商品id
 	 */
+	@ApiModelProperty("淘宝中对应的商品id")
 	private Long numIid;
 	
 	/**
 	 * 标题
 	 */
+	@ApiModelProperty("标题")
 	private String title;
 	
 	/**
 	 * 图片
 	 */
+	@ApiModelProperty("图片")
 	private String picUrl;
 	
 	/**
 	 *原价
 	 */
+	@ApiModelProperty("原价")
 	private String price;
 	
 	/**
 	 * 折扣价
 	 */
+	@ApiModelProperty("折扣价")
 	private String couponPrice;
 	
 	/**
 	 * 优惠券金额
 	 */
+	@ApiModelProperty("优惠券金额")
 	private String quan;
 	
 	/**
 	 * 领券地址
 	 */
+	@ApiModelProperty("领券地址")
 	private String quanUrl;
 	
 	/**
 	 * 优惠券总数？
 	 */
+	@ApiModelProperty("优惠券总数")
 	private Long quanSurplus;
 	
 	/**
 	 * 优惠券剩余数？
 	 */
+	@ApiModelProperty("优惠券剩余数")
 	private Long quanReceive;
 	
 	/**
 	 * 销量
 	 */
+	@ApiModelProperty("销量")
 	private String volume;
 	
 	/**
 	 *开始时间
 	 */
+	@ApiModelProperty("开始时间")
 	private String couponStartTime;
 	
 	/**
 	 * 结束时间
 	 */
+	@ApiModelProperty("结束时间")
 	private String couponEndTime;
 	
 	/**
 	 * 添加时间
 	 */
+	@ApiModelProperty("添加时间")
 	private String addTime;
 	
 	/**
 	 * 商品类别(B、天猫 C、淘宝)
 	 */
+	@ApiModelProperty("商品类别(B、天猫 C、淘宝)")
 	private String shopType;
 	
 	/**
 	 * 商品简单描述
 	 */
+	@ApiModelProperty("商品简单描述")
 	private String intro;
 
 	public Long getId() {

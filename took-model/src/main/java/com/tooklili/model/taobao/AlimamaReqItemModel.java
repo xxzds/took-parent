@@ -1,7 +1,9 @@
 package com.tooklili.model.taobao;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
- * alimam超级搜索请求模型
+ * alimama超级搜索请求模型
  * @author shuai.ding
  *
  * @date 2017年10月15日上午11:46:03
@@ -11,22 +13,26 @@ public class AlimamaReqItemModel {
 	/**
 	 * 查询条件
 	 */
+	@ApiModelProperty(value="查询条件")
 	private String q;
 	
 	/**
 	 * 第几页
 	 */
+	@ApiModelProperty(value="第几页")
 	private Integer toPage;
 	
 	/**
 	 * 每页大小
 	 */
+	@ApiModelProperty(value="每页大小")
 	private Integer perPageSize;
 	
 	/**
 	 * 查询类型
 	 * 0 默认排序 2人气
 	 */
+	@ApiModelProperty(value="查询类型,0 默认排序 2人气")
 	private Integer queryType;
 	
 	/**
@@ -38,6 +44,12 @@ public class AlimamaReqItemModel {
 	 * 月推广量从高到低 queryType=0 ； sortType=5
 	 * 月支出佣金从高到低 queryType=0 ； sortType=7
 	 */
+	@ApiModelProperty(value="排序类型价格从高到低 queryType=0 ； sortType=3"+
+	 "价格从低到高 queryType=0 ； sortType=4"+
+	 "销量从高到低 queryType=0 ； sortType=9"+
+	 "收入比率从高到低 queryType=0 ； sortType=1"+
+	 "月推广量从高到低 queryType=0 ； sortType=5"+
+	 "月支出佣金从高到低 queryType=0 ； sortType=7")
 	private Integer sortType;
 	
 	/**
@@ -46,36 +58,43 @@ public class AlimamaReqItemModel {
 	 * yxjh 包含营销计划
 	 * dpyhq 包含店铺优惠券
 	 */
+	@ApiModelProperty(value="商品标签,b2c 天猫旗舰店;yxjh 包含营销计划;dpyhq 包含店铺优惠券")
 	private String shopTag;
 	
 	/**
 	 * 营销和定向计划(选中为1)
 	 */
+	@ApiModelProperty(value="营销和定向计划(选中为1)")
 	private Integer yxjh;
 	
 	/**
 	 * 月成交转化率高于行业均值（选中为1）
 	 */
+	@ApiModelProperty(value="月成交转化率高于行业均值（选中为1）")
 	private Integer hPayRate30;
 	
 	/**
 	 * 包含店铺优惠券（选中为1）
 	 */
+	@ApiModelProperty(value="包含店铺优惠券（选中为1）")
 	private Integer dpyhq;
 	
 	/**
 	 * 天猫旗舰店（选中为1）
 	 */
+	@ApiModelProperty(value="天猫旗舰店（选中为1）")
 	private Integer b2c;
 	
 	/**
 	 * 包邮（选中为1）
 	 */
+	@ApiModelProperty(value="包邮（选中为1）")
 	private Integer freeShipment;
 	
 	/**
 	 * 1 、天猫商品
 	 */
+	@ApiModelProperty(value="1 、天猫商品")
 	private Integer userType;
 
 	public String getQ() {

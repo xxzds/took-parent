@@ -66,7 +66,7 @@ public class TbkServiceImpl implements TbkService{
 		
 		TbkItemGetResponse  tbkItemGetResponse = tbkApiService.getItem(TbkItemConverter.toTbkItemGetRequest(tbkItemReqVo));
 		
-		result.setTotalCount(tbkItemGetResponse.getTotalResults());
+		result.setTotalCountLong(tbkItemGetResponse.getTotalResults());
 		List<NTbkItem> ntbkItems = tbkItemGetResponse.getResults();
 		
 		if(ntbkItems!=null && ntbkItems.size()>0){
@@ -128,7 +128,7 @@ public class TbkServiceImpl implements TbkService{
 		PageResult<TbkCoupon> result = new PageResult<TbkCoupon>(req.getPageNo(), req.getPageSize());
 		TbkDgItemCouponGetResponse tbkDgItemCouponGetResponse = tbkApiService.getCouponItem(req);
 		
-		result.setTotalCount(tbkDgItemCouponGetResponse.getTotalResults());
+		result.setTotalCountLong(tbkDgItemCouponGetResponse.getTotalResults());
 		result.setData(tbkDgItemCouponGetResponse.getResults());
 		return result;
 	}

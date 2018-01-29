@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.taobao.api.ApiException;
@@ -24,6 +25,11 @@ import com.tooklili.util.result.PlainResult;
 import com.tooklili.vo.tbk.TbkItemDetailRespVo;
 import com.tooklili.vo.tbk.TbkItemReqVo;
 import com.tooklili.vo.tbk.TbkItemRespVo;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 淘宝客控制器
@@ -47,7 +53,8 @@ public class TaoBaoKeController {
 	 * @return
 	 * @throws ApiException
 	 */
-	@RequestMapping("/getItems")
+	@ApiOperation(value = "查询商品列表",notes = "查询商品列表")
+	@RequestMapping(value = "/getItems",method = RequestMethod.POST)
 	@ResponseBody
 	public PageResult<TbkItemRespVo> getItems(TbkItemReqVo tbkItemReqVo) throws ApiException{
 		PageResult<TbkItemRespVo> result = tbkService.getItems(tbkItemReqVo);
@@ -62,7 +69,9 @@ public class TaoBaoKeController {
 	 * @return
 	 * @throws ApiException
 	 */
-	@RequestMapping("/getItemDetail/{numIid}")
+	@ApiOperation(value = "通过商品id，查询商品信息",notes = "通过商品id，查询商品信息")
+	@ApiImplicitParam(name = "numIid", value = "商品id", required = true, dataType = "String",paramType="path")
+	@RequestMapping(value = "/getItemDetail/{numIid}",method = RequestMethod.POST)
 	@ResponseBody
 	public PlainResult<TbkItemDetailRespVo> getItemDetail(@PathVariable String numIid) throws ApiException{
 		if(StringUtils.isEmpty(numIid)){
@@ -79,7 +88,9 @@ public class TaoBaoKeController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping("/tojump/{itemId}")
+	@ApiOperation(value = "通过商品id，查询商品信息",notes = "通过商品id，查询商品信息")
+	@ApiImplicitParam(name = "itemId", value = "商品id", required = true, dataType = "String",paramType="path")
+	@RequestMapping(value = "/tojump/{itemId}",method = RequestMethod.POST)
 	public String jumpToTaobao(@PathVariable String itemId,Model model){
 		model.addAttribute("itemId", itemId);
 		model.addAttribute("pid", PropertiesUtil.getInstance("tbk.properties").getValue("tbk.pid"));
@@ -95,7 +106,13 @@ public class TaoBaoKeController {
 	 * @return
 	 * @throws ApiException
 	 */
-	@RequestMapping("/getCouponItems")
+	@ApiOperation(value = "获取好券清单列表",notes = "获取好券清单列表")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "q", value = "查询词", required = true, dataType = "String",paramType="query"),
+		@ApiImplicitParam(name = "pageNo", value = "当前页", required = false, dataType = "Long",paramType="query"),
+		@ApiImplicitParam(name = "pageSize", value = "页面大小", required = false, dataType = "Long",paramType="query")
+	})	
+	@RequestMapping(value = "/getCouponItems",method = RequestMethod.POST)
 	@ResponseBody
 	public PageResult<TbkCoupon> getCouponItems(String q,Long pageNo,Long pageSize) throws ApiException{
 		TbkDgItemCouponGetRequest req = new TbkDgItemCouponGetRequest();
@@ -115,7 +132,14 @@ public class TaoBaoKeController {
 	 * @return
 	 * @throws ApiException
 	 */
-	@RequestMapping("/getTPwd")
+	@ApiIgnore
+	@ApiOperation(value = "获取淘口令",notes = "获取淘口令")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "text", value = "口令弹框内容", required = true, dataType = "String",paramType="query"),
+		@ApiImplicitParam(name = "url", value = "口令跳转目标页", required = true, dataType = "String",paramType="query"),
+		@ApiImplicitParam(name = "logo", value = "口令弹框logoURL 可选 如https://uland.taobao.com/", required = false, dataType = "String",paramType="query")
+	})	
+	@RequestMapping(value = "/getTPwd",method = RequestMethod.POST)
 	@ResponseBody
 	public PlainResult<String> getTPwd(String text,String url,String logo) throws ApiException{
 		PlainResult<String> result = tbkService.createTpwd(text, url,logo);
@@ -133,7 +157,13 @@ public class TaoBaoKeController {
 	 * @throws ApiException 
 	 * @throws   
 	 */
-	@RequestMapping("/getTpwdAndShortLink")
+	@ApiOperation(value = "获取淘口令和短链接地址",notes = "获取淘口令和短链接地址")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "text", value = "口令弹框内容", required = true, dataType = "String",paramType="query"),
+		@ApiImplicitParam(name = "url", value = "口令跳转目标页", required = true, dataType = "String",paramType="query"),
+		@ApiImplicitParam(name = "logo", value = "口令弹框logoURL 可选 如https://uland.taobao.com/", required = false, dataType = "String",paramType="query")
+	})	
+	@RequestMapping(value = "/getTpwdAndShortLink",method = RequestMethod.POST)
 	@ResponseBody
 	public PlainResult<TpwdAndShortUrlModel> getTpwdAndShortLink(String text,String url,String logo) throws ApiException, UnsupportedEncodingException{
 		PlainResult<TpwdAndShortUrlModel> result = new PlainResult<TpwdAndShortUrlModel>();

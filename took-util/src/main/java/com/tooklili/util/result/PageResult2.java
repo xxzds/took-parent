@@ -3,7 +3,7 @@ package com.tooklili.util.result;
 import java.util.List;
 import com.google.common.collect.Lists;
 
-public class PageResult<T> extends BaseResult {
+public class PageResult2<T> extends BaseResult {
 
     private static final long serialVersionUID = 1453224020829563569L;
 
@@ -13,15 +13,15 @@ public class PageResult<T> extends BaseResult {
     
     private List<T>           data             = Lists.newArrayList();
     
-    public PageResult(){
+    public PageResult2(){
     	super();
     }
 
-    public PageResult(int currentPage, int pageSize) {
+    public PageResult2(int currentPage, int pageSize) {
         this(currentPage,pageSize,0);
     }
     
-    public PageResult(int currentPage, int pageSize,int totalCount) {
+    public PageResult2(int currentPage, int pageSize,int totalCount) {
         this.currentPage = currentPage;
         this.pageSize = pageSize;
         this.totalCount=totalCount;
@@ -59,16 +59,4 @@ public class PageResult<T> extends BaseResult {
 	public void setData(List<T> data) {
 		this.data = data;
 	}
-	
-	/*************************匹配long类型***************************/
-    public PageResult(long currentPage, long pageSize) {
-        this((int)currentPage,(int)pageSize,0);
-    }
-    
-    public PageResult(long currentPage, long pageSize,long totalCount) {
-        this((int)currentPage,(int)pageSize,(int)totalCount);
-    } 
-    public void setTotalCountLong(long totalCount) {
-        this.totalCount = (int)totalCount;
-    }   
 }

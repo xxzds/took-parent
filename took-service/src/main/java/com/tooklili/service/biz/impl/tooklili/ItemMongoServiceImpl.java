@@ -72,7 +72,7 @@ public class ItemMongoServiceImpl implements ItemService{
 		
 		//总个数
 		long count = mongoTemplate.count(query, Item.class,collection);
-		result.setTotalCount(count);
+		result.setTotalCountLong(count);
 		
 		
 		query.with(new MongoPageable(currentPage.intValue(), pageSize.intValue())); //分页			
@@ -185,7 +185,7 @@ public class ItemMongoServiceImpl implements ItemService{
 		
 		//总个数
 		long count = mongoTemplate.count(query, Item.class,collection);
-		result.setTotalCount(count);
+		result.setTotalCountLong(count);
 		
 		
 		query.with(new MongoPageable(currentPage.intValue(), pageSize.intValue())); //分页			

@@ -1,5 +1,7 @@
 package com.tooklili.vo.tbk;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * 淘宝客商品请求模型
  * @author shuai.ding
@@ -10,22 +12,26 @@ public class TbkItemReqVo {
 	/**
 	 * 商品名称
 	 */
+	@ApiModelProperty("商品名称")
 	private String itemName;
 	
 	/**
 	 * 商品分类
 	 */
+	@ApiModelProperty("商品分类")
 	private String itemCate;
 	
 	/**
 	 * 当前页
 	 */
-	private Long pageNo=1L;
+	@ApiModelProperty("当前页")
+	private Integer pageNo=1;
 	
 	/**
 	 * 页面大小
 	 */
-	private Long pageSize = 20L;
+	@ApiModelProperty("页面大小")
+	private Integer pageSize = 20;
 
 	public String getItemName() {
 		return itemName;
@@ -43,19 +49,19 @@ public class TbkItemReqVo {
 		this.itemCate = itemCate;
 	}
 
-	public Long getPageNo() {
+	public Integer getPageNo() {
 		return pageNo;
 	}
 
-	public void setPageNo(Long pageNo) {
+	public void setPageNo(Integer pageNo) {
 		this.pageNo = pageNo;
 	}
 
-	public Long getPageSize() {
+	public Integer getPageSize() {
 		return pageSize;
 	}
 
-	public void setPageSize(Long pageSize) {
+	public void setPageSize(Integer pageSize) {
 		this.pageSize = pageSize;
 	}
 }

@@ -1,5 +1,7 @@
 package com.tooklili.model.taobao;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * alimama 商品推广链接实体
  * @author shuai.ding
@@ -11,38 +13,45 @@ public class AlimamaItemLink {
 	/**
 	 * 商品口令
 	 */
+	@ApiModelProperty("商品口令")
 	private String taoToken;
 	
 	/**
 	 * 领券口令
 	 */
+	@ApiModelProperty("领券口令")
 	private String couponLinkTaoToken;
 		
 	/**
 	 * 二维码链接（300天有效期）
 	 */
+	@ApiModelProperty("二维码链接（300天有效期）")
 	private String qrCodeUrl;
 	
 	/**
 	 * 商品链接
 	 */
+	@ApiModelProperty("商品链接")
 	private String clickUrl;
 	
 		
 	/**
 	 * 领券链接
 	 */
+	@ApiModelProperty("领券链接")
 	private String couponLink;
 	
 	
 	/**
 	 * 商品短链接（300天有效期）
 	 */
+	@ApiModelProperty("商品短链接（300天有效期）")
 	private String shortLinkUrl;
 	
 	/**
 	 * 领券短链接（300天有效期）
 	 */
+	@ApiModelProperty("领券短链接（300天有效期）")
 	private String couponShortLinkUrl;
 	
 	
@@ -50,11 +59,13 @@ public class AlimamaItemLink {
 	/**
 	 * 自定义商品短链接
 	 */
+	@ApiModelProperty("自定义商品短链接")
 	private String customShortLinkUrl;
 	
 	/**
 	 * 自定义领券短链接
 	 */
+	@ApiModelProperty("自定义领券短链接")
 	private String customCouponShortLinkUrl;
 
 	public String getTaoToken() {

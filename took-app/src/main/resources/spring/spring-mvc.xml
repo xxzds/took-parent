@@ -86,4 +86,7 @@
 	
 	<!-- 控制层支持事务，一般不配置这个，除非没有其他办法，才会让controller支持事务 -->
 	<!-- <tx:annotation-driven/> -->
+	
+	<!-- swagger2 -->
+	<bean class="com.tooklili.app.web.config.SwaggerConfig" />
 </beans>
