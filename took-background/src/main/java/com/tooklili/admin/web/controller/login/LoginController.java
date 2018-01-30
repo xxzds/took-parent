@@ -19,7 +19,7 @@ import com.tooklili.service.constant.Constants;
 import com.tooklili.service.util.MessageUtils;
 import com.tooklili.util.result.BaseResult;
 import com.tooklili.util.result.PlainResult;
-import com.tooklili.vo.tbk.admin.LoginVo;
+import com.tooklili.vo.admin.LoginVo;
 
 /**
  * 登录、退出控制器

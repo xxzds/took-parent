@@ -1,4 +1,4 @@
-package com.tooklili.vo.tbk.admin;
+package com.tooklili.vo.admin;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
