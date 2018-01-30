@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import com.taobao.api.ApiException;
 import com.taobao.api.response.TbkCouponGetResponse.MapData;
 import com.taobao.api.response.TbkDgItemCouponGetResponse.TbkCoupon;
-import com.tooklili.dao.intf.tooklili.ItemDao;
+import com.tooklili.dao.db.intf.tooklili.ItemDao;
 import com.tooklili.model.taobao.AlimamaItem;
 import com.tooklili.model.taobao.AlimamaItemLink;
 import com.tooklili.model.tooklili.Item;

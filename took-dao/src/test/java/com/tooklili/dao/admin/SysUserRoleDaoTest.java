@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
 import com.tooklili.dao.BaseTest;
-import com.tooklili.dao.intf.admin.SysUserRoleDao;
+import com.tooklili.dao.db.intf.admin.SysUserRoleDao;
 import com.tooklili.model.admin.SysUserRole;
 import com.tooklili.util.JsonFormatTool;
 

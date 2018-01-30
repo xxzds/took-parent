@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
 import com.tooklili.dao.BaseTest;
-import com.tooklili.dao.intf.tooklili.ItemDao;
+import com.tooklili.dao.db.intf.tooklili.ItemDao;
 import com.tooklili.model.tooklili.Item;
 
 public class ItemDaoTest extends BaseTest{

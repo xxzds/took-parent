@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import com.tooklili.dao.intf.admin.SysRoleMenuDao;
-import com.tooklili.dao.intf.admin.SysRoleMenuPermissionDao;
+import com.tooklili.dao.db.intf.admin.SysRoleMenuDao;
+import com.tooklili.dao.db.intf.admin.SysRoleMenuPermissionDao;
 import com.tooklili.model.admin.SysRoleMenu;
 import com.tooklili.service.biz.intf.admin.system.RoleMenuService;
 import com.tooklili.util.result.BaseResult;

@@ -9,7 +9,7 @@ import org.junit.Test;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.tooklili.dao.BaseTest;
-import com.tooklili.dao.intf.admin.SysRoleMenuDao;
+import com.tooklili.dao.db.intf.admin.SysRoleMenuDao;
 import com.tooklili.model.admin.SysMenu;
 import com.tooklili.model.admin.SysRoleMenu;
 import com.tooklili.util.JsonFormatTool;

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.github.miemiedev.mybatis.paginator.domain.PageList;
-import com.tooklili.dao.intf.admin.SysIconDao;
+import com.tooklili.dao.db.intf.admin.SysIconDao;
 import com.tooklili.model.admin.SysIcon;
 import com.tooklili.service.biz.intf.admin.system.IconService;
 import com.tooklili.util.result.PageResult;

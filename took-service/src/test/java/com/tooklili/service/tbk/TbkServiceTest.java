@@ -16,7 +16,7 @@ import com.alibaba.fastjson.JSON;
 import com.taobao.api.ApiException;
 import com.taobao.api.request.TbkDgItemCouponGetRequest;
 import com.taobao.api.response.TbkDgItemCouponGetResponse.TbkCoupon;
-import com.tooklili.dao.intf.tooklili.ItemDao;
+import com.tooklili.dao.db.intf.tooklili.ItemDao;
 import com.tooklili.http.HttpCallService;
 import com.tooklili.model.taobao.ItemImageDetailModel;
 import com.tooklili.model.tooklili.Item;

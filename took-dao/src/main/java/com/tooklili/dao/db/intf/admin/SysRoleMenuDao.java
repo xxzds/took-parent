@@ -1,10 +1,10 @@
-package com.tooklili.dao.intf.admin;
+package com.tooklili.dao.db.intf.admin;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.tooklili.dao.intf.BaseDao;
+import com.tooklili.dao.db.intf.BaseDao;
 import com.tooklili.model.admin.MenuAndPermissionModel;
 import com.tooklili.model.admin.SysMenu;
 import com.tooklili.model.admin.SysRoleMenu;

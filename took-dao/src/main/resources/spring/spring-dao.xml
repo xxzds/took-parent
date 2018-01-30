@@ -15,7 +15,7 @@
 		">	
 	<!-- 启动对@Aspectj的支持 true为cglib，false为jdk代理，为true的话，会导致拦截不了mybatis的mapper,此处需要配置，因service已配置 -->
 	<aop:aspectj-autoproxy proxy-target-class="false"/>
-	<bean class="com.tooklili.dao.extension.MultipleDataSourceAspectAdvice"></bean>	
+	<bean class="com.tooklili.dao.db.extension.MultipleDataSourceAspectAdvice"></bean>	
 
 	<!-- 配置数据源 使用的是Druid数据源 -->
 	<bean name="tookDataSource" class="com.alibaba.druid.pool.DruidDataSource"
@@ -93,7 +93,7 @@
 		<property name="filters" value="stat,wall" />
 	</bean>
 	
-	<bean id="multipleDataSource" class="com.tooklili.dao.extension.MultipleDataSource">
+	<bean id="multipleDataSource" class="com.tooklili.dao.db.extension.MultipleDataSource">
         <property name="defaultTargetDataSource" ref="tookDataSource"/>
         <property name="targetDataSources">
             <map>
@@ -121,7 +121,7 @@
 	</bean>
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.tooklili.dao.intf" />
+		<property name="basePackage" value="com.tooklili.dao.db.intf" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
 

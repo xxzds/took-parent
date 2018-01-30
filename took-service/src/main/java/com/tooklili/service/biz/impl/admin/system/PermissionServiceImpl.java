@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.github.miemiedev.mybatis.paginator.domain.PageList;
-import com.tooklili.dao.intf.admin.SysPermissionDao;
+import com.tooklili.dao.db.intf.admin.SysPermissionDao;
 import com.tooklili.model.admin.SysPermission;
 import com.tooklili.service.biz.intf.admin.system.PermissionService;
 import com.tooklili.service.exception.BusinessException;

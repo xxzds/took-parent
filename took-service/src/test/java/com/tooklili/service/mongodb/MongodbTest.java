@@ -26,7 +26,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoException;
-import com.tooklili.dao.intf.tooklili.ItemDao;
+import com.tooklili.dao.db.intf.tooklili.ItemDao;
 import com.tooklili.model.tooklili.Item;
 import com.tooklili.service.BaseTest;
 import com.tooklili.service.biz.impl.tooklili.RndScope;

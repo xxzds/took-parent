@@ -1,4 +1,4 @@
-package com.tooklili.dao.extension;
+package com.tooklili.dao.db.extension;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -16,7 +16,7 @@ import org.aspectj.lang.annotation.Before;
 @Aspect
 public class MultipleDataSourceAspectAdvice {
 	
-	@Before("execution(* com.tooklili.dao.intf.tooklili.*.*(..))")
+	@Before("execution(* com.tooklili.dao.db.intf.tooklili.*.*(..))")
 	public void handleSetDataSource(JoinPoint joinPoint){
 		MultipleDataSource.setDataSourceKey("tookliliDataSource");
 	}

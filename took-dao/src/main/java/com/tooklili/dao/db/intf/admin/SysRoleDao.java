@@ -1,10 +1,10 @@
-package com.tooklili.dao.intf.admin;
+package com.tooklili.dao.db.intf.admin;
 
 import org.apache.ibatis.annotations.Param;
 
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.github.miemiedev.mybatis.paginator.domain.PageList;
-import com.tooklili.dao.intf.BaseDao;
+import com.tooklili.dao.db.intf.BaseDao;
 import com.tooklili.model.admin.SysRole;
 
 /**

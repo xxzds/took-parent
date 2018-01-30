@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import com.tooklili.dao.intf.tooklili.ItemDao;
+import com.tooklili.dao.db.intf.tooklili.ItemDao;
 import com.tooklili.model.tooklili.Item;
 import com.tooklili.util.PropertiesUtil;
 

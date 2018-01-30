@@ -1,4 +1,4 @@
-package com.tooklili.dao.extension;
+package com.tooklili.dao.db.extension;
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 

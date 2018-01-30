@@ -41,5 +41,11 @@
 		    <artifactId>swagger-annotations</artifactId>
 		    <version>1.5.16</version>
 		</dependency>
+		
+		<!-- es -->
+		<dependency>
+		    <groupId>org.springframework.data</groupId>
+		    <artifactId>spring-data-elasticsearch</artifactId>
+		</dependency>	
 	</dependencies>
 </project>

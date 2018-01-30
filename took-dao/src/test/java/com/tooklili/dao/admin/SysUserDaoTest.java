@@ -11,7 +11,7 @@ import com.alibaba.fastjson.JSON;
 import com.github.miemiedev.mybatis.paginator.domain.Order;
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.tooklili.dao.BaseTest;
-import com.tooklili.dao.intf.admin.SysUserDao;
+import com.tooklili.dao.db.intf.admin.SysUserDao;
 import com.tooklili.enums.admin.UserStatusEnum;
 import com.tooklili.model.admin.SysUser;
 

@@ -1,8 +1,8 @@
-package com.tooklili.dao.intf.admin;
+package com.tooklili.dao.db.intf.admin;
 
 import java.util.List;
 
-import com.tooklili.dao.intf.BaseDao;
+import com.tooklili.dao.db.intf.BaseDao;
 import com.tooklili.model.admin.SysUserRole;
 
 /**

@@ -15,7 +15,7 @@ import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
-import com.tooklili.dao.intf.tooklili.ItemDao;
+import com.tooklili.dao.db.intf.tooklili.ItemDao;
 import com.tooklili.http.HttpCallService;
 import com.tooklili.model.taobao.AlimamaItem;
 import com.tooklili.model.taobao.AlimamaItemLink;

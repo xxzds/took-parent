@@ -6,7 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.tooklili.dao.intf.admin.SysUserRoleDao;
+import com.tooklili.dao.db.intf.admin.SysUserRoleDao;
 import com.tooklili.model.admin.SysUserRole;
 import com.tooklili.service.biz.intf.admin.system.UserRoleService;
 import com.tooklili.service.exception.BusinessException;

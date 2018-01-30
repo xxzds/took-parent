@@ -5,7 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tooklili.dao.intf.admin.SysUserDao;
+import com.tooklili.dao.db.intf.admin.SysUserDao;
 import com.tooklili.model.admin.SysUser;
 import com.tooklili.service.biz.intf.test.TestService;
 
