@@ -13,7 +13,7 @@
 		<module>took-util</module>
 		<module>took-app</module>
 <!-- 		<module>took-background</module> -->
-		<module>took-job-tooklili</module>
+<!-- 		<module>took-job-tooklili</module> -->
 <!-- 		<module>took-wechat</module> -->
 	</modules>
 
