@@ -1,10 +1,16 @@
 package com.tooklili.dao.es;
 
+import static org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery;
+import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
+import static org.elasticsearch.index.query.QueryBuilders.multiMatchQuery;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+import static org.elasticsearch.index.query.QueryBuilders.termQuery;
+import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
+import static org.elasticsearch.index.query.QueryBuilders.rangeQuery;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
-import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
+import org.elasticsearch.index.query.Operator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,9 +19,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -29,9 +37,10 @@ import com.tooklili.util.JsonFormatTool;
  * @date 2018年1月30日下午6:09:16
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:spring/spring-es-dao-test.xml" })
-public class EsTest{
-	private static final Logger LOGGER = LoggerFactory.getLogger(EsTest.class);
+@ContextConfiguration(locations = { "classpath:spring/spring-dao-test.xml" })
+@ActiveProfiles("es")
+public class PostRepositoryTest{
+	private static final Logger LOGGER = LoggerFactory.getLogger(PostRepositoryTest.class);
 	
 	@Autowired
 	private PostRepository postRepository;
@@ -151,6 +160,8 @@ public class EsTest{
 	
     /**
      * 单字符串模糊查询，默认排序。将从所有字段中查找包含传来的word分词后字符串的数据集 
+     * {"query":{"bool":{"must":[{"query_string":{"default_field":"_all","query":"浣溪沙"}}],"must_not":[],"should":[]}},"from":0,"size":20,"sort":[],"aggs":{}}
+     * http://wx.tooklili.com:9200/projectname/post/_search?size=20&from=0&q=浣溪沙
      * @author shuai.ding
      */
 	@Test
@@ -164,8 +175,24 @@ public class EsTest{
 	}
 	
 	/**
+	 * 单字符串模糊查询，单字段排序。
+	 * @author shuai.ding
+	 */
+	@Test
+	public void singlePost(){
+		String word = "浣溪沙";
+		Sort sort = Sort.by(Sort.Direction.DESC,"weight");
+		Pageable pageable = PageRequest.of(0, 20, sort);
+		//使用queryStringQuery完成单字符串查询  
+        SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(queryStringQuery(word)).withPageable(pageable).build();  
+        List<Post> result =  elasticsearchTemplate.queryForList(searchQuery, Post.class); 
+        LOGGER.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
+	}
+	
+	/**
 	 * 单字段对某字符串模糊查询
 	 * @author shuai.ding
+	 * http://wx.tooklili.com:9200/projectname/post/_search?size=20&from=0&q=content:落日熔金
 	 */
 	@Test
 	public void singleMatch(){
@@ -176,5 +203,133 @@ public class EsTest{
 		List<Post> result =  elasticsearchTemplate.queryForList(searchQuery, Post.class);  
 		LOGGER.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
 	}
+	
+	/**
+	 * 单字段对某短语进行匹配查询，短语分词的顺序会影响结果
+	 * @author shuai.ding
+	 */
+	@Test
+	public void singlePhraseMatch(){
+		String content = "落日熔金";
+		Pageable pageable = PageRequest.of(0, 20);
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchPhraseQuery("content", content)).withPageable(pageable).build();  
+		List<Post> result = elasticsearchTemplate.queryForList(searchQuery, Post.class);
+		LOGGER.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
+	}
+	
+	/**
+	 * 添加数据
+	 * @author shuai.ding
+	 */
+	@Test
+	public void addDate(){
+		Post post = new Post();  
+        post.setTitle("我是");  
+        post.setContent("我爱中华人民共和国");  
+        post.setWeight(1);  
+        post.setUserId(1);  
+        postRepository.save(post);  
+        post = new Post();  
+        post.setTitle("我是");  
+        post.setContent("中华共和国");  
+        post.setWeight(2);  
+        post.setUserId(2);  
+        postRepository.save(post);  
+	}
+	
+	/**
+	 * slop参数告诉match_phrase查询词条能够相隔多远时仍然将文档视为匹配
+	 * @author shuai.ding
+	 */
+	@Test
+	public void singlePhraseMatch2() {
+		String content = "中华共和国";
+		Pageable pageable = PageRequest.of(0, 20);
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchPhraseQuery("content", content).slop(2))
+				.withPageable(pageable).build();
+		List<Post> result = elasticsearchTemplate.queryForList(searchQuery, Post.class);
+		LOGGER.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
+	}
+	
+	/**
+	 * term匹配，即不分词匹配，你传来什么值就会拿你传的值去做完全匹配 
+	 * @author shuai.ding
+	 */
+	@Test
+	public void singleTerm() {
+		String userId = "1";
+		Pageable pageable = PageRequest.of(0, 20);
+		// 不对传来的值分词，去找完全匹配的
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("userId", userId))
+				.withPageable(pageable).build();
+		List<Post> result = elasticsearchTemplate.queryForList(searchQuery, Post.class);
+		LOGGER.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
+	}
+	
+	/**
+	 * 多字段匹配 
+	 * 如果我们希望title，content两个字段去匹配某个字符串，只要任何一个字段包括该字符串即可，就可以使用multimatch。
+	 * 可以看到，无论是title还是content中，包含“我”“是”字样的都被查询了出来。
+	 * @author shuai.ding
+	 */
+	@Test
+	public void multiMatch(){
+		String title="我是";
+		Pageable pageable = PageRequest.of(0, 20);
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(multiMatchQuery(title, "title", "content")).withPageable(pageable).build();  
+		List<Post> result =  elasticsearchTemplate.queryForList(searchQuery, Post.class);
+		LOGGER.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
+	}
+	
+	/**
+	 * 无论是matchQuery，multiMatchQuery，queryStringQuery等，都可以设置operator。默认为Or，设置为And后，就会把符合包含所有输入的才查出来。
+	 * @author shuai.ding
+	 */
+	@Test
+	public void contain(){
+		String title="我是";
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchQuery("title", title).operator(Operator.AND)).build();  
+		List<Post> result = elasticsearchTemplate.queryForList(searchQuery, Post.class);
+        LOGGER.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
+	}
+	
+	/**
+	 * 单字段包含所有输入(按比例包含)
+	 * minimumShouldMatch可以用在match查询中，设置最少匹配了多少百分比的能查询出来。
+	 * @author shuai.ding
+	 */
+	@Test
+	public void contain2(){
+		String title="如梦令";
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchQuery("title", title).operator(Operator.AND).minimumShouldMatch("75%")).build();  
+		List<Post> result = elasticsearchTemplate.queryForList(searchQuery, Post.class);
+        LOGGER.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
+	}
+	
+	/**
+	 * 合并查询
+	 * 即boolQuery，可以设置多个条件的查询方式。它的作用是用来组合多个Query，有四种方式来组合，must，mustnot，filter，should。 
+	 * must代表返回的文档必须满足must子句的条件，会参与计算分值；
+	 * filter代表返回的文档必须满足filter子句的条件，但不会参与计算分值；
+	 * should代表返回的文档可能满足should子句的条件，也可能不满足，有多个should时满足任何一个就可以，
+	 * 通过minimum_should_match设置至少满足几个。 mustnot代表必须不满足子句的条件。
+	 */
+	
+	/**
+	 * 多字段合并查询
+	 * @author shuai.ding
+	 */
+	@Test
+	public void bool(){
+		String userId = "1";
+		long weight = 1;
+		String title = "1";
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(boolQuery().must(termQuery("userId", userId))
+				.should(rangeQuery("weight").lt(weight)).must(matchQuery("title", title))).build();
+		List<Post> result = elasticsearchTemplate.queryForList(searchQuery, Post.class);
+		LOGGER.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
+	}
+	
+	
 
 }

@@ -24,10 +24,8 @@ import com.tooklili.model.tooklili.Item;
 import com.tooklili.model.tooklili.ItemModel;
 import com.tooklili.service.BaseTest;
 import com.tooklili.service.biz.intf.taobao.AlimamaService;
-import com.tooklili.service.util.AlimamaCookieUtils;
 import com.tooklili.util.Arith;
 import com.tooklili.util.DateUtil;
-import com.tooklili.util.HttpClientUtil;
 import com.tooklili.util.JsonFormatTool;
 import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;
@@ -239,27 +237,4 @@ pvid:10_220.178.25.22_1773_1506419402203
 		logger.info(JsonFormatTool.formatJson(result.getData()));
 		
 	}
-	
-	
-	/**
-	 * 获取短链接、长链接、二维码、淘口令
-	 */
-	@Test
-	public void getLianjie(){
-//		Map<String, String> params = Maps.newHashMap();
-//		params.put("auctionid", "558386463934");
-//		params.put("adzoneid","69036167");
-//		params.put("siteid","19682654");
-//		params.put("scenes","1");
-//		params.put("t","1507970430118");
-//		params.put("_tb_token_","fed381b34a3e3");
-//		params.put("pvid", "10_211.162.8.113_2145_1507970029219");
-//		PlainResult<String> result = httpCallService.httpGet("https://pub.alimama.com/common/code/getAuctionCode.json",params);
-		
-		String url="https://pub.alimama.com/common/code/getAuctionCode.json?pvid=10_211.162.8.113_2145_1507970029219&auctionid=558386463934&t=1507970430118&scenes=1&adzoneid=69036167&siteid=19682654&_tb_token_=fed381b34a3e3";
-		String cookies=AlimamaCookieUtils.getLoginCookies();
-		String content = HttpClientUtil.get(url, cookies);
-		logger.info(JsonFormatTool.formatJson(content));
-	}
-
 }

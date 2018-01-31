@@ -39,17 +39,13 @@
 				<list>
 					<value>classpath:development/jdbc.properties</value>
 					<value>classpath:development/redis.properties</value>
-					<value>classpath:development/mongo.properties</value>
-					<value>classpath:development/es.properties</value>					
+					<value>classpath:development/mongo.properties</value>				
 				</list>
 			</property>
 		</bean>		
 		
 		<!-- JobHandler 扫描路径 -->
 		<context:component-scan base-package="com.tooklili.service.jobhandler" />
-		
-		<!-- es -->
-	    <import resource="spring-es-config.xml"/>
 	</beans>
 	
 	<!-- 生产环境 -->

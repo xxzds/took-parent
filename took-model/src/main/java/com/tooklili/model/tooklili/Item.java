@@ -1,5 +1,8 @@
 package com.tooklili.model.tooklili;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+
 import io.swagger.annotations.ApiModelProperty;
 
 /**
@@ -7,10 +10,12 @@ import io.swagger.annotations.ApiModelProperty;
  * @author shuai.ding
  * @date 2017年9月11日下午2:14:07
  */
+@Document(indexName="item")
 public class Item {
 	/**
 	 * 主键id
 	 */
+	@Id
 	@ApiModelProperty("主键id")
 	private Long id;
 	

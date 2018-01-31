@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="error">
+    <!--先定义所有的appender-->
+    <appenders>
+        <!--这个输出控制台的配置-->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%-d{yyyy-MM-dd HH:mm:ss}  [ %t:%r ] - [ %p ]  %m%n"/>
+        </Console>
+        
+        <!-- 按时间切分，也可以加入按大小切分 -->
+        <RollingFile name="RollingFile" fileName="C:/Users/Administrator/Desktop/log/tookapp.log"
+                     filePattern="C:/Users/Administrator/Desktop/log/tookapp.log.%d{yyyyMMdd}">
+            <PatternLayout pattern="%-d{yyyy-MM-dd HH:mm:ss}  [ %t:%r ] - [ %p ]  %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+    </appenders>
+    <!--然后定义logger，只有定义了logger并引入的appender，appender才会生效-->
+    <loggers>
+        <!--建立一个默认的root的logger, 除了上面定义的logger，其他只有warn才会打印-->
+        <root level="info">
+            <appender-ref ref="RollingFile"/>
+            <appender-ref ref="Console"/>            
+        </root>
+    </loggers>
+</configuration>
