@@ -1,6 +1,4 @@
-.properties
 .settings
 .project
 .classpath
 target
-*.properties
