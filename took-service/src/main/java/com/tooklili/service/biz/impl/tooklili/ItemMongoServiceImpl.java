@@ -110,63 +110,63 @@ public class ItemMongoServiceImpl implements ItemService{
 			size=10;
 		}
 				
-		final int nLimit = size;
-		List<Item> items =  mongoTemplate.execute(collection, new CollectionCallback<List<Item>>() {
-			
-			public List<Item> doInCollection(DBCollection collection) throws MongoException, DataAccessException {
-				List<Item> result = new ArrayList<Item>();
-				
-		    	//通过ObjectId.get()得到二个唯一的变量名。
-			    String sgteArgs="_OpenTmp"+ObjectId.get().toString();
-			    String slteArgs="_OpenTmp"+ObjectId.get().toString();
-			    
-			    DBObject query = new BasicDBObject();
-			    query.put("cateId",cateId);
-			    //得到数据的总数
-			    long nLength=collection.count(query);
-			    //根据要获取的记录的条数，对范围值进行修改
-			    RndScope rndScope=new RndScope(nLength,nLimit);
-		    	
-		    	//将创建时间太久的给删除掉
-		        DBCollection dbSystem=collection.getDB().getCollection("system.js");
-		        dbSystem.remove(new BasicDBObjectBuilder()
-		            .add("createDate",
-		                    new BasicDBObjectBuilder()
-		                    .add("$lt",new Date((new Date()).getTime()-24*60*1000)).get())
-		            .add("_id",Pattern.compile("_OpenTmp*"))
-		            .get());
-		        //向system.js集合中添加二个全局的变量
-		        dbSystem.findAndModify(
-		                new BasicDBObjectBuilder().add("_id", sgteArgs).get(),
-		                null,null, false, new BasicDBObjectBuilder()
-		                .add("_id", sgteArgs)
-		                .add("value",rndScope.getGteVal())
-		                .add("createDate",new Date())
-		                .get(), false, true);
-		        dbSystem.findAndModify(new BasicDBObjectBuilder().add("_id",slteArgs).get()
-		                ,null,null,false,new BasicDBObjectBuilder()
-		                                    .add("_id",slteArgs)
-		                                    .add("value",rndScope.getLteVal())
-		                                    .add("createDate",new Date())
-		                                    .get(),false,true);
-		        
-				
-				query.put("$where", "function(){var rnd=Math.random();return (rnd>="
-		                +sgteArgs+" && rnd<="+slteArgs+");}");
-				
-				DBCursor cursor = collection.find(query).limit(nLimit);
-				
-				while(cursor.hasNext()) {
-				     DBObject obj = cursor.next();
-				     //此处将_id的键转化成id，最终能将json字符串存入实体中
-				     obj.put("id", obj.get("_id"));
-				     Item item = JSON.parseObject(obj.toString(), Item.class);
-				     result.add(item);
-				  }
-				return result;
-			}
-		});			
-		result.setData(items);
+//		final int nLimit = size;
+//		List<Item> items =  mongoTemplate.execute(collection, new CollectionCallback<List<Item>>() {
+//			
+//			public List<Item> doInCollection(DBCollection collection) throws MongoException, DataAccessException {
+//				List<Item> result = new ArrayList<Item>();
+//				
+//		    	//通过ObjectId.get()得到二个唯一的变量名。
+//			    String sgteArgs="_OpenTmp"+ObjectId.get().toString();
+//			    String slteArgs="_OpenTmp"+ObjectId.get().toString();
+//			    
+//			    DBObject query = new BasicDBObject();
+//			    query.put("cateId",cateId);
+//			    //得到数据的总数
+//			    long nLength=collection.count(query);
+//			    //根据要获取的记录的条数，对范围值进行修改
+//			    RndScope rndScope=new RndScope(nLength,nLimit);
+//		    	
+//		    	//将创建时间太久的给删除掉
+//		        DBCollection dbSystem=collection.getDB().getCollection("system.js");
+//		        dbSystem.remove(new BasicDBObjectBuilder()
+//		            .add("createDate",
+//		                    new BasicDBObjectBuilder()
+//		                    .add("$lt",new Date((new Date()).getTime()-24*60*1000)).get())
+//		            .add("_id",Pattern.compile("_OpenTmp*"))
+//		            .get());
+//		        //向system.js集合中添加二个全局的变量
+//		        dbSystem.findAndModify(
+//		                new BasicDBObjectBuilder().add("_id", sgteArgs).get(),
+//		                null,null, false, new BasicDBObjectBuilder()
+//		                .add("_id", sgteArgs)
+//		                .add("value",rndScope.getGteVal())
+//		                .add("createDate",new Date())
+//		                .get(), false, true);
+//		        dbSystem.findAndModify(new BasicDBObjectBuilder().add("_id",slteArgs).get()
+//		                ,null,null,false,new BasicDBObjectBuilder()
+//		                                    .add("_id",slteArgs)
+//		                                    .add("value",rndScope.getLteVal())
+//		                                    .add("createDate",new Date())
+//		                                    .get(),false,true);
+//		        
+//				
+//				query.put("$where", "function(){var rnd=Math.random();return (rnd>="
+//		                +sgteArgs+" && rnd<="+slteArgs+");}");
+//				
+//				DBCursor cursor = collection.find(query).limit(nLimit);
+//				
+//				while(cursor.hasNext()) {
+//				     DBObject obj = cursor.next();
+//				     //此处将_id的键转化成id，最终能将json字符串存入实体中
+//				     obj.put("id", obj.get("_id"));
+//				     Item item = JSON.parseObject(obj.toString(), Item.class);
+//				     result.add(item);
+//				  }
+//				return result;
+//			}
+//		});			
+//		result.setData(items);
 		return result;
 	}
 

@@ -19,7 +19,7 @@ import com.tooklili.model.taobao.AlimamaItem;
 import com.tooklili.model.taobao.AlimamaReqItemModel;
 import com.tooklili.model.taobao.KeyWordAndCateModel;
 import com.tooklili.service.biz.intf.taobao.AlimamaService;
-import com.tooklili.service.biz.intf.tooklili.ItemDBService;
+import com.tooklili.service.biz.intf.tooklili.ItemOperService;
 import com.tooklili.util.JsonFormatTool;
 import com.tooklili.util.result.PageResult;
 import com.xxl.job.core.biz.model.ReturnT;
@@ -40,8 +40,8 @@ public class CollectCouponsItemBySupserSearchJobHandler extends IJobHandler{
 	@Resource
 	private AlimamaService alimamaService;
 	
-	@Resource
-	private ItemDBService itemDBService;
+	@Resource(name = "itemEsOperServiceImpl")
+	private ItemOperService itemOperService;
 	
 	@Resource
 	private RedisTemplate<?,?> redisTemplate; 
@@ -112,6 +112,6 @@ public class CollectCouponsItemBySupserSearchJobHandler extends IJobHandler{
 		}		
 		AlimamaItem alimamaItem = result.getData().get(0);
 		
-		itemDBService.insertOrUpdate(alimamaItem, keyWordAndCateModel.getCate());
+		itemOperService.insertOrUpdate(alimamaItem, keyWordAndCateModel.getCate());
 	}
 }

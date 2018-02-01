@@ -13,6 +13,7 @@
 
 	<!-- dao -->
 	<import resource="classpath:spring/spring-dao.xml"/>
+	<import resource="classpath:spring/spring-es-config.xml"/>
 
 	<!-- 组件 -->
 	<import resource="spring-service-component.xml"/>
@@ -39,7 +40,8 @@
 				<list>
 					<value>classpath:development/jdbc.properties</value>
 					<value>classpath:development/redis.properties</value>
-					<value>classpath:development/mongo.properties</value>				
+					<value>classpath:development/mongo.properties</value>
+					<value>classpath:development/es.properties</value>				
 				</list>
 			</property>
 		</bean>		

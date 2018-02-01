@@ -9,11 +9,11 @@ import com.tooklili.model.taobao.AlimamaItem;
 import com.tooklili.util.result.BaseResult;
 
 /**
- * 从数据库中操作商品服务
+ * 操作商品(主要做插入和更新)
  * @author shuai.ding
  * @date 2017年10月25日上午11:30:17
  */
-public interface ItemDBService {
+public interface ItemOperService {
 	
 	/**
 	 * 插入或更新商品

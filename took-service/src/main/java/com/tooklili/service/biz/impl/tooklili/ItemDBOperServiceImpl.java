@@ -26,19 +26,19 @@ import com.tooklili.model.tooklili.ItemModel;
 import com.tooklili.service.biz.intf.taobao.AlimamaService;
 import com.tooklili.service.biz.intf.taobao.TaobaoService;
 import com.tooklili.service.biz.intf.taobao.TbkService;
-import com.tooklili.service.biz.intf.tooklili.ItemDBService;
+import com.tooklili.service.biz.intf.tooklili.ItemOperService;
 import com.tooklili.util.Arith;
 import com.tooklili.util.DateUtil;
 import com.tooklili.util.result.BaseResult;
 
 /**
- * 
+ * 数据库 更新、插入商品
  * @author shuai.ding
  * @date 2017年10月25日上午11:34:00
  */
 @Service
-public class ItemDBServiceImpl implements ItemDBService{
-	private static final Logger LOGGER = LoggerFactory.getLogger(ItemDBServiceImpl.class);
+public class ItemDBOperServiceImpl implements ItemOperService{
+	private static final Logger LOGGER = LoggerFactory.getLogger(ItemDBOperServiceImpl.class);
 	
 	@Resource
 	private AlimamaService alimamaService;

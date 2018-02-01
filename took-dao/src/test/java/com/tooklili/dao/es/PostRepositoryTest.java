@@ -28,6 +28,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.alibaba.fastjson.JSON;
+import com.tooklili.dao.es.intf.PostRepository;
 import com.tooklili.model.es.Post;
 import com.tooklili.util.JsonFormatTool;
 
@@ -170,6 +171,7 @@ public class PostRepositoryTest{
 		// 使用queryStringQuery完成单字符串查询
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(queryStringQuery(word))
 				.withPageable(PageRequest.of(0, 20)).build();
+		LOGGER.info("QueryDSL:\n{}", searchQuery.getQuery().toString());
 		List<Post> result = elasticsearchTemplate.queryForList(searchQuery, Post.class);
 		LOGGER.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
 	}
@@ -184,7 +186,9 @@ public class PostRepositoryTest{
 		Sort sort = Sort.by(Sort.Direction.DESC,"weight");
 		Pageable pageable = PageRequest.of(0, 20, sort);
 		//使用queryStringQuery完成单字符串查询  
-        SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(queryStringQuery(word)).withPageable(pageable).build();  
+        SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(queryStringQuery(word)).withPageable(pageable).build();
+        LOGGER.info("QueryDSL:\n{}", searchQuery.getQuery().toString());
+        LOGGER.info("PageableDSL:\n{}", searchQuery.getPageable().toString());     
         List<Post> result =  elasticsearchTemplate.queryForList(searchQuery, Post.class); 
         LOGGER.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
 	}

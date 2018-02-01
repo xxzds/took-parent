@@ -1,4 +1,4 @@
-package com.tooklili.dao.es;
+package com.tooklili.dao.es.intf;
 import org.springframework.data.elasticsearch.repository.ElasticsearchCrudRepository;
 
 import com.tooklili.model.es.Post; 

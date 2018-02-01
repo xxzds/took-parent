@@ -55,7 +55,7 @@ public class MongoPageable implements Pageable,Serializable{
 	}
 
 	@Override
-	public int getOffset() {
+	public long getOffset() {
 		return (page-1)*size;
 	}
 
@@ -65,18 +65,18 @@ public class MongoPageable implements Pageable,Serializable{
 	}
 
 	@Override
-	public Pageable next() {
-		return new PageRequest(getPageNumber() + 1, getPageSize(), getSort());
+	public Pageable next() {		
+		return PageRequest.of(getPageNumber() + 1, getPageSize(), getSort());
 	}
 
 	@Override
 	public Pageable previousOrFirst() {
-		return getPageNumber() == 1 ? this : new PageRequest(getPageNumber() - 1, getPageSize(), getSort());
+		return getPageNumber() == 1 ? this : PageRequest.of(getPageNumber() - 1, getPageSize(), getSort());
 	}
 
 	@Override
 	public Pageable first() {
-		return new PageRequest(1, getPageSize(), getSort());
+		return PageRequest.of(1, getPageSize(), getSort());
 	}
 
 	@Override

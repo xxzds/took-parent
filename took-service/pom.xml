@@ -121,7 +121,6 @@
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-mongodb</artifactId>
-			<version>1.10.6.RELEASE</version>
 		</dependency>
 
 		<!-- htmlunit -->

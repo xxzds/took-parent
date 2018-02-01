@@ -20,7 +20,7 @@ import com.tooklili.model.taobao.AlimamaItem;
 import com.tooklili.model.taobao.AlimamaReqItemModel;
 import com.tooklili.service.biz.intf.taobao.AlimamaService;
 import com.tooklili.service.biz.intf.taobao.TbkService;
-import com.tooklili.service.biz.intf.tooklili.ItemDBService;
+import com.tooklili.service.biz.intf.tooklili.ItemOperService;
 import com.tooklili.util.JsonFormatTool;
 import com.tooklili.util.result.PageResult;
 import com.xxl.job.core.biz.model.ReturnT;
@@ -40,8 +40,8 @@ public class DirctCollectCouponsByParamJobHandler extends IJobHandler{
 	@Resource
 	private AlimamaService alimamaService;
 	
-	@Resource
-	private ItemDBService itemDBService;
+	@Resource(name = "itemEsOperServiceImpl")
+	private ItemOperService itemOperService;
 	
 	@Resource
 	private TbkService tbkService;
@@ -161,7 +161,7 @@ public class DirctCollectCouponsByParamJobHandler extends IJobHandler{
 		}
 		
 		for(AlimamaItem alimamaItem:alimamaItems){
-			itemDBService.insertOrUpdate(alimamaItem, cate);
+			itemOperService.insertOrUpdate(alimamaItem, cate);
 			
 			//为防止频繁调用阿里妈妈推广接口，被禁，此处休眠20s
 			Thread.sleep(20000);
@@ -202,7 +202,7 @@ public class DirctCollectCouponsByParamJobHandler extends IJobHandler{
 		}		
 		
 		for(TbkCoupon tbkCoupon:tbkCoupons){
-			itemDBService.insertOrUpdate(tbkCoupon, cate);
+			itemOperService.insertOrUpdate(tbkCoupon, cate);
 		}
 		return result;		
 	}

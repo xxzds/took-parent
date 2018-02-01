@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiOperation;
 @Controller
 public class ItemController {	
 	
-	@Resource(name="itemMongoServiceImpl")
+	@Resource(name="itemEsServiceImpl")
 	private ItemService itemService;
 	
 	@ApiOperation(value = "从本地数据库中查询商品列表",notes = "从本地数据库中查询商品列表")

@@ -20,7 +20,7 @@ import com.taobao.api.request.TbkDgItemCouponGetRequest;
 import com.taobao.api.response.TbkDgItemCouponGetResponse.TbkCoupon;
 import com.tooklili.model.taobao.KeyWordAndCateModel;
 import com.tooklili.service.biz.intf.taobao.TbkService;
-import com.tooklili.service.biz.intf.tooklili.ItemDBService;
+import com.tooklili.service.biz.intf.tooklili.ItemOperService;
 import com.tooklili.util.JsonFormatTool;
 import com.tooklili.util.result.PageResult;
 import com.xxl.job.core.biz.model.ReturnT;
@@ -40,8 +40,8 @@ public class CollectCouponsItemByTbkApiJobHandller extends IJobHandler{
 	@Resource
 	private TbkService tbkService;
 	
-	@Resource
-	private ItemDBService itemDBService;
+	@Resource(name = "itemEsOperServiceImpl")
+	private ItemOperService itemOperService;
 	
 	@Resource
 	private RedisTemplate<?,?> redisTemplate; 
@@ -105,7 +105,7 @@ public class CollectCouponsItemByTbkApiJobHandller extends IJobHandler{
 		}		
 		TbkCoupon tbkCoupon = tbkCoupons.get(0);
 		
-		itemDBService.insertOrUpdate(tbkCoupon, keyWordAndCateModel.getCate());
+		itemOperService.insertOrUpdate(tbkCoupon, keyWordAndCateModel.getCate());
 	}
 	
 }

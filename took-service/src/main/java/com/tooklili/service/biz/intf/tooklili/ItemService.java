@@ -6,7 +6,7 @@ import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;
 
 /**
- * 获取优惠券商品
+ * 获取优惠券商品(eg：现主要做查询用)
  * @author ding.shuai
  * @date 2017年9月16日上午10:45:49
  */

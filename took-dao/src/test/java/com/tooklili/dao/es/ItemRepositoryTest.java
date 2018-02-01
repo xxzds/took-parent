@@ -11,8 +11,11 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.alibaba.fastjson.JSON;
 import com.tooklili.dao.db.intf.tooklili.ItemDao;
+import com.tooklili.dao.es.intf.ItemRepository;
 import com.tooklili.model.tooklili.Item;
+import com.tooklili.util.JsonFormatTool;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringJUnitConfig(locations = {"classpath:spring/spring-dao-test.xml" })
@@ -35,6 +38,27 @@ public class ItemRepositoryTest {
 			LOGGER.error("exception",e);
 		}
 		
+	}
+	
+	@Test
+	public void queryItemBynumIid(){
+		try{
+			Item item = itemRepository.queryItemBynumIid(560539907137L);
+			LOGGER.info(JsonFormatTool.formatJson(JSON.toJSONString(item)));
+		}catch(Exception e){
+			LOGGER.error("exception",e);
+		}
+	}
+	
+	@Test
+	public void updateItemById(){
+		try{
+			Item item = new Item();
+			item.setId(806166L);
+			itemRepository.save(item);
+		}catch(Exception e){
+			LOGGER.error("exception",e);
+		}
 	}
 
 }

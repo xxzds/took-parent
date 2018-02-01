@@ -5,19 +5,11 @@
      xsi:schemaLocation="
      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
      http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
-	
-	<mongo:mongo  id="mongo" host="${mongodb.host}" port="${mongodb.port}">
-        <mongo:options connections-per-host="8"
-            threads-allowed-to-block-for-connection-multiplier="4"
-            connect-timeout="1000" 
-            max-wait-time="1500" 
-            auto-connect-retry="true"
-            socket-keep-alive="true" 
-            socket-timeout="1500" slave-ok="true"
-            write-number="1" 
-            write-timeout="0" 
-            write-fsync="true" />
-    </mongo:mongo>
+    
+    <!-- spring连接mongodb数据库的配置 -->  
+    <mongo:mongo-client host="${mongodb.host}" port="${mongodb.port}"  id="mongo">    
+       <mongo:client-options write-concern="SAFE"/>    
+    </mongo:mongo-client> 
     
     <mongo:db-factory  id="mongoDbFactory" dbname="mongoTest" mongo-ref="mongo" />
     

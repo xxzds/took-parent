@@ -2,6 +2,8 @@ package com.tooklili.model.tooklili;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import io.swagger.annotations.ApiModelProperty;
 
@@ -10,7 +12,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author shuai.ding
  * @date 2017年9月11日下午2:14:07
  */
-@Document(indexName="item")
+@Document(indexName="item",indexStoreType="fs")
 public class Item {
 	/**
 	 * 主键id
@@ -22,12 +24,14 @@ public class Item {
 	/**
 	 * 分类id
 	 */
+	@Field(type=FieldType.Integer)
 	@ApiModelProperty("分类id")
 	private Integer cateId;
 	
 	/**
 	 * 淘宝中对应的商品id
 	 */
+	@Field(type=FieldType.Long)
 	@ApiModelProperty("淘宝中对应的商品id")
 	private Long numIid;
 	
@@ -88,24 +92,27 @@ public class Item {
 	/**
 	 *开始时间
 	 */
+	@Field(type=FieldType.text)
 	@ApiModelProperty("开始时间")
 	private String couponStartTime;
 	
 	/**
 	 * 结束时间
 	 */
+	@Field(type=FieldType.text)
 	@ApiModelProperty("结束时间")
 	private String couponEndTime;
 	
 	/**
 	 * 添加时间
 	 */
+	@Field(type=FieldType.text)
 	@ApiModelProperty("添加时间")
 	private String addTime;
 	
 	/**
 	 * 商品类别(B、天猫 C、淘宝)
-	 */
+	 */	
 	@ApiModelProperty("商品类别(B、天猫 C、淘宝)")
 	private String shopType;
 	
