@@ -102,7 +102,7 @@ public class ItemEsOperServiceImpl implements ItemOperService{
 		itemNew.setCouponPrice(String.valueOf(couponPrice));
 			
 		itemRepository.save(itemNew);
-		LOGGER.info("{}数据库的商品主键为：{}",isUpdate == true ? "更新":"插入",itemNew.getId());
+		LOGGER.info("{}es的商品主键为：{}",isUpdate == true ? "更新":"插入",itemNew.getId());
 		return result;
 	}
 
@@ -172,7 +172,7 @@ public class ItemEsOperServiceImpl implements ItemOperService{
 		itemNew.setIntro(tbkCoupon.getItemDescription() != null ? tbkCoupon.getItemDescription():"");
 		
 		itemRepository.save(itemNew);
-		LOGGER.info("{}数据库的商品主键为：{}",isUpdate == true ? "更新":"插入",itemNew.getId());
+		LOGGER.info("{}es的商品主键为：{}",isUpdate == true ? "更新":"插入",itemNew.getId());
 		return result;
 	}
 	
