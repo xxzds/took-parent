@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.taobao.api.ApiException;
 import com.taobao.api.response.TbkCouponGetResponse.MapData;
 import com.taobao.api.response.TbkDgItemCouponGetResponse.TbkCoupon;
+import com.tooklili.dao.es.EsItemRepository;
 import com.tooklili.dao.es.intf.ItemRepository;
 import com.tooklili.model.taobao.AlimamaItem;
 import com.tooklili.model.taobao.AlimamaItemLink;
@@ -38,6 +39,9 @@ public class ItemEsOperServiceImpl implements ItemOperService{
 	
 	@Autowired
 	private ItemRepository itemRepository;
+	
+	@Autowired
+	private EsItemRepository esItemRepository;
 	
 	@Autowired
 	private AlimamaService alimamaService;
@@ -189,6 +193,13 @@ public class ItemEsOperServiceImpl implements ItemOperService{
 				result.put(array3[0], array3[1]);
 			}
 		}
+		return result;
+	}
+
+	@Override
+	public BaseResult clearExpiredItems() {
+		BaseResult result = new BaseResult();
+		esItemRepository.delExpiredItems();
 		return result;
 	}
 

@@ -5,9 +5,9 @@ import javax.annotation.Resource;
 import org.junit.Test;
 
 import com.tooklili.service.BaseTest;
+import com.tooklili.service.jobhandler.ClearExpiredItemsJobHandler;
 import com.tooklili.service.jobhandler.CollectCouponsItemBySupserSearchJobHandler;
 import com.tooklili.service.jobhandler.CollectCouponsItemByTbkApiJobHandller;
-import com.tooklili.service.jobhandler.DemoJobHandler;
 import com.tooklili.service.jobhandler.DirctCollectCouponsByParamJobHandler;
 
 /**
@@ -19,9 +19,6 @@ import com.tooklili.service.jobhandler.DirctCollectCouponsByParamJobHandler;
 public class JobTest extends BaseTest{
 	
 	@Resource
-	private DemoJobHandler demoJobHandler;
-	
-	@Resource
 	private CollectCouponsItemBySupserSearchJobHandler collectCouponsItemBySupserSearchJobHandler;
 	
 	@Resource
@@ -30,10 +27,8 @@ public class JobTest extends BaseTest{
 	@Resource
 	private DirctCollectCouponsByParamJobHandler dirctCollectCouponsByParamJobHandler;
 	
-	@Test
-	public void demoJobHandlerTest() throws Exception{
-		demoJobHandler.execute();
-	}
+	@Resource
+    private ClearExpiredItemsJobHandler clearExpiredItemsJobHandler;
 	
 	@Test
 	public void collectCouponsItemBySupserSearchJobHandlerTest() throws Exception{
@@ -49,5 +44,9 @@ public class JobTest extends BaseTest{
 	public void dirctCollectCouponsByParamJobHandlerTest() throws Exception{
 		dirctCollectCouponsByParamJobHandler.execute("女士裙装","1","2","35","1");
 	}
-
+	
+	@Test
+	public void clearExpiredItemsJobHandler() throws Exception{
+		clearExpiredItemsJobHandler.execute();
+	}
 }

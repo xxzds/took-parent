@@ -60,5 +60,12 @@ public class ItemRepositoryTest {
 			LOGGER.error("exception",e);
 		}
 	}
+	
+	@Test
+	public void del(){
+		Item item = new Item();
+		item.setId(1517471536511L);
+		itemRepository.delete(item);
+	}
 
 }

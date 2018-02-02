@@ -92,21 +92,18 @@ public class Item {
 	/**
 	 *开始时间
 	 */
-	@Field(type=FieldType.text)
 	@ApiModelProperty("开始时间")
 	private String couponStartTime;
 	
 	/**
 	 * 结束时间
 	 */
-	@Field(type=FieldType.text)
 	@ApiModelProperty("结束时间")
 	private String couponEndTime;
 	
 	/**
 	 * 添加时间
 	 */
-	@Field(type=FieldType.text)
 	@ApiModelProperty("添加时间")
 	private String addTime;
 	

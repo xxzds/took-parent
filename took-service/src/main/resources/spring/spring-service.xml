@@ -60,6 +60,7 @@
 					<value>classpath:production/redis.properties</value>
 					<value>classpath:production/mongo.properties</value>
 					<value>classpath:production/xxl-job-executor.properties</value>
+					<value>classpath:development/es.properties</value>
 				</list>
 			</property>
 		</bean>

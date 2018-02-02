@@ -223,4 +223,12 @@ public class ItemDBOperServiceImpl implements ItemOperService{
 		return result;
 	}
 
+	@Override
+	public BaseResult clearExpiredItems() {
+		BaseResult result = new BaseResult();
+		long count = itemDao.deleteExpiredItem();
+		LOGGER.info("删除{}个过期商品",count);
+		return result;
+	}
+
 }

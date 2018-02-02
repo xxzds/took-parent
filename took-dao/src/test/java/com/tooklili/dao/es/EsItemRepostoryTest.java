@@ -66,4 +66,13 @@ public class EsItemRepostoryTest {
 			LOGGER.error("exception", e);
 		}
 	}
+	
+	@Test
+	public void delExpiredItemsTest(){
+		try{
+			esItemRepository.delExpiredItems();
+		}catch(Exception e){
+			LOGGER.error("exception", e);
+		}
+	}
 }

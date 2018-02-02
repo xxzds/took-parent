@@ -9,7 +9,7 @@ import com.tooklili.model.taobao.AlimamaItem;
 import com.tooklili.util.result.BaseResult;
 
 /**
- * 操作商品(主要做插入和更新)
+ * 操作商品(主要做CUD)
  * @author shuai.ding
  * @date 2017年10月25日上午11:30:17
  */
@@ -37,5 +37,12 @@ public interface ItemOperService {
 	 * @throws ParseException 
 	 */
 	public BaseResult insertOrUpdate(TbkCoupon tbkCoupon,Integer itemCateId) throws ApiException, ParseException;
+	
+	/**
+	 * 清除过期商品
+	 * @author shuai.ding
+	 * @return
+	 */
+	public BaseResult clearExpiredItems();
 
 }
