@@ -17,6 +17,8 @@ import org.elasticsearch.search.sort.SortBuilders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.DeleteQuery;
 import org.springframework.data.elasticsearch.core.query.GetQuery;
@@ -48,9 +50,12 @@ public class EsItemRepository {
 	 * @param pageSize    页面大小
 	 * @return
 	 */
-	public List<Item> queryItemsByCateId(Integer cateId, int currentPage, int pageSize){		
+	public List<Item> queryItemsByCateId(Integer cateId, int currentPage, int pageSize){
+		//按创建时间倒序排列
+		Sort sort = Sort.by(Sort.Direction.DESC,"addTime.keyword");
+		Pageable pageable = PageRequest.of(currentPage - 1, pageSize, sort);
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("cateId", cateId))
-				.withPageable(PageRequest.of(currentPage - 1, pageSize)).build();
+				.withPageable(pageable).build();
 //		searchQuery.addIndices("item");
 		return elasticsearchTemplate.queryForList(searchQuery, Item.class);
 	}
