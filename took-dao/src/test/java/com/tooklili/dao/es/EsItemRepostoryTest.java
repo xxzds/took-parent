@@ -34,7 +34,7 @@ public class EsItemRepostoryTest {
 	public void queryItemsByCateId() {
 		try {
 			List<Item> result = esItemRepository.queryItemsByCateId(35, 1, 10);
-			long count = esItemRepository.countItemsByCateId(35, 1, 10);
+			long count = esItemRepository.countItemsByCateId(35);
 			LOGGER.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
 			LOGGER.info("总个数:{}", count);
 		} catch (Exception e) {
@@ -49,7 +49,7 @@ public class EsItemRepostoryTest {
 			int currentPage = 1;
 			int pageSize = 10;
 			List<Item> result = esItemRepository.queryItemsByKeyword(keyword, currentPage, pageSize);
-			long count = esItemRepository.countItemsByKeyword(keyword, currentPage, pageSize);
+			long count = esItemRepository.countItemsByKeyword(keyword);
 			LOGGER.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
 			LOGGER.info("总个数:{}", count);
 		} catch (Exception e) {

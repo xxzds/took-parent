@@ -1,36 +1,27 @@
-package com.tooklili.service.mongodb;
+package com.tooklili.dao.mongodb;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
-import org.bson.types.ObjectId;
 import org.junit.Test;
-import org.springframework.dao.DataAccessException;
+import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
-import org.springframework.data.mongodb.core.CollectionCallback;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.alibaba.fastjson.JSON;
-import com.mongodb.BasicDBObject;
-import com.mongodb.BasicDBObjectBuilder;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-import com.mongodb.MongoException;
 import com.tooklili.dao.db.intf.tooklili.ItemDao;
 import com.tooklili.model.tooklili.Item;
-import com.tooklili.service.BaseTest;
-import com.tooklili.service.biz.impl.tooklili.RndScope;
-import com.tooklili.service.util.MongoPageable;
 import com.tooklili.util.JsonFormatTool;
 import com.tooklili.util.result.PageResult;
 
@@ -40,7 +31,11 @@ import com.tooklili.util.result.PageResult;
  *
  * @date 2017年9月21日下午3:17:52
  */
-public class MongodbTest extends BaseTest{
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath:spring/spring-dao-test.xml" })
+@ActiveProfiles("mongodb")
+public class MongodbTest{
+	private static final Logger logger = LoggerFactory.getLogger(MongodbTest.class);
 	
 	@Resource
 	private MongoTemplate mongoTemplate;
@@ -94,7 +89,7 @@ public class MongodbTest extends BaseTest{
 	public void findTest(){
 		try{
 			Query query = new Query(Criteria.where("cateId").is(37));
-			query.with(new Sort(new Order(Direction.DESC, "addTime")));   //排序
+			query.with(Sort.by(new Order(Direction.DESC, "addTime")));   //排序
 			
 			
 			//总个数

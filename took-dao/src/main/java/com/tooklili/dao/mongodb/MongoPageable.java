@@ -1,4 +1,4 @@
-package com.tooklili.service.util;
+package com.tooklili.dao.mongodb;
 
 import java.io.Serializable;
 

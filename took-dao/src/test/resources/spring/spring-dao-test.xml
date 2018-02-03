@@ -23,6 +23,18 @@
 		<import resource="classpath:spring/spring-es-config.xml"/>	
 	</beans>
 	
+	<!-- redis -->
+	<beans profile="redis">
+		<context:property-placeholder location="classpath:redis.properties"/>
+		<import resource="classpath:spring/spring-redis-config.xml"/>	
+	</beans>
+	
+	<!-- mongodb -->
+	<beans profile="mongodb">
+		<context:property-placeholder location="classpath:mongo.properties"/>
+		<import resource="classpath:spring/spring-mongodb-config.xml"/>	
+	</beans>
+	
 	<!-- mybatis es -->
 	<beans profile="mybatisAndEs">
 		<context:property-placeholder location="classpath:jdbc.properties,classpath:es.properties"/>

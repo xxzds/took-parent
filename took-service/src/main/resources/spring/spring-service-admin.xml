@@ -12,9 +12,7 @@
 
 	<!-- dao -->
 	<import resource="classpath:spring/spring-dao.xml"/>
-	
-	<!-- redis -->
-	<import resource="spring-redis-config.xml"/>
+	<import resource="classpath:spring/spring-redis-config.xml"/>
 
 	<!-- 组件 -->
 	<import resource="spring-service-component.xml"/>

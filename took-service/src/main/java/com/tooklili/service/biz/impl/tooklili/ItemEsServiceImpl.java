@@ -35,7 +35,7 @@ public class ItemEsServiceImpl implements ItemService{
 			return result.setErrorMessage(10001, "参数cateId不合法");
 		}
 		result.setData(esItemRepository.queryItemsByCateId(cateId, currentPage.intValue(), pageSize.intValue()));
-		result.setTotalCountLong(esItemRepository.countItemsByCateId(cateId, currentPage.intValue(), pageSize.intValue()));
+		result.setTotalCountLong(esItemRepository.countItemsByCateId(cateId));
 		
 		return result;
 	}
@@ -68,7 +68,7 @@ public class ItemEsServiceImpl implements ItemService{
 		}
 		PageResult<Item> result = new PageResult<Item>(currentPage,pageSize);
 		result.setData(esItemRepository.queryItemsByKeyword(keyWords, currentPage.intValue(), pageSize.intValue()));
-		result.setTotalCountLong(esItemRepository.countItemsByKeyword(keyWords, currentPage.intValue(), pageSize.intValue()));		
+		result.setTotalCountLong(esItemRepository.countItemsByKeyword(keyWords));		
 		return result;
 	}
 

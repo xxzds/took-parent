@@ -64,13 +64,10 @@ public class EsItemRepository {
 	 * 查询商品集合总数
 	 * @author shuai.ding
 	 * @param cateId        分类id
-	 * @param currentPage   当前页
-	 * @param pageSize      页面大小
 	 * @return
 	 */
-	public long countItemsByCateId(Integer cateId, int currentPage, int pageSize){
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("cateId", cateId))
-				.withPageable(PageRequest.of(currentPage - 1, pageSize)).build();
+	public long countItemsByCateId(Integer cateId){
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("cateId", cateId)).build();
 		return elasticsearchTemplate.count(searchQuery,Item.class);
 	}
 	
@@ -128,13 +125,10 @@ public class EsItemRepository {
 	 * 通过关键字查询字段title，返回总个数
 	 * @author shuai.ding
 	 * @param keyword       关键字
-	 * @param currentPage   当前页
-	 * @param pageSize      页面大小
 	 * @return
 	 */
-	public long countItemsByKeyword(String keyword,int currentPage, int pageSize){
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchQuery("title", keyword))
-				.withPageable(PageRequest.of(currentPage - 1, pageSize)).build();
+	public long countItemsByKeyword(String keyword){
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchQuery("title", keyword)).build();
 		return elasticsearchTemplate.count(searchQuery, Item.class);
 	}
 	

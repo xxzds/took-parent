@@ -14,18 +14,13 @@
 	<!-- dao -->
 	<import resource="classpath:spring/spring-dao.xml"/>
 	<import resource="classpath:spring/spring-es-config.xml"/>
+	<import resource="classpath:spring/spring-redis-config.xml"/>
 
 	<!-- 组件 -->
 	<import resource="spring-service-component.xml"/>
 	
 	<!-- aop -->
 	<import resource="spring-service-aop.xml"/>
-	
-	<!-- redis -->
-	<import resource="spring-redis-config.xml"/>
-	
-	<!-- mongodb -->
-	<import resource="spring-mongodb-config.xml"/>
 	
 <!-- Spring容器仅允许最多定义一个PropertyPlaceholderConfigurer(或<context:property-placeholder/>)，其余的会被Spring忽略掉。
          Spring容器采用反射扫描的发现机制，在探测到Spring容器中有一个org.springframework.beans.factory.config.PropertyPlaceholderConfigurer的Bean
@@ -40,8 +35,7 @@
 				<list>
 					<value>classpath:development/jdbc.properties</value>
 					<value>classpath:development/redis.properties</value>
-					<value>classpath:development/mongo.properties</value>
-					<value>classpath:development/es.properties</value>				
+					<value>classpath:development/es.properties</value>			
 				</list>
 			</property>
 		</bean>		
@@ -57,10 +51,9 @@
 			<property name="locations">
 				<list>
 					<value>classpath:production/jdbc.properties</value>
-					<value>classpath:production/redis.properties</value>
-					<value>classpath:production/mongo.properties</value>
-					<value>classpath:production/xxl-job-executor.properties</value>
+					<value>classpath:production/redis.properties</value>				
 					<value>classpath:development/es.properties</value>
+					<value>classpath:production/xxl-job-executor.properties</value>
 				</list>
 			</property>
 		</bean>
