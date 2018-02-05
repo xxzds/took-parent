@@ -125,13 +125,7 @@ public class ItemEsOperServiceImpl implements ItemOperService{
 			itemNew.setNumIid(numIid);
 			itemNew.setTitle(tbkCoupon.getTitle());
 			itemNew.setPicUrl(tbkCoupon.getPictUrl());
-			
-			AlimamaItemLink alimamaItemLink =  alimamaService.generatePromoteLink(numIid.toString()).getData();
-			if(alimamaItemLink == null){
-				LOGGER.info("推广链接生成失败");
-				return result.setErrorMessage("推广链接生成失败");
-			}
-			itemNew.setQuanUrl(alimamaItemLink.getCouponLink());
+			itemNew.setQuanUrl(tbkCoupon.getCouponClickUrl());
 			
 			//商品类别
 			Long userType = tbkCoupon.getUserType();

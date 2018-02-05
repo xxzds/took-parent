@@ -300,7 +300,11 @@
 				<version>${log4j.version}</version>
 			</dependency>
 			
-			
+<!-- 			<dependency> -->
+<!-- 			    <groupId>org.apache.logging.log4j</groupId> -->
+<!-- 			    <artifactId>log4j-web</artifactId> -->
+<!-- 			    <version>${log4j.version}</version> -->
+<!-- 			</dependency> -->
 
 			<!--代码直接调用log4j会被桥接到slf4j -->
 			<dependency>
