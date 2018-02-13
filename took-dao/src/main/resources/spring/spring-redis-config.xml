@@ -61,10 +61,27 @@
 		<constructor-arg name="poolConfig" ref="poolConfig"></constructor-arg>
 		<property name="database" value="${redis.database}"/>
 	</bean>
+	
+	<bean id="stringRedisSerializer"
+        class="org.springframework.data.redis.serializer.StringRedisSerializer"></bean>
+<!--     <bean id="jsonSerializer" -->
+<!--         class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"> -->
+<!--     </bean> -->
 
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
 		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="defaultSerializer" ref="stringRedisSerializer" />
+<!-- 		<property name="keySerializer" ref="stringRedisSerializer" /> -->
+<!-- 		<property name="hashKeySerializer" ref="stringRedisSerializer" /> -->
+<!-- 		<property name="valueSerializer" ref="stringRedisSerializer" /> -->
+<!-- 		<property name="hashValueSerializer" ref="stringRedisSerializer" /> -->
 	</bean>
+	
+	<!-- lua 脚本配置 -->
+	<bean id="updateKeywordSearchCurrentPage" class="org.springframework.data.redis.core.script.DefaultRedisScript">
+        <property name="location" value="classpath:script/updateKeywordSearchCurrentPage.lua"/>
+        <property name="resultType" value="com.tooklili.model.taobao.TookKeywordInfo"/>
+    </bean>
 	
 	<context:component-scan base-package="com.tooklili.dao.redis" />
 </beans>

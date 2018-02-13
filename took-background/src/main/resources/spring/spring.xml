@@ -8,16 +8,16 @@
 			">
 
 	<!-- redis-session -->
-	<bean id="redisHttpSessionConfiguration"
-		class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
-		<property name="maxInactiveIntervalInSeconds" value="1800" />  <!-- 30分钟 ,存入redis,多出300s?-->
-		<!-- session listeners -->
-		<property name="httpSessionListeners">
-			<list>
-				<bean class="com.tooklili.admin.web.listener.SessionListener"/>
-			</list>
-		</property>
-	</bean>
+<!-- 	<bean id="redisHttpSessionConfiguration" -->
+<!-- 		class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration"> -->
+<!-- 		<property name="maxInactiveIntervalInSeconds" value="1800" />  30分钟 ,存入redis,多出300s? -->
+		<!-- session listeners-->
+<!-- 		<property name="httpSessionListeners"> -->
+<!-- 			<list> -->
+<!-- 				<bean class="com.tooklili.admin.web.listener.SessionListener"/> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
 
 	<!-- service -->
 	<import resource="classpath:spring/spring-service-admin.xml" />

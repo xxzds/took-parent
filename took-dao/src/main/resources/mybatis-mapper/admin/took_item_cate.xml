@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tooklili.dao.db.intf.admin.TookItemCateDao">
+
+	<resultMap id="BaseResultMap" type="com.tooklili.model.admin.TookItemCate">
+			<result column="id" property="id" jdbcType="DECIMAL" />
+			<result column="item_cate_name" property="itemCateName" jdbcType="VARCHAR" />
+			<result column="item_cate_sort" property="itemCateSort" jdbcType="DECIMAL" />
+			<result column="is_available" property="isAvailable" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+			id,
+			item_cate_name,
+			item_cate_sort,
+			is_available
+	</sql>
+
+	<sql id="conditions_tookItemCate">
+		<where>
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="itemCateName != null">
+				and item_cate_name = #{itemCateName}
+			</if>
+			<if test="itemCateSort != null">
+				and item_cate_sort = #{itemCateSort}
+			</if>
+			<if test="isAvailable != null">
+				and is_available = #{isAvailable}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select 
+		<include refid="Base_Column_List" />
+		from took_item_cate
+		<where>
+			  and id=#{id}
+		</where>
+	</select>
+	
+	<select id="find" resultMap="BaseResultMap" parameterType="com.tooklili.model.admin.TookItemCate">
+		select 
+		<include refid="Base_Column_List" />
+		from took_item_cate
+		<include refid="conditions_tookItemCate" />
+		order by item_cate_sort asc
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+		delete from took_item_cate
+		<where>
+			  and id=#{id}
+		</where>
+	</delete>
+	
+	<delete id="batchDeleteByIds" parameterType="java.lang.String">
+		delete from took_item_cate
+		<where>
+			  and id in 
+			  <foreach collection="array" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</where>
+	</delete>
+
+	<insert id="insert" parameterType="com.tooklili.model.admin.TookItemCate">
+		insert into took_item_cate
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			id,
+			item_cate_name,
+			item_cate_sort,
+			is_available,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{id},
+			#{itemCateName},
+			#{itemCateSort},
+			#{isAvailable},
+		</trim>
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.tooklili.model.admin.TookItemCate">
+		insert into took_item_cate
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="itemCateName != null">item_cate_name,</if>
+			<if test="itemCateSort != null">item_cate_sort,</if>
+			<if test="isAvailable != null">is_available,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="itemCateName != null">#{itemCateName},</if>
+			<if test="itemCateSort != null">#{itemCateSort},</if>
+			<if test="isAvailable != null">#{isAvailable},</if>
+		</trim>
+	</insert>
+
+	<update id="updateById" parameterType="com.tooklili.model.admin.TookItemCate">
+		update took_item_cate
+		<set>
+			item_cate_name=#{itemCateName},
+			item_cate_sort=#{itemCateSort},
+			is_available=#{isAvailable},
+		</set>
+		<where>
+			  and id=#{id}
+		</where>
+	</update>
+
+	<update id="updateByIdSelective" parameterType="com.tooklili.model.admin.TookItemCate">
+		update took_item_cate
+		<set>
+			<if test="itemCateName != null">item_cate_name=#{itemCateName},</if>
+			<if test="itemCateSort != null">item_cate_sort=#{itemCateSort},</if>
+			<if test="isAvailable != null">is_available=#{isAvailable},</if>
+		</set>
+		<where>
+			  and id=#{id}
+		</where>
+	</update>
+	
+	<select id="queryItemCatesByPage" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
+		from took_item_cate
+		<where>
+			<if test="tookItemCate != null and  tookItemCate.id != null">
+				and id = #{tookItemCate.id}
+			</if>
+			<if test="tookItemCate != null and  tookItemCate.itemCateName != null and tookItemCate.itemCateName != ''">
+				and item_cate_name  like  CONCAT('%',#{tookItemCate.itemCateName},'%')   
+			</if>
+			<if test="tookItemCate != null and  tookItemCate.itemCateSort != null">
+				and item_cate_sort = #{tookItemCate.itemCateSort}
+			</if>
+			<if test="tookItemCate != null and  tookItemCate.isAvailable != null">
+				and is_available = #{tookItemCate.isAvailable}
+			</if>
+		</where>
+	</select>
+</mapper>

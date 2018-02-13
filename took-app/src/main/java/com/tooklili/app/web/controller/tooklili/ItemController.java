@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tooklili.model.admin.TookItemCate;
 import com.tooklili.model.tooklili.Item;
+import com.tooklili.service.biz.intf.admin.took.ItemCateService;
 import com.tooklili.service.biz.intf.tooklili.ItemService;
 import com.tooklili.util.result.ListResult;
 import com.tooklili.util.result.PageResult;
@@ -28,6 +30,9 @@ public class ItemController {
 	
 	@Resource(name="itemEsServiceImpl")
 	private ItemService itemService;
+	
+	@Resource
+	private ItemCateService itemCateService;
 	
 	@ApiOperation(value = "从本地数据库中查询商品列表",notes = "从本地数据库中查询商品列表")
 	@ApiImplicitParams({
@@ -85,6 +90,17 @@ public class ItemController {
 	@ResponseBody
 	public PageResult<Item> queryCouponItemsByKeyWords(String keyWords,Long currentPage,Long pageSize){
 		return itemService.queryCouponItemsByKeyWords(keyWords, currentPage, pageSize);
+	}
+	
+	/**
+	 * 查询商品分类列表
+	 * @return
+	 */
+	@ApiOperation(value = "查询商品分类列表",notes = "查询商品分类列表")
+	@RequestMapping(value = "/queryItemCates",method = RequestMethod.POST)
+	@ResponseBody
+	public ListResult<TookItemCate> queryItemCates(){
+		return itemCateService.getItemCates(null);
 	}
 
 }

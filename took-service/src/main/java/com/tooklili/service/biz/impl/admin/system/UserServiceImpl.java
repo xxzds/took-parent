@@ -207,7 +207,7 @@ public class UserServiceImpl implements UserService{
 		
 		//如果没有设置密码，给定默认密码123
 		if(StringUtils.isEmpty(user.getUserPassword())){
-			user.setUserPassword("123");
+			user.setUserPassword(Md5Utils.hash("123"));
 		}
 		
 		String salt = UUIDUtils.generateUuid32();

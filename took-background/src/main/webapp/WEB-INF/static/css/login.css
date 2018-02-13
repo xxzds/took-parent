@@ -1,0 +1,374 @@
+ .bg1,.bg2,.bg3,.bg4,.bg5,.bg6{background:#0a61a6 url(..../images/login/bg1.png) center no-repeat; height:99px;}
+.bg2{background-image:url(../images/login/bg2.png); height:100px;}
+.bg3{background-image:url(../images/login/bg3.png); height:101px;}
+.bg4{background-image:url(../images/login/bg4.png); height:400px;}
+.bg5{background-image:url(../images/login/bg5.png); height:100px; text-align:center; color:#eeeeee;}
+.bg6{background-image:url(../images/login/bg6.png); height:100px; text-align:center; color:#eeeeee;}
+
+.bg4 .login{background:url(../images/login/login_bg.png) no-repeat; width:788px; height:390px; margin:0 auto; position:relative; top:-30px;}
+.bg4 .login .login-logo{margin-top:110px;margin-left:65px;}
+.bg4 .login .line{margin-top:60px; margin-left:25px;}
+.bg4 .login .denglu{margin-top:70px; width:240px;}
+.bg4 .login .denglu .dl-title{width:204px; overflow:hidden; height:40px; line-height:40px; font-size:18px; color:#3a3a3a; background:url(../images/login/biaozhi.png) left center no-repeat; padding-left:30px;}
+.bg4 .login .denglu dt{font-size:15px; width:250px; margin-top:10px; height:26px; line-height:26px; }
+.text-inputs{
+  width:178px; height:26px; line-height:26px; background:url(../images/login/input_bg.png) center repeat-x; border:1px solid #dadada; border-radius:5px;
+}
+.login-btn{background:url(../images/login/denglu.png) center no-repeat; width:82px; height:111px; background-position:0 0; display:inline-block; margin-top:130px;}
+.login-btn:hover{background-position:-83px 0;}
+    
+.error{color:red;}
+
+
+body {
+    background: white;
+}
+
+.red {
+    color:red !important;
+    font-weight:bold;
+}
+
+#header a, #header a:hover, #header a:visited, #header a:link {
+    color: #fff;
+}
+
+#MessagerShow {
+    text-align: center;
+    line-height: 30px;
+    color: red;
+    font-size: 14px;
+}
+/**去除图片的边框**/
+div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, blockquote, p {
+    padding: 0;
+    margin: 0;
+}
+.w60s
+{
+    width:60px;
+}
+.ml5 {
+    margin-left: 5px;
+}
+
+.ml7 {
+    margin-left: 7px;
+}
+
+.ml10 {
+    margin-left: 10px;
+}
+.ml19 {
+ float:right;
+ width:10px;
+ height:10px;
+}
+.ml15 {
+    margin-left: 15px;
+}
+
+.ml20 {
+    margin-left: 20px;
+}
+
+.ml25 {
+    margin-left: 25px;
+}
+
+.ml30 {
+    margin-left: 30px;
+}
+
+.ml35 {
+    margin-left: 35px;
+}
+.ml55 {
+    margin-left: 55px;
+}
+.mt2 {
+    margin-top: 2px;
+}
+
+.mt7 {
+    margin-top: 7px;
+}
+
+.mt5 {
+    margin-top: 5px;
+}
+
+.mt10 {
+    margin-top: 10px;
+}
+
+.mt7 {
+    margin-top: 7px;
+}
+
+.mt15 {
+    margin-top: 15px;
+}
+
+.mt20 {
+    margin-top: 20px;
+}
+
+.mt25 {
+    margin-top: 25px;
+}
+
+.mt30 {
+    margin-top: 30px;
+}
+
+.mt35 {
+    margin-top: 35px;
+}
+
+.mt45 {
+    margin-top: 45px;
+}
+
+.mr0 {
+    margin-right: 0px !important;
+}
+
+.mr5 {
+    margin-right: 5px !important;
+}
+
+.mr10 {
+    margin-right: 10px;
+}
+
+.mr15 {
+    margin-right: 15px;
+}
+
+.mr20 {
+    margin-right: 20px;
+}
+
+.mr25 {
+    margin-right: 25px;
+}
+
+.mr90 {
+    margin-right: 90px;
+}
+
+.mr30 {
+    margin-right: 30px;
+}
+
+.mb5 {
+    margin-bottom: 5px !important;
+}
+
+.mb10 {
+    margin-bottom: 10px;
+}
+
+.mb15 {
+    margin-bottom: 15px;
+}
+
+.mb20 {
+    margin-bottom: 20px;
+}
+
+.mb25 {
+    margin-bottom: 25px;
+}
+
+.mb90 {
+    margin-bottom: 90px;
+}
+
+.mb30 {
+    margin-bottom: 30px;
+}
+
+.pl5 {
+    padding-left: 5px;
+}
+
+.pl10 {
+    padding-left: 10px !important;
+}
+
+.pl15 {
+    padding-left: 15px;
+}
+
+.pl20 {
+    padding-left: 20px;
+}
+
+.pl25 {
+    padding-left: 25px;
+}
+
+.pl30 {
+    padding-left: 30px;
+}
+
+.pt5 {
+    padding-top: 5px;
+}
+
+.pt10 {
+    padding-top: 10px;
+}
+
+.pt15 {
+    padding-top: 15px;
+}
+
+.pt20 {
+    padding-top: 20px;
+}
+
+.pt25 {
+    padding-top: 25px;
+}
+
+.pt30 {
+    padding-top: 30px;
+}
+
+.pb90 {
+    padding-bottom: 90px;
+}
+/**边框**/
+.border {
+    border: 1px solid red;
+}
+
+.border0 {
+    border:none !important;
+}
+
+.border-t0 {
+    border-top-style:none !important;
+}
+
+.border-l0 {
+    border-left-style:none !important;
+}
+
+.border-r0 {
+    border-right-style:none !important;
+}
+
+.border-b0 {
+    border-bottom-style:none !important;
+}
+
+.ccc {
+    border: 1px solid #ccc;
+}
+/**边框内嵌有高宽属性**/
+.inb {
+    display: inline-block;
+}
+
+.pc_100 {
+    overflow: hidden;
+    zoom: 1;
+}
+/**去除斜体**/
+em, i {
+    font-style: normal;
+}
+/**去除加粗**/
+strong, b {
+    font-weight: normal;
+}
+/**手型**/
+.hands {
+    cursor: pointer;
+}
+/**a标签浮动变色**/
+a:hover {
+    color: red !important;
+}
+
+.align {
+    text-align: center;
+}
+
+.alignR {
+    text-align: right;
+}
+
+.hidden {
+    display: none;
+}
+/**body全部类型**/
+body {
+    margin: 0;
+    padding: 0;
+    font: 12px "微软雅黑",arial;
+    text-align: left;
+    color: #666;
+}
+/**去除图片的边框**/
+div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, blockquote, p {
+    padding: 0;
+    margin: 0;
+}
+/**居中效果**/
+.center {
+    margin: 0px auto;
+}
+/**去除图片的边框**/
+img, a {
+    border: 0 none;
+}
+/**去除li标签前的点**/
+ol, ul {
+    list-style: none;
+}
+/**去除a链接下划线**/
+.w1200 {
+    width: 1200px;
+    text-align: left;
+    zoom: 1;
+    margin: 0 auto;
+}
+/**去除a链接下划线**/
+a {
+    text-decoration: none;
+    color: #666666;
+}
+/**清除浮动方法一**/
+.clear {
+    clear: both;
+    height: 0px;
+    width: 100%;
+    overflow: hidden;
+}
+/**清除浮动方法二**/
+.clearfloat:after {
+    display: block;
+    clear: both;
+    content: "";
+    visibility: hidden;
+    height: 0;
+}
+
+.clearfloat {
+    zoom: 1;
+}
+/**利用了浮动进行网页布局,fl 左浮动  fr右浮动**/
+.fl {
+    float: left;
+    display: inline;
+}
+
+.fr {
+    float: right;
+    display: inline;
+}

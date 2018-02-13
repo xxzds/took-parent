@@ -50,8 +50,7 @@ public class ItemEsOperServiceImpl implements ItemOperService{
 	private TbkService tbkService;
 
 	@Override
-	public BaseResult insertOrUpdate(AlimamaItem alimamaItem, Integer itemCateId)
-			throws UnsupportedEncodingException, ParseException {
+	public BaseResult insertOrUpdate(AlimamaItem alimamaItem, Integer itemCateId) throws UnsupportedEncodingException, ParseException {
 		BaseResult result = new BaseResult();
 
 		Long numIid = alimamaItem.getAuctionId();
@@ -64,10 +63,8 @@ public class ItemEsOperServiceImpl implements ItemOperService{
 			itemNew = item;
 			isUpdate = true;
 		}else{   //插入
-			itemNew = new Item();
-			
-			itemNew.setId(new Date().getTime());  //暂时使用毫秒数表示主键
-			itemNew.setCateId(itemCateId);
+			itemNew = new Item();			
+			itemNew.setId(new Date().getTime());  //暂时使用毫秒数表示主键			
 			itemNew.setNumIid(numIid);
 			itemNew.setTitle(alimamaItem.getTitle());
 			itemNew.setPicUrl(alimamaItem.getPictUrl());
@@ -87,7 +84,7 @@ public class ItemEsOperServiceImpl implements ItemOperService{
 				itemNew.setShopType("B");
 			}
 		}
-		
+		itemNew.setCateId(itemCateId);
 		itemNew.setCouponStartTime(alimamaItem.getCouponEffectiveStartTime());
 		itemNew.setCouponEndTime(alimamaItem.getCouponEffectiveEndTime());
 		itemNew.setQuanSurplus(alimamaItem.getCouponTotalCount());
@@ -120,8 +117,7 @@ public class ItemEsOperServiceImpl implements ItemOperService{
 			isUpdate = true;
 		}else{  //插入
 			itemNew = new Item();
-			itemNew.setId(new Date().getTime());  //暂时使用毫秒数表示主键
-			itemNew.setCateId(itemCateId);
+			itemNew.setId(new Date().getTime());  //暂时使用毫秒数表示主键			
 			itemNew.setNumIid(numIid);
 			itemNew.setTitle(tbkCoupon.getTitle());
 			itemNew.setPicUrl(tbkCoupon.getPictUrl());
@@ -135,7 +131,7 @@ public class ItemEsOperServiceImpl implements ItemOperService{
 				itemNew.setShopType("B");
 			}
 		}
-				
+		itemNew.setCateId(itemCateId);	
 		itemNew.setCouponStartTime(tbkCoupon.getCouponStartTime());
 		itemNew.setCouponEndTime(tbkCoupon.getCouponEndTime());
 		itemNew.setQuanSurplus(tbkCoupon.getCouponTotalCount());

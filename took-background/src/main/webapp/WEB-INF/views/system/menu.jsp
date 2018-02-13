@@ -53,7 +53,7 @@
 				<tr height="35px">
 					<td width="25%" align="right">排序位置：</td>
 					<td>
-						<input class="easyui-textbox" id="menuSort" name="menuSort" data-options="required:true">
+						<input class="easyui-numberbox" id="menuSort" name="menuSort" data-options="required:true,min:1">
 					</td>
 				</tr>
 				<tr height="35px">

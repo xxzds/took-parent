@@ -8,7 +8,6 @@ import com.tooklili.service.BaseTest;
 import com.tooklili.service.jobhandler.ClearExpiredItemsJobHandler;
 import com.tooklili.service.jobhandler.CollectCouponsItemBySupserSearchJobHandler;
 import com.tooklili.service.jobhandler.CollectCouponsItemByTbkApiJobHandller;
-import com.tooklili.service.jobhandler.DirctCollectCouponsByParamJobHandler;
 
 /**
  * job测试
@@ -25,9 +24,6 @@ public class JobTest extends BaseTest{
 	private CollectCouponsItemByTbkApiJobHandller collectCouponsItemByTbkApiJobHandller;
 	
 	@Resource
-	private DirctCollectCouponsByParamJobHandler dirctCollectCouponsByParamJobHandler;
-	
-	@Resource
     private ClearExpiredItemsJobHandler clearExpiredItemsJobHandler;
 	
 	@Test
@@ -38,11 +34,6 @@ public class JobTest extends BaseTest{
 	@Test
 	public void collectCouponsItemByTbkApiJobHandllerTest() throws Exception{
 		collectCouponsItemByTbkApiJobHandller.execute();
-	}
-	
-	@Test
-	public void dirctCollectCouponsByParamJobHandlerTest() throws Exception{
-		dirctCollectCouponsByParamJobHandler.execute("女士裙装","1","2","35","1");
 	}
 	
 	@Test

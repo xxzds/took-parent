@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tooklili.dao.db.intf.admin.TookItemSearchKeywordDao">
+
+	<resultMap id="BaseResultMap" type="com.tooklili.model.admin.TookItemSearchKeyword">
+			<result column="id" property="id" jdbcType="DECIMAL" />
+			<result column="item_cate_id" property="itemCateId" jdbcType="DECIMAL" />
+			<result column="search_keyword" property="searchKeyword" jdbcType="VARCHAR" />
+			<result column="max_page" property="maxPage" jdbcType="DECIMAL" />
+			<result column="is_available" property="isAvailable" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+			id,
+			item_cate_id,
+			search_keyword,
+			max_page,
+			is_available
+	</sql>
+
+	<sql id="conditions_tookItemSearchKeyword">
+		<where>
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="itemCateId != null">
+				and item_cate_id = #{itemCateId}
+			</if>
+			<if test="searchKeyword != null">
+				and search_keyword = #{searchKeyword}
+			</if>
+			<if test="maxPage != null">
+				and max_page = #{maxPage}
+			</if>
+			<if test="isAvailable != null">
+				and is_available = #{isAvailable}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select 
+		<include refid="Base_Column_List" />
+		from took_item_search_keyword
+		<where>
+			  and id=#{id}
+		</where>
+	</select>
+	
+	<select id="find" resultMap="BaseResultMap" parameterType="com.tooklili.model.admin.TookItemSearchKeyword">
+		select 
+		<include refid="Base_Column_List" />
+		from took_item_search_keyword
+		<include refid="conditions_tookItemSearchKeyword" />
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+		delete from took_item_search_keyword
+		<where>
+			  and id=#{id}
+		</where>
+	</delete>
+	
+	<delete id="batchDeleteByIds" parameterType="java.lang.String">
+		delete from took_item_search_keyword
+		<where>
+			  and id in 
+			  <foreach collection="array" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</where>
+	</delete>
+
+	<insert id="insert" parameterType="com.tooklili.model.admin.TookItemSearchKeyword">
+		insert into took_item_search_keyword
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			id,
+			item_cate_id,
+			search_keyword,
+			max_page,
+			is_available,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{id},
+			#{itemCateId},
+			#{searchKeyword},
+			#{maxPage},
+			#{isAvailable},
+		</trim>
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.tooklili.model.admin.TookItemSearchKeyword">
+		insert into took_item_search_keyword
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="itemCateId != null">item_cate_id,</if>
+			<if test="searchKeyword != null">search_keyword,</if>
+			<if test="maxPage != null">max_page,</if>
+			<if test="isAvailable != null">is_available,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="itemCateId != null">#{itemCateId},</if>
+			<if test="searchKeyword != null">#{searchKeyword},</if>
+			<if test="maxPage != null">#{maxPage},</if>
+			<if test="isAvailable != null">#{isAvailable},</if>
+		</trim>
+	</insert>
+
+	<update id="updateById" parameterType="com.tooklili.model.admin.TookItemSearchKeyword">
+		update took_item_search_keyword
+		<set>
+			item_cate_id=#{itemCateId},
+			search_keyword=#{searchKeyword},
+			max_page=#{maxPage},
+			is_available=#{isAvailable},
+		</set>
+		<where>
+			  and id=#{id}
+		</where>
+	</update>
+
+	<update id="updateByIdSelective" parameterType="com.tooklili.model.admin.TookItemSearchKeyword">
+		update took_item_search_keyword
+		<set>
+			<if test="itemCateId != null">item_cate_id=#{itemCateId},</if>
+			<if test="searchKeyword != null">search_keyword=#{searchKeyword},</if>
+			<if test="maxPage != null">max_page=#{maxPage},</if>
+			<if test="isAvailable != null">is_available=#{isAvailable},</if>
+		</set>
+		<where>
+			  and id=#{id}
+		</where>
+	</update>
+	
+	<select id="queryItemSearchKeywordsByPage" resultType="com.tooklili.model.admin.TookItemSearchKeyword">
+		SELECT
+			a.id AS id,
+			a.item_cate_id AS itemCateId,
+			b.item_cate_name AS 'tookItemCate.itemCateName',
+			a.search_keyword AS searchKeyword,
+			a.max_page AS maxPage,
+			a.is_available AS isAvailable
+		FROM
+			took_item_search_keyword a
+		LEFT JOIN took_item_cate b ON a.item_cate_id = b.id
+		<where>
+			<if test="tookItemSearchKeyword != null and tookItemSearchKeyword.id != null">
+				and a.id = #{tookItemSearchKeyword.id}
+			</if>
+			<if test="tookItemSearchKeyword != null and tookItemSearchKeyword.itemCateId != null">
+				and a.item_cate_id = #{tookItemSearchKeyword.itemCateId}
+			</if>
+			<if test="tookItemSearchKeyword != null and tookItemSearchKeyword.searchKeyword != null and tookItemSearchKeyword.searchKeyword != ''">
+				and a.search_keyword like CONCAT('%',#{tookItemSearchKeyword.searchKeyword},'%')
+			</if>
+			<if test="tookItemSearchKeyword != null and tookItemSearchKeyword.maxPage != null">
+				and a.max_page = #{tookItemSearchKeyword.maxPage}
+			</if>
+			<if test="tookItemSearchKeyword != null and tookItemSearchKeyword.isAvailable != null">
+				and a.is_available = #{tookItemSearchKeyword.isAvailable}
+			</if>
+		</where>
+		ORDER BY b.item_cate_sort,a.item_cate_id
+	</select>
+	
+	<delete id="delItemSearchKeywordByItemCateId">
+		delete from took_item_search_keyword where item_cate_id = #{itemCateId}
+	</delete>
+	
+	<update id="updateItemSearchKeywordNotAvailableByItemCateId">
+		update took_item_search_keyword
+		set is_available = 2
+		where is_available = 1 and item_cate_id = #{itemCateId}
+	</update>
+</mapper>

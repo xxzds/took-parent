@@ -42,5 +42,12 @@
 		<import resource="classpath:spring/spring-es-config.xml"/>
 	</beans>
 	
+	<!-- mybatis redis -->
+	<beans profile="mybatisAndRedis">
+		<context:property-placeholder location="classpath:jdbc.properties,classpath:redis.properties"/>
+		<import resource="classpath:spring/spring-dao.xml"/>
+		<import resource="classpath:spring/spring-redis-config.xml"/>
+	</beans>
+	
 	
 </beans>

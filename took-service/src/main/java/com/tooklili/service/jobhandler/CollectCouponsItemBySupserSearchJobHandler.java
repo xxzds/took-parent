@@ -7,17 +7,14 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.core.RedisCallback;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
+import com.tooklili.dao.redis.RedisItemCateAndKeywordRepository;
+import com.tooklili.enums.admin.ApiTypeEnum;
 import com.tooklili.model.taobao.AlimamaItem;
 import com.tooklili.model.taobao.AlimamaReqItemModel;
-import com.tooklili.model.taobao.KeyWordAndCateModel;
+import com.tooklili.model.taobao.TookKeywordInfo;
 import com.tooklili.service.biz.intf.taobao.AlimamaService;
 import com.tooklili.service.biz.intf.tooklili.ItemOperService;
 import com.tooklili.util.JsonFormatTool;
@@ -44,58 +41,30 @@ public class CollectCouponsItemBySupserSearchJobHandler extends IJobHandler{
 	private ItemOperService itemOperService;
 	
 	@Resource
-	private RedisTemplate<?,?> redisTemplate; 
-	
-	private final Integer PAGEMAX=100;
-	
-	private  static StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
-	
-	private final String key = "super_search_keyword";
+	private RedisItemCateAndKeywordRepository redisItemCateAndKeywordRepository;
 
 	@Override
-	public ReturnT<String> execute(String... params) throws Exception {
-		
-		
+	public ReturnT<String> execute(String... params) throws Exception {		
 		//每次调用采集5次
 		for(int i=0;i<5;i++){
 			this.collectCouponItemBySuperSearch();
 			Thread.sleep(20000);
 		}
 		
-		
 		return ReturnT.SUCCESS;
 	}
 	
 	private void collectCouponItemBySuperSearch() throws UnsupportedEncodingException, ParseException{
 		//从redis中随机选取关键字
-		KeyWordAndCateModel keyWordAndCateModel = redisTemplate.execute(new RedisCallback<KeyWordAndCateModel>() {
-			@Override
-			public KeyWordAndCateModel doInRedis(RedisConnection connection) throws DataAccessException {
-				byte[] keyByte = stringRedisSerializer.serialize(key);
-				//移除并返回集合中的一个随机元素
-				byte[] valueByte = connection.sPop(keyByte);		 
-				 KeyWordAndCateModel keyWordAndCateModel = JSON.parseObject(stringRedisSerializer.deserialize(valueByte), KeyWordAndCateModel.class);
-				 LOGGER.info(JSON.toJSONString(keyWordAndCateModel));
-				 
-				 //深拷贝
-				 KeyWordAndCateModel keyWordAndCateModelNew = keyWordAndCateModel.clone();
-				 
-				 //添加新的数据
-				 Integer currentPage = keyWordAndCateModelNew.getCurrentPage() < PAGEMAX ? (keyWordAndCateModelNew.getCurrentPage()+1) : 1;
-				 keyWordAndCateModelNew.setCurrentPage(currentPage);
-				 connection.sAdd(keyByte, stringRedisSerializer.serialize(JSON.toJSONString(keyWordAndCateModelNew)));
-				 
-				 return keyWordAndCateModel;
-			}
-		});
-		
+		TookKeywordInfo tookKeywordInfo = redisItemCateAndKeywordRepository.getRandomKeywordInfo(ApiTypeEnum.SUPER_SEARCH_API);	
+		if(tookKeywordInfo == null) return;
 		
 		//调用超级接口
 		AlimamaReqItemModel alimamaReqItemModel = new AlimamaReqItemModel();
 		
-		alimamaReqItemModel.setQ(keyWordAndCateModel.getKeyWord());
+		alimamaReqItemModel.setQ(tookKeywordInfo.getKeyword());
 		alimamaReqItemModel.setYxjh(1);
-		alimamaReqItemModel.setToPage(keyWordAndCateModel.getCurrentPage());
+		alimamaReqItemModel.setToPage(tookKeywordInfo.getCurrentPage());
 		alimamaReqItemModel.setPerPageSize(1);
 		//包含店铺优惠券
 		alimamaReqItemModel.setDpyhq(1);
@@ -107,11 +76,11 @@ public class CollectCouponsItemBySupserSearchJobHandler extends IJobHandler{
 		LOGGER.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
 		
 		if(result.getData().size()<=0){
-			LOGGER.info("通过关键词[{}]查询第{}页的商品没有查到",keyWordAndCateModel.getKeyWord(),keyWordAndCateModel.getCurrentPage());
+			LOGGER.info("通过关键词[{}]查询第{}页的商品没有查到",tookKeywordInfo.getKeyword(),tookKeywordInfo.getCurrentPage());
 			return;
 		}		
 		AlimamaItem alimamaItem = result.getData().get(0);
 		
-		itemOperService.insertOrUpdate(alimamaItem, keyWordAndCateModel.getCate());
+		itemOperService.insertOrUpdate(alimamaItem, tookKeywordInfo.getCateId());
 	}
 }

@@ -8,7 +8,7 @@
 			">	
 	<!--自动扫描含有@Service将其注入为bean -->
 	<context:component-scan base-package="com.tooklili.service.biz">
-		<context:exclude-filter type="regex" expression="com.tooklili.service.biz.impl.admin.*" />
+		<context:exclude-filter type="regex" expression="com.tooklili.service.biz.impl.admin.system.*" />	
 	</context:component-scan>	
 
 	<!-- dao -->
