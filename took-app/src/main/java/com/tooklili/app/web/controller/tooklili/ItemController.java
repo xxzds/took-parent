@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tooklili.enums.admin.IsAvailableEnum;
 import com.tooklili.model.admin.TookItemCate;
 import com.tooklili.model.tooklili.Item;
 import com.tooklili.service.biz.intf.admin.took.ItemCateService;
@@ -100,7 +101,9 @@ public class ItemController {
 	@RequestMapping(value = "/queryItemCates",method = RequestMethod.POST)
 	@ResponseBody
 	public ListResult<TookItemCate> queryItemCates(){
-		return itemCateService.getItemCates(null);
+		TookItemCate tookItemCate = new TookItemCate();
+		tookItemCate.setIsAvailable(IsAvailableEnum.YES_AVAILIABLE.getCode());
+		return itemCateService.getItemCates(tookItemCate);
 	}
 
 }
