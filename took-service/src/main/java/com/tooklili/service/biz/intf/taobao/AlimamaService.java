@@ -32,7 +32,7 @@ public interface AlimamaService {
 	 * @author shuai.ding
 	 * @return
 	 */
-	public PlainResult<AlimamaItemLink> generatePromoteLink(String auctionid);
+	public PlainResult<AlimamaItemLink> generatePromoteLink(String auctionid,Long cookieId);
 	
 	
 

@@ -161,7 +161,7 @@
 				and a.is_available = #{tookItemSearchKeyword.isAvailable}
 			</if>
 		</where>
-		ORDER BY b.item_cate_sort,a.item_cate_id
+		ORDER BY b.item_cate_sort asc,a.item_cate_id asc,a.id desc
 	</select>
 	
 	<delete id="delItemSearchKeywordByItemCateId">

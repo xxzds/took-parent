@@ -29,7 +29,7 @@
 	<table id="dg"></table>
 	
 	<!-- add modify -->
-	<div id="formDialog" class="easyui-dialog"  data-options="closed:true,width:350,height:180,buttons:'#dlg-buttons'" style="visibility:hidden;">
+	<div id="formDialog" class="easyui-dialog"  data-options="closed:true,width:350,height:180,modal:true,buttons:'#dlg-buttons'" style="visibility:hidden;">
 		<form id="form" method="post">
 			<input type="hidden" name="id"/>
 			<table align="center" width="100%">

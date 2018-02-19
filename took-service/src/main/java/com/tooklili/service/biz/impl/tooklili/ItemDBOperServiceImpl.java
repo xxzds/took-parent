@@ -20,10 +20,8 @@ import com.taobao.api.response.TbkCouponGetResponse.MapData;
 import com.taobao.api.response.TbkDgItemCouponGetResponse.TbkCoupon;
 import com.tooklili.dao.db.intf.tooklili.ItemDao;
 import com.tooklili.model.taobao.AlimamaItem;
-import com.tooklili.model.taobao.AlimamaItemLink;
 import com.tooklili.model.tooklili.Item;
 import com.tooklili.model.tooklili.ItemModel;
-import com.tooklili.service.biz.intf.taobao.AlimamaService;
 import com.tooklili.service.biz.intf.taobao.TaobaoService;
 import com.tooklili.service.biz.intf.taobao.TbkService;
 import com.tooklili.service.biz.intf.tooklili.ItemOperService;
@@ -40,8 +38,8 @@ import com.tooklili.util.result.BaseResult;
 public class ItemDBOperServiceImpl implements ItemOperService{
 	private static final Logger LOGGER = LoggerFactory.getLogger(ItemDBOperServiceImpl.class);
 	
-	@Resource
-	private AlimamaService alimamaService;
+//	@Resource
+//	private AlimamaService alimamaService;
 	
 	@Resource
 	private ItemDao itemDao;
@@ -95,17 +93,17 @@ public class ItemDBOperServiceImpl implements ItemOperService{
 			itemModel.setTitle(alimamaItem.getTitle());
 			itemModel.setPicUrl(alimamaItem.getPictUrl());
 			
-			AlimamaItemLink alimamaItemLink =  alimamaService.generatePromoteLink(numIid.toString()).getData();
-			if(alimamaItemLink == null){
-				LOGGER.info("推广链接生成失败");
-				return result.setErrorMessage("推广链接生成失败");
-			}
-			itemModel.setQuanUrl(alimamaItemLink.getCouponLink());
+//			AlimamaItemLink alimamaItemLink =  alimamaService.generatePromoteLink(numIid.toString()).getData();
+//			if(alimamaItemLink == null){
+//				LOGGER.info("推广链接生成失败");
+//				return result.setErrorMessage("推广链接生成失败");
+//			}
+//			itemModel.setQuanUrl(alimamaItemLink.getCouponLink());
 			
 //			itemModel.setIntro(taobaoService.getItemSubTitleByItemId(String.valueOf(numIid)).getData());
 			itemModel.setNick(alimamaItem.getNick());
 			itemModel.setSellerId(alimamaItem.getSellerId());
-			itemModel.setClickUrl(alimamaItemLink.getCouponLink());
+//			itemModel.setClickUrl(alimamaItemLink.getCouponLink());
 			itemModel.setIsq(1);
 			itemModel.setItemUrl(alimamaItem.getAuctionUrl());
 			

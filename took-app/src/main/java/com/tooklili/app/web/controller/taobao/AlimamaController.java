@@ -2,6 +2,7 @@ package com.tooklili.app.web.controller.taobao;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
@@ -19,6 +20,7 @@ import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;
 
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -46,8 +48,13 @@ public class AlimamaController {
 	
 	@ApiIgnore
 	@RequestMapping(value = "/generatePromoteLink", method = RequestMethod.POST)
-	public PlainResult<AlimamaItemLink> generatePromoteLink(String auctionid){
-		return alimamaService.generatePromoteLink(auctionid);
+	public PlainResult<AlimamaItemLink> generatePromoteLink(String auctionid,String userFlag){
+		//非空，且为正整数
+		if(StringUtils.isEmpty(userFlag) || !Pattern.matches("^[0-9]*[1-9][0-9]*$", userFlag)){
+			userFlag = "1";
+		}		
+		Long cookieId = Long.parseLong(userFlag);
+		return alimamaService.generatePromoteLink(auctionid,cookieId);
 	}
 	
 	
@@ -59,10 +66,23 @@ public class AlimamaController {
 	 * @throws UnsupportedEncodingException
 	 */
 	@ApiOperation(value = "获取淘口令和短链接信息", notes = "获取淘口令和短链接信息")
-	@ApiImplicitParam(name = "auctionid", value = "商品id", required = true, dataType = "String",paramType="query")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "auctionid", value = "商品id", required = true, dataType = "String",paramType="query"),
+		@ApiImplicitParam(name = "userFlag", value = "用户标识", dataType = "String",paramType="query")
+	})	
 	@RequestMapping(value = "/getTwdAndShortLinkInfo",method=RequestMethod.POST)
-	public PlainResult<AlimamaItemLink> getTwdInfo(String auctionid) throws UnsupportedEncodingException{
-		PlainResult<AlimamaItemLink> result = alimamaService.generatePromoteLink(auctionid);
+	public PlainResult<AlimamaItemLink> getTwdInfo(String auctionid,String userFlag) throws UnsupportedEncodingException{
+		PlainResult<AlimamaItemLink> result = new PlainResult<AlimamaItemLink>();
+		//为空，默认为1
+		if(StringUtils.isEmpty(userFlag)){
+			userFlag = "1";
+		}
+		if(!Pattern.matches("^[0-9]*[1-9][0-9]*$", userFlag)){
+			return result.setErrorMessage("userFlag必须为正整数");
+		}
+		Long cookieId = Long.parseLong(userFlag);
+			
+		result = alimamaService.generatePromoteLink(auctionid,cookieId);
 		if(!result.isSuccess()){
 			return result;
 		}

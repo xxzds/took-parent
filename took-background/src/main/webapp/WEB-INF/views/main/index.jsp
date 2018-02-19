@@ -31,19 +31,19 @@
   	<form id="form" method="post">
   		<table align="center" width="100%">
 				<tr height="35px">
-					<td width="32%" align="right">原密码：</td>
+					<td width="35%" align="right">原密码：</td>
 					<td>
 						<input class="easyui-textbox" id="oldPwd" name="oldPwd" data-options="type:'password',required:true">
 					</td>
 				</tr>
 				<tr height="35px">
-					<td width="32%" align="right">新密码：</td>
+					<td align="right">新密码：</td>
 					<td>
 						<input class="easyui-textbox" id="newPwd" name="newPwd" data-options="type:'password',required:true">
 					</td>
 				</tr>
 				<tr height="35px">
-					<td width="32%" align="right">确认密码：</td>
+					<td align="right">确认密码：</td>
 					<td>
 						<input class="easyui-textbox" id="confirmPwd" name="confirmPwd" data-options="type:'password',required:true,validType:'equals[\'#newPwd\']'">
 					</td>

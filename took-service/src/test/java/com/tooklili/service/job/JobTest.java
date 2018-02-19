@@ -8,6 +8,7 @@ import com.tooklili.service.BaseTest;
 import com.tooklili.service.jobhandler.ClearExpiredItemsJobHandler;
 import com.tooklili.service.jobhandler.CollectCouponsItemBySupserSearchJobHandler;
 import com.tooklili.service.jobhandler.CollectCouponsItemByTbkApiJobHandller;
+import com.tooklili.service.jobhandler.PersistenceAlimamaCookieJobHandler;
 
 /**
  * job测试
@@ -26,6 +27,9 @@ public class JobTest extends BaseTest{
 	@Resource
     private ClearExpiredItemsJobHandler clearExpiredItemsJobHandler;
 	
+	@Resource
+	private PersistenceAlimamaCookieJobHandler persistenceAlimamaCookieJobHandler;
+	
 	@Test
 	public void collectCouponsItemBySupserSearchJobHandlerTest() throws Exception{
 		collectCouponsItemBySupserSearchJobHandler.execute();		
@@ -39,5 +43,10 @@ public class JobTest extends BaseTest{
 	@Test
 	public void clearExpiredItemsJobHandler() throws Exception{
 		clearExpiredItemsJobHandler.execute();
+	}
+	
+	@Test
+	public void ersistenceAlimamaCookieJobHandlerTest() throws Exception{
+		persistenceAlimamaCookieJobHandler.execute();
 	}
 }

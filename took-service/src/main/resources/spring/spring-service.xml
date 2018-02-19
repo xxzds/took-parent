@@ -8,8 +8,11 @@
 			">	
 	<!--自动扫描含有@Service将其注入为bean -->
 	<context:component-scan base-package="com.tooklili.service.biz">
-		<context:exclude-filter type="regex" expression="com.tooklili.service.biz.impl.admin.system.*" />	
+		<context:exclude-filter type="regex" expression="com.tooklili.service.biz.impl.admin.*" />	
 	</context:component-scan>	
+	
+	<!-- 额外使用的类 -->
+	<bean id="itemCateService" class="com.tooklili.service.biz.impl.admin.took.ItemCateServiceImpl" />
 
 	<!-- dao -->
 	<import resource="classpath:spring/spring-dao.xml"/>

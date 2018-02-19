@@ -12,18 +12,20 @@ import javax.annotation.Resource;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
+import com.tooklili.dao.db.intf.admin.TookAlimamaCookieDao;
+import com.tooklili.enums.admin.IsAvailableEnum;
 import com.tooklili.http.HttpCallService;
+import com.tooklili.model.admin.TookAlimamaCookie;
 import com.tooklili.model.taobao.AlimamaItem;
 import com.tooklili.model.taobao.AlimamaItemLink;
 import com.tooklili.model.taobao.AlimamaReqItemModel;
 import com.tooklili.service.biz.intf.taobao.AlimamaService;
-import com.tooklili.service.biz.intf.taobao.TaobaoService;
-import com.tooklili.service.util.AlimamaCookieUtils;
 import com.tooklili.util.HttpClientUtil;
 import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;
@@ -40,8 +42,8 @@ public class AlimamaServiceImpl implements AlimamaService{
 	@Resource
 	private HttpCallService httpCallService;
 	
-	@Resource
-	private TaobaoService taobaoService;
+	@Autowired
+	private TookAlimamaCookieDao tookAlimamaCookieDao;
 
 	/**
 	 * 调用接口失败
@@ -53,8 +55,7 @@ public class AlimamaServiceImpl implements AlimamaService{
 	@Override
 	public PageResult<AlimamaItem> superSearchItems(AlimamaReqItemModel alimamaReqItemModel) throws UnsupportedEncodingException {
 		PageResult<AlimamaItem> result = new PageResult<AlimamaItem>();
-		
-		
+				
 		Map<String, String> params = Maps.newHashMap();
 		
 		//页面大小
@@ -160,7 +161,7 @@ public class AlimamaServiceImpl implements AlimamaService{
 	}
 
 	@Override
-	public PlainResult<AlimamaItemLink> generatePromoteLink(String auctionid) {
+	public PlainResult<AlimamaItemLink> generatePromoteLink(String auctionid,Long cookieId) {
 		PlainResult<AlimamaItemLink> result = new PlainResult<AlimamaItemLink>();
 		
 		if(StringUtils.isEmpty(auctionid)){
@@ -172,9 +173,17 @@ public class AlimamaServiceImpl implements AlimamaService{
 		url+=("?adzoneid=69036167&siteid=19682654&scenes=1&_tb_token_=75811b937dfe3&t="+new Date().getTime()+"&pvid=10_220.178.25.22_13754_"+new Date().getTime());
 		url+=("&auctionid="+auctionid);
 		LOGGER.info("请求地址:{}",url);
-		String cookies=AlimamaCookieUtils.getCookiesFromRedis();
-		LOGGER.info("获取的cookie:{}",cookies);
-		String content = HttpClientUtil.get(url, cookies);
+		
+		
+		TookAlimamaCookie tookAlimamaCookie = tookAlimamaCookieDao.findById(cookieId);
+		if(tookAlimamaCookie == null || tookAlimamaCookie.getIsAvailable() == IsAvailableEnum.NO_AVAILIABLE.getCode()){
+			LOGGER.info("cookieId:{}",cookieId);
+			return result.setErrorMessage("用户标标识非法");
+		}
+		
+		String cookie=tookAlimamaCookie.getAlimamaCookie();
+		LOGGER.info("获取'{}'的cookie:{}",tookAlimamaCookie.getName(),cookie);
+		String content = HttpClientUtil.get(url, cookie);
 		LOGGER.info(content);
 		
 		AlimamaItemLink alimamaItemLink = JSON.parseObject(content).getObject("data", AlimamaItemLink.class);

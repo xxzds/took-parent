@@ -1,17 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="ds" uri="http://www.anjz.com/tags"%>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>商品分类管理</title>
+	<title>alimama cookie 管理</title>
 	<jsp:include page="../common/comm.jsp"></jsp:include>
 </head>
 <body>
 	<div id="toolbar">
 		<ds:hasPermission name="item:cate:view">
-			<label>分类名称：</label><input id="searchItemCateName" name="searchItemCateName" class="easyui-textbox">
+			<label>名称：</label><input id="searchName" name="searchName" class="easyui-textbox">
+			<label>是否可用：</label>			
+			<select id="searchIsAvailable" class="easyui-combobox" name="searchIsAvailable" style="width:120px;">
+			    <option value="">全部</option>
+			    <c:forEach items="${isAvailables}" var="isAvailable">
+			    	<option value="${isAvailable.code}">${isAvailable.name}</option>
+			    </c:forEach>
+			</select>			
 			<a href="javascript:void(0)" id="search" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:'true'">查询</a>
 			<br>
 		</ds:hasPermission>
@@ -28,20 +36,20 @@
 	<table id="dg"></table>
 	
 	<!-- add modify -->
-	<div id="formDialog" class="easyui-dialog"  data-options="closed:true,width:350,height:210,modal:true,buttons:'#dlg-buttons'" style="visibility:hidden;">
+	<div id="formDialog" class="easyui-dialog"  data-options="closed:true,width:350,height:230,modal:true,buttons:'#dlg-buttons'" style="visibility:hidden;">
 		<form id="form" method="post">
-			<input type="hidden" name="id"/>
+			<input type="hidden" id="id" name="id"/>
 			<table align="center" width="100%">
 				<tr height="35px">
-					<td width="35%" align="right">分类名称：</td>
+					<td width="35%" align="right">名称：</td>
 					<td>
-						<input class="easyui-textbox" id="itemCateName" name="itemCateName" data-options="required:true">
+						<input class="easyui-textbox"  id="name" name="name" data-options="required:true,validType:'remote[\'${ctx}/took/cookie/nameIfNotRepeat?id=\'+id.value,\'name\']',invalidMessage:'名称不可重复'">
 					</td>
 				</tr>
 				<tr height="35px">
-					<td align="right">排列位置：</td>
+					<td align="right">cookie：</td>
 					<td>
-						<input class="easyui-numberbox" id="itemCateSort" name="itemCateSort" data-options="required:true,min:1">
+						<input class="easyui-textbox" id="alimamaCookie" name="alimamaCookie" data-options="required:true,multiline:true">
 					</td>
 				</tr>
 				<tr height="35px">
@@ -59,6 +67,6 @@
 		<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="javascript:$('#formDialog').dialog('close')">取消</a>
 	</div>
 	
-	<script type="text/javascript" src="${ctx}/static/js/took/item_cate.js?v=1"></script>
+	<script type="text/javascript" src="${ctx}/static/js/took/alimama_cookie.js?v=1"></script>
 </body>
 </html>

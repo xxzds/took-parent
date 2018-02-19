@@ -22,7 +22,7 @@
 	<table id="menu"></table>
 	
 	<!-- add modify-->
-	<div id="formDialog" class="easyui-dialog" style="visibility:hidden;" data-options="closed:true,width:350,height:350,buttons:'#dlg-buttons'">
+	<div id="formDialog" class="easyui-dialog" style="visibility:hidden;" data-options="closed:true,width:350,height:350,modal:true,buttons:'#dlg-buttons'">
 		<form id="form" method="post">
 			<table align="center" width="100%">
 				<tr height="35px">

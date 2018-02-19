@@ -19,9 +19,7 @@ import com.taobao.api.response.TbkDgItemCouponGetResponse.TbkCoupon;
 import com.tooklili.dao.es.EsItemRepository;
 import com.tooklili.dao.es.intf.ItemRepository;
 import com.tooklili.model.taobao.AlimamaItem;
-import com.tooklili.model.taobao.AlimamaItemLink;
 import com.tooklili.model.tooklili.Item;
-import com.tooklili.service.biz.intf.taobao.AlimamaService;
 import com.tooklili.service.biz.intf.taobao.TbkService;
 import com.tooklili.service.biz.intf.tooklili.ItemOperService;
 import com.tooklili.util.Arith;
@@ -43,8 +41,8 @@ public class ItemEsOperServiceImpl implements ItemOperService{
 	@Autowired
 	private EsItemRepository esItemRepository;
 	
-	@Autowired
-	private AlimamaService alimamaService;
+//	@Autowired
+//	private AlimamaService alimamaService;
 	
 	@Resource
 	private TbkService tbkService;
@@ -69,12 +67,12 @@ public class ItemEsOperServiceImpl implements ItemOperService{
 			itemNew.setTitle(alimamaItem.getTitle());
 			itemNew.setPicUrl(alimamaItem.getPictUrl());
 			itemNew.setIntro("");
-			AlimamaItemLink alimamaItemLink =  alimamaService.generatePromoteLink(numIid.toString()).getData();
-			if(alimamaItemLink == null){
-				LOGGER.info("推广链接生成失败");
-				return result.setErrorMessage("推广链接生成失败");
-			}
-			itemNew.setQuanUrl(alimamaItemLink.getCouponLink());
+//			AlimamaItemLink alimamaItemLink =  alimamaService.generatePromoteLink(numIid.toString()).getData();
+//			if(alimamaItemLink == null){
+//				LOGGER.info("推广链接生成失败");
+//				return result.setErrorMessage("推广链接生成失败");
+//			}
+//			itemNew.setQuanUrl(alimamaItemLink.getCouponLink());
 			
 			//商品类别
 			Integer userType = alimamaItem.getUserType();

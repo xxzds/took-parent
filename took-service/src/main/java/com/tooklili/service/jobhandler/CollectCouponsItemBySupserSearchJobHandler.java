@@ -45,10 +45,9 @@ public class CollectCouponsItemBySupserSearchJobHandler extends IJobHandler{
 
 	@Override
 	public ReturnT<String> execute(String... params) throws Exception {		
-		//每次调用采集5次
-		for(int i=0;i<5;i++){
+		//每次调用采集10次
+		for(int i=0;i<10;i++){
 			this.collectCouponItemBySuperSearch();
-			Thread.sleep(20000);
 		}
 		
 		return ReturnT.SUCCESS;

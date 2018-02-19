@@ -48,7 +48,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 			}
 			return false;
 		}
-		LOGGER.info("current login user：{}",sysUser.getUserName());
+		LOGGER.debug("current login user：{}",sysUser.getUserName());
 		
 		return true;
 	}

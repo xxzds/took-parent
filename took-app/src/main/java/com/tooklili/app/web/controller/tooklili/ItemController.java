@@ -37,7 +37,7 @@ public class ItemController {
 	
 	@ApiOperation(value = "从本地数据库中查询商品列表",notes = "从本地数据库中查询商品列表")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "cateId", value = "分类id", required = true, dataType = "String",paramType="query"),
+		@ApiImplicitParam(name = "cateId", value = "分类id", required = true, dataType = "Integer",paramType="query"),
 		@ApiImplicitParam(name = "currentPage", value = "当前页", required = false, dataType = "Long",paramType="query"),
 		@ApiImplicitParam(name = "pageSize", value = "页面大小", required = false, dataType = "Long",paramType="query")
 	})	

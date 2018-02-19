@@ -1,17 +1,15 @@
 package com.tooklili.service.jobhandler;
 
-import javax.annotation.Resource;
+import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.core.RedisCallback;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tooklili.dao.db.intf.admin.TookAlimamaCookieDao;
+import com.tooklili.enums.admin.IsAvailableEnum;
+import com.tooklili.model.admin.TookAlimamaCookie;
 import com.tooklili.util.HttpClientUtil;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.IJobHandler;
@@ -26,34 +24,34 @@ import com.xxl.job.core.handler.annotation.JobHander;
 @Service
 public class PersistenceAlimamaCookieJobHandler extends IJobHandler{
 	private static final Logger LOGGER =LoggerFactory.getLogger(PersistenceAlimamaCookieJobHandler.class);
-	@Resource
-	private RedisTemplate<?, ?> redisTemplate;
 	
-	private  static StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
-	
-	private static final  String ALIMAMACOOKIEKEY ="alimama_cookie";
+	@Autowired
+	private TookAlimamaCookieDao tookAlimamaCookieDao;
 
 	@Override
 	public ReturnT<String> execute(String... arg0) throws Exception {
-		String cookie = redisTemplate.execute(new RedisCallback<String>() {
-			@Override
-			public String doInRedis(RedisConnection connection) throws DataAccessException {
-				byte[] bytes = connection.get(stringRedisSerializer.serialize(ALIMAMACOOKIEKEY));
-				if(bytes==null || bytes.length<=0){
-					return null;
-				}
-				return stringRedisSerializer.deserialize(bytes);
-			}
-		});
-		LOGGER.info("redis中key：{}对应的value：{}",ALIMAMACOOKIEKEY,cookie);
+		//从数据库中查询alimama cookie列表
+		TookAlimamaCookie tookAlimamaCookie = new TookAlimamaCookie();
+		tookAlimamaCookie.setIsAvailable(IsAvailableEnum.YES_AVAILIABLE.getCode());
+		List<TookAlimamaCookie> alimamaCookies = tookAlimamaCookieDao.find(tookAlimamaCookie);
 		
-		//刷新一次服务器cookie所对应的session
-		if(StringUtils.isNotEmpty(cookie)){
-			String url ="https://www.alimama.com/index.htm";
-			HttpClientUtil.get(url, cookie);
-			LOGGER.info("请求地址[{}]成功",url);
-		}		
+	    if(alimamaCookies != null && alimamaCookies.size() > 0){
+	    	for(TookAlimamaCookie alimamaCookie : alimamaCookies){
+	    		requestAlimama(alimamaCookie);
+	    		Thread.sleep(2000);  //线程暂停2s
+	    	}
+	    }		
 		return ReturnT.SUCCESS;
+	}
+	
+	/**
+	 * 刷新一次session，包活cookie
+	 * @param alimamaCookie
+	 */
+	private void requestAlimama(TookAlimamaCookie alimamaCookie){
+		String url ="https://www.alimama.com/index.htm";
+		HttpClientUtil.get(url, alimamaCookie.getAlimamaCookie());
+		LOGGER.info("用户‘{}’请求[{}]地址成功",alimamaCookie.getName(),url);
 	}
 
 }

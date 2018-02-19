@@ -56,7 +56,7 @@ public class AlimamaServiceTest  extends BaseTest{
 	
 	@Test
 	public void generatePromoteLink(){
-		PlainResult<AlimamaItemLink> result = alimamaService.generatePromoteLink("556457818244");
+		PlainResult<AlimamaItemLink> result = alimamaService.generatePromoteLink("556457818244",1L);
 		logger.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
 	}
 	
@@ -115,7 +115,7 @@ public class AlimamaServiceTest  extends BaseTest{
 			itemModel.setTitle(alimamaItem.getTitle());
 			itemModel.setPicUrl(alimamaItem.getPictUrl());
 			
-			AlimamaItemLink alimamaItemLink =  alimamaService.generatePromoteLink(numIid.toString()).getData();
+			AlimamaItemLink alimamaItemLink =  alimamaService.generatePromoteLink(numIid.toString(),1L).getData();
 			
 			itemModel.setQuanUrl(alimamaItemLink.getCouponLink());
 			

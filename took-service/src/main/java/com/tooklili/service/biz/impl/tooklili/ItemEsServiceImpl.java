@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tooklili.dao.es.EsItemRepository;
-import com.tooklili.enums.tooklili.ItemCateEnum;
 import com.tooklili.model.tooklili.Item;
 import com.tooklili.service.biz.intf.tooklili.ItemService;
 import com.tooklili.util.result.ListResult;
@@ -30,10 +29,6 @@ public class ItemEsServiceImpl implements ItemService{
 			return result.setErrorMessage(10001, "参数cateId不能为空");
 		}
 		
-		final ItemCateEnum itemCateEnum = ItemCateEnum.valueOf(cateId);
-		if(itemCateEnum==null){
-			return result.setErrorMessage(10001, "参数cateId不合法");
-		}
 		result.setData(esItemRepository.queryItemsByCateId(cateId, currentPage.intValue(), pageSize.intValue()));
 		result.setTotalCountLong(esItemRepository.countItemsByCateId(cateId));
 		
