@@ -2,11 +2,13 @@ package com.tooklili.service.biz.intf.tooklili;
 
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
+import java.util.List;
 
 import com.taobao.api.ApiException;
 import com.taobao.api.response.TbkDgItemCouponGetResponse.TbkCoupon;
 import com.tooklili.model.taobao.AlimamaItem;
 import com.tooklili.util.result.BaseResult;
+import com.tooklili.util.result.PlainResult;
 
 /**
  * 操作商品(主要做CUD)
@@ -25,6 +27,17 @@ public interface ItemOperService {
 	 * @throws ParseException 
 	 */
 	public BaseResult insertOrUpdate(AlimamaItem alimamaItem,Integer itemCateId) throws UnsupportedEncodingException, ParseException;
+	
+	
+	/**
+	 * 插入或更新商品
+	 * @param alimamaItems  超级搜索接口对应的实体集合
+	 * @param itemCateId    商品插入数据库的分类id
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 * @throws ParseException
+	 */
+	public PlainResult<String> insertOrUpdate(List<AlimamaItem> alimamaItems,Integer itemCateId) throws UnsupportedEncodingException, ParseException;
 	
 	
 	/**

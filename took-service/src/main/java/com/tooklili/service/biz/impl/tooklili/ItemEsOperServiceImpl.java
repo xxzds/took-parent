@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -25,6 +26,7 @@ import com.tooklili.service.biz.intf.tooklili.ItemOperService;
 import com.tooklili.util.Arith;
 import com.tooklili.util.DateUtil;
 import com.tooklili.util.result.BaseResult;
+import com.tooklili.util.result.PlainResult;
 
 /**
  * es 插入或更新商品
@@ -50,11 +52,41 @@ public class ItemEsOperServiceImpl implements ItemOperService{
 	@Override
 	public BaseResult insertOrUpdate(AlimamaItem alimamaItem, Integer itemCateId) throws UnsupportedEncodingException, ParseException {
 		BaseResult result = new BaseResult();
-
+		insertOrUpdateAlimamaItemToEs(alimamaItem, itemCateId);
+		return result;
+	}
+	
+	public PlainResult<String> insertOrUpdate(List<AlimamaItem> alimamaItems,Integer itemCateId) throws UnsupportedEncodingException, ParseException{
+		PlainResult<String> result = new PlainResult<String>();
+		
+		Integer insertCount = 0;
+		Integer updateCount = 0;
+		for(AlimamaItem alimamaItem : alimamaItems){
+			boolean isUpdate = insertOrUpdateAlimamaItemToEs(alimamaItem, itemCateId);
+			if(isUpdate){
+				updateCount += 1;
+			}else{
+				insertCount += 1;
+			}
+			result.setData("采集商品成功,录入"+insertCount+"个，更新"+updateCount+"个");
+		}
+		
+		
+		return result;
+	}
+	
+	/**
+	 * 商品更新或插入到es中
+	 * @param alimamaItem   阿里妈妈实体
+	 * @param itemCateId    分类id
+	 * @return  true 更新 false 插入
+	 * @throws UnsupportedEncodingException
+	 * @throws ParseException
+	 */
+	private boolean insertOrUpdateAlimamaItemToEs(AlimamaItem alimamaItem, Integer itemCateId) throws UnsupportedEncodingException, ParseException {
 		Long numIid = alimamaItem.getAuctionId();
 		Item item = itemRepository.queryItemBynumIid(numIid);
-		
-		
+				
 		Item itemNew = null;
 		boolean isUpdate =false;
 		if(item != null){
@@ -98,7 +130,7 @@ public class ItemEsOperServiceImpl implements ItemOperService{
 			
 		itemRepository.save(itemNew);
 		LOGGER.info("{}es的商品主键为：{}",isUpdate == true ? "更新":"插入",itemNew.getId());
-		return result;
+		return isUpdate;
 	}
 
 	@Override

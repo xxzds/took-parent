@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,6 +29,7 @@ import com.tooklili.service.biz.intf.tooklili.ItemOperService;
 import com.tooklili.util.Arith;
 import com.tooklili.util.DateUtil;
 import com.tooklili.util.result.BaseResult;
+import com.tooklili.util.result.PlainResult;
 
 /**
  * 数据库 更新、插入商品
@@ -227,6 +229,13 @@ public class ItemDBOperServiceImpl implements ItemOperService{
 		long count = itemDao.deleteExpiredItem();
 		LOGGER.info("删除{}个过期商品",count);
 		return result;
+	}
+
+	@Override
+	public PlainResult<String> insertOrUpdate(List<AlimamaItem> alimamaItems, Integer itemCateId)
+			throws UnsupportedEncodingException, ParseException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
