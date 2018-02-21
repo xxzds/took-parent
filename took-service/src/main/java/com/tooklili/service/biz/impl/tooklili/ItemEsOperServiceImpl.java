@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,8 +116,12 @@ public class ItemEsOperServiceImpl implements ItemOperService{
 			}
 		}
 		itemNew.setCateId(itemCateId);
-		itemNew.setCouponStartTime(alimamaItem.getCouponEffectiveStartTime());
-		itemNew.setCouponEndTime(alimamaItem.getCouponEffectiveEndTime());
+		if(StringUtils.isNotEmpty(alimamaItem.getCouponEffectiveStartTime())){
+			itemNew.setCouponStartTime(alimamaItem.getCouponEffectiveStartTime());
+		}
+		if(StringUtils.isNotEmpty(alimamaItem.getCouponEffectiveEndTime())){
+			itemNew.setCouponEndTime(alimamaItem.getCouponEffectiveEndTime());
+		}
 		itemNew.setQuanSurplus(alimamaItem.getCouponTotalCount());
 		itemNew.setQuanReceive(alimamaItem.getCouponTotalCount()-alimamaItem.getCouponLeftCount());
 		itemNew.setVolume(alimamaItem.getBiz30day().toString());
