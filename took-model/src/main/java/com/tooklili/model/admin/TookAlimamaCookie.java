@@ -1,5 +1,7 @@
 package com.tooklili.model.admin;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * alimama cookie表
  * @author ding.shuai
@@ -26,6 +28,11 @@ public class TookAlimamaCookie {
 	 * 1-可用，2-不可用
 	 */
 	private Integer isAvailable;
+	
+	/**
+	 * 推广pid
+	 */
+	private String pid;
 
 	public Long getId() {
 		return id;
@@ -57,6 +64,34 @@ public class TookAlimamaCookie {
 
 	public void setIsAvailable(Integer isAvailable) {
 		this.isAvailable = isAvailable;
+	}
+
+	public String getPid() {
+		return pid;
+	}
+
+	public void setPid(String pid) {
+		this.pid = pid;
+	}
+	
+	/**
+	 * 获取_tb_token_
+	 * @return
+	 */
+	public String getTbToken() {
+		String tbToken = null;
+		
+		if(StringUtils.isNotEmpty(this.alimamaCookie)) {
+			String[] temps = this.alimamaCookie.split(";");
+			for(String temp :temps) {
+				String[] temps2 = temp.split("=");
+				if("_tb_token_".equals(temps2[0].trim())) {
+					tbToken = temps2[1];
+					break;
+				}
+			}
+		}
+		return tbToken;
 	}
 
 	@Override

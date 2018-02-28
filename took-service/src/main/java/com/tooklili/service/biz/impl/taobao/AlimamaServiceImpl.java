@@ -26,6 +26,7 @@ import com.tooklili.model.taobao.AlimamaItem;
 import com.tooklili.model.taobao.AlimamaItemLink;
 import com.tooklili.model.taobao.AlimamaReqItemModel;
 import com.tooklili.service.biz.intf.taobao.AlimamaService;
+import com.tooklili.service.exception.BusinessException;
 import com.tooklili.util.HttpClientUtil;
 import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;
@@ -42,7 +43,7 @@ public class AlimamaServiceImpl implements AlimamaService{
 	@Resource
 	private HttpCallService httpCallService;
 	
-	@Autowired
+	@Autowired(required=false)
 	private TookAlimamaCookieDao tookAlimamaCookieDao;
 
 	/**
@@ -167,19 +168,33 @@ public class AlimamaServiceImpl implements AlimamaService{
 		if(StringUtils.isEmpty(auctionid)){
 			return result.setErrorMessage("auctionid不能为空");
 		}
-				
-		String url="http://wx.tooklili.com/common/code/getAuctionCode.json";
-		//推广类型、网站名称、投放推广位
-		url+=("?adzoneid=69036167&siteid=19682654&scenes=1&_tb_token_=75811b937dfe3&t="+new Date().getTime()+"&pvid=10_220.178.25.22_13754_"+new Date().getTime());
-		url+=("&auctionid="+auctionid);
-		LOGGER.info("请求地址:{}",url);
-		
 		
 		TookAlimamaCookie tookAlimamaCookie = tookAlimamaCookieDao.findById(cookieId);
 		if(tookAlimamaCookie == null || tookAlimamaCookie.getIsAvailable() == IsAvailableEnum.NO_AVAILIABLE.getCode()){
 			LOGGER.info("cookieId:{}",cookieId);
 			return result.setErrorMessage("用户标标识非法");
 		}
+		String pid = tookAlimamaCookie.getPid();
+		if(StringUtils.isEmpty(pid)) {
+			LOGGER.warn("cookieId:{}对用的pid不能为空",cookieId);
+			return result.setErrorMessage("设置pid");
+		}
+		
+		String siteid = null;  //媒体类型
+		String adzoneid = null;  //渠道类型
+		try {
+			String[] temp = pid.split("_");
+		    siteid = temp[2];
+		    adzoneid = temp[3];
+		}catch (Exception e) {
+			throw new BusinessException("pid设置不正确");
+		}
+						
+		String url="http://wx.tooklili.com/common/code/getAuctionCode.json";
+//		url+=("?adzoneid="+adzoneid+"&siteid="+siteid+"&t="+new Date().getTime()+"&pvid=10_220.178.25.22_13754_"+new Date().getTime());
+		url+=("?adzoneid="+adzoneid+"&siteid="+siteid+"&scenes=1&_tb_token_="+tookAlimamaCookie.getTbToken()+"&t="+new Date().getTime()+"&pvid=10_220.178.25.22_13754_"+new Date().getTime());
+		url+=("&auctionid="+auctionid);	
+		LOGGER.info("请求地址:{}",url);
 		
 		String cookie=tookAlimamaCookie.getAlimamaCookie();
 		LOGGER.info("获取'{}'的cookie:{}",tookAlimamaCookie.getName(),cookie);

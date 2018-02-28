@@ -53,6 +53,12 @@
 					</td>
 				</tr>
 				<tr height="35px">
+					<td align="right">pid：</td>
+					<td>
+						<input class="easyui-textbox" id="pid" name="pid" data-options="required:true">
+					</td>
+				</tr>
+				<tr height="35px">
 					<td align="right">是否可用：</td>
 					<td>
 						<input type="radio" name="isAvailable" value="1" checked="checked"><label>可用</label>

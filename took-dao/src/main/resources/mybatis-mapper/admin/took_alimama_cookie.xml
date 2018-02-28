@@ -7,13 +7,15 @@
 			<result column="name" property="name" jdbcType="VARCHAR" />
 			<result column="alimama_cookie" property="alimamaCookie" jdbcType="VARCHAR" />
 			<result column="is_available" property="isAvailable" jdbcType="DECIMAL" />
+			<result column="pid" property="pid" jdbcType="VARCHAR" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
 			id,
 			name,
 			alimama_cookie,
-			is_available
+			is_available,
+			pid
 	</sql>
 
 	<sql id="conditions_tookAlimamaCookie">
@@ -29,6 +31,9 @@
 			</if>
 			<if test="isAvailable != null">
 				and is_available = #{isAvailable}
+			</if>
+			<if test="pid != null">
+				and pid = #{pid}
 			</if>
 		</where>
 	</sql>
@@ -73,12 +78,14 @@
 			name,
 			alimama_cookie,
 			is_available,
+			pid,
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			#{id},
 			#{name},
 			#{alimamaCookie},
 			#{isAvailable},
+			#{pid},
 		</trim>
 	</insert>
 
@@ -89,12 +96,14 @@
 			<if test="name != null">name,</if>
 			<if test="alimamaCookie != null">alimama_cookie,</if>
 			<if test="isAvailable != null">is_available,</if>
+			<if test="pid != null">pid,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">#{id},</if>
 			<if test="name != null">#{name},</if>
 			<if test="alimamaCookie != null">#{alimamaCookie},</if>
 			<if test="isAvailable != null">#{isAvailable},</if>
+			<if test="pid != null">#{pid},</if>
 		</trim>
 	</insert>
 
@@ -104,6 +113,7 @@
 			name=#{name},
 			alimama_cookie=#{alimamaCookie},
 			is_available=#{isAvailable},
+			pid=#{pid},
 		</set>
 		<where>
 			  and id=#{id}
@@ -116,6 +126,7 @@
 			<if test="name != null">name=#{name},</if>
 			<if test="alimamaCookie != null">alimama_cookie=#{alimamaCookie},</if>
 			<if test="isAvailable != null">is_available=#{isAvailable},</if>
+			<if test="pid != null">pid=#{pid},</if>
 		</set>
 		<where>
 			  and id=#{id}
@@ -138,6 +149,9 @@
 			</if>
 			<if test="tookAlimamaCookie !=null and tookAlimamaCookie.isAvailable != null">
 				and is_available = #{tookAlimamaCookie.isAvailable}
+			</if>
+			<if test="tookAlimamaCookie !=null and tookAlimamaCookie.pid != null and tookAlimamaCookie.pid != ''">
+				and pid = #{tookAlimamaCookie.pid}
 			</if>
 		</where>
 	</select>

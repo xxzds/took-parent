@@ -13,6 +13,7 @@ var cookieModule = {
 							{field:'alimamaCookie',title:'cookie',align:'center',width:600,formatter:function(value){
 								 return "<span title='" + value + "'>" + value + "</span>";
 							}},
+							{field:'pid',title:'pid',align:'center',width:200},
 							{field:'isAvailable',title:'是否可用',align:'center',width:200,formatter:function(value,row){
 								return value==1 ? '可用' : '不可用';
 							}}

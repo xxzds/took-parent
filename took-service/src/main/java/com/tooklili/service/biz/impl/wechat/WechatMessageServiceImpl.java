@@ -60,7 +60,7 @@ public class WechatMessageServiceImpl implements WechatMessageService{
 		if(xmlEntity.getMsgType()==MsgType.text){
 			switch (reciveContent) {
 			case "1": 
-				String content = "http://www.tooklili.com:81/took-app";
+				String content = "http://www.tooklili.com/took-app";
 				result = FormatXml.formatXmlAboutText(xmlEntity.getFromUserName(), xmlEntity.getToUserName(), content);
 				break;
 			default: 
@@ -102,7 +102,7 @@ public class WechatMessageServiceImpl implements WechatMessageService{
 						imageText.setDescription(alimamaItem.getCouponInfo());
 						imageText.setPicUrl(alimamaItem.getPictUrl());
 						
-						String clickUrl="http://www.tooklili.com:81/took-app/superSearchDetail.html?title="+URLEncoder.encode(alimamaItem.getTitle(), "utf-8")
+						String clickUrl="http://www.tooklili.com/took-app/superSearchDetail.html?title="+URLEncoder.encode(alimamaItem.getTitle(), "utf-8")
 						+"&picUrl="+URLEncoder.encode(alimamaItem.getPictUrl(),"utf-8")
 						+"&zkPrice="+URLEncoder.encode(alimamaItem.getZkPrice(),"utf-8")
 	                    +"&numIid="+URLEncoder.encode(alimamaItem.getAuctionId().toString(),"utf-8")
