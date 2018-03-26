@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.tooklili.dao.db.intf.admin.TookAlimamaCookieDao;
@@ -28,6 +29,7 @@ import com.tooklili.model.taobao.AlimamaReqItemModel;
 import com.tooklili.service.biz.intf.taobao.AlimamaService;
 import com.tooklili.service.exception.BusinessException;
 import com.tooklili.util.HttpClientUtil;
+import com.tooklili.util.result.ListResult;
 import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;
 
@@ -203,6 +205,36 @@ public class AlimamaServiceImpl implements AlimamaService{
 		
 		AlimamaItemLink alimamaItemLink = JSON.parseObject(content).getObject("data", AlimamaItemLink.class);
 		result.setData(alimamaItemLink);
+		return result;
+	}
+
+	@Override
+	public ListResult<String> suggest(String q) throws UnsupportedEncodingException {
+		ListResult<String> result = new ListResult<String>();
+		if(StringUtils.isEmpty(q)) {
+			return result;
+		}
+		Map<String, String> params = Maps.newHashMap();
+		params.put("code", "utf-8");
+		params.put("q",URLEncoder.encode(q, "utf-8"));
+		params.put("_",String.valueOf(new Date().getTime()));
+		
+		PlainResult<String> plainResult = httpCallService.httpGet("https://suggest.taobao.com/sug",params);
+		if(!plainResult.isSuccess()) {
+			LOGGER.info("调用接口失败，失败原因：{}",plainResult.getMessage());
+			return result.setErrorMessage(plainResult.getMessage());
+		}
+		
+		//解析返回的数据
+		//{"result":[["女士春季衫","24.027244689557403"],["女士衫女 纯色","23.595556152701896"],["女士套装时尚","23.611882104403556"],["女士冬季外套","21.86277104101083"],["女士 上衣","23.64990784521851"],["女士时装外套","23.73661938475738"],["女士针织上衣","23.73815268075798"],["女士长款衣服","23.74286939131222"],["女士春季长袖","23.75152886301086"],["女士女士长","23.843351389218405"]]}
+		List<String> list = new ArrayList<String>();
+		String data = plainResult.getData();		
+		JSONArray jsonArray = JSON.parseObject(data).getJSONArray("result");
+		for(Object object:jsonArray) {
+			JSONArray jsonArray2 = (JSONArray)object;
+			list.add(jsonArray2.getString(0));
+		}
+		result.setData(list);
 		return result;
 	}
 

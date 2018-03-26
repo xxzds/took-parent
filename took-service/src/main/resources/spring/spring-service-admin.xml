@@ -15,7 +15,10 @@
 	<bean id="itemEsOperServiceImpl" class="com.tooklili.service.biz.impl.tooklili.ItemEsOperServiceImpl" />
 	<bean id="tbkService" class="com.tooklili.service.biz.impl.taobao.TbkServiceImpl" />
 	<bean id="tbkApiService" class="com.tooklili.service.biz.impl.taobao.TbkApiServiceImpl" />
-
+	
+	<!-- 上传 -->
+	<bean id="fileUploadService" class="com.tooklili.service.biz.impl.common.FileUploadToServerServiceImpl"/>
+ 
 	<!-- dao -->
 	<import resource="classpath:spring/spring-dao.xml"/>
 	<import resource="classpath:spring/spring-redis-config.xml"/>

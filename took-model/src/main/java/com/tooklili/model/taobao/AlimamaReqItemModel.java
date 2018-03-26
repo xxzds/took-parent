@@ -19,13 +19,13 @@ public class AlimamaReqItemModel {
 	/**
 	 * 第几页
 	 */
-	@ApiModelProperty(value="第几页")
+	@ApiModelProperty(hidden=true,value="第几页")
 	private Integer toPage;
 	
 	/**
 	 * 每页大小
 	 */
-	@ApiModelProperty(value="每页大小")
+	@ApiModelProperty(hidden=true,value="每页大小")
 	private Integer perPageSize;
 	
 	/**

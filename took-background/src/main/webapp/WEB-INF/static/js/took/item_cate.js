@@ -9,6 +9,9 @@ var itemCateModule = {
 		        toolbar:"#toolbar",
 		        columns:[[
 							{field:'id',hidden:true},
+							{field:'itemCateIconUrl',title:'图标',align:'center',width:200,formatter:function(value,row){								
+								return (value==null || value=='') ? '':'<img width="20px" height="20px" src="'+value+'"/>';
+							}},
 							{field:'itemCateName',title:'分类名称',align:'center',width:200},
 							{field:'itemCateSort',title:'排列位置',align:'center',width:200},
 							{field:'isAvailable',title:'是否可用',align:'center',width:200,formatter:function(value,row){
@@ -73,6 +76,11 @@ var itemCateModule = {
 			}
 			
 			itemCateModule.clearForm();
+			 //如果有图标，添加图标
+			 var itemCateIconUrl = row.itemCateIconUrl;
+			 if(itemCateIconUrl){
+				 $('#image').append('<img width="85px" heigth="85px" src="'+itemCateIconUrl+'"/>');
+			 }			  
 			 $('#formDialog').dialog({title: '修改',iconCls:'icon-edit'});
 			 //载入数据到表单
 			 $('#form').form('load',row);
@@ -134,7 +142,9 @@ var itemCateModule = {
 		// 清除表单
 		clearForm : function() {
 			$('#form').form('clear');
-			$('input[name="isAvailable"]').removeAttr("checked").eq(0).prop('checked',"checked");
+			$('input[name="isAvailable"]').removeAttr("checked").eq(0).prop('checked',"checked");			
+			//清除上传的图片
+			$('#image').html('');
 		}
 };
 

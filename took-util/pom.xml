@@ -21,5 +21,11 @@
 			<artifactId>httpmime</artifactId>
 			<version>${httpclient.version}</version>
 		</dependency>
+		
+		<!-- sftp -->
+		<dependency>
+		    <groupId>com.jcraft</groupId>
+		    <artifactId>jsch</artifactId>
+		</dependency>
 	</dependencies>
 </project>

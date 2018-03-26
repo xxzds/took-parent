@@ -13,7 +13,7 @@ import com.tooklili.util.result.PlainResult;
 public interface ItemService {
 	/**
 	 * 通过cateId查询优惠券商品列表
-	 * @param cateId
+	 * @param cateId   可空
 	 * @param currentPage
 	 * @param pageSize
 	 * @return

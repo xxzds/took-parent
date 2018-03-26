@@ -11,11 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
+import com.tooklili.convert.taobao.AlimamaItemConverter;
 import com.tooklili.model.taobao.AlimamaItem;
 import com.tooklili.model.taobao.AlimamaItemLink;
 import com.tooklili.model.taobao.AlimamaReqItemModel;
+import com.tooklili.model.tooklili.Item;
 import com.tooklili.service.biz.intf.common.ShortLinkService;
 import com.tooklili.service.biz.intf.taobao.AlimamaService;
+import com.tooklili.util.result.ListResult;
 import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;
 
@@ -42,8 +47,30 @@ public class AlimamaController {
 	
 	@ApiOperation(value = "超级搜索商品接口", notes = "超级搜索商品接口")
 	@RequestMapping(value = "/superSearchItems",method=RequestMethod.POST)
-	public PageResult<AlimamaItem> superSearchItems(AlimamaReqItemModel alimamaReqItemModel) throws UnsupportedEncodingException{
-		return alimamaService.superSearchItems(alimamaReqItemModel);
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "currentPage", value = "当前页", required = false, dataType = "Integer",paramType="query"),
+		@ApiImplicitParam(name = "pageSize", value = "页面大小", required = false, dataType = "Integer",paramType="query")
+	})
+	public PageResult<Item> superSearchItems(AlimamaReqItemModel alimamaReqItemModel,Integer currentPage,Integer pageSize) throws UnsupportedEncodingException{
+		PageResult<Item> result = new PageResult<Item>();
+		if(alimamaReqItemModel != null) {
+			if(currentPage != null) alimamaReqItemModel.setToPage(currentPage);
+			if(pageSize != null)  alimamaReqItemModel.setPerPageSize(pageSize);
+		}
+		PageResult<AlimamaItem> pageResult = alimamaService.superSearchItems(alimamaReqItemModel);
+		
+		result.setCode(pageResult.getCode());
+		result.setMessage(pageResult.getMessage());
+		result.setPageSize(pageResult.getPageSize());
+		result.setCurrentPage(pageResult.getCurrentPage());
+		result.setTotalCount(pageResult.getTotalCount());
+		result.setData(Lists.transform(pageResult.getData(), new Function<AlimamaItem, Item>() {
+			@Override
+			public Item apply(AlimamaItem input) {
+				return AlimamaItemConverter.alimamaItemConverItem(input);
+			}
+		}));		
+		return result;
 	}
 	
 	@ApiIgnore
@@ -100,6 +127,19 @@ public class AlimamaController {
 		}
 		
 		return result;
+	}
+	
+	/**
+	 * 搜索框智能提示
+	 * @param q   关键字
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	@ApiOperation(value = "搜索框智能提示", notes = "搜索框智能提示")
+	@ApiImplicitParam(name = "q", value = "关键字", required = false, dataType = "String",paramType="query")
+	@RequestMapping(value = "/suggest",method=RequestMethod.POST)
+	public ListResult<String> suggest(String q) throws UnsupportedEncodingException{
+		return alimamaService.suggest(q);
 	}
 
 }

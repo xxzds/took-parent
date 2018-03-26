@@ -6,6 +6,7 @@
 			<result column="id" property="id" jdbcType="DECIMAL" />
 			<result column="item_cate_name" property="itemCateName" jdbcType="VARCHAR" />
 			<result column="item_cate_sort" property="itemCateSort" jdbcType="DECIMAL" />
+			<result column="item_cate_icon_url" property="itemCateIconUrl" jdbcType="VARCHAR" />
 			<result column="is_available" property="isAvailable" jdbcType="DECIMAL" />
 	</resultMap>
 
@@ -13,6 +14,7 @@
 			id,
 			item_cate_name,
 			item_cate_sort,
+			item_cate_icon_url,
 			is_available
 	</sql>
 
@@ -26,6 +28,9 @@
 			</if>
 			<if test="itemCateSort != null">
 				and item_cate_sort = #{itemCateSort}
+			</if>
+			<if test="itemCateIconUrl != null">
+				and item_cate_icon_url = #{itemCateIconUrl}
 			</if>
 			<if test="isAvailable != null">
 				and is_available = #{isAvailable}
@@ -73,12 +78,14 @@
 			id,
 			item_cate_name,
 			item_cate_sort,
+			item_cate_icon_url,
 			is_available,
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			#{id},
 			#{itemCateName},
 			#{itemCateSort},
+			#{itemCateIconUrl},
 			#{isAvailable},
 		</trim>
 	</insert>
@@ -89,12 +96,14 @@
 			<if test="id != null">id,</if>
 			<if test="itemCateName != null">item_cate_name,</if>
 			<if test="itemCateSort != null">item_cate_sort,</if>
+			<if test="itemCateIconUrl != null">item_cate_icon_url,</if>
 			<if test="isAvailable != null">is_available,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">#{id},</if>
 			<if test="itemCateName != null">#{itemCateName},</if>
 			<if test="itemCateSort != null">#{itemCateSort},</if>
+			<if test="itemCateIconUrl != null">#{itemCateIconUrl},</if>
 			<if test="isAvailable != null">#{isAvailable},</if>
 		</trim>
 	</insert>
@@ -104,6 +113,7 @@
 		<set>
 			item_cate_name=#{itemCateName},
 			item_cate_sort=#{itemCateSort},
+			item_cate_icon_url=#{itemCateIconUrl},
 			is_available=#{isAvailable},
 		</set>
 		<where>
@@ -116,6 +126,7 @@
 		<set>
 			<if test="itemCateName != null">item_cate_name=#{itemCateName},</if>
 			<if test="itemCateSort != null">item_cate_sort=#{itemCateSort},</if>
+			<if test="itemCateIconUrl != null">item_cate_icon_url=#{itemCateIconUrl},</if>
 			<if test="isAvailable != null">is_available=#{isAvailable},</if>
 		</set>
 		<where>
@@ -136,6 +147,9 @@
 			</if>
 			<if test="tookItemCate != null and  tookItemCate.itemCateSort != null">
 				and item_cate_sort = #{tookItemCate.itemCateSort}
+			</if>
+			<if test="tookItemCate != null and  tookItemCate.itemCateIconUrl != null and tookItemCate.itemCateIconUrl != ''">
+				and item_cate_icon_url = #{tookItemCate.itemCateIconUrl}   
 			</if>
 			<if test="tookItemCate != null and  tookItemCate.isAvailable != null">
 				and is_available = #{tookItemCate.isAvailable}

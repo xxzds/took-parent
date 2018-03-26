@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import com.tooklili.model.taobao.AlimamaItem;
 import com.tooklili.model.taobao.AlimamaItemLink;
 import com.tooklili.model.taobao.AlimamaReqItemModel;
+import com.tooklili.util.result.ListResult;
 import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;
 
@@ -33,6 +34,15 @@ public interface AlimamaService {
 	 * @return
 	 */
 	public PlainResult<AlimamaItemLink> generatePromoteLink(String auctionid,Long cookieId);
+	
+	
+	/**
+	 * 智能提示信息（建议），用在输入框的下拉提示上
+	 * @param q  关键字
+	 * @return
+	 * @throws UnsupportedEncodingException 
+	 */
+	public ListResult<String> suggest(String q) throws UnsupportedEncodingException;
 	
 	
 

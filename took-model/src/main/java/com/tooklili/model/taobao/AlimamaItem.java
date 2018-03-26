@@ -285,4 +285,15 @@ public class AlimamaItem {
 	public void setUserType(Integer userType) {
 		this.userType = userType;
 	}
+
+	@Override
+	public String toString() {
+		return "AlimamaItem [couponAmount=" + couponAmount + ", couponEffectiveStartTime=" + couponEffectiveStartTime
+				+ ", couponEffectiveEndTime=" + couponEffectiveEndTime + ", title=" + title + ", pictUrl=" + pictUrl
+				+ ", auctionUrl=" + auctionUrl + ", couponInfo=" + couponInfo + ", couponTotalCount=" + couponTotalCount
+				+ ", couponLeftCount=" + couponLeftCount + ", reservePrice=" + reservePrice + ", zkPrice=" + zkPrice
+				+ ", biz30day=" + biz30day + ", tkRate=" + tkRate + ", tkCommFee=" + tkCommFee + ", shopTitle="
+				+ shopTitle + ", auctionId=" + auctionId + ", nick=" + nick + ", sellerId=" + sellerId + ", userType="
+				+ userType + "]";
+	}
 }

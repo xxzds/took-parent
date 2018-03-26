@@ -7,6 +7,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>商品分类管理</title>
 	<jsp:include page="../common/comm.jsp"></jsp:include>
+	<!-- 上传 -->
+	<!-- http://blog.csdn.net/ltjdyx/article/details/52181584 -->
+	<link rel="stylesheet" type="text/css" href="${ctx}/static/plugins/webuploader/webuploader.css">
+	<script type="text/javascript" src="${ctx}/static/plugins/webuploader/webuploader.min.js"></script>
 </head>
 <body>
 	<div id="toolbar">
@@ -28,9 +32,10 @@
 	<table id="dg"></table>
 	
 	<!-- add modify -->
-	<div id="formDialog" class="easyui-dialog"  data-options="closed:true,width:350,height:210,modal:true,buttons:'#dlg-buttons'" style="visibility:hidden;">
+	<div id="formDialog" class="easyui-dialog"  data-options="closed:true,width:350,height:270,modal:true,buttons:'#dlg-buttons'" style="visibility:hidden;">
 		<form id="form" method="post">
 			<input type="hidden" name="id"/>
+			<input type="hidden" id="itemCateIconUrl" name="itemCateIconUrl"/>
 			<table align="center" width="100%">
 				<tr height="35px">
 					<td width="35%" align="right">分类名称：</td>
@@ -51,14 +56,74 @@
 						<input type="radio" name="isAvailable" value="2"><label>不可用</label>
 					</td>
 				</tr>
-			</table>
+			</table>			
 		</form>
+		<!-- 注意： webUploader 不能放在easyui from表单控件中,这样会导致某些功能失效 -->
+		<table align="center" width="100%">
+			<tr>
+				<td align="right">图标：</td>
+				<td>
+					<div id="uploader">					
+						<div id="filePicker">选择图片</div>
+						<span id="image"></span>
+					</div>
+				</td>
+			</tr>
+		</table>
 	</div>
 	<div id="dlg-buttons">
 		<a href="javascript:void(0)" id="save" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">保存</a>
 		<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="javascript:$('#formDialog').dialog('close')">取消</a>
 	</div>
 	
-	<script type="text/javascript" src="${ctx}/static/js/took/item_cate.js?v=1"></script>
+	<script type="text/javascript" src="${ctx}/static/js/took/item_cate.js?v=4"></script>
+	<script type="text/javascript">	
+	$(function(){
+		//初始化Web Uploader
+		var uploader = WebUploader.create({
+			// 选完文件后，是否自动上传。
+			auto : true,
+			//swf文件路径
+			swf : '${ctx}/static/plugins/webuploader/Uploader.swf',
+			// 文件接收服务端。
+			server : '${ctx}/ajax/uploadImage',
+			// 选择文件的按钮。可选。
+			// 内部根据当前运行时创建，可能是input元素，也可能是flash.
+			pick : '#filePicker',
+			//指明参数名称，后台也用这个参数接收文件
+			fileVal:"file",  
+			// 只允许选择图片文件。
+			accept : {
+				title : 'Images',
+				extensions : 'gif,jpg,jpeg,bmp,png',
+				mimeTypes: 'image/jpg,image/jpeg,image/png'
+			}
+		});
+		// 文件上传成功,展示图片
+		uploader.on( 'uploadSuccess', function(file,response) {
+		    $('#image').append('<img width="85px" heigth="85px" src="'+response.data+'"/>');
+		    $('#itemCateIconUrl').val(response.data);
+		});
+
+		// 文件上传失败，显示上传出错。
+		uploader.on( 'uploadError', function( file ) {
+		    var $li = $( '#'+file.id ),
+		        $error = $li.find('div.error');
+
+		    // 避免重复创建
+		    if ( !$error.length ) {
+		        $error = $('<div class="error"></div>').appendTo( $li );
+		    }
+
+		    $error.text('上传失败');
+		});
+
+		// 完成上传完了，成功或者失败，先删除进度条。
+		uploader.on( 'uploadComplete', function( file ) {
+		    $( '#'+file.id ).find('.progress').remove();
+		});
+	});
+		
+	</script>
 </body>
 </html>

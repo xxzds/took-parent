@@ -24,13 +24,9 @@ public class ItemEsServiceImpl implements ItemService{
 		if(pageSize==null || pageSize==0){
 			pageSize=20L;
 		}
-		final PageResult<Item> result = new PageResult<Item>(currentPage,pageSize);		
-		if(cateId==null || cateId==0){
-			return result.setErrorMessage(10001, "参数cateId不能为空");
-		}
-		
-		result.setData(esItemRepository.queryItemsByCateId(cateId, currentPage.intValue(), pageSize.intValue()));
-		result.setTotalCountLong(esItemRepository.countItemsByCateId(cateId));
+		PageResult<Item> result = new PageResult<Item>(currentPage,pageSize);	
+		result.setData(esItemRepository.queryItems(cateId, currentPage.intValue(), pageSize.intValue()));
+		result.setTotalCountLong(esItemRepository.countItems(cateId));
 		
 		return result;
 	}

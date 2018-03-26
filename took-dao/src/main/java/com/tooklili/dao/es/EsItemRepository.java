@@ -50,13 +50,17 @@ public class EsItemRepository {
 	 * @param pageSize    页面大小
 	 * @return
 	 */
-	public List<Item> queryItemsByCateId(Integer cateId, int currentPage, int pageSize){
+	public List<Item> queryItems(Integer cateId, int currentPage, int pageSize){
+		NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
 		//按创建时间倒序排列
 		Sort sort = Sort.by(Sort.Direction.DESC,"addTime.keyword");
 		Pageable pageable = PageRequest.of(currentPage - 1, pageSize, sort);
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("cateId", cateId))
-				.withPageable(pageable).build();
-//		searchQuery.addIndices("item");
+		nativeSearchQueryBuilder.withPageable(pageable);
+		
+		if(cateId != null) {
+			nativeSearchQueryBuilder.withQuery(termQuery("cateId", cateId));
+		}
+		SearchQuery searchQuery = nativeSearchQueryBuilder.build();
 		return elasticsearchTemplate.queryForList(searchQuery, Item.class);
 	}
 	
@@ -66,8 +70,12 @@ public class EsItemRepository {
 	 * @param cateId        分类id
 	 * @return
 	 */
-	public long countItemsByCateId(Integer cateId){
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("cateId", cateId)).build();
+	public long countItems(Integer cateId){
+		NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();		
+		if(cateId != null) {
+			nativeSearchQueryBuilder.withQuery(termQuery("cateId", cateId));
+		}
+		SearchQuery searchQuery = nativeSearchQueryBuilder.build();
 		return elasticsearchTemplate.count(searchQuery,Item.class);
 	}
 	

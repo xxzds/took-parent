@@ -222,6 +222,13 @@
 			    <artifactId>spring-data-commons</artifactId>
 			    <version>2.0.2.RELEASE</version>
 			</dependency>
+			
+			<!-- JSch是Java Secure Channel的缩写。JSch是一个SSH2的纯Java实现。它允许你连接到一个SSH服务器，并且可以使用端口转发，X11转发，文件传输等，当然你也可以集成它的功能到你自己的应用程序。 -->
+		    <dependency>
+			    <groupId>com.jcraft</groupId>
+			    <artifactId>jsch</artifactId>
+			    <version>0.1.54</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

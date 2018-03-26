@@ -1,9 +1,12 @@
 package com.tooklili.service.alimama;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,6 +17,7 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Maps;
 import com.tooklili.dao.db.intf.tooklili.ItemDao;
 import com.tooklili.http.HttpCallService;
@@ -206,10 +210,11 @@ pvid:10_220.178.25.22_1773_1506419402203
 	public void superSearchTest(){
 		
 		Map<String, String> params = Maps.newHashMap();
-		params.put("q", "手机");
+//		params.put("q", "男装");
 		params.put("perPageSize","40");
 		params.put("dpyhq", "1");  //店铺优惠券
-		params.put("shopTag","dpyhq");
+//		params.put("shopTag","dpyhq");
+		params.put("catIds", "50354021");
 		
 		PlainResult<String> result = httpCallService.httpGet("https://pub.alimama.com/items/search.json",params);
 		
@@ -236,5 +241,41 @@ pvid:10_220.178.25.22_1773_1506419402203
 		
 		logger.info(JsonFormatTool.formatJson(result.getData()));
 		
+	}
+	
+	
+	/**
+	 * 智能提示
+	 * @throws UnsupportedEncodingException
+	 */
+	@Test
+	public void tipTest() throws UnsupportedEncodingException {
+		Map<String, String> params = Maps.newHashMap();
+		params.put("code", "utf-8");
+		params.put("q",URLEncoder.encode("女士", "utf-8"));
+		params.put("_",String.valueOf(new Date().getTime()));
+		
+		PlainResult<String> result = httpCallService.httpGet("https://suggest.taobao.com/sug",params);
+		
+		List<String> list = new ArrayList<String>();
+		String data = result.getData();		
+		JSONArray jsonArray = JSON.parseObject(data).getJSONArray("result");
+		for(Object object:jsonArray) {
+			JSONArray jsonArray2 = (JSONArray)object;
+			list.add(jsonArray2.getString(0));
+		}
+		
+		logger.info(JsonFormatTool.formatJson(JSON.toJSONString(list)));
+	}
+	
+	@Test
+	public void tehuiSearchItemsTest() {
+		Map<String, String> params = Maps.newHashMap();
+		params.put("channel", "tehui");
+		params.put("perPageSize","1");
+		params.put("pvid", "18_112.27.197.5_5169_"+String.valueOf(new Date().getTime()));
+		params.put("_t",String.valueOf(new Date().getTime()));
+		PlainResult<String> result = httpCallService.httpGet("https://pub.alimama.com/items/channel/tehui.json",params);
+		logger.info(JsonFormatTool.formatJson(result.getData()));
 	}
 }

@@ -33,8 +33,8 @@ public class EsItemRepostoryTest {
 	@Test
 	public void queryItemsByCateId() {
 		try {
-			List<Item> result = esItemRepository.queryItemsByCateId(35, 1, 10);
-			long count = esItemRepository.countItemsByCateId(35);
+			List<Item> result = esItemRepository.queryItems(35, 1, 10);
+			long count = esItemRepository.countItems(35);
 			LOGGER.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
 			LOGGER.info("总个数:{}", count);
 		} catch (Exception e) {

@@ -37,13 +37,13 @@ public class ItemController {
 	
 	@ApiOperation(value = "从本地数据库中查询商品列表",notes = "从本地数据库中查询商品列表")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "cateId", value = "分类id", required = true, dataType = "Integer",paramType="query"),
+		@ApiImplicitParam(name = "cateId", value = "分类id", required = false, dataType = "Integer",paramType="query"),
 		@ApiImplicitParam(name = "currentPage", value = "当前页", required = false, dataType = "Long",paramType="query"),
 		@ApiImplicitParam(name = "pageSize", value = "页面大小", required = false, dataType = "Long",paramType="query")
 	})	
 	@RequestMapping(value = "/couponItems",method = RequestMethod.POST)
 	@ResponseBody
-	public PageResult<Item> queryCouponItemsByCateId(Integer cateId,Long currentPage,Long pageSize){
+	public PageResult<Item> queryCouponItems(Integer cateId,Long currentPage,Long pageSize){
 		return itemService.queryCouponItemsByCateId(cateId, currentPage, pageSize);
 	}
 	
@@ -64,7 +64,7 @@ public class ItemController {
 	 */
 	@ApiOperation(value = "通过cateId随机获取size个商品",notes = "通过cateId随机获取size个商品")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "cateId", value = "商品类别", required = true, dataType = "Integer",paramType="query"),
+		@ApiImplicitParam(name = "cateId", value = "商品类别", required = false, dataType = "Integer",paramType="query"),
 		@ApiImplicitParam(name = "size", value = "获取商品的个数", required = false, dataType = "Integer",paramType="query")
 	})	
 	@RequestMapping(value = "/getRandomItemByCateId",method = RequestMethod.POST)

@@ -53,6 +53,17 @@ public class ItemEsOperServiceImpl implements ItemOperService{
 	@Override
 	public BaseResult insertOrUpdate(AlimamaItem alimamaItem, Integer itemCateId) throws UnsupportedEncodingException, ParseException {
 		BaseResult result = new BaseResult();
+		
+		//当商品有优惠券时，判断优惠结束时间，如果小于当前时间，直接返回		
+		String couponEffectiveEndTimeStr = alimamaItem.getCouponEffectiveEndTime();
+		if(StringUtils.isNotEmpty(couponEffectiveEndTimeStr)) {
+			Date couponEffectiveEndTime = DateUtil.parseDate(couponEffectiveEndTimeStr, DateUtil.DEFAULT_DAY_STYLE);
+			if(couponEffectiveEndTime.getTime() < new Date().getTime()) {
+				LOGGER.info("采集的商品{}，优惠活动已结束",alimamaItem);
+				return result;
+			}
+		}
+		
 		insertOrUpdateAlimamaItemToEs(alimamaItem, itemCateId);
 		return result;
 	}

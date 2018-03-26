@@ -1,5 +1,7 @@
 package com.tooklili.model.admin;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * 商品分类
  * @author ding.shuai
@@ -10,21 +12,31 @@ public class TookItemCate {
 	/**
 	 * 主键
 	 */
+	@ApiModelProperty("主键")
 	private Long id;
 	
 	/**
 	 * 分类名称
 	 */
+	@ApiModelProperty("分类名称")
 	private String itemCateName;
 	
 	/**
 	 * 排列位置
 	 */
+	@ApiModelProperty("排列位置")
 	private Integer itemCateSort;
+	
+	/**
+	 * 分类图标url
+	 */
+	@ApiModelProperty("分类图标url")
+	private String itemCateIconUrl;
 	
 	/**
 	 * 是否可用 1-可用，2-不可用
 	 */
+	@ApiModelProperty("是否可用 1-可用，2-不可用")
 	private Integer isAvailable;
 
 	public Long getId() {
@@ -59,9 +71,17 @@ public class TookItemCate {
 		this.itemCateSort = itemCateSort;
 	}
 
+	public String getItemCateIconUrl() {
+		return itemCateIconUrl;
+	}
+
+	public void setItemCateIconUrl(String itemCateIconUrl) {
+		this.itemCateIconUrl = itemCateIconUrl;
+	}
+
 	@Override
 	public String toString() {
 		return "TookItemCate [id=" + id + ", itemCateName=" + itemCateName + ", itemCateSort=" + itemCateSort
-				+ ", isAvailable=" + isAvailable + "]";
+				+ ", itemCateIconUrl=" + itemCateIconUrl + ", isAvailable=" + isAvailable + "]";
 	}
 }
