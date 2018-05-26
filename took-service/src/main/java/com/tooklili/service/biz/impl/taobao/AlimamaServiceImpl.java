@@ -21,11 +21,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.tooklili.dao.db.intf.admin.TookAlimamaCookieDao;
 import com.tooklili.enums.admin.IsAvailableEnum;
+import com.tooklili.enums.common.ChannelEnum;
 import com.tooklili.http.HttpCallService;
 import com.tooklili.model.admin.TookAlimamaCookie;
 import com.tooklili.model.taobao.AlimamaItem;
 import com.tooklili.model.taobao.AlimamaItemLink;
 import com.tooklili.model.taobao.AlimamaReqItemModel;
+import com.tooklili.model.taobao.DirectionalAlimamaReqItemModel;
 import com.tooklili.service.biz.intf.taobao.AlimamaService;
 import com.tooklili.service.exception.BusinessException;
 import com.tooklili.util.HttpClientUtil;
@@ -235,6 +237,127 @@ public class AlimamaServiceImpl implements AlimamaService{
 			list.add(jsonArray2.getString(0));
 		}
 		result.setData(list);
+		return result;
+	}
+
+	@Override
+	public PageResult<AlimamaItem> directionalSuperSearchItems(DirectionalAlimamaReqItemModel directionalAlimamaReqItemModel) {
+		PageResult<AlimamaItem> result = new PageResult<AlimamaItem>();
+		
+		//渠道
+	    ChannelEnum channelEnum = directionalAlimamaReqItemModel.getChannel();
+	    if(channelEnum == null) {
+	    	    return result.setErrorMessage("渠道不能为空");
+	    }
+		
+		Map<String, String> params = Maps.newHashMap();
+		
+		//页面大小
+		Integer pageSize = directionalAlimamaReqItemModel.getPerPageSize();
+		if(pageSize==null){
+			params.put("perPageSize", "40");
+		}else{
+			params.put("perPageSize", pageSize.toString());
+		}
+		
+		//当前页
+		Integer toPage = directionalAlimamaReqItemModel.getToPage();
+		if(toPage!=null){
+			params.put("toPage", toPage.toString());
+		}
+		
+		//排序类型
+		if(directionalAlimamaReqItemModel.getSortType()!=null){
+			params.put("sortType", directionalAlimamaReqItemModel.getSortType().toString());
+		}
+		
+		//0、淘宝 1、天猫
+		if(directionalAlimamaReqItemModel.getUserType() !=null) {
+			params.put("userType", directionalAlimamaReqItemModel.getUserType().toString());
+		}
+		
+		//商品标签,默认为空
+		String shopTag = "";
+		
+		//是否包含店铺优惠券
+		Integer dpyhq = directionalAlimamaReqItemModel.getDpyhq();
+		if(dpyhq!=null){
+			params.put("dpyhq", dpyhq.toString());
+			shopTag += shopTag=="" ? "dpyhq":",dpyhq";
+		}
+		
+		//金牌卖家
+		Integer jpmj = directionalAlimamaReqItemModel.getJpmj();
+		if(jpmj != null) {
+			params.put("jpmj", jpmj.toString());
+			shopTag += shopTag=="" ? "jpmj":",jpmj";
+		}
+		
+		//天猫旗舰店
+		Integer b2c = directionalAlimamaReqItemModel.getB2c();
+		if(b2c != null) {
+			params.put("b2c", b2c.toString());
+			shopTag += shopTag=="" ? "b2c":",b2c";
+		}
+		
+		//商品标签
+		params.put("shopTag", shopTag);
+		//频道
+		params.put("channel", channelEnum.getChannel());
+		//分类id
+		if(directionalAlimamaReqItemModel.getCatIds() != null) {
+			params.put("catIds", directionalAlimamaReqItemModel.getCatIds().toString());
+		}		
+		//层级
+		if(directionalAlimamaReqItemModel.getLevel() != null) {
+			params.put("level", directionalAlimamaReqItemModel.getLevel().toString());
+		}
+		
+		//月销量
+		if(directionalAlimamaReqItemModel.getStartBiz30day() != null) {
+			params.put("startBiz30day", directionalAlimamaReqItemModel.getStartBiz30day().toString());
+		}
+		
+		//收入比率
+		if(directionalAlimamaReqItemModel.getStartTkRate() != null) {
+			params.put("startTkRate", directionalAlimamaReqItemModel.getStartTkRate().toString());
+		}
+		if(directionalAlimamaReqItemModel.getEndTkRate() != null) {
+			params.put("endTkRate", directionalAlimamaReqItemModel.getEndTkRate().toString());
+		}
+		
+		//价格
+		if(directionalAlimamaReqItemModel.getStartPrice() != null) {
+			params.put("startPrice", directionalAlimamaReqItemModel.getStartPrice().toString());
+		}
+		if(directionalAlimamaReqItemModel.getEndPrice() != null) {
+			params.put("endPrice", directionalAlimamaReqItemModel.getEndPrice().toString());
+		}
+		
+		
+		//http://wx.tooklili.com  ->https://pub.alimama.com
+		PlainResult<String> responseResult = httpCallService.httpGet("http://wx.tooklili.com/items/channel/"+channelEnum.getChannel()+".json",params);
+		
+		JSONObject data = JSON.parseObject(responseResult.getData()).getJSONObject("data");
+		//分页信息
+		JSONObject head = data.getJSONObject("head");
+		//判断是否返回数据
+		String status = head.getString("status");
+		if(status!= null && "OK".equals(status)){  //成功
+			JSONObject paginator = data.getJSONObject("paginator");
+			result.setCurrentPage(head.getIntValue("pageNo"));
+			result.setPageSize(head.getIntValue("pageSize"));
+			result.setTotalCount(paginator.getIntValue("items"));
+
+			//商品信息
+			List<AlimamaItem> datas = JSON.parseArray(data.getJSONArray("pageList").toJSONString(), AlimamaItem.class);
+			result.setData(datas);
+		}else{  //失败
+			result.setData(new ArrayList<AlimamaItem>());
+			result.setTotalCount(0);
+			result.setCurrentPage(0);
+			result.setPageSize(0);			
+		}
 		return result;
 	}
 

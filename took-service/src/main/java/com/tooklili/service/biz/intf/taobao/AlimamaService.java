@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import com.tooklili.model.taobao.AlimamaItem;
 import com.tooklili.model.taobao.AlimamaItemLink;
 import com.tooklili.model.taobao.AlimamaReqItemModel;
+import com.tooklili.model.taobao.DirectionalAlimamaReqItemModel;
 import com.tooklili.util.result.ListResult;
 import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;
@@ -44,6 +45,11 @@ public interface AlimamaService {
 	 */
 	public ListResult<String> suggest(String q) throws UnsupportedEncodingException;
 	
-	
-
+	/**
+	 * 定向搜索
+	 * 超值9块9、20元封顶、特价好货
+	 * @param directionalAlimamaReqItemModel
+	 * @return
+	 */
+    public PageResult<AlimamaItem> directionalSuperSearchItems(DirectionalAlimamaReqItemModel directionalAlimamaReqItemModel);
 }

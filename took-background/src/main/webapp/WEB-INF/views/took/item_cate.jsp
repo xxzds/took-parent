@@ -10,7 +10,6 @@
 	<!-- 上传 -->
 	<!-- http://blog.csdn.net/ltjdyx/article/details/52181584 -->
 	<link rel="stylesheet" type="text/css" href="${ctx}/static/plugins/webuploader/webuploader.css">
-	<script type="text/javascript" src="${ctx}/static/plugins/webuploader/webuploader.min.js"></script>
 </head>
 <body>
 	<div id="toolbar">
@@ -77,6 +76,7 @@
 	</div>
 	
 	<script type="text/javascript" src="${ctx}/static/js/took/item_cate.js?v=4"></script>
+	<script type="text/javascript" src="${ctx}/static/plugins/webuploader/webuploader.min.js"></script>
 	<script type="text/javascript">	
 	$(function(){
 		//初始化Web Uploader
@@ -103,24 +103,6 @@
 		uploader.on( 'uploadSuccess', function(file,response) {
 		    $('#image').append('<img width="85px" heigth="85px" src="'+response.data+'"/>');
 		    $('#itemCateIconUrl').val(response.data);
-		});
-
-		// 文件上传失败，显示上传出错。
-		uploader.on( 'uploadError', function( file ) {
-		    var $li = $( '#'+file.id ),
-		        $error = $li.find('div.error');
-
-		    // 避免重复创建
-		    if ( !$error.length ) {
-		        $error = $('<div class="error"></div>').appendTo( $li );
-		    }
-
-		    $error.text('上传失败');
-		});
-
-		// 完成上传完了，成功或者失败，先删除进度条。
-		uploader.on( 'uploadComplete', function( file ) {
-		    $( '#'+file.id ).find('.progress').remove();
 		});
 	});
 		

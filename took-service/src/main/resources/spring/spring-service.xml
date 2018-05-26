@@ -13,6 +13,8 @@
 	
 	<!-- 额外使用的类 -->
 	<bean id="itemCateService" class="com.tooklili.service.biz.impl.admin.took.ItemCateServiceImpl" />
+	<bean id="itemNineService" class="com.tooklili.service.biz.impl.admin.took.ItemNineServiceImpl"/>
+	<bean id="itemTwentyService" class="com.tooklili.service.biz.impl.admin.took.ItemTwentyServiceImpl"/>
 
 	<!-- dao -->
 	<import resource="classpath:spring/spring-dao.xml"/>

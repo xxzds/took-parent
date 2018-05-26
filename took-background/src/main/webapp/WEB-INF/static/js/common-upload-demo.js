@@ -1,11 +1,11 @@
-(function($,window){
+(function($, window) {
 	function SuiJiNum() {
         return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
     }
 	/**
 	 * 初始化webuploader
 	 */
-	function initWebUpload(item, options){
+	function initWebUpload(item, options) {
 		if (!WebUploader.Uploader.support()) {
 			var error = "上传控件不支持您的浏览器！请尝试升级flash版本或者使用Chrome引擎的浏览器。<a target='_blank' href='http://se.360.cn'>下载页面</a>";
 			if (window.console) {
@@ -14,8 +14,7 @@
 			$(item).text(error);
 			return;
 		}
-		
-		//创建默认参数
+		// 创建默认参数
 		var defaults = {
 			auto : true,
 			hiddenInputId : "uploadifyHiddenInputId", // input hidden id
@@ -27,20 +26,18 @@
 			fileNumLimit : undefined,// 验证文件总数量, 超出则不允许加入队列
 			fileSizeLimit : undefined,// 验证文件总大小是否超出限制, 超出则不允许加入队列。
 			fileSingleSizeLimit : undefined,// 验证单个文件大小是否超出限制, 超出则不允许加入队列
-			PostbackHold : false	
+			PostbackHold : false
 		};
 		var opts = $.extend(defaults, options);
 		var hdFileData = $("#" + opts.hiddenInputId);
 		var target = $(item);// 容器
 		var pickerid = "";
-		if (typeof guidGenerator36 != 'undefined'){  // 给一个唯一ID
+		if (typeof guidGenerator36 != 'undefined')// 给一个唯一ID
 			pickerid = guidGenerator36();
-		}else{
+		else
 			pickerid = (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-		}
-		
-		
 		var uploaderStrdiv = '<div class="webuploader">'
+
 		if (opts.auto) {
 			uploaderStrdiv = '<div id="Uploadthelist" class="uploader-list"></div>'
 					+ '<div class="btns">'
@@ -57,14 +54,15 @@
 		uploaderStrdiv += '<div style="display:none" class="UploadhiddenInput" ></div>'
 		uploaderStrdiv += '</div>';
 		target.append(uploaderStrdiv);
-		
+
 		var $list = target.find('.uploader-list'), $btn = target.find('.webuploadbtn'), // 手动上传按钮备用
 		state = 'pending', $hiddenInput = target.find('.UploadhiddenInput'), uploader;
 		var jsonData = {
 			fileList : []
 		};
-		
+
 		var webuploaderoptions = $.extend({
+
 			// swf文件路径
 			swf : ctx + '/static/plugins/webuploader/Uploader.swf',
 			// 文件接收服务端。
@@ -80,7 +78,7 @@
 			fileSingleSizeLimit : opts.fileSingleSizeLimit
 		}, opts);
 		var uploader = WebUploader.create(webuploaderoptions);
-		
+
 		// 回发时还原hiddenfiled的保持数据
 		var fileDataStr = hdFileData.val();
 		if (fileDataStr && opts.PostbackHold) {
@@ -95,7 +93,7 @@
 			});
 			hdFileData.val(JSON.stringify(jsonData));
 		}
-		
+
 		if (opts.auto) {
 			uploader.on('fileQueued', function(file) {
 				$list.append('<div id="' + $(item)[0].id + file.id
@@ -116,25 +114,29 @@
 						+ '</div>');
 			});
 		}
-		
+
 		uploader.on('uploadProgress',function(file, percentage) {// 进度条事件
-			var $li = target.find('#' + $(item)[0].id + file.id), $percent = $li.find('.progress .bar');
+							var $li = target
+									.find('#' + $(item)[0].id + file.id), $percent = $li
+									.find('.progress .bar');
 
-			// 避免重复创建
-			if (!$percent.length) {
-				$percent = $('<span class="progress">'
-								+ '<span  class="percentage"><span class="text"></span>'
-								+ '<span class="bar" role="progressbar" style="width: 0%">'
-								+ '</span></span>' + '</span>').appendTo($li).find('.bar');
-			}
+							// 避免重复创建
+							if (!$percent.length) {
+								$percent = $(
+										'<span class="progress">'
+												+ '<span  class="percentage"><span class="text"></span>'
+												+ '<span class="bar" role="progressbar" style="width: 0%">'
+												+ '</span></span>' + '</span>')
+										.appendTo($li).find('.bar');
+							}
 
-			$li.find('span.webuploadstate').html('上传中');
-			$li.find(".text").text(
-					Math.round(percentage * 100) + '%');
-			$percent.css('width', percentage * 100 + '%');
-		});
-		
+							$li.find('span.webuploadstate').html('上传中');
+							$li.find(".text").text(
+									Math.round(percentage * 100) + '%');
+							$percent.css('width', percentage * 100 + '%');
+						});
 		uploader.on('uploadSuccess', function(file, response) {// 上传成功事件
+			debugger
 			if (response.state == "error") {
 				target.find('#' + $(item)[0].id + file.id).find(
 						'span.webuploadstate').html(response.message);
@@ -143,49 +145,23 @@
 						'span.webuploadstate').html('已上传');
 				$hiddenInput.append('<input type="text" id="hiddenInput'
 						+ $(item)[0].id + file.id
-						+ '" class="hiddenInput" value="' + response.data     //上传成功，返回的文件全路径
+						+ '" class="hiddenInput" value="' + response.message
 						+ '" />')
 			}
 
 		});
-		
+
 		uploader.on('uploadError', function(file) {
 			target.find('#' + $(item)[0].id + file.id).find(
 					'span.webuploadstate').html('上传出错');
 		});
-		
+
 		uploader.on('uploadComplete', function(file) {// 全部完成事件
-			target.find('#' + $(item)[0].id + file.id).find('.progress').fadeOut();
+			target.find('#' + $(item)[0].id + file.id).find('.progress')
+					.fadeOut();
 
 		});
-		
-		// 删除时执行的方法
-		uploader.on('fileDequeued', function(file) {
-			var fullName = $("#hiddenInput" + $(item)[0].id + file.id).val();
-			if (fullName != null) {
-				$.post(webuploaderoptions.deleteServer, {
-					fullName : fullName
-				}, function(data) {
-					alert(data.message);
-				})
-			}
-			$("#" + $(item)[0].id + file.id).remove();
-			$("#hiddenInput" + $(item)[0].id + file.id).remove();
 
-		});
-		
-		// 删除
-		$list.on("click", ".webuploadDelbtn", function() {
-			var $ele = $(this);
-			var id = $ele.parent().attr("id");
-			var id = id.replace($(item)[0].id, "");
-
-			var file = uploader.getFile(id);
-			uploader.removeFile(file);
-		});
-		
-		
-		//需要去理解
 		uploader.on('all', function(type) {
 			if (type === 'startUpload') {
 				state = 'uploading';
@@ -201,6 +177,24 @@
 				$btn.text('开始上传');
 			}
 		});
+
+		// 删除时执行的方法
+		uploader.on('fileDequeued', function(file) {
+			debugger
+
+			var fullName = $("#hiddenInput" + $(item)[0].id + file.id).val();
+			if (fullName != null) {
+				$.post(webuploaderoptions.deleteServer, {
+					fullName : fullName
+				}, function(data) {
+					alert(data.message);
+				})
+			}
+			$("#" + $(item)[0].id + file.id).remove();
+			$("#hiddenInput" + $(item)[0].id + file.id).remove();
+
+		})
+
 		// 多文件点击上传的方法
 		$btn.on('click', function() {
 			if (state === 'uploading') {
@@ -211,10 +205,22 @@
 			//阻止冒泡
 			return false;
 		});
+
+		// 删除
+		$list.on("click", ".webuploadDelbtn", function() {
+			debugger
+			var $ele = $(this);
+			var id = $ele.parent().attr("id");
+			var id = id.replace($(item)[0].id, "");
+
+			var file = uploader.getFile(id);
+			uploader.removeFile(file);
+		});
+
 	}
 	
-	//获取文件地址
-	$.fn.getFilesAddress = function(options) {
+	
+	$.fn.GetFilesAddress = function(options) {
 		var ele = $(this);
 		var filesdata = ele.find(".UploadhiddenInput");
 		var filesAddress = [];
@@ -224,7 +230,7 @@
 		return filesAddress;
 
 	}
-	
+
 	$.fn.powerWebUpload = function(options) {
 		var ele = this;
 		if (typeof WebUploader == 'undefined') {
@@ -244,5 +250,6 @@
 		} else {
 			initWebUpload(ele, options);
 		}
-	}	
+	}
+
 })(jQuery, window);

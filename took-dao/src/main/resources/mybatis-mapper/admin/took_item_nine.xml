@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tooklili.dao.db.intf.admin.TookItemNineDao">
+
+	<resultMap id="BaseResultMap" type="com.tooklili.model.tooklili.Item">
+			<result column="id" property="id" jdbcType="DECIMAL" />
+			<result column="cate_id" property="cateId" jdbcType="DECIMAL" />
+			<result column="num_iid" property="numIid" jdbcType="DECIMAL" />
+			<result column="title" property="title" jdbcType="VARCHAR" />
+			<result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+			<result column="price" property="price" jdbcType="VARCHAR" />
+			<result column="coupon_price" property="couponPrice" jdbcType="VARCHAR" />
+			<result column="quan" property="quan" jdbcType="VARCHAR" />
+			<result column="quan_surplus" property="quanSurplus" jdbcType="DECIMAL" />
+			<result column="quan_receive" property="quanReceive" jdbcType="DECIMAL" />
+			<result column="volume" property="volume" jdbcType="VARCHAR" />
+			<result column="coupon_start_time" property="couponStartTime" jdbcType="VARCHAR" />
+			<result column="coupon_end_time" property="couponEndTime" jdbcType="VARCHAR" />
+			<result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+			<result column="shop_type" property="shopType" jdbcType="VARCHAR" />
+			<result column="intro" property="intro" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+			id,
+			cate_id,
+			num_iid,
+			title,
+			pic_url,
+			price,
+			coupon_price,
+			quan,
+			quan_surplus,
+			quan_receive,
+			volume,
+			coupon_start_time,
+			coupon_end_time,
+			add_time,
+			shop_type,
+			intro
+	</sql>
+
+	<sql id="conditions_tookItemNine">
+		<where>
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="cateId != null">
+				and cate_id = #{cateId}
+			</if>
+			<if test="numIid != null">
+				and num_iid = #{numIid}
+			</if>
+			<if test="title != null">
+				and title = #{title}
+			</if>
+			<if test="picUrl != null">
+				and pic_url = #{picUrl}
+			</if>
+			<if test="price != null">
+				and price = #{price}
+			</if>
+			<if test="couponPrice != null">
+				and coupon_price = #{couponPrice}
+			</if>
+			<if test="quan != null">
+				and quan = #{quan}
+			</if>
+			<if test="quanSurplus != null">
+				and quan_surplus = #{quanSurplus}
+			</if>
+			<if test="quanReceive != null">
+				and quan_receive = #{quanReceive}
+			</if>
+			<if test="volume != null">
+				and volume = #{volume}
+			</if>
+			<if test="couponStartTime != null">
+				and coupon_start_time = #{couponStartTime}
+			</if>
+			<if test="couponEndTime != null">
+				and coupon_end_time = #{couponEndTime}
+			</if>
+			<if test="addTime != null">
+				and add_time = #{addTime}
+			</if>
+			<if test="shopType != null">
+				and shop_type = #{shopType}
+			</if>
+			<if test="intro != null">
+				and intro = #{intro}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select 
+		<include refid="Base_Column_List" />
+		from took_item_nine
+		<where>
+			  and id=#{id}
+		</where>
+	</select>
+	
+	<select id="find" resultMap="BaseResultMap" parameterType="com.tooklili.model.tooklili.Item">
+		select 
+		<include refid="Base_Column_List" />
+		from took_item_nine
+		<include refid="conditions_tookItemNine" />
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from took_item_nine
+		<where>
+			  and id=#{id}
+		</where>
+	</delete>
+	
+	<delete id="batchDeleteByIds" parameterType="java.lang.String">
+		delete from took_item_nine
+		<where>
+			  and id in 
+			  <foreach collection="array" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</where>
+	</delete>
+
+	<insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.tooklili.model.tooklili.Item">
+		insert into took_item_nine
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			id,
+			cate_id,
+			num_iid,
+			title,
+			pic_url,
+			price,
+			coupon_price,
+			quan,
+			quan_surplus,
+			quan_receive,
+			volume,
+			coupon_start_time,
+			coupon_end_time,
+			add_time,
+			shop_type,
+			intro,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{id},
+			#{cateId},
+			#{numIid},
+			#{title},
+			#{picUrl},
+			#{price},
+			#{couponPrice},
+			#{quan},
+			#{quanSurplus},
+			#{quanReceive},
+			#{volume},
+			#{couponStartTime},
+			#{couponEndTime},
+			#{addTime},
+			#{shopType},
+			#{intro},
+		</trim>
+	</insert>
+
+	<insert id="insertSelective" keyProperty="id" useGeneratedKeys="true" parameterType="com.tooklili.model.tooklili.Item">
+		insert into took_item_nine
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="cateId != null">cate_id,</if>
+			<if test="numIid != null">num_iid,</if>
+			<if test="title != null">title,</if>
+			<if test="picUrl != null">pic_url,</if>
+			<if test="price != null">price,</if>
+			<if test="couponPrice != null">coupon_price,</if>
+			<if test="quan != null">quan,</if>
+			<if test="quanSurplus != null">quan_surplus,</if>
+			<if test="quanReceive != null">quan_receive,</if>
+			<if test="volume != null">volume,</if>
+			<if test="couponStartTime != null">coupon_start_time,</if>
+			<if test="couponEndTime != null">coupon_end_time,</if>
+			<if test="addTime != null">add_time,</if>
+			<if test="shopType != null">shop_type,</if>
+			<if test="intro != null">intro,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="cateId != null">#{cateId},</if>
+			<if test="numIid != null">#{numIid},</if>
+			<if test="title != null">#{title},</if>
+			<if test="picUrl != null">#{picUrl},</if>
+			<if test="price != null">#{price},</if>
+			<if test="couponPrice != null">#{couponPrice},</if>
+			<if test="quan != null">#{quan},</if>
+			<if test="quanSurplus != null">#{quanSurplus},</if>
+			<if test="quanReceive != null">#{quanReceive},</if>
+			<if test="volume != null">#{volume},</if>
+			<if test="couponStartTime != null">#{couponStartTime},</if>
+			<if test="couponEndTime != null">#{couponEndTime},</if>
+			<if test="addTime != null">#{addTime},</if>
+			<if test="shopType != null">#{shopType},</if>
+			<if test="intro != null">#{intro},</if>
+		</trim>
+	</insert>
+
+	<update id="updateById" parameterType="com.tooklili.model.tooklili.Item">
+		update took_item_nine
+		<set>
+			cate_id=#{cateId},
+			num_iid=#{numIid},
+			title=#{title},
+			pic_url=#{picUrl},
+			price=#{price},
+			coupon_price=#{couponPrice},
+			quan=#{quan},
+			quan_surplus=#{quanSurplus},
+			quan_receive=#{quanReceive},
+			volume=#{volume},
+			coupon_start_time=#{couponStartTime},
+			coupon_end_time=#{couponEndTime},
+			add_time=#{addTime},
+			shop_type=#{shopType},
+			intro=#{intro},
+		</set>
+		<where>
+			  and id=#{id}
+		</where>
+	</update>
+
+	<update id="updateByIdSelective" parameterType="com.tooklili.model.tooklili.Item">
+		update took_item_nine
+		<set>
+			<if test="cateId != null">cate_id=#{cateId},</if>
+			<if test="numIid != null">num_iid=#{numIid},</if>
+			<if test="title != null">title=#{title},</if>
+			<if test="picUrl != null">pic_url=#{picUrl},</if>
+			<if test="price != null">price=#{price},</if>
+			<if test="couponPrice != null">coupon_price=#{couponPrice},</if>
+			<if test="quan != null">quan=#{quan},</if>
+			<if test="quanSurplus != null">quan_surplus=#{quanSurplus},</if>
+			<if test="quanReceive != null">quan_receive=#{quanReceive},</if>
+			<if test="volume != null">volume=#{volume},</if>
+			<if test="couponStartTime != null">coupon_start_time=#{couponStartTime},</if>
+			<if test="couponEndTime != null">coupon_end_time=#{couponEndTime},</if>
+			<if test="addTime != null">add_time=#{addTime},</if>
+			<if test="shopType != null">shop_type=#{shopType},</if>
+			<if test="intro != null">intro=#{intro},</if>
+		</set>
+		<where>
+			  and id=#{id}
+		</where>
+	</update>
+	
+	<select id="queryItemByNumiid" resultType="com.tooklili.model.tooklili.Item">
+	  select 
+	  <include refid="Base_Column_List" />
+		from took_item_nine
+		where num_iid =#{numIid}
+	</select>
+	
+	<delete id="delExpiredItems">
+		delete
+		from took_item_nine
+		where str_to_date(coupon_end_time,'%Y-%m-%d') <![CDATA[ < ]]> CURDATE()
+	</delete>
+</mapper>

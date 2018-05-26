@@ -20,14 +20,18 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Maps;
 import com.tooklili.dao.db.intf.tooklili.ItemDao;
+import com.tooklili.enums.common.AlimamaItemCateEnum;
+import com.tooklili.enums.common.ChannelEnum;
 import com.tooklili.http.HttpCallService;
 import com.tooklili.model.taobao.AlimamaItem;
 import com.tooklili.model.taobao.AlimamaItemLink;
 import com.tooklili.model.taobao.AlimamaReqItemModel;
+import com.tooklili.model.taobao.DirectionalAlimamaReqItemModel;
 import com.tooklili.model.tooklili.Item;
 import com.tooklili.model.tooklili.ItemModel;
 import com.tooklili.service.BaseTest;
 import com.tooklili.service.biz.intf.taobao.AlimamaService;
+import com.tooklili.service.biz.intf.tooklili.ItemOperService;
 import com.tooklili.util.Arith;
 import com.tooklili.util.DateUtil;
 import com.tooklili.util.JsonFormatTool;
@@ -44,6 +48,9 @@ public class AlimamaServiceTest  extends BaseTest{
 	
 	@Resource
 	private ItemDao itemDao;
+	
+	@Resource(name = "itemEsOperServiceImpl")
+	private ItemOperService itemOperService;
 	
 	@Test
 	public void superSearchItemsTest() throws UnsupportedEncodingException{
@@ -272,10 +279,56 @@ pvid:10_220.178.25.22_1773_1506419402203
 	public void tehuiSearchItemsTest() {
 		Map<String, String> params = Maps.newHashMap();
 		params.put("channel", "tehui");
+		params.put("toPage", "1");
 		params.put("perPageSize","1");
 		params.put("pvid", "18_112.27.197.5_5169_"+String.valueOf(new Date().getTime()));
 		params.put("_t",String.valueOf(new Date().getTime()));
+		params.put("catIds", "1");
+		params.put("level", "1");
+		params.put("dpyhq", "1");
+		params.put("shopTag", "dpyhq");
 		PlainResult<String> result = httpCallService.httpGet("https://pub.alimama.com/items/channel/tehui.json",params);
+		logger.info(JsonFormatTool.formatJson(result.getData()));
+	}
+	
+	@Test
+	public void tehuiSuperSearchItemsTest() throws UnsupportedEncodingException, ParseException, InterruptedException {
+		for(int i =1 ;i<2;i++) {
+			DirectionalAlimamaReqItemModel tehuiAlimamaReqItemModel = new DirectionalAlimamaReqItemModel();
+			tehuiAlimamaReqItemModel.setCatIds(AlimamaItemCateEnum.QI_CHE.getCateId());
+			tehuiAlimamaReqItemModel.setLevel(1);
+			tehuiAlimamaReqItemModel.setDpyhq(1);
+			tehuiAlimamaReqItemModel.setSortType(9);
+			
+			tehuiAlimamaReqItemModel.setToPage(i);
+			tehuiAlimamaReqItemModel.setPerPageSize(10);
+			tehuiAlimamaReqItemModel.setChannel(ChannelEnum.TWENTY);
+			
+			PageResult<AlimamaItem> result = alimamaService.directionalSuperSearchItems(tehuiAlimamaReqItemModel);
+//			logger.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
+			
+			itemOperService.insertOrUpdate(result.getData(), 11);
+			
+			Thread.sleep(80 *1000);
+		}
+		
+	}
+	
+	@Test
+	public void SearchItemsFor9k9Test() {
+		Map<String, String> params = Maps.newHashMap();
+		params.put("channel", "9k9");
+		params.put("toPage", "1");
+		params.put("perPageSize","1");
+		params.put("_t",String.valueOf(new Date().getTime()));
+		params.put("catIds", "1");
+		params.put("level", "1");
+		params.put("dpyhq", "1");
+		params.put("shopTag", "dpyhq");
+		params.put("t", "1525605822968");
+		params.put("_tb_token_", "e1e13e0dbe77e");
+		params.put("pvid", "16_211.162.8.83_659_1525605794704");
+		PlainResult<String> result = httpCallService.httpGet("https://pub.alimama.com/items/channel/9k9.json",params);
 		logger.info(JsonFormatTool.formatJson(result.getData()));
 	}
 }

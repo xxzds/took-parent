@@ -17,11 +17,13 @@ import com.tooklili.model.taobao.AlimamaReqItemModel;
 import com.tooklili.model.taobao.TookKeywordInfo;
 import com.tooklili.service.biz.intf.taobao.AlimamaService;
 import com.tooklili.service.biz.intf.tooklili.ItemOperService;
+import com.tooklili.service.exception.BusinessException;
 import com.tooklili.util.JsonFormatTool;
 import com.tooklili.util.result.PageResult;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.IJobHandler;
 import com.xxl.job.core.handler.annotation.JobHander;
+import com.xxl.job.core.log.XxlJobLogger;
 
 /**
  * 通过超级搜索接口，采集优惠券商品
@@ -58,6 +60,8 @@ public class CollectCouponsItemBySupserSearchJobHandler extends IJobHandler{
 		TookKeywordInfo tookKeywordInfo = redisItemCateAndKeywordRepository.getRandomKeywordInfo(ApiTypeEnum.SUPER_SEARCH_API);	
 		if(tookKeywordInfo == null) return;
 		
+		XxlJobLogger.log("选择的分类：" + JSON.toJSONString(tookKeywordInfo));
+		
 		//调用超级接口
 		AlimamaReqItemModel alimamaReqItemModel = new AlimamaReqItemModel();
 		
@@ -73,6 +77,10 @@ public class CollectCouponsItemBySupserSearchJobHandler extends IJobHandler{
 		alimamaReqItemModel.setSortType(9);
 		PageResult<AlimamaItem> result = alimamaService.superSearchItems(alimamaReqItemModel);
 		LOGGER.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
+		
+		if(!result.isSuccess()) {
+			throw new BusinessException(result.getMessage());
+		}
 		
 		if(result.getData().size()<=0){
 			LOGGER.info("通过关键词[{}]查询第{}页的商品没有查到",tookKeywordInfo.getKeyword(),tookKeywordInfo.getCurrentPage());
