@@ -1,6 +1,7 @@
 package com.tooklili.service.test;
 
 import java.util.Date;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.tooklili.util.DateUtil;
+import com.tooklili.util.RandomUtils;
+import com.tooklili.util.UUIDUtils;
 import com.tooklili.util.security.Md5Utils;
 
 /**
@@ -72,5 +75,19 @@ public class TestDemo {
 	@Test
 	public void md5Test(){
 		logger.info(Md5Utils.hash("value"));
+	}
+	
+	@Test
+	public  void hashCodeTest() {
+		logger.info(UUIDUtils.generateUuid32().hashCode()+"");
+		logger.info( new Random().nextInt( 2 )+"");
+	}
+	
+
+	@Test
+	public void getItemIDTest() {
+		for(int i=0;i<10;i++) {
+			logger.info(RandomUtils.randomCharAndNum(5));
+		}		
 	}
 }

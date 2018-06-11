@@ -18,7 +18,7 @@ import com.tooklili.util.result.PlainResult;
  */
 public class ShortLinkServiceTest extends BaseTest{
 	
-	@Resource
+	@Resource(name="customShortLinkServiceImpl")
 	private ShortLinkService shortLinkService;
 	
 	@Test
