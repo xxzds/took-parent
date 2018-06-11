@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.taobao.api.ApiException;
 import com.taobao.api.request.TbkDgItemCouponGetRequest;
 import com.taobao.api.response.TbkDgItemCouponGetResponse.TbkCoupon;
+import com.tooklili.app.web.util.WebUtils;
 import com.tooklili.model.taobao.TpwdAndShortUrlModel;
 import com.tooklili.service.biz.intf.common.ShortLinkService;
 import com.tooklili.service.biz.intf.taobao.TbkService;
@@ -165,7 +167,7 @@ public class TaoBaoKeController {
 	})	
 	@RequestMapping(value = "/getTpwdAndShortLink",method = RequestMethod.POST)
 	@ResponseBody
-	public PlainResult<TpwdAndShortUrlModel> getTpwdAndShortLink(String text,String url,String logo) throws ApiException, UnsupportedEncodingException{
+	public PlainResult<TpwdAndShortUrlModel> getTpwdAndShortLink(String text,String url,String logo,HttpServletRequest request) throws ApiException, UnsupportedEncodingException{
 		PlainResult<TpwdAndShortUrlModel> result = new PlainResult<TpwdAndShortUrlModel>();
 		
 		TpwdAndShortUrlModel tpwdAndShortUrlModel = new TpwdAndShortUrlModel();
@@ -180,7 +182,7 @@ public class TaoBaoKeController {
 		if(!shortLinkResult.isSuccess()){
 			return result.setErrorMessage("生成短链接失败");
 		}
-		tpwdAndShortUrlModel.setCouponShortLinkUrl(shortLinkResult.getData());	
+		tpwdAndShortUrlModel.setCouponShortLinkUrl(WebUtils.getHomeUrl(request)+"/s/"+shortLinkResult.getData());	
 		result.setData(tpwdAndShortUrlModel);
 		return result;
 	}

@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.tooklili.app.web.util.WebUtils;
 import com.tooklili.convert.taobao.AlimamaItemConverter;
 import com.tooklili.model.taobao.AlimamaItem;
 import com.tooklili.model.taobao.AlimamaItemLink;
@@ -98,7 +100,7 @@ public class AlimamaController {
 		@ApiImplicitParam(name = "userFlag", value = "用户标识", dataType = "String",paramType="query")
 	})	
 	@RequestMapping(value = "/getTwdAndShortLinkInfo",method=RequestMethod.POST)
-	public PlainResult<AlimamaItemLink> getTwdInfo(String auctionid,String userFlag) throws UnsupportedEncodingException{
+	public PlainResult<AlimamaItemLink> getTwdInfo(String auctionid,String userFlag,HttpServletRequest request) throws UnsupportedEncodingException{
 		PlainResult<AlimamaItemLink> result = new PlainResult<AlimamaItemLink>();
 		//为空，默认为1
 		if(StringUtils.isEmpty(userFlag)){
@@ -117,12 +119,12 @@ public class AlimamaController {
 		AlimamaItemLink alimamaItemLink = result.getData();
 			
 		if(StringUtils.isNotEmpty(alimamaItemLink.getCouponShortLinkUrl())){
-			alimamaItemLink.setCustomCouponShortLinkUrl(shortLinkService.getShortLinkUrl("http://www.tooklili.com:81/taobao?backurl=" +URLEncoder.encode(alimamaItemLink.getCouponShortLinkUrl(),"utf-8"))
+			alimamaItemLink.setCustomCouponShortLinkUrl(WebUtils.getHomeUrl(request)+"/s/"+shortLinkService.getShortLinkUrl("http://www.tooklili.com:81/taobao?backurl=" +URLEncoder.encode(alimamaItemLink.getCouponShortLinkUrl(),"utf-8"))
 					.getData());
 		}
 		
 		if(StringUtils.isNotEmpty(alimamaItemLink.getShortLinkUrl())){
-			alimamaItemLink.setCustomShortLinkUrl(shortLinkService.getShortLinkUrl("http://www.tooklili.com:81/taobao?backurl=" +URLEncoder.encode(alimamaItemLink.getShortLinkUrl(),"utf-8"))
+			alimamaItemLink.setCustomShortLinkUrl(WebUtils.getHomeUrl(request)+"/s/"+shortLinkService.getShortLinkUrl("http://www.tooklili.com:81/taobao?backurl=" +URLEncoder.encode(alimamaItemLink.getShortLinkUrl(),"utf-8"))
 					.getData());
 		}
 		
