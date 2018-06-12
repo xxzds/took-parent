@@ -2,6 +2,7 @@ package com.tooklili.convert.taobao;
 
 import com.tooklili.model.taobao.AlimamaItem;
 import com.tooklili.model.tooklili.Item;
+import com.tooklili.util.Arith;
 
 /**
  * 
@@ -20,7 +21,9 @@ public class AlimamaItemConverter {
 		item.setPicUrl(alimamaItem.getPictUrl());
 		item.setPrice(alimamaItem.getReservePrice());
 		//折扣价
-		item.setCouponPrice(alimamaItem.getZkPrice());
+		double couponPrice = Arith.sub(Double.valueOf(alimamaItem.getZkPrice()),Double.valueOf(alimamaItem.getCouponAmount()));
+		item.setCouponPrice(String.valueOf(couponPrice));
+		
 		item.setQuan(String.valueOf(alimamaItem.getCouponAmount()));
 		item.setQuanSurplus(alimamaItem.getCouponTotalCount());
 		item.setQuanReceive(alimamaItem.getCouponLeftCount());
