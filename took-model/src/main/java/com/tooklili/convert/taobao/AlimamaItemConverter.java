@@ -19,7 +19,8 @@ public class AlimamaItemConverter {
 		item.setNumIid(alimamaItem.getAuctionId());
 		item.setTitle(alimamaItem.getTitle());
 		item.setPicUrl(alimamaItem.getPictUrl());
-		item.setPrice(alimamaItem.getReservePrice());
+		//现价
+		item.setPrice(alimamaItem.getZkPrice());
 		//折扣价
 		double couponPrice = Arith.sub(Double.valueOf(alimamaItem.getZkPrice()),Double.valueOf(alimamaItem.getCouponAmount()));
 		item.setCouponPrice(String.valueOf(couponPrice));
