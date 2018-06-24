@@ -55,9 +55,9 @@ public class ItemTwentyServiceImpl implements ItemTwentyService{
 				updateCount += 1;
 			}else{
 				insertCount += 1;
-			}
-			result.setData("采集商品成功,录入"+insertCount+"个，更新"+updateCount+"个");
-		}		
+			}			
+		}
+		result.setData("采集商品成功,录入"+insertCount+"个，更新"+updateCount+"个");
 		return result;
 	}
 	

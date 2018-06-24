@@ -15,6 +15,7 @@
 	<bean id="itemCateService" class="com.tooklili.service.biz.impl.admin.took.ItemCateServiceImpl" />
 	<bean id="itemNineService" class="com.tooklili.service.biz.impl.admin.took.ItemNineServiceImpl"/>
 	<bean id="itemTwentyService" class="com.tooklili.service.biz.impl.admin.took.ItemTwentyServiceImpl"/>
+	<bean id="itemSelectService" class="com.tooklili.service.biz.impl.admin.took.ItemSelectServiceImpl"/>
 
 	<!-- dao -->
 	<import resource="classpath:spring/spring-dao.xml"/>
