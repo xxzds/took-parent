@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.taobao.api.ApiException;
-import com.taobao.api.request.TbkDgItemCouponGetRequest;
-import com.taobao.api.response.TbkDgItemCouponGetResponse.TbkCoupon;
+import com.taobao.api.request.TbkDgMaterialOptionalRequest;
 import com.tooklili.dao.redis.RedisItemCateAndKeywordRepository;
 import com.tooklili.enums.admin.ApiTypeEnum;
 import com.tooklili.model.taobao.TookKeywordInfo;
+import com.tooklili.model.tooklili.Item;
 import com.tooklili.service.biz.intf.taobao.TbkService;
 import com.tooklili.service.biz.intf.tooklili.ItemOperService;
 import com.tooklili.util.JsonFormatTool;
@@ -62,22 +62,45 @@ public class CollectCouponsItemByTbkApiJobHandller extends IJobHandler{
 		TookKeywordInfo tookKeywordInfo = redisItemCateAndKeywordRepository.getRandomKeywordInfo(ApiTypeEnum.TBK_API);	
 		
 		//调用淘宝客采券接口
-		TbkDgItemCouponGetRequest req = new TbkDgItemCouponGetRequest();
+//		TbkDgItemCouponGetRequest req = new TbkDgItemCouponGetRequest();
+//		req.setPageNo((long)tookKeywordInfo.getCurrentPage());
+//		req.setPageSize(1L);
+//		req.setQ(tookKeywordInfo.getKeyword());
+//		LOGGER.info("选择的关键词：{}，采集第{}页",tookKeywordInfo.getKeyword(),tookKeywordInfo.getCurrentPage());
+//		PageResult<TbkCoupon> result = tbkService.getCouponItems(req);
+//		LOGGER.info("调用tbk采券接口,返回的内容：{}",JsonFormatTool.formatJson(JSON.toJSONString(result)));
+//		
+//		List<TbkCoupon> tbkCoupons = result.getData();
+//		if(tbkCoupons==null || tbkCoupons.size()==0){
+//			LOGGER.info("通过关键词[{}]查询第{}页的商品没有查到",tookKeywordInfo.getKeyword(),tookKeywordInfo.getCurrentPage());
+//			return;
+//		}		
+//		TbkCoupon tbkCoupon = tbkCoupons.get(0);
+//		
+//		itemOperService.insertOrUpdate(tbkCoupon, tookKeywordInfo.getCateId());
+		
+		//通过“通用物料搜索API（导购）”接口，获取商品信息
+		TbkDgMaterialOptionalRequest req = new TbkDgMaterialOptionalRequest();
 		req.setPageNo((long)tookKeywordInfo.getCurrentPage());
 		req.setPageSize(1L);
 		req.setQ(tookKeywordInfo.getKeyword());
-		LOGGER.info("选择的关键词：{}，采集第{}页",tookKeywordInfo.getKeyword(),tookKeywordInfo.getCurrentPage());
-		PageResult<TbkCoupon> result = tbkService.getCouponItems(req);
+		//是否有优惠券，设置为true表示该商品有优惠券，设置为false或不设置表示不判断这个属性
+		req.setHasCoupon(true);
+		//销量降序
+		req.setSort("total_sales_des");
+		LOGGER.info("选择的关键词：{}，采集第{}页",tookKeywordInfo.getKeyword(),tookKeywordInfo.getCurrentPage());		
+		PageResult<Item> result = tbkService.getItems(req);
 		LOGGER.info("调用tbk采券接口,返回的内容：{}",JsonFormatTool.formatJson(JSON.toJSONString(result)));
 		
-		List<TbkCoupon> tbkCoupons = result.getData();
-		if(tbkCoupons==null || tbkCoupons.size()==0){
+		List<Item> items = result.getData();
+		if(items==null || items.size()==0){
 			LOGGER.info("通过关键词[{}]查询第{}页的商品没有查到",tookKeywordInfo.getKeyword(),tookKeywordInfo.getCurrentPage());
 			return;
-		}		
-		TbkCoupon tbkCoupon = tbkCoupons.get(0);
+		}
+		Item item = items.get(0);
 		
-		itemOperService.insertOrUpdate(tbkCoupon, tookKeywordInfo.getCateId());
+		itemOperService.insertOrUpdate(item, tookKeywordInfo.getCateId());
+		
 	}
 	
 }

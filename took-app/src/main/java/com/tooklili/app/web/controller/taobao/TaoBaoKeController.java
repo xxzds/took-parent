@@ -16,14 +16,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.taobao.api.ApiException;
 import com.taobao.api.request.TbkDgItemCouponGetRequest;
-import com.taobao.api.response.TbkDgItemCouponGetResponse.TbkCoupon;
+import com.taobao.api.request.TbkDgMaterialOptionalRequest;
 import com.tooklili.app.web.util.WebUtils;
+import com.tooklili.convert.taobao.TbkItemConverter;
 import com.tooklili.model.taobao.TpwdAndShortUrlModel;
+import com.tooklili.model.tooklili.Item;
 import com.tooklili.service.biz.intf.common.ShortLinkService;
 import com.tooklili.service.biz.intf.taobao.TbkService;
 import com.tooklili.util.PropertiesUtil;
+import com.tooklili.util.result.ListResult;
 import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;
+import com.tooklili.vo.tbk.TbkDgMaterialOptionalRequestVo;
 import com.tooklili.vo.tbk.TbkItemDetailRespVo;
 import com.tooklili.vo.tbk.TbkItemReqVo;
 import com.tooklili.vo.tbk.TbkItemRespVo;
@@ -116,12 +120,12 @@ public class TaoBaoKeController {
 	})	
 	@RequestMapping(value = "/getCouponItems",method = RequestMethod.POST)
 	@ResponseBody
-	public PageResult<TbkCoupon> getCouponItems(String q,Long pageNo,Long pageSize) throws ApiException{
+	public PageResult<Item> getCouponItems(String q,Long pageNo,Long pageSize) throws ApiException{
 		TbkDgItemCouponGetRequest req = new TbkDgItemCouponGetRequest();
 		req.setQ(q);
 		req.setPageNo(pageNo);
 		req.setPageSize(pageSize);
-		PageResult<TbkCoupon> result = tbkService.getCouponItems(req);
+		PageResult<Item> result = tbkService.getCouponItemsReturnItems(req);
 		return result;		
 	}
 	
@@ -139,12 +143,13 @@ public class TaoBaoKeController {
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "text", value = "口令弹框内容", required = true, dataType = "String",paramType="query"),
 		@ApiImplicitParam(name = "url", value = "口令跳转目标页", required = true, dataType = "String",paramType="query"),
-		@ApiImplicitParam(name = "logo", value = "口令弹框logoURL 可选 如https://uland.taobao.com/", required = false, dataType = "String",paramType="query")
+		@ApiImplicitParam(name = "logo", value = "口令弹框logoURL 可选 如https://uland.taobao.com/", required = false, dataType = "String",paramType="query"),
+		@ApiImplicitParam(name = "userFlag", value = "标识用户 1、ds 2、gc,不传默认为1", required = false, dataType = "Integer",paramType="query")
 	})	
 	@RequestMapping(value = "/getTPwd",method = RequestMethod.POST)
 	@ResponseBody
-	public PlainResult<String> getTPwd(String text,String url,String logo) throws ApiException{
-		PlainResult<String> result = tbkService.createTpwd(text, url,logo);
+	public PlainResult<String> getTPwd(String text,String url,String logo,Integer userFlag) throws ApiException{
+		PlainResult<String> result = tbkService.createTpwd(text, url,logo,userFlag);
 		return result;
 	}
 	
@@ -163,15 +168,16 @@ public class TaoBaoKeController {
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "text", value = "口令弹框内容", required = true, dataType = "String",paramType="query"),
 		@ApiImplicitParam(name = "url", value = "口令跳转目标页", required = true, dataType = "String",paramType="query"),
-		@ApiImplicitParam(name = "logo", value = "口令弹框logoURL 可选 如https://uland.taobao.com/", required = false, dataType = "String",paramType="query")
+		@ApiImplicitParam(name = "logo", value = "口令弹框logoURL 可选 如https://uland.taobao.com/", required = false, dataType = "String",paramType="query"),
+		@ApiImplicitParam(name = "userFlag", value = "标识用户 1、ds 2、gc,不传默认为1", required = false, dataType = "Integer",paramType="query")
 	})	
 	@RequestMapping(value = "/getTpwdAndShortLink",method = RequestMethod.POST)
 	@ResponseBody
-	public PlainResult<TpwdAndShortUrlModel> getTpwdAndShortLink(String text,String url,String logo,HttpServletRequest request) throws ApiException, UnsupportedEncodingException{
+	public PlainResult<TpwdAndShortUrlModel> getTpwdAndShortLink(String text,String url,String logo,Integer userFlag,HttpServletRequest request) throws ApiException, UnsupportedEncodingException{
 		PlainResult<TpwdAndShortUrlModel> result = new PlainResult<TpwdAndShortUrlModel>();
 		
 		TpwdAndShortUrlModel tpwdAndShortUrlModel = new TpwdAndShortUrlModel();
-		PlainResult<String> tpwdResult = tbkService.createTpwd(text, url,logo);
+		PlainResult<String> tpwdResult = tbkService.createTpwd(text, url,logo,userFlag);
 		if(!tpwdResult.isSuccess()){
 			return result.setErrorMessage("生成淘口令失败");
 		}
@@ -185,5 +191,41 @@ public class TaoBaoKeController {
 		tpwdAndShortUrlModel.setCouponShortLinkUrl(WebUtils.getHomeUrl(request)+"/s/"+shortLinkResult.getData());	
 		result.setData(tpwdAndShortUrlModel);
 		return result;
+	}
+	
+	/**
+	 * 通过淘宝客接口，获取商品列表，--类似超级搜接口
+	 * @param tbkDgMaterialOptionalRequestVo
+	 * @return
+	 * @throws ApiException
+	 */
+	@RequestMapping(value = "/material/optiona/getItems",method = RequestMethod.POST)
+	@ResponseBody
+	public PageResult<Item> getItems(TbkDgMaterialOptionalRequestVo tbkDgMaterialOptionalRequestVo) throws ApiException{
+		TbkDgMaterialOptionalRequest req = TbkItemConverter.convertTbkDgMaterialOptionalRequest(tbkDgMaterialOptionalRequestVo);
+		
+		//如果req为空，则q默认为“女装”
+		if(req == null) {
+			req = new TbkDgMaterialOptionalRequest();
+			req.setQ("女装");
+		}
+		
+		PageResult<Item> items = tbkService.getItems(req);		 
+		 return items;
+	}
+	
+	
+	/**
+	 * 通过淘宝客接口，获取优惠券商品列表
+	 * @param materialId   物料id
+	 * @param currentPage  当前页
+	 * @param pageSize     页面大小
+	 * @return
+	 * @throws ApiException
+	 */
+	@RequestMapping(value = "/material/getItems",method = RequestMethod.POST)
+	@ResponseBody
+	public ListResult<Item> getItems(Long materialId,Integer currentPage,Integer pageSize) throws ApiException{
+		return tbkService.getItems(materialId, currentPage, pageSize);
 	}
 }

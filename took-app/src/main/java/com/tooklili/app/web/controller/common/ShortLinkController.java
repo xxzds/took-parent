@@ -33,7 +33,7 @@ public class ShortLinkController {
 	@Resource
 	private RedisCommonRepository redisCommonRepository;
 	
-	@ApiOperation(value = "生成短连接接口",notes = "生成短连接接口")
+	@ApiOperation(value = "生成短链接接口",notes = "生成短链接接口")
 	@ApiImplicitParam(name = "url", value = "url地址", required = true, dataType = "String",paramType="query")
 	@RequestMapping(value = "/getShortLinkUrl" , method = RequestMethod.POST)
 	@ResponseBody

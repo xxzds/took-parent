@@ -7,6 +7,7 @@ import java.util.List;
 import com.taobao.api.ApiException;
 import com.taobao.api.response.TbkDgItemCouponGetResponse.TbkCoupon;
 import com.tooklili.model.taobao.AlimamaItem;
+import com.tooklili.model.tooklili.Item;
 import com.tooklili.util.result.BaseResult;
 import com.tooklili.util.result.PlainResult;
 
@@ -26,7 +27,7 @@ public interface ItemOperService {
 	 * @throws UnsupportedEncodingException 
 	 * @throws ParseException 
 	 */
-	public BaseResult insertOrUpdate(AlimamaItem alimamaItem,Integer itemCateId) throws UnsupportedEncodingException, ParseException;
+	 BaseResult insertOrUpdate(AlimamaItem alimamaItem,Integer itemCateId) throws UnsupportedEncodingException, ParseException;
 	
 	
 	/**
@@ -37,7 +38,16 @@ public interface ItemOperService {
 	 * @throws UnsupportedEncodingException
 	 * @throws ParseException
 	 */
-	public PlainResult<String> insertOrUpdate(List<AlimamaItem> alimamaItems,Integer itemCateId) throws UnsupportedEncodingException, ParseException;
+	 PlainResult<String> insertOrUpdate(List<AlimamaItem> alimamaItems,Integer itemCateId) throws UnsupportedEncodingException, ParseException;
+	
+	
+	 /**
+	  * 插入或更新商品
+	  * @param item        商品信息
+	  * @param itemCateId  商品插入数据库的分类id
+	  * @return
+	  */
+	 BaseResult insertOrUpdate(Item item,Integer itemCateId);
 	
 	
 	/**
@@ -49,13 +59,13 @@ public interface ItemOperService {
 	 * @throws ApiException 
 	 * @throws ParseException 
 	 */
-	public BaseResult insertOrUpdate(TbkCoupon tbkCoupon,Integer itemCateId) throws ApiException, ParseException;
+	 BaseResult insertOrUpdate(TbkCoupon tbkCoupon,Integer itemCateId) throws ApiException, ParseException;
 	
 	/**
 	 * 清除过期商品
 	 * @author shuai.ding
 	 * @return
 	 */
-	public BaseResult clearExpiredItems();
+	 BaseResult clearExpiredItems();
 
 }

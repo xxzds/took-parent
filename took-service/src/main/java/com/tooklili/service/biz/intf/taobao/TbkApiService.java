@@ -6,6 +6,8 @@ import com.taobao.api.ApiException;
 import com.taobao.api.request.JuItemsSearchRequest.TopItemQuery;
 import com.taobao.api.request.TbkCouponGetRequest;
 import com.taobao.api.request.TbkDgItemCouponGetRequest;
+import com.taobao.api.request.TbkDgMaterialOptionalRequest;
+import com.taobao.api.request.TbkDgOptimusMaterialRequest;
 import com.taobao.api.request.TbkItemGetRequest;
 import com.taobao.api.request.TbkItemInfoGetRequest;
 import com.taobao.api.request.TbkItemRecommendGetRequest;
@@ -21,6 +23,8 @@ import com.taobao.api.request.TbkUatmFavoritesItemGetRequest;
 import com.taobao.api.response.JuItemsSearchResponse;
 import com.taobao.api.response.TbkCouponGetResponse;
 import com.taobao.api.response.TbkDgItemCouponGetResponse;
+import com.taobao.api.response.TbkDgMaterialOptionalResponse;
+import com.taobao.api.response.TbkDgOptimusMaterialResponse;
 import com.taobao.api.response.TbkItemGetResponse;
 import com.taobao.api.response.TbkItemInfoGetResponse;
 import com.taobao.api.response.TbkItemRecommendGetResponse;
@@ -46,6 +50,9 @@ public interface TbkApiService {
 	public final String url = PropertiesUtil.getInstance("tbk.properties").getValue("tbk.url");
 	public final String appkey = PropertiesUtil.getInstance("tbk.properties").getValue("tbk.appkey");
 	public final String secret = PropertiesUtil.getInstance("tbk.properties").getValue("tbk.secret");
+	
+	public final String gcAppkey = PropertiesUtil.getInstance("tbk.properties").getValue("gc.tbk.appkey");
+	public final String gcSecret = PropertiesUtil.getInstance("tbk.properties").getValue("gc.tbk.secret");
 
 	/**
 	 * 淘宝客商品查询
@@ -181,8 +188,26 @@ public interface TbkApiService {
 	 * 提供淘客生成淘口令接口，淘客提交口令内容、logo、url等参数，生成淘口令关键key如：￥SADadW￥，后续进行文案包装组装用于传播
 	 * @author shuai.ding
 	 * @param req
+	 * @param userFlag  用户标识 1、ds  2、gc
 	 * @return
 	 * @throws ApiException
 	 */
-	public TbkTpwdCreateResponse createTpwd(TbkTpwdCreateRequest req) throws ApiException;
+	public TbkTpwdCreateResponse createTpwd(TbkTpwdCreateRequest req,Integer userFlag) throws ApiException;
+	
+	/**
+	 *淘宝客物料下行-导购
+	 *通用物料推荐，传入官方公布的物料id，可获取指定物料
+	 * @param req
+	 * @return
+	 * @throws ApiException 
+	 */
+	TbkDgOptimusMaterialResponse getDgOptimusMaterial(TbkDgOptimusMaterialRequest req) throws ApiException;
+	
+	/**
+	 * 通用物料搜索API（导购）
+	 * @param req
+	 * @return
+	 * @throws ApiException
+	 */
+	TbkDgMaterialOptionalResponse getDgMaterialOptional(TbkDgMaterialOptionalRequest req) throws ApiException;
 }

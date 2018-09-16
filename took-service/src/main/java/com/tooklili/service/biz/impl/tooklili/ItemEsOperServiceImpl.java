@@ -239,4 +239,25 @@ public class ItemEsOperServiceImpl implements ItemOperService{
 		return result;
 	}
 
+	@Override
+	public BaseResult insertOrUpdate(Item item, Integer itemCateId) {
+        BaseResult result = new BaseResult();
+		
+		Long numIid = item.getNumIid();
+		Item itemTemp = itemRepository.queryItemBynumIid(numIid);
+		
+		boolean isUpdate =false;
+		if(itemTemp != null) {  //更新
+			isUpdate = true;	
+			item.setId(itemTemp.getId());
+		}else {  //插入
+			item.setId(new Date().getTime());  //暂时使用毫秒数表示主键
+		}
+		item.setAddTime(DateUtil.formatDate(new Date()));
+		item.setCateId(itemCateId);
+		itemRepository.save(item);
+		LOGGER.info("{}es的商品主键为：{}",isUpdate == true ? "更新":"插入",item.getId());		
+		return result;
+	}
+
 }

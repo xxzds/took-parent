@@ -2,6 +2,8 @@ package com.tooklili.service.biz.impl.taobao;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.taobao.api.ApiException;
@@ -11,6 +13,8 @@ import com.taobao.api.request.JuItemsSearchRequest;
 import com.taobao.api.request.JuItemsSearchRequest.TopItemQuery;
 import com.taobao.api.request.TbkCouponGetRequest;
 import com.taobao.api.request.TbkDgItemCouponGetRequest;
+import com.taobao.api.request.TbkDgMaterialOptionalRequest;
+import com.taobao.api.request.TbkDgOptimusMaterialRequest;
 import com.taobao.api.request.TbkItemGetRequest;
 import com.taobao.api.request.TbkItemInfoGetRequest;
 import com.taobao.api.request.TbkItemRecommendGetRequest;
@@ -27,6 +31,8 @@ import com.taobao.api.request.TbkUatmFavoritesItemGetRequest;
 import com.taobao.api.response.JuItemsSearchResponse;
 import com.taobao.api.response.TbkCouponGetResponse;
 import com.taobao.api.response.TbkDgItemCouponGetResponse;
+import com.taobao.api.response.TbkDgMaterialOptionalResponse;
+import com.taobao.api.response.TbkDgOptimusMaterialResponse;
 import com.taobao.api.response.TbkItemGetResponse;
 import com.taobao.api.response.TbkItemInfoGetResponse;
 import com.taobao.api.response.TbkItemRecommendGetResponse;
@@ -49,6 +55,8 @@ import com.tooklili.service.biz.intf.taobao.TbkApiService;
  */
 @Service
 public class TbkApiServiceImpl implements TbkApiService{
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(TbkApiServiceImpl.class);
 	/**
 	 * 淘宝客商品查询
 	 * @author shuai.ding
@@ -87,7 +95,6 @@ public class TbkApiServiceImpl implements TbkApiService{
 	 */
 	public TbkItemInfoGetResponse getInfo(TbkItemInfoGetRequest req) throws ApiException{
 		TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
-		req.setFields("num_iid,title,pict_url,small_images,reserve_price,zk_final_price,user_type,provcity,item_url,seller_id,volume,nick,click_url");
 		TbkItemInfoGetResponse rsp = client.execute(req);
 		return rsp;
 	}
@@ -255,12 +262,37 @@ public class TbkApiServiceImpl implements TbkApiService{
 	 * 提供淘客生成淘口令接口，淘客提交口令内容、logo、url等参数，生成淘口令关键key如：￥SADadW￥，后续进行文案包装组装用于传播
 	 * @author shuai.ding
 	 * @param req
+	 * @param userFlag  用户标识 1、ds  2、gc
 	 * @return
 	 * @throws ApiException
 	 */
-	public TbkTpwdCreateResponse createTpwd(TbkTpwdCreateRequest req) throws ApiException{
-		TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
+	public TbkTpwdCreateResponse createTpwd(TbkTpwdCreateRequest req,Integer userFlag) throws ApiException{		
+		TaobaoClient client;
+		if(userFlag != null && userFlag == 2) {
+			client= new DefaultTaobaoClient(url, gcAppkey, gcSecret);
+			LOGGER.info("用户标志：{},appKey:{},secret:{}",userFlag,gcAppkey,gcSecret);
+		}else {
+			client= new DefaultTaobaoClient(url, appkey, secret);
+			LOGGER.info("用户标志：{},appKey:{},secret:{}",userFlag,appkey,secret);
+		}
+		
 		TbkTpwdCreateResponse rsp = client.execute(req);
+		return rsp;
+	}
+
+
+	@Override
+	public TbkDgOptimusMaterialResponse getDgOptimusMaterial(TbkDgOptimusMaterialRequest req) throws ApiException {
+		TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
+		TbkDgOptimusMaterialResponse rsp = client.execute(req);
+		return rsp;
+	}
+
+
+	@Override
+	public TbkDgMaterialOptionalResponse getDgMaterialOptional(TbkDgMaterialOptionalRequest req) throws ApiException {
+		TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
+		TbkDgMaterialOptionalResponse rsp = client.execute(req);
 		return rsp;
 	}
 }

@@ -16,5 +16,11 @@ public interface TookItemSelectDao extends BaseDao<TookItemSelect,Long> {
 	 * @return
 	 */
 	TookItemSelect queryItemByNumiid(Long numIid);
+	
+	/**
+	 * 删除过期商品
+	 * @return
+	 */
+	int delExpiredItems();
 
 }

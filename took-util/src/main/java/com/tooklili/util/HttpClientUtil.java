@@ -49,7 +49,14 @@ public class HttpClientUtil {
 		
 		//模拟浏览器头部
 		httpGet.setHeader("Accept", "application/json, text/javascript, */*; q=0.01");
-		httpGet.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36");
+		httpGet.setHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36");
+//		httpGet.setHeader("referer","https://pub.alimama.com/?spm=a2320.7388781.a214tr8.d006.6f3720306RMUZv");
+		httpGet.setHeader("x-requested-with","XMLHttpRequest");
+		httpGet.setHeader(":authority","pub.alimama.com");
+		httpGet.setHeader(":method","GET");
+//		httpGet.setHeader(":path","/getLogInfo.htm?callback=__jp0");
+		httpGet.setHeader(":scheme","https");
+		
 		
 		try{
 			// 执行get请求

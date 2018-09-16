@@ -118,6 +118,17 @@ public class Item {
 	 */
 	@ApiModelProperty("商品简单描述")
 	private String intro;
+	
+	
+	/**
+	 * 优惠券id
+	 */
+	private String couponId;
+	
+	/**
+	 * 单品淘客链接
+	 */
+	private String clickUrl;
 
 	public Long getId() {
 		return id;
@@ -253,5 +264,21 @@ public class Item {
 
 	public void setIntro(String intro) {
 		this.intro = intro;
+	}
+	
+	public String getCouponId() {
+		return couponId;
+	}
+
+	public void setCouponId(String couponId) {
+		this.couponId = couponId;
+	}
+
+	public String getClickUrl() {
+		return clickUrl;
+	}
+
+	public void setClickUrl(String clickUrl) {
+		this.clickUrl = clickUrl;
 	}
 }

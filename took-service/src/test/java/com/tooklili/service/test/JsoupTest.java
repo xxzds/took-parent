@@ -1,6 +1,7 @@
 package com.tooklili.service.test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -15,11 +16,13 @@ import org.jsoup.select.Elements;
 import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.tooklili.http.HttpCallService;
 import com.tooklili.model.tooklili.TookItemSelect;
 import com.tooklili.service.BaseTest;
 import com.tooklili.service.biz.intf.admin.took.ItemSelectService;
+import com.tooklili.util.JsonFormatTool;
 import com.tooklili.util.result.PlainResult;
 
 /**
@@ -37,9 +40,19 @@ public class JsoupTest extends BaseTest{
 	
 	@Test
 	public void collectItemTest() {
-		for(int i=1;i<=100;i++) {
-			collectItem("纸巾",String.valueOf(i));
+		for(int i=1;i<=50;i++) {
+//			collectItem("纸巾",String.valueOf(i));
+//			collectItem("零食",String.valueOf(i));
+//			collectItem("休闲鞋",String.valueOf(i));
+//			collectItem("风扇",String.valueOf(i));
+//			collectItem("晴雨伞",String.valueOf(i));
+//			collectItem("运动户外",String.valueOf(i));
+//			collectItem("夏季鞋子",String.valueOf(i));
+//			collectItem("水杯",String.valueOf(i));
+//			collectItem("汽车用品",String.valueOf(i));
+			collectItem("美食",String.valueOf(i));
 		}
+		
 	}
 		
 	
@@ -65,7 +78,8 @@ public class JsoupTest extends BaseTest{
 			
 			String picUrl = li.select("a.cbp-vm-image > img").attr("src");
 			System.out.println(picUrl);
-			item.setPicUrl(picUrl);
+			System.out.println(picUrl.substring(0, picUrl.length()-"_440x440.jpg".length()));
+			item.setPicUrl(picUrl.substring(0, picUrl.length()-"_440x440.jpg".length()));
 			
 			Element div = li.getElementsByClass("cbp-vm-group").first();
 			
@@ -89,6 +103,15 @@ public class JsoupTest extends BaseTest{
 			System.err.println(price);
 			item.setPrice(price.substring("￥".length()));
 			
+			//优惠券url
+			try {
+				String quanUrl = this.getCouponUrl(item.getNumIid().toString());
+				item.setQuanUrl(quanUrl);
+			}catch (Exception e) {
+				logger.error(e.getMessage(),e);
+				continue;
+			}
+					
 			logger.info("josn:{}",JSON.toJSONString(item));
 			tookItemSelects.add(item);
 		}
@@ -124,6 +147,55 @@ public class JsoupTest extends BaseTest{
            	numIid = Long.parseLong(match.group(1));
         }
         item.setNumIid(numIid);
+	}
+	
+	
+	/**
+	 * 通过商品id，查询优惠券链接
+	 * @param itemId
+	 * @return
+	 */
+	private String getCouponUrl(String itemId) {
+		String url = "http://www.mapprouter.com/api/search/coupon_item";
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("itemId", itemId);
+		params.put("pid", "mm_120259453_19682654_68664126");
+
+		PlainResult<String> result = httpCallService.httpGet(url, params);
+
+		String content = result.getData();
+		logger.info(JsonFormatTool.formatJson(content));
+		JSONObject jsonObject = JSON.parseObject(content);
+		return jsonObject.getJSONObject("data").getString("shareUrl");
+	}
+
+	/**
+	 * 根据商品id查询优惠券信息
+	 */
+	@Test
+	public void searchCouponItem() {
+		// String appkey ="test_key_2017";
+		String url = "http://www.mapprouter.com/api/search/coupon_item";
+		Map<String, String> params = new HashMap<String, String>();
+		// params.put("appkey", appkey);
+		params.put("itemId", "42408065373");
+		params.put("pid", "mm_120259453_19682654_68664126");
+
+		// String temp = "";
+		// for(Entry<String, String> entry : params.entrySet()){
+		// temp += (entry.getKey()+entry.getValue());
+		// }
+		// temp += appkey;
+		// String sign = DigestUtils.md5Hex(temp);
+		// params.put("sign", sign);
+
+		PlainResult<String> resp = httpCallService.httpGet(url, params);
+		logger.info(JsonFormatTool.formatJson(resp.getData()));
+	}
+	
+	@Test
+	public void test() {
+		logger.info(this.getCouponUrl("42408065373"));
 	}
 
 }

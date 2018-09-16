@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.tooklili.dao.db.intf.admin.TookItemSelectDao;
 import com.tooklili.model.tooklili.TookItemSelect;
 import com.tooklili.service.biz.intf.admin.took.ItemSelectService;
+import com.tooklili.service.exception.BusinessException;
 import com.tooklili.util.DateUtil;
 import com.tooklili.util.result.PlainResult;
 
@@ -50,6 +51,17 @@ public class ItemSelectServiceImpl implements ItemSelectService{
 			}
 		}
 		result.setData("采集商品成功,录入"+insertCount+"个，已入库"+notOperateCount+"个");		
+		return result;
+	}
+
+	@Override
+	public PlainResult<Integer> delExpiredItems() {
+		PlainResult<Integer> result = new PlainResult<Integer>();
+		int count = tookItemSelectDao.delExpiredItems();
+		if(count<0) {
+			throw new BusinessException("删除定向采集的商品失败");
+		}
+		result.setData(count);
 		return result;
 	}
 

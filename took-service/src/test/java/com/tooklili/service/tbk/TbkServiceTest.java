@@ -15,6 +15,7 @@ import org.junit.Test;
 import com.alibaba.fastjson.JSON;
 import com.taobao.api.ApiException;
 import com.taobao.api.request.TbkDgItemCouponGetRequest;
+import com.taobao.api.request.TbkDgMaterialOptionalRequest;
 import com.taobao.api.response.TbkDgItemCouponGetResponse.TbkCoupon;
 import com.tooklili.dao.db.intf.tooklili.ItemDao;
 import com.tooklili.http.HttpCallService;
@@ -26,6 +27,7 @@ import com.tooklili.service.biz.intf.taobao.TbkService;
 import com.tooklili.util.Arith;
 import com.tooklili.util.DateUtil;
 import com.tooklili.util.JsonFormatTool;
+import com.tooklili.util.result.ListResult;
 import com.tooklili.util.result.PageResult;
 import com.tooklili.util.result.PlainResult;
 import com.tooklili.vo.tbk.TbkItemDetailRespVo;
@@ -197,5 +199,35 @@ public class TbkServiceTest extends BaseTest{
 		}catch(Exception e){
 			logger.error("exception",e);
 		}
+	}
+	
+	@Test
+	public void getItemsTest2() {
+		try {
+			ListResult<Item> result = tbkService.getItems(4041L, 6, 10);
+			logger.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
+		}catch (Exception e) {
+			logger.error("exception",e);
+		}
+	}
+	
+	@Test
+	public void getItemsTest3() {
+		try {
+			TbkDgMaterialOptionalRequest req = new TbkDgMaterialOptionalRequest();
+//			req.setQ("裙子");
+//			req.setHasCoupon(true);
+//			req.setSort("total_sales_des");
+//			req.setPlatform(2L);
+			PageResult<Item> result = tbkService.getItems(req);
+			logger.info(JsonFormatTool.formatJson(JSON.toJSONString(result)));
+		}catch (Exception e) {
+			logger.error("exception",e);
+		}
+	}
+	
+	@Test
+	public void getCouponInfo() throws ApiException {
+		tbkService.getCouponInfo("ZLjxdNR8MZIGQASttHIRqfQ87Zfn5Qi50JCqEfDXS1oh4%2FBFCEkLWMYtQ%2F3XEv%2FPTv75Zx4G%2BR5MdUove1IP%2FEaXkXzlxAPCDfqEFBOhTcyf6baGMjjH0pqJNTxMte1OWW2afrZ%2F5vn%2BbUPK91WnZRslvvZeHXLQR8PCCGIhN8dIH07HK3v5wHksrdKDorWjpEags%2Bp9tII%3D");
 	}
 }

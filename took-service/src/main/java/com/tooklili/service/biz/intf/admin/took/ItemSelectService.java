@@ -18,5 +18,11 @@ public interface ItemSelectService {
 	 * @return
 	 */
 	PlainResult<String> insertOrUpdate(List<TookItemSelect> tookItemSelects);
+	
+	/**
+	 * 删除过期商品
+	 * @return
+	 */
+	PlainResult<Integer> delExpiredItems();
 
 }

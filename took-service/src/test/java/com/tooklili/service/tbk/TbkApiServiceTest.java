@@ -13,6 +13,7 @@ import com.taobao.api.internal.util.StringUtils;
 import com.taobao.api.request.JuItemsSearchRequest.TopItemQuery;
 import com.taobao.api.request.TbkCouponGetRequest;
 import com.taobao.api.request.TbkDgItemCouponGetRequest;
+import com.taobao.api.request.TbkDgOptimusMaterialRequest;
 import com.taobao.api.request.TbkItemGetRequest;
 import com.taobao.api.request.TbkItemInfoGetRequest;
 import com.taobao.api.request.TbkItemRecommendGetRequest;
@@ -26,6 +27,7 @@ import com.taobao.api.request.TbkUatmFavoritesGetRequest;
 import com.taobao.api.response.JuItemsSearchResponse;
 import com.taobao.api.response.TbkCouponGetResponse;
 import com.taobao.api.response.TbkDgItemCouponGetResponse;
+import com.taobao.api.response.TbkDgOptimusMaterialResponse;
 import com.taobao.api.response.TbkItemGetResponse;
 import com.taobao.api.response.TbkItemInfoGetResponse;
 import com.taobao.api.response.TbkItemRecommendGetResponse;
@@ -36,9 +38,10 @@ import com.taobao.api.response.TbkSpreadGetResponse;
 import com.taobao.api.response.TbkTpwdCreateResponse;
 import com.taobao.api.response.TbkUatmEventGetResponse;
 import com.taobao.api.response.TbkUatmFavoritesGetResponse;
-import com.tooklili.service.biz.intf.taobao.TbkApiService;
 import com.tooklili.service.BaseTest;
+import com.tooklili.service.biz.intf.taobao.TbkApiService;
 import com.tooklili.util.JsonFormatTool;
+import com.tooklili.util.PropertiesUtil;
 
 /**
  * 淘宝客服务测试
@@ -278,7 +281,7 @@ public class TbkApiServiceTest extends BaseTest{
 			//粘贴淘口令，到淘宝app中，弹出层提示信息
 			req.setText("歌兔呢 ");
 			req.setUrl("https://uland.taobao.com/coupon/edetail?activityId=779e7c90a5d146bca4cbd0482538b0fb&pid=mm_120259453_19682654_69036167&itemId=556837356380&src=cd_cdll");			
-			TbkTpwdCreateResponse rsp = tbkApiService.createTpwd(req);
+			TbkTpwdCreateResponse rsp = tbkApiService.createTpwd(req,null);
 			
 			if(StringUtils.areNotEmpty(rsp.getErrorCode())){
 				logger.info(rsp.getSubMsg());
@@ -286,6 +289,30 @@ public class TbkApiServiceTest extends BaseTest{
 				logger.info(JsonFormatTool.formatJson(JSON.toJSONString(rsp.getData())));
 			}
 		}catch(ApiException e){
+			logger.error("exception",e);
+		}
+	}
+	
+	@Test
+	public void getOptimusMaterialTest() {
+		try {
+			String pid = PropertiesUtil.getInstance("tbk.properties").getValue("tbk.pid");
+			String[] temp = pid.split("_");
+			String adzoneid = temp[3];
+			
+			TbkDgOptimusMaterialRequest req = new TbkDgOptimusMaterialRequest();
+			req.setAdzoneId(Long.parseLong(adzoneid));
+			req.setMaterialId(3756L);
+			
+			System.out.println(req.getTextParams());
+			
+			TbkDgOptimusMaterialResponse rsp = tbkApiService.getDgOptimusMaterial(req);
+			if(StringUtils.areNotEmpty(rsp.getErrorCode())){
+				logger.info("code:{},msg:{}",rsp.getErrorCode(),rsp.getSubMsg());
+			}else{
+				logger.info(JsonFormatTool.formatJson(JSON.toJSONString(rsp.getBody())));
+			}
+		}catch (Exception e) {
 			logger.error("exception",e);
 		}
 	}

@@ -42,6 +42,11 @@ public class TookItemSelect {
 	private String quan;
 	
 	/**
+	 * 优惠券url
+	 */
+	private String quanUrl;
+	
+	/**
 	 * 销量
 	 */
 	private String volume;
@@ -173,5 +178,13 @@ public class TookItemSelect {
 
 	public void setCateName(String cateName) {
 		this.cateName = cateName;
+	}
+
+	public String getQuanUrl() {
+		return quanUrl;
+	}
+
+	public void setQuanUrl(String quanUrl) {
+		this.quanUrl = quanUrl;
 	}
 }

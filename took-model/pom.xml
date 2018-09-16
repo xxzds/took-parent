@@ -20,7 +20,7 @@
 		<dependency>
 		  <groupId>com.taobao</groupId>
 		  <artifactId>taobao-sdk-java-auto_1462616566587</artifactId>
-		  <version>20170918</version>
+		  <version>20180630</version>
 		</dependency>
 		
 		<!-- JSR-303 校验接口 -->

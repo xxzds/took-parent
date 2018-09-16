@@ -1,9 +1,8 @@
 package com.tooklili.service.jobhandler;
 
+import java.text.MessageFormat;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +13,7 @@ import com.tooklili.util.HttpClientUtil;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.IJobHandler;
 import com.xxl.job.core.handler.annotation.JobHander;
+import com.xxl.job.core.log.XxlJobLogger;
 
 /**
  * 保活alimama登录的cookie
@@ -23,7 +23,6 @@ import com.xxl.job.core.handler.annotation.JobHander;
 @JobHander(value="persistenceAlimamaCookieJobHandler")
 @Service
 public class PersistenceAlimamaCookieJobHandler extends IJobHandler{
-	private static final Logger LOGGER =LoggerFactory.getLogger(PersistenceAlimamaCookieJobHandler.class);
 	
 	@Autowired
 	private TookAlimamaCookieDao tookAlimamaCookieDao;
@@ -35,23 +34,31 @@ public class PersistenceAlimamaCookieJobHandler extends IJobHandler{
 		tookAlimamaCookie.setIsAvailable(IsAvailableEnum.YES_AVAILIABLE.getCode());
 		List<TookAlimamaCookie> alimamaCookies = tookAlimamaCookieDao.find(tookAlimamaCookie);
 		
-	    if(alimamaCookies != null && alimamaCookies.size() > 0){
-	    	for(TookAlimamaCookie alimamaCookie : alimamaCookies){
-	    		requestAlimama(alimamaCookie);
-	    		Thread.sleep(2000);  //线程暂停2s
-	    	}
-	    }		
+		if (alimamaCookies != null && alimamaCookies.size() > 0) {
+			for (TookAlimamaCookie alimamaCookie : alimamaCookies) {
+				requestAlimama(alimamaCookie);
+				Thread.sleep(2000); // 线程暂停2s
+			}
+		}		
 		return ReturnT.SUCCESS;
 	}
 	
 	/**
-	 * 刷新一次session，包活cookie
+	 * 刷新一次session，保活cookie
 	 * @param alimamaCookie
 	 */
 	private void requestAlimama(TookAlimamaCookie alimamaCookie){
-		String url ="https://www.alimama.com/index.htm";
+//		String url ="http://wx.tooklili.com/common/getUnionPubContextInfo.json";
+		
+		String url= "https://www.alimama.com/index.htm";
 		HttpClientUtil.get(url, alimamaCookie.getAlimamaCookie());
-		LOGGER.info("用户‘{}’请求[{}]地址成功",alimamaCookie.getName(),url);
+		String info =MessageFormat.format("用户‘{0}’请求[{1}]地址成功", alimamaCookie.getName(),url);
+		XxlJobLogger.log(info);
+//		String url2 = "https://www.alimama.com/getLogInfo.htm?callback=__jp0";
+//		String content2 = HttpClientUtil.get(url2, alimamaCookie.getAlimamaCookie());
+//		String info2 =MessageFormat.format("用户‘{0}’请求[{1}]地址成功,请求内容：{2}", alimamaCookie.getName(),url2,content2);
+//
+//		XxlJobLogger.log(info2);
 	}
 
 }

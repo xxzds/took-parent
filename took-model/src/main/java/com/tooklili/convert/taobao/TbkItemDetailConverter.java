@@ -4,7 +4,6 @@ import java.text.DecimalFormat;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.taobao.api.domain.NTbkItem;
 import com.tooklili.vo.tbk.TbkItemDetailRespVo;
 
 /**
@@ -14,7 +13,7 @@ import com.tooklili.vo.tbk.TbkItemDetailRespVo;
  */
 public class TbkItemDetailConverter {
 
-	public static TbkItemDetailRespVo toTbkItemDetailRespVo(NTbkItem nTbkItem){
+	public static TbkItemDetailRespVo toTbkItemDetailRespVo(com.taobao.api.response.TbkItemInfoGetResponse.NTbkItem nTbkItem){
 		if(nTbkItem==null){
 			return null;
 		}
